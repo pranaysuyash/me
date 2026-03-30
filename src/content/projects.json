@@ -1,0 +1,390 @@
+{
+  "projects": [
+    {
+      "slug": "metaextract",
+      "title": "MetaExtract",
+      "tagline": "Extract 45,000+ metadata fields from any document",
+      "description": "A production-grade metadata extraction engine that parses PDFs, images, and documents at scale. Handles 45K+ field types with high accuracy using a combination of rule-based and ML approaches.",
+      "problem": "Organizations need to extract structured metadata from thousands of heterogeneous documents — invoices, contracts, medical records, research papers — each with different formats and field layouts.",
+      "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with React dashboard for monitoring.",
+      "result": "Successfully processes 45,000+ distinct metadata field types. Deployed as a Dockerized microservice handling production workloads. Reduced manual data entry time by an estimated 80% for pilot users.",
+      "techStack": ["Python", "FastAPI", "React", "Docker", "Tesseract OCR", "PostgreSQL"],
+      "category": "AI/ML",
+      "featured": true,
+      "links": {
+        "github": "https://github.com/pranaysuyash/metaextract"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "codecollector",
+      "title": "CodeCollector",
+      "tagline": "CLI code analysis tool — 41 GitHub stars",
+      "description": "A command-line tool that scans codebases, extracts patterns, and generates structured analysis reports. Built for developers who need quick insights into code quality and architecture.",
+      "problem": "Developers joining new projects or auditing existing codebases need quick, structured insights without setting up heavy analysis tools or IDEs.",
+      "approach": "Built as a Python CLI using AST parsing and pattern matching. Generates JSON/Markdown reports with metrics on code complexity, duplication, dependency graphs, and anti-pattern detection. Designed for zero-config usage with sensible defaults.",
+      "result": "Earned 41 GitHub stars. Used by developers for quick codebase audits. Featured in Python developer communities.",
+      "techStack": ["Python", "AST", "Click", "Rich"],
+      "category": "Developer Tools",
+      "featured": true,
+      "links": {
+        "github": "https://github.com/pranaysuyash/codecollector"
+      },
+      "year": "2023"
+    },
+    {
+      "slug": "caption-art",
+      "title": "Caption Art",
+      "tagline": "AI-powered creative automation for visual content",
+      "description": "An AI creative tool that generates artistic captions, applies style transfers, and creates visual content using generative AI models. Combines text generation with image manipulation.",
+      "problem": "Content creators and social media managers spend hours crafting captions and visual styles for each post. Existing tools are either too generic or require design skills.",
+      "approach": "React + TypeScript frontend with FastAPI backend. Integrated Fal AI for generative models. Users upload images, select style parameters, and the system generates styled captions and visual variations. Pipeline includes image analysis, style matching, and text generation.",
+      "result": "Functional prototype demonstrating multi-modal AI creative pipeline. Showcases integration of generative AI with practical content workflows.",
+      "techStack": ["React", "TypeScript", "FastAPI", "Fal AI", "Tailwind CSS"],
+      "category": "AI/ML",
+      "featured": true,
+      "links": {
+        "github": "https://github.com/pranaysuyash/caption-art"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "signature-extractor-pro",
+      "title": "Signature Extractor Pro",
+      "tagline": "OpenCV-powered signature extraction — paid product on Gumroad",
+      "description": "A desktop tool that automatically detects and extracts signatures from scanned documents using computer vision. Sold as a paid product on Gumroad.",
+      "problem": "Legal and financial teams process thousands of signed documents daily. Manually cropping signatures is tedious, error-prone, and doesn't scale.",
+      "approach": "Used OpenCV contour detection and morphological operations to isolate signature regions from document scans. Handles various document formats, ink colors, and background noise. Batch processing for high-volume workflows.",
+      "result": "Shipped as a paid product on Gumroad. Validates product-building skills: identified a niche need, built the solution, and brought it to market.",
+      "techStack": ["Python", "OpenCV", "NumPy", "Pillow"],
+      "category": "Computer Vision",
+      "featured": true,
+      "links": {
+        "gumroad": "https://pranaysuyash.gumroad.com/l/clexp"
+      },
+      "year": "2023"
+    },
+    {
+      "slug": "echopanel",
+      "title": "EchoPanel",
+      "tagline": "macOS menu bar audio capture & transcription",
+      "description": "A native macOS menu bar app that captures system audio, transcribes it in real-time using Whisper, and provides searchable transcripts. Built with Swift frontend and FastAPI backend.",
+      "problem": "Professionals in meetings, interviews, and research need to capture and search audio content without switching between multiple tools or relying on cloud services.",
+      "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite for local transcript storage with full-text search. Designed for minimal UI presence with maximum utility.",
+      "result": "Working prototype demonstrating macOS native development with AI integration. Shows ability to build full-stack desktop applications.",
+      "techStack": ["Swift", "FastAPI", "Whisper", "SQLite", "AVFoundation"],
+      "category": "macOS",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/EchoPanel"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "echoai-mlx",
+      "title": "EchoAI-MLX",
+      "tagline": "Fine-tuned Whisper on Apple Silicon",
+      "description": "Fine-tuned Whisper speech recognition model optimized for Apple Silicon using the MLX framework. Demonstrates on-device ML training and inference.",
+      "problem": "Cloud-based speech recognition has latency, privacy, and cost issues. On-device models need optimization for specific hardware and use cases.",
+      "approach": "Used Apple's MLX framework to fine-tune Whisper on domain-specific audio data. Optimized for Apple Silicon GPU and Neural Engine. Benchmarking against base Whisper models for accuracy and speed.",
+      "result": "Demonstrated on-device ML fine-tuning capabilities on Apple Silicon. Contributed learnings to local-first AI development approaches.",
+      "techStack": ["Python", "MLX", "Whisper", "Apple Silicon"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/echoai-mlx"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "chrome-tab-manager",
+      "title": "Chrome Tab Manager",
+      "tagline": "macOS tab management with AppleScript automation",
+      "description": "A macOS utility that manages Chrome tabs across multiple windows using AppleScript automation. Groups, searches, and organizes tabs for power users.",
+      "problem": "Power users accumulate hundreds of Chrome tabs across dozens of windows. Browser tab management is limited and doesn't support cross-window operations.",
+      "approach": "AppleScript-based automation interfacing with Chrome's Apple Events API. CLI tool for batch operations: group by domain, close duplicates, save sessions, search across tabs.",
+      "result": "Daily-use utility for personal productivity. Demonstrates macOS automation skills and practical system integration.",
+      "techStack": ["AppleScript", "Shell", "macOS"],
+      "category": "macOS",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/chrome-tab-manager"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "photosearch",
+      "title": "PhotoSearch",
+      "tagline": "AI photo workstation with CLIP & face recognition",
+      "description": "A desktop photo search application using CLIP for semantic search, InsightFace for face recognition, and LanceDB for vector storage. Built with Tauri for cross-platform support.",
+      "problem": "Photo libraries grow to tens of thousands of images. Traditional folder/tag organization breaks down. People need semantic search — 'find photos of the beach at sunset' or 'photos with Sarah'.",
+      "approach": "Tauri app with Python ML backend. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. LanceDB stores vectors for fast similarity search. React frontend with real-time search and face browsing.",
+      "result": "Functional desktop app demonstrating multi-modal AI search. Handles 10K+ photo libraries with sub-second search.",
+      "techStack": ["Tauri", "React", "Python", "CLIP", "InsightFace", "LanceDB"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/photosearch"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "sceneguide",
+      "title": "SceneGuide",
+      "tagline": "Computer vision accessibility app for blind & elderly users",
+      "description": "An accessibility-focused app that uses computer vision to describe scenes, read text, and identify objects for visually impaired and elderly users.",
+      "problem": "Visually impaired and elderly users struggle with daily tasks that require visual understanding — reading labels, navigating spaces, identifying objects.",
+      "approach": "Mobile-first app using device camera for real-time scene analysis. Object detection, OCR, and scene description via optimized CV models. Audio feedback for accessibility. Designed for simplicity with large touch targets and voice-first interaction.",
+      "result": "Working prototype demonstrating accessible AI application design. Shows commitment to inclusive technology.",
+      "techStack": ["Python", "OpenCV", "TTS", "OCR"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {},
+      "year": "2023"
+    },
+    {
+      "slug": "robonomics",
+      "title": "Robonomics",
+      "tagline": "Robot workforce data journalism & visualization",
+      "description": "A data journalism project analyzing robot workforce trends, automation impact, and labor market shifts through interactive visualizations and data stories.",
+      "problem": "Public discourse on automation and robots replacing jobs is driven by anecdotes rather than data. People need clear, data-driven perspectives on how automation is actually reshaping work.",
+      "approach": "Collected and cleaned public datasets on robot installations, employment statistics, and productivity metrics. Built interactive visualizations showing trends by industry, region, and job type. Data stories with narrative context.",
+      "result": "Published data stories with interactive charts. Demonstrates data storytelling and analytical communication skills.",
+      "techStack": ["Python", "Pandas", "Matplotlib", "D3.js"],
+      "category": "Data",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/robonomics"
+      },
+      "year": "2023"
+    },
+    {
+      "slug": "bas5minute",
+      "title": "Bas5Minute",
+      "tagline": "Isochrone travel maps for Indian cities",
+      "description": "An isochrone map tool that visualizes how far you can travel in 5, 10, 15 minutes from any point in Indian cities using public transport, walking, and driving.",
+      "problem": "Urban planners, real estate analysts, and commuters in Indian cities lack tools to visualize actual travel accessibility. Google Maps shows routes but not aggregate reachability.",
+      "approach": "Built with mapping APIs and routing engines. Generates isochrone polygons for different transport modes. Interactive map interface with time sliders. Optimized for Indian city road networks and transit data.",
+      "result": "Functional tool for Indian city accessibility analysis. Demonstrates geospatial data processing and mapping skills.",
+      "techStack": ["Python", "Leaflet", "OpenStreetMap", "Routing API"],
+      "category": "Data",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/bas5minute"
+      },
+      "year": "2023"
+    },
+    {
+      "slug": "guus",
+      "title": "Guus",
+      "tagline": "Freelance marketplace platform — client work via Upwork",
+      "description": "A freelance marketplace platform built as client work through Upwork. Connects freelancers with businesses seeking specific technical services.",
+      "problem": "Client needed a marketplace platform connecting skilled freelancers with businesses. Required user management, project posting, bidding, and payment integration.",
+      "approach": "Full-stack web application with user authentication, project listings, bidding system, messaging, and payment processing. Built for scalability with clean API design.",
+      "result": "Delivered as client project via Upwork. Demonstrates ability to ship production-quality work for paying clients.",
+      "techStack": ["React", "Node.js", "PostgreSQL", "Stripe"],
+      "category": "Product",
+      "featured": false,
+      "links": {},
+      "year": "2022"
+    },
+    {
+      "slug": "medpiper-dashboard",
+      "title": "MedPiper Dashboard",
+      "tagline": "Healthcare analytics with ISO 27001 compliance",
+      "description": "Internal analytics dashboard for MedPiper Technologies (YC S20) handling healthcare data with full ISO 27001 compliance. Real-time metrics, reporting, and data security.",
+      "problem": "Healthcare organizations need powerful analytics dashboards that also meet strict data security and compliance requirements (ISO 27001). Most analytics tools aren't built for compliance-first environments.",
+      "approach": "Built internal dashboard with role-based access control, audit logging, and encrypted data handling. Real-time metrics visualization with drill-down capabilities. Designed for compliance with ISO 27001 standards including data classification and access policies.",
+      "result": "Production dashboard used daily at MedPiper. Passed ISO 27001 audit. Handles sensitive healthcare data with zero security incidents.",
+      "techStack": ["React", "Python", "PostgreSQL", "ISO 27001"],
+      "category": "Product",
+      "featured": false,
+      "links": {},
+      "year": "2021"
+    },
+    {
+      "slug": "learning-for-kids",
+      "title": "Learning for Kids",
+      "tagline": "AI vision edtech with MediaPipe gesture recognition",
+      "description": "An educational app for children using AI-powered vision and gesture recognition to create interactive learning experiences. Uses MediaPipe for real-time hand tracking.",
+      "problem": "Traditional educational apps for children are passive screen time. Parents and educators want interactive, physical-movement-based learning that engages kids beyond tapping screens.",
+      "approach": "Built with MediaPipe for real-time hand gesture recognition. Children interact with educational content through physical movements captured by the device camera. Adaptive difficulty based on performance.",
+      "result": "Working prototype demonstrating AI-powered interactive education. Shows ability to build engaging experiences with cutting-edge CV technology.",
+      "techStack": ["Python", "MediaPipe", "OpenCV", "React"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/learning-for-kids"
+      },
+      "year": "2023"
+    },
+    {
+      "slug": "vespr",
+      "title": "Vespr",
+      "tagline": "Voice-first journaling app — React Native/Expo",
+      "description": "A voice-first journaling mobile app built with React Native and Expo. Users capture thoughts by voice, with AI-powered transcription, tagging, and mood analysis.",
+      "problem": "Traditional journaling requires typing, which creates friction. Most people think faster than they type. Voice capture lowers the barrier to consistent journaling.",
+      "approach": "React Native + Expo for cross-platform mobile. Voice recording with Whisper transcription. AI-powered tagging and mood analysis. Simple, calming UI designed for daily use with minimal interaction.",
+      "result": "Functional mobile app on iOS and Android. Demonstrates mobile development and AI integration in consumer applications.",
+      "techStack": ["React Native", "Expo", "Whisper", "TypeScript"],
+      "category": "Mobile",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/vespr"
+      },
+      "year": "2024"
+    }
+  ],
+  "services": [
+    {
+      "id": "prototypes",
+      "title": "AI/ML Product Prototypes",
+      "description": "From concept to working prototype in 2-4 weeks. I build AI-powered product prototypes that validate your idea with real users — not slide decks, working software.",
+      "timeline": "2-4 weeks",
+      "priceFrom": "$10K",
+      "deliverables": [
+        "Working prototype with core AI functionality",
+        "API design and documentation",
+        "Deployment to staging environment",
+        "Technical architecture document"
+      ],
+      "idealFor": "Founders with an AI product idea who need to validate fast"
+    },
+    {
+      "id": "automation",
+      "title": "Workflow Automation & Internal Tools",
+      "description": "Automate repetitive processes and build internal tools that save your team hours every week. Document processing, data pipelines, dashboards, and integrations.",
+      "timeline": "1-3 weeks",
+      "priceFrom": "$5K",
+      "deliverables": [
+        "Automated workflow or internal tool",
+        "Integration with existing systems",
+        "Documentation and training",
+        "30-day support period"
+      ],
+      "idealFor": "Teams drowning in manual processes and data work"
+    },
+    {
+      "id": "consulting",
+      "title": "Technical Consulting",
+      "description": "Need a technical sounding board? I help teams make architecture decisions, evaluate AI/ML approaches, and plan product roadmaps with technical clarity.",
+      "timeline": "Flexible",
+      "priceFrom": "$150/hr",
+      "deliverables": [
+        "Architecture review and recommendations",
+        "Technology evaluation and selection",
+        "Product roadmap with technical feasibility",
+        "Team mentoring and knowledge transfer"
+      ],
+      "idealFor": "Teams making critical technical decisions"
+    }
+  ],
+  "process": [
+    {
+      "step": 1,
+      "title": "Discovery Call",
+      "description": "We discuss your problem, constraints, and goals. I ask questions to understand the technical and business context."
+    },
+    {
+      "step": 2,
+      "title": "Proposal & Scope",
+      "description": "I send a clear proposal with timeline, deliverables, and pricing. No surprises."
+    },
+    {
+      "step": 3,
+      "title": "Build & Iterate",
+      "description": "I build in weekly milestones. You see working software every week, not status reports."
+    },
+    {
+      "step": 4,
+      "title": "Deliver & Support",
+      "description": "Working software delivered with documentation. 30-day support period included."
+    }
+  ],
+  "faq": [
+    {
+      "question": "What technologies do you work with?",
+      "answer": "Python (FastAPI, ML/AI), React/Next.js, TypeScript, Swift/SwiftUI for macOS, PostgreSQL, Docker. For AI: OpenAI, Whisper, CLIP, LangChain, and custom model fine-tuning."
+    },
+    {
+      "question": "Do you work with early-stage startups?",
+      "answer": "Yes. I prefer working with founders who have a clear problem and want to move fast. My prototype engagements are designed for exactly this stage."
+    },
+    {
+      "question": "Can you work with our existing team?",
+      "answer": "Absolutely. I integrate with existing workflows and codebases. Many engagements involve augmenting an existing team for a specific project or sprint."
+    },
+    {
+      "question": "What does a typical engagement look like?",
+      "answer": "Most engagements start with a discovery call, followed by a proposal within 48 hours. We agree on scope and milestones, then I build in weekly iterations with demos."
+    },
+    {
+      "question": "Do you handle deployment and DevOps?",
+      "answer": "Yes. I deploy to AWS, Azure, or GCP. Docker containers, CI/CD pipelines, and monitoring are included in prototype and automation engagements."
+    }
+  ],
+  "experience": [
+    {
+      "company": "MedPiper Technologies",
+      "role": "Principal — Data & Data Security",
+      "period": "2020 — Present",
+      "location": "Bengaluru, India",
+      "tag": "YC S20",
+      "highlights": [
+        "Lead data engineering and data security for a YC-backed healthcare SaaS",
+        "Built analytics dashboards used daily with ISO 27001 compliance",
+        "Shipped revenue-generating features across the product line",
+        "Managed data classification, access controls, and security audits"
+      ]
+    },
+    {
+      "company": "EY India",
+      "role": "Senior Business Consultant",
+      "period": "2015 — 2020",
+      "location": "India",
+      "tag": "Big 4",
+      "highlights": [
+        "Delivered consulting engagements for Fortune 500 clients",
+        "Specialized in SAP implementations and business process optimization",
+        "Led cross-functional teams across multiple client engagements",
+        "Earned EY Spotlight Awards for project delivery excellence"
+      ]
+    },
+    {
+      "company": "Wipro Technologies",
+      "role": "Software Engineer",
+      "period": "2010 — 2013",
+      "location": "India",
+      "tag": "",
+      "highlights": [
+        "Full-stack development for enterprise clients",
+        "Built and maintained production systems serving thousands of users",
+        "Earned Star of the Month recognition",
+        "Foundation in software engineering best practices"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "FORE School of Management",
+      "degree": "PGDM",
+      "period": "2013 — 2015",
+      "location": "New Delhi"
+    },
+    {
+      "institution": "Amity University",
+      "degree": "B.Tech Computer Science",
+      "period": "2006 — 2010",
+      "location": "Noida"
+    }
+  ],
+  "certifications": [
+    "SAP SD Certified",
+    "Zenva Data Science & AI",
+    "HPI Data Science"
+  ],
+  "awards": [
+    "Star of the Month — Wipro",
+    "EY Spotlight Awards"
+  ]
+}

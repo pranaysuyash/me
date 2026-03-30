@@ -1,103 +1,239 @@
-import Image from "next/image";
+import { PageLayout } from "@/components/layout/page-layout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Briefcase,
+  Rocket,
+  FolderOpen,
+  Zap,
+  Shield,
+  Database,
+} from "lucide-react";
+import projectsData from "@/content/projects.json";
+
+const stats = [
+  { label: "Years Experience", value: "10+" },
+  { label: "GitHub Repos", value: "64" },
+  { label: "Products Shipped", value: "15+" },
+  { label: "Paid Product", value: "Gumroad" },
+];
+
+const capabilities = [
+  {
+    icon: Zap,
+    title: "Applied AI & ML",
+    description:
+      "Document extraction, NLP, computer vision, and generative AI. Production-grade, not notebooks.",
+  },
+  {
+    icon: Database,
+    title: "Workflow Automation",
+    description:
+      "Internal tools, data pipelines, and dashboards that save teams hours every week.",
+  },
+  {
+    icon: Shield,
+    title: "Data Security",
+    description:
+      "ISO 27001 compliance, access controls, audit logging. Built for regulated industries.",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const featuredProjects = projectsData.projects.filter((p) => p.featured);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <PageLayout>
+      <section className="py-20 md:py-32 lg:py-40">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="max-w-3xl animate-fade-up">
+            <p className="text-sm font-mono text-muted-foreground mb-4 tracking-wide uppercase">
+              Applied AI Builder &middot; Product Engineer
+            </p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+              I build{" "}
+              <span className="gradient-text">AI-powered products</span> that
+              ship and sell.
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
+              10+ years across product, engineering, and applied AI. Currently
+              leading data &amp; data security at a YC-backed healthcare SaaS.
+              I help teams go from idea to working software, fast.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <Button asChild size="lg" className="rounded-full px-8">
+                <Link href="/hire-me">
+                  Hire Me <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button
+                variant="outline"
+                asChild
+                size="lg"
+                className="rounded-full px-8"
+              >
+                <Link href="/work-with-me">Work With Me</Link>
+              </Button>
+              <Button
+                variant="ghost"
+                asChild
+                size="lg"
+                className="rounded-full px-8"
+              >
+                <Link href="/work">Browse Work</Link>
+              </Button>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <section className="py-12 border-y">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Wipro</span>
+            <span className="font-medium text-foreground">EY</span>
+            <span className="font-medium text-foreground">
+              MedPiper <span className="text-xs text-muted-foreground">(YC S20)</span>
+            </span>
+            <span className="hidden sm:inline text-border">|</span>
+            {stats.map((stat) => (
+              <span key={stat.label}>
+                <span className="font-semibold text-foreground">
+                  {stat.value}
+                </span>{" "}
+                {stat.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+              What I Do
+            </h2>
+            <div className="gradient-line w-16 mb-6" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {capabilities.map((cap) => (
+              <Card
+                key={cap.title}
+                className="hover-lift border shadow-sm bg-card"
+              >
+                <CardContent className="p-6">
+                  <cap.icon className="h-8 w-8 text-primary mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">{cap.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {cap.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28 bg-muted/30">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+                Featured Work
+              </h2>
+              <div className="gradient-line w-16 mb-6" />
+              <p className="text-muted-foreground max-w-lg">
+                A selection of projects that demonstrate applied AI, product
+                thinking, and shipping velocity.
+              </p>
+            </div>
+            <Button variant="ghost" asChild className="rounded-full">
+              <Link href="/work">
+                View all projects <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {featuredProjects.slice(0, 4).map((project) => (
+              <Link key={project.slug} href={`/work/${project.slug}`}>
+                <Card className="hover-lift border shadow-sm bg-card h-full">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xs font-mono text-muted-foreground bg-muted px-2 py-1 rounded">
+                        {project.category}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {project.year}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                      {project.tagline}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.techStack.slice(0, 4).map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-xs font-mono bg-primary/5 text-primary px-2 py-0.5 rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
+            Ready to build something?
+          </h2>
+          <p className="text-muted-foreground max-w-lg mx-auto mb-8">
+            Whether you need a full-time hire, a prototype built fast, or
+            technical guidance — let&apos;s talk.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/hire-me">
+                <Briefcase className="mr-2 h-4 w-4" /> Hire Me
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              asChild
+              size="lg"
+              className="rounded-full px-8"
+            >
+              <Link href="/work-with-me">
+                <Rocket className="mr-2 h-4 w-4" /> Work With Me
+              </Link>
+            </Button>
+            <Button
+              variant="ghost"
+              asChild
+              size="lg"
+              className="rounded-full px-8"
+            >
+              <Link href="/work">
+                <FolderOpen className="mr-2 h-4 w-4" /> Browse Work
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+    </PageLayout>
   );
 }
