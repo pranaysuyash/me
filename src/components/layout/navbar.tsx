@@ -7,11 +7,10 @@ import { Menu, X, Github } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
-  { name: "Selected Work", href: "/work" },
-  { name: "About", href: "/about" },
+  { name: "Work", href: "/work" },
   { name: "Hire Me", href: "/hire-me" },
   { name: "Work With Me", href: "/work-with-me" },
-  { name: "Contact", href: "/contact" },
+  { name: "About", href: "/about" },
 ];
 
 export function Navbar() {

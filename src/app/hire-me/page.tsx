@@ -32,21 +32,26 @@ export default function HireMePage() {
       <section className="py-20 md:py-28">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
-            <p className="text-sm font-mono text-muted-foreground mb-4 tracking-wide uppercase">
+            <p className="text-sm font-mono text-muted-foreground mb-4 tracking-widest uppercase">
               For hiring managers &amp; recruiters
             </p>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Hire <span className="gradient-text">Pranay Suyash</span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              Applied AI builder with 10+ years across product, engineering, and
-              data. I ship working software, not slide decks. Currently leading
-              data &amp; data security at a YC-backed healthcare SaaS.
+            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+              Founder-operator with 10+ years across product, engineering, and regulated SaaS.
+              I ship working software — not decks. Best fit for roles at the intersection of
+              applied AI, workflow automation, internal tooling, and fast product execution.
+            </p>
+            <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
+              I bring a rare combination: business context that comes from operating as a founder,
+              plus hands-on technical depth across Python, TypeScript, AI/ML, and cloud systems.
+              I work best where ambiguity needs to become a scoped deliverable fast.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
                 <Link href="/contact">
-                  <Calendar className="mr-2 h-4 w-4" /> Book a 15-min Call
+                  <Calendar className="mr-2 h-4 w-4" /> Book a 15-min call
                 </Link>
               </Button>
               <Button
@@ -55,11 +60,8 @@ export default function HireMePage() {
                 size="lg"
                 className="rounded-full px-8"
               >
-                <Link
-                  href="/PRANAY_SUYASH.pdf"
-                  target="_blank"
-                >
-                  <Download className="mr-2 h-4 w-4" /> Download Resume
+                <Link href="/pranay_resume.html" target="_blank">
+                  <Download className="mr-2 h-4 w-4" /> Download resume
                 </Link>
               </Button>
             </div>
@@ -69,6 +71,29 @@ export default function HireMePage() {
 
       <section className="py-16 border-y">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold tracking-tight mb-3">Role fit</h2>
+            <div className="gradient-line w-16 mb-5" />
+            <p className="text-sm text-muted-foreground mb-6 max-w-xl">
+              I am strongest in roles that combine commercial judgment with technical execution.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {[
+                "Applied AI / AI Product",
+                "Workflow Automation",
+                "Document Intelligence",
+                "Internal Tools Engineering",
+                "Technical Product Manager",
+                "Founding Engineer / Staff",
+              ].map((role) => (
+                <div key={role} className="flex items-center gap-2 text-sm">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                  {role}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <h2 className="text-2xl font-bold tracking-tight mb-8">
             Experience
           </h2>
@@ -178,9 +203,8 @@ export default function HireMePage() {
 
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">
-            Proof of Work
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-3">Selected proof</h2>
+          <div className="gradient-line w-16 mb-8" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {projectsData.projects
               .filter((p) => p.featured)

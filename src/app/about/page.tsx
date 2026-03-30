@@ -32,7 +32,7 @@ export default function AboutPage() {
                   asChild
                   className="rounded-full w-full"
                 >
-                  <Link href="/PRANAY_SUYASH.pdf" target="_blank">
+                  <Link href="/pranay_resume.html" target="_blank">
                     <Download className="mr-2 h-4 w-4" /> Resume
                   </Link>
                 </Button>

@@ -326,65 +326,68 @@
   "experience": [
     {
       "company": "MedPiper Technologies",
-      "role": "Principal — Data & Data Security",
+      "role": "Co‑Founder / Head of Product & Platforms",
       "period": "2020 — Present",
       "location": "Bengaluru, India",
       "tag": "YC S20",
       "highlights": [
-        "Lead data engineering and data security for a YC-backed healthcare SaaS",
-        "Built analytics dashboards used daily with ISO 27001 compliance",
-        "Shipped revenue-generating features across the product line",
-        "Managed data classification, access controls, and security audits"
+        "Built platform from ground up; scaled to ~$1M ARR",
+        "Reduced insurance sales & ops TAT from ~4 weeks → ~10 days via workflow automation",
+        "Launched Instaclinic, HCPwire, HCPconnect from concept → MVP → scaled adoption",
+        "Built content program with 50+ healthcare professional contributors",
+        "Integrated AI features (OCR, RAG) as product enhancements",
+        "Led ISO 27001 recertification and SOC 2 compliance programs",
+        "Built and scaled cross-functional teams across product, engineering, and ops"
       ]
     },
     {
       "company": "EY India",
-      "role": "Senior Business Consultant",
+      "role": "Senior Business Consultant — SAP SD",
       "period": "2015 — 2020",
-      "location": "India",
+      "location": "Bengaluru, India",
       "tag": "Big 4",
       "highlights": [
-        "Delivered consulting engagements for Fortune 500 clients",
-        "Specialized in SAP implementations and business process optimization",
-        "Led cross-functional teams across multiple client engagements",
-        "Earned EY Spotlight Awards for project delivery excellence"
+        "Delivered SAP Sales & Distribution implementations for retail and consumer clients",
+        "Achieved $2M+ in savings through process re-engineering and workflow automation",
+        "Ran requirements, blueprinting, testing, and end-user training for ERP rollouts",
+        "Recognized with multiple EY Excellence Awards for client delivery"
       ]
     },
     {
       "company": "Wipro Technologies",
       "role": "Software Engineer",
       "period": "2010 — 2013",
-      "location": "India",
+      "location": "Greater Noida, India",
       "tag": "",
       "highlights": [
-        "Full-stack development for enterprise clients",
-        "Built and maintained production systems serving thousands of users",
-        "Earned Star of the Month recognition",
-        "Foundation in software engineering best practices"
+        "Built automation frameworks reducing telecom document processing time",
+        "Implemented data pipelines and metadata layers for network inventory management"
       ]
     }
   ],
   "education": [
     {
-      "institution": "FORE School of Management",
+      "institution": "FORE School of Management, New Delhi",
       "degree": "PGDM",
       "period": "2013 — 2015",
-      "location": "New Delhi"
+      "location": "New Delhi, India"
     },
     {
-      "institution": "Amity University",
-      "degree": "B.Tech Computer Science",
+      "institution": "Amity School of Engineering & Technology",
+      "degree": "B.Tech, Computer Science",
       "period": "2006 — 2010",
-      "location": "Noida"
+      "location": "Noida, India"
     }
   ],
   "certifications": [
-    "SAP SD Certified",
-    "Zenva Data Science & AI",
-    "HPI Data Science"
+    "Y Combinator S20 — Startup Acceleration",
+    "SAP Certified — Sales & Distribution",
+    "Zenva Certificate — Data Science & AI",
+    "HPI Certificate — Data Science"
   ],
   "awards": [
-    "Star of the Month — Wipro",
-    "EY Spotlight Awards"
+    "EY Excellence Award — Client Delivery",
+    "EY Excellence Award — Entrepreneurial",
+    "EY Excellence Award — Kudos"
   ]
 }
