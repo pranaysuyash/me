@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,17 +12,39 @@ import {
 } from "lucide-react";
 import projectsData from "@/content/projects.json";
 
-const skills = [
-  "Python & FastAPI",
-  "React / Next.js / TypeScript",
-  "AI/ML — Whisper, CLIP, LangChain, OpenAI",
-  "Computer Vision — OpenCV, MediaPipe",
-  "Data Engineering — Pandas, SQL, ETL",
-  "Cloud — AWS, Azure, GCP, Docker",
-  "Security — ISO 27001, VAPT, SOC",
-  "Product — Agile, GTM, A/B Testing, Roadmapping",
-  "SAP SD Certified",
-  "macOS — Swift, SwiftUI, AppleScript",
+export const metadata: Metadata = {
+  title: "Hire Pranay Suyash — Applied AI, Product & Workflow Automation Roles",
+  description:
+    "Hiring for applied AI, product engineering, workflow automation, or founding engineer roles. 10+ years, YC-backed operator, shipped 45K+ field document extraction and a paid Gumroad product.",
+  openGraph: {
+    title: "Hire Pranay Suyash",
+    description:
+      "Applied AI, product engineering, and workflow automation. 10+ years, YC-backed operator.",
+    type: "website",
+  },
+};
+
+const skillsNarrative = [
+  {
+    area: "AI/ML engineering",
+    detail:
+      "Whisper, CLIP, LangChain, OpenAI — for transcription, semantic search, and LLM pipelines",
+  },
+  {
+    area: "Document extraction",
+    detail:
+      "FastAPI, Tesseract OCR, PostgreSQL — production pipelines handling thousands of documents",
+  },
+  {
+    area: "macOS native",
+    detail:
+      "Swift, SwiftUI, AVFoundation — menu bar apps, audio capture, system automation",
+  },
+  {
+    area: "Cloud & DevOps",
+    detail:
+      "AWS, Docker — containerized deployments, CI/CD, production infrastructure",
+  },
 ];
 
 export default function HireMePage() {
@@ -39,14 +62,16 @@ export default function HireMePage() {
               Hire <span className="gradient-text">Pranay Suyash</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              Founder-operator with 10+ years across product, engineering, and regulated SaaS.
-              I ship working software — not decks. Best fit for roles at the intersection of
-              applied AI, workflow automation, internal tooling, and fast product execution.
+              10+ years across product, engineering, and regulated SaaS. Built
+              and scaled a YC-backed healthcare platform from concept to ~$1M
+              ARR. Best fit for roles where shipping history matters more than
+              credential lists.
             </p>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              I bring a rare combination: business context that comes from operating as a founder,
-              plus hands-on technical depth across Python, TypeScript, AI/ML, and cloud systems.
-              I work best where ambiguity needs to become a scoped deliverable fast.
+              I bring operational context from running product and engineering
+              at a startup, plus hands-on technical depth in Python, AI/ML, and
+              cloud systems. I work best where ambiguity needs to become a
+              scoped, working deliverable fast.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
@@ -73,9 +98,9 @@ export default function HireMePage() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="mb-12">
             <h2 className="text-2xl font-bold tracking-tight mb-3">Role fit</h2>
-            <div className="gradient-line w-16 mb-5" />
             <p className="text-sm text-muted-foreground mb-6 max-w-xl">
-              I am strongest in roles that combine commercial judgment with technical execution.
+              I am strongest in roles that combine commercial judgment with
+              technical execution.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
@@ -94,9 +119,7 @@ export default function HireMePage() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight mb-8">
-            Experience
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-8">Experience</h2>
           <div className="space-y-8">
             {experience.map((exp) => (
               <div
@@ -139,16 +162,16 @@ export default function HireMePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
               <h2 className="text-2xl font-bold tracking-tight mb-6">
-                Skills &amp; Technologies
+                How I work
               </h2>
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="inline-flex items-center rounded-full bg-primary/5 text-primary px-3 py-1.5 text-sm font-medium"
-                  >
-                    {skill}
-                  </span>
+              <div className="space-y-4">
+                {skillsNarrative.map((s) => (
+                  <div key={s.area}>
+                    <p className="text-sm font-semibold text-foreground">
+                      {s.area}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{s.detail}</p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -203,8 +226,9 @@ export default function HireMePage() {
 
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-3">Selected proof</h2>
-          <div className="gradient-line w-16 mb-8" />
+          <h2 className="text-2xl font-bold tracking-tight mb-3">
+            Selected proof
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {projectsData.projects
               .filter((p) => p.featured)
@@ -230,17 +254,30 @@ export default function HireMePage() {
       <section className="py-16 bg-muted/30">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Interested? Let&apos;s talk.
+            Ready to talk?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-            Book a 15-minute call to discuss how I can contribute to your team.
+            Book a 15-minute call and I&apos;ll come prepared with a practical
+            point of view on your role, team context, and immediate execution
+            needs.
           </p>
-          <Button asChild size="lg" className="rounded-full px-8">
-            <Link href="/contact">
-              <Calendar className="mr-2 h-4 w-4" /> Book a Call{" "}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/contact">
+                <Calendar className="mr-2 h-4 w-4" /> Book a 15-min call
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              asChild
+              size="lg"
+              className="rounded-full px-8"
+            >
+              <Link href="/work">
+                Browse selected work <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </PageLayout>

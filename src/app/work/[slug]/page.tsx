@@ -82,7 +82,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                     className="rounded-full"
                   >
                     <Link href={url} target="_blank" rel="noopener noreferrer">
-                      {label === "github" ? "View on GitHub" : label.charAt(0).toUpperCase() + label.slice(1)}
+                      {label === "github"
+                        ? "View on GitHub"
+                        : label.charAt(0).toUpperCase() + label.slice(1)}
                       <ExternalLink className="ml-2 h-3.5 w-3.5" />
                     </Link>
                   </Button>
@@ -90,7 +92,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               </div>
             )}
 
-            <div className="gradient-line w-16 mb-10" />
+            <div className="mb-10" />
 
             <div className="space-y-10">
               <section>

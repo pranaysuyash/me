@@ -4,10 +4,9 @@ import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 
 const footerNav = [
-  { name: "Selected Work", href: "/work" },
+  { name: "Work", href: "/work" },
   { name: "About", href: "/about" },
   { name: "Hire Me", href: "/hire-me" },
-  { name: "Work With Me", href: "/work-with-me" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -32,34 +31,41 @@ export function Footer() {
               PS
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-xs">
-              Applied AI builder. Product engineer. 10+ years shipping products.
+              Applied AI builder. I ship working software for teams who need
+              momentum, not decks.
             </p>
+            <div className="flex gap-4 mt-6">
+              {socialLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <link.icon className="h-5 w-5" />
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <nav className="flex flex-wrap gap-x-6 gap-y-2">
-            {footerNav.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="flex gap-4">
-            {socialLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-primary transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <link.icon className="h-5 w-5" />
-              </Link>
-            ))}
+          <div className="flex flex-col gap-6">
+            <div>
+              <p className="text-xs font-semibold text-foreground uppercase tracking-widest mb-3">
+                Navigate
+              </p>
+              <nav className="flex flex-col gap-2">
+                {footerNav.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
         </div>
 
@@ -67,9 +73,7 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Pranay Suyash
           </p>
-          <p className="text-xs text-muted-foreground">
-            Built with Next.js + Tailwind
-          </p>
+          <p className="text-xs text-muted-foreground">Bengaluru, India</p>
         </div>
       </div>
     </footer>

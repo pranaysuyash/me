@@ -44,3 +44,4 @@ mcp-shell.log
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.gstack/

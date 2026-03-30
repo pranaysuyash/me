@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,18 @@ import {
   Mail,
 } from "lucide-react";
 import projectsData from "@/content/projects.json";
+
+export const metadata: Metadata = {
+  title: "About Pranay Suyash — Applied AI Builder, YC-Backed Operator",
+  description:
+    "10+ years from Big 4 consulting to YC-backed operator. Built MedPiper's data platform and security posture from zero to $1M ARR. Now building AI prototypes and automation systems independently.",
+  openGraph: {
+    title: "About Pranay Suyash",
+    description:
+      "From Big 4 consultant to YC-backed operator. I build AI prototypes and automation systems.",
+    type: "website",
+  },
+};
 
 export default function AboutPage() {
   const { experience, education, certifications, awards } = projectsData;
@@ -77,34 +90,37 @@ export default function AboutPage() {
             </div>
 
             <div className="animate-fade-up">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-                Pranay Suyash
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+                About
               </h1>
-              <p className="text-xl text-muted-foreground mb-6">
-                Applied AI Builder &middot; Product Engineer &middot; Bengaluru,
-                India
-              </p>
-              <div className="gradient-line w-16 mb-8" />
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  I build AI-powered products and ship revenue-generating SaaS
-                  tools. 10+ years across product, engineering, and data — from
-                  enterprise consulting at EY to leading data &amp; data security
-                  at a YC-backed healthcare startup.
+                  I spent the first part of my career at Big 4 consulting doing
+                  SAP implementations — good at understanding enterprise
+                  processes, bad at building things that shipped. That changed
+                  when I joined a YC-backed healthcare startup and had to build
+                  from zero.
                 </p>
                 <p>
-                  My work sits at the intersection of applied AI, product
-                  engineering, and data security. I&apos;ve built document
-                  extraction engines handling 45K+ field types, macOS apps for
-                  audio transcription, AI photo search workstations, and a paid
-                  product on Gumroad. I ship.
+                  At MedPiper, I went from consultant to operator. I built the
+                  data platform, led security compliance (ISO 27001, SOC 2),
+                  shipped features across four product lines, and learned what
+                  it actually means to move fast when there&apos;s real money
+                  and real users on the line. We scaled to ~$1M ARR before I
+                  left to focus on independent work.
                 </p>
                 <p>
-                  Before MedPiper, I spent 5 years at EY India as a Senior
-                  Business Consultant working with Fortune 500 clients on SAP
-                  implementations and business process optimization. Before
-                  that, software engineering at Wipro. PGDM from FORE School of
-                  Management, B.Tech in Computer Science from Amity.
+                  What I took from that experience: the gap between &quot;this
+                  is how we should build it&quot; and &quot;this is actually
+                  built&quot; is where most time and money gets lost. I work in
+                  that gap — scoping fast, building weekly, and delivering
+                  working software.
+                </p>
+                <p>
+                  I&apos;ve also shipped a paid product on Gumroad (Signature
+                  Extractor Pro) because I wanted to prove I could take an idea
+                  from concept to revenue without a company behind it. Based in
+                  Bengaluru.
                 </p>
               </div>
             </div>

@@ -9,7 +9,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const navigation = [
   { name: "Work", href: "/work" },
   { name: "Hire Me", href: "/hire-me" },
-  { name: "Work With Me", href: "/work-with-me" },
   { name: "About", href: "/about" },
 ];
 
@@ -27,9 +26,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-md ${
-        scrolled
-          ? "bg-background/95 shadow-sm border-b"
-          : "bg-background/60"
+        scrolled ? "bg-background/95 shadow-sm border-b" : "bg-background/60"
       }`}
     >
       <nav className="flex items-center justify-between p-4 lg:px-8 max-w-[1280px] mx-auto">
@@ -64,6 +61,12 @@ export function Navbar() {
           ))}
           <div className="flex items-center gap-3 ml-4 pl-4 border-l">
             <ThemeToggle />
+            <Link
+              href="/work-with-me"
+              className="text-sm font-medium px-4 py-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              Work With Me
+            </Link>
             <Link
               href="https://github.com/pranaysuyash"
               target="_blank"

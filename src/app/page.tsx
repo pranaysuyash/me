@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,23 +6,17 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
 
-const bestFitLanes = [
-  {
-    title: "Applied AI prototypes",
+export const metadata: Metadata = {
+  title: "Pranay Suyash — Applied AI Prototypes & Workflow Automation",
+  description:
+    "I build AI-powered document systems and ship fast prototypes for teams who can't afford to move slow. 10+ years, YC-backed healthcare SaaS, paid product shipped on Gumroad.",
+  openGraph: {
+    title: "Pranay Suyash — Applied AI Prototypes & Workflow Automation",
     description:
-      "Focused AI product and workflow prototypes that move from idea to usable system fast. No hand-wavy demos — working software with a defined scope.",
+      "I build AI-powered document systems and ship fast prototypes for teams who can't afford to move slow.",
+    type: "website",
   },
-  {
-    title: "Document extraction & structured outputs",
-    description:
-      "Build and validate extraction flows for reports, PDFs, forms, and document-heavy operations. Production-grade, not one-off scripts.",
-  },
-  {
-    title: "Internal tools & workflow automation",
-    description:
-      "Small systems that reduce manual work, improve retrieval, and support operational speed. Best where business context and technical execution both matter.",
-  },
-];
+};
 
 export default function Home() {
   const featuredProjects = projectsData.projects.filter((p) => p.featured);
@@ -33,8 +28,7 @@ export default function Home() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
             <p className="text-sm font-mono text-muted-foreground mb-5 tracking-widest uppercase">
-              Founder-operator &middot; Applied AI &middot; Workflow Tools
-              &middot; Product Systems
+              YC-backed principal &middot; Document AI &middot; Fast prototypes
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7">
               I build{" "}
@@ -44,9 +38,9 @@ export default function Home() {
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
               10+ years across product, engineering, and regulated SaaS.
-              Principal Data & Data Security at a YC-backed healthcare SaaS.
-              Built a paid product on Gumroad. I work best where ambiguity needs
-              to become a working system fast.
+              Co-Founder / Head of Product &amp; Platforms at a YC-backed
+              healthcare SaaS. Built a paid product on Gumroad. I work best
+              where ambiguity needs to become a working system fast.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -79,30 +73,26 @@ export default function Home() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm">
             <span className="font-semibold text-foreground tracking-wide">
-              Wipro
+              MedPiper
             </span>
             <span className="text-border hidden sm:inline">·</span>
-            <span className="font-semibold text-foreground tracking-wide">
-              EY
+            <span className="text-muted-foreground text-xs">
+              <span className="font-semibold text-foreground">YC S20</span>
             </span>
             <span className="text-border hidden sm:inline">·</span>
-            <span className="font-semibold text-foreground tracking-wide">
-              MedPiper{" "}
-              <span className="font-normal text-muted-foreground text-xs">
-                (YC S20)
-              </span>
-            </span>
-            <span className="text-border hidden md:inline">|</span>
             <span className="text-muted-foreground">
               <span className="font-semibold text-foreground">10+</span> years
             </span>
             <span className="text-border hidden sm:inline">·</span>
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">64</span> public
-              repos
+              <span className="font-semibold text-foreground">45K+</span> fields
+              extracted
             </span>
             <span className="text-border hidden sm:inline">·</span>
-            <span className="text-muted-foreground">paid product shipped</span>
+            <span className="text-muted-foreground">
+              <span className="font-semibold text-foreground">1</span> paid
+              product shipped
+            </span>
           </div>
         </div>
       </section>
@@ -167,7 +157,6 @@ export default function Home() {
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
                 Selected proof
               </h2>
-              <div className="gradient-line w-16 mb-5" />
               <p className="text-muted-foreground max-w-lg">
                 A few projects that show how I scope, build, and ship applied AI
                 and workflow-heavy systems.
@@ -223,39 +212,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Best fit lanes ── */}
-      <section className="py-20 md:py-28">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
-              Best fit
-            </h2>
-            <div className="gradient-line w-16 mb-5" />
-            <p className="text-muted-foreground max-w-lg">
-              Where I consistently add the most value — commercially and
-              technically.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {bestFitLanes.map((lane, i) => (
-              <div
-                key={lane.title}
-                className="relative pl-6 border-l-2 border-border hover:border-primary transition-colors"
-              >
-                <span className="absolute left-3 -translate-x-1/2 top-0 text-xs font-mono text-muted-foreground">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-lg font-semibold mb-2">{lane.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {lane.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Closing CTA ── */}
       <section className="py-20 md:py-28 border-t">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
@@ -268,9 +224,9 @@ export default function Home() {
                 See role fit, selected work, and resume.
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Best fit for roles in applied AI, product, workflow automation,
-                prototyping, or technical operations. Strong where business
-                context and execution both matter.
+                Best fit for applied AI product roles, founding engineer slots,
+                and technical operations where shipping history matters more
+                than slides.
               </p>
               <Button asChild className="rounded-full px-7">
                 <Link href="/hire-me">
@@ -287,9 +243,8 @@ export default function Home() {
                 Send a brief. I&apos;ll tell you if there&apos;s a fit.
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Best for scoped AI prototypes, document/data extraction
-                workflows, internal tools, or fast MVPs where you need someone
-                who can scope and ship.
+                AI prototypes, document extraction flows, internal tools, and
+                automation systems. Scoped in weeks, not months.
               </p>
               <Button variant="outline" asChild className="rounded-full px-7">
                 <Link href="/work-with-me">

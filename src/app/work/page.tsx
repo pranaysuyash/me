@@ -1,7 +1,21 @@
+import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import projectsData from "@/content/projects.json";
+
+export const metadata: Metadata = {
+  title:
+    "Work — Pranay Suyash | Applied AI, Document Extraction & Workflow Systems",
+  description:
+    "Selected projects: document extraction at 45K+ field types, paid Gumroad product, macOS AI tools, and AI prototypes. Each project shows scope, approach, and measurable result.",
+  openGraph: {
+    title: "Work — Pranay Suyash",
+    description:
+      "Applied AI, document extraction, and workflow automation projects.",
+    type: "website",
+  },
+};
 
 const categories = [
   "All",
@@ -15,11 +29,11 @@ export default function WorkPage() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Selected <span className="gradient-text">Work</span>
+              Selected <span className="gradient-text">proof</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Projects that demonstrate applied AI, product thinking, and
-              shipping velocity. Each one solved a real problem.
+              A few projects that show how I scope, build, and ship applied AI
+              and workflow-heavy systems.
             </p>
           </div>
 
@@ -61,6 +75,9 @@ export default function WorkPage() {
                     </h3>
                     <p className="text-sm text-muted-foreground mb-4 leading-relaxed flex-1">
                       {project.tagline}
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-4 leading-relaxed line-clamp-2">
+                      {project.result}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {project.techStack.slice(0, 5).map((tech) => (

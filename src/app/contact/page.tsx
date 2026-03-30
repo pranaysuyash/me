@@ -5,8 +5,10 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Send, Mail, Phone, Github, Linkedin } from "lucide-react";
+import { Calendar, Send, Mail, Phone, Github, Linkedin, ExternalLink } from "lucide-react";
 import Link from "next/link";
+
+const bookingUrl = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_BOOKING_URL;
 
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState<"call" | "project">("call");
@@ -91,23 +93,35 @@ export default function ContactPage() {
               <p className="text-muted-foreground mb-6">
                 Quick intro call to discuss your needs. No pressure, no pitch.
               </p>
-              <div className="bg-muted/50 rounded-lg p-8 text-center">
-                <Calendar className="h-10 w-10 text-primary mx-auto mb-4" />
-                <p className="text-muted-foreground mb-4">
-                  Calendar booking will be available here.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  In the meantime, email me at{" "}
-                  <a
-                    href="mailto:pranay.suyash@gmail.com"
-                    className="text-primary hover:underline"
-                  >
-                    pranay.suyash@gmail.com
-                  </a>{" "}
-                  or call{" "}
-                  <span className="font-medium">+91 99104 03502</span>
-                </p>
-              </div>
+              {bookingUrl ? (
+                <div className="space-y-4">
+                  <div className="rounded-lg border overflow-hidden bg-muted/20">
+                    <iframe
+                      src={bookingUrl}
+                      title="Book a 15-minute call"
+                      className="w-full min-h-[700px]"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex justify-center">
+                    <Button asChild variant="outline" className="rounded-full">
+                      <a href={bookingUrl} target="_blank" rel="noopener noreferrer">
+                        Open booking page in new tab <ExternalLink className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-muted/50 rounded-lg p-8 text-center">
+                  <Calendar className="h-10 w-10 text-primary mx-auto mb-4" />
+                  <p className="text-muted-foreground mb-4">
+                    Add your Google Calendar booking URL to enable live scheduling.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Set <code className="font-mono">NEXT_PUBLIC_GOOGLE_CALENDAR_BOOKING_URL</code> in your environment.
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="border rounded-xl p-8 space-y-5">
@@ -193,15 +207,18 @@ export default function ContactPage() {
                 />
               </div>
 
-              <input
-                type="text"
-                name="honeypot"
-                value={formData.honeypot}
-                onChange={handleChange}
-                style={{ display: "none" }}
-                tabIndex={-1}
-                autoComplete="off"
-              />
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  type="text"
+                  name="honeypot"
+                  value={formData.honeypot}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
               <Button type="submit" disabled={status === "loading"} className="w-full rounded-full" size="lg">
                 {status === "loading" ? "Sending..." : "Send Project Inquiry"}

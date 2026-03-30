@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,10 +14,22 @@ import {
 import projectsData from "@/content/projects.json";
 import { FAQ } from "@/components/faq";
 
+export const metadata: Metadata = {
+  title: "Work With Pranay Suyash — AI Prototypes, Automation & Internal Tools",
+  description:
+    "Scoped AI prototypes, document extraction workflows, and internal tools — delivered in 2–4 weeks. Built by a YC-backed operator who ships working software weekly, not at the end.",
+  openGraph: {
+    title: "Work With Pranay Suyash",
+    description:
+      "AI prototypes, document extraction, workflow automation. Scoped in weeks.",
+    type: "website",
+  },
+};
+
 const serviceIcons: Record<string, React.ElementType> = {
   prototypes: Rocket,
   automation: Wrench,
-  consulting: MessageSquare,
+  advisory: MessageSquare,
 };
 
 export default function WorkWithMePage() {
@@ -31,18 +44,18 @@ export default function WorkWithMePage() {
               For founders &amp; teams
             </p>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Work With <span className="gradient-text">Me</span>
+              Build a scoped <span className="gradient-text">pilot</span> in
+              weeks
             </h1>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              I help teams build AI prototypes, automate workflows, and make
-              better technical decisions. Fast turnaround, working software, no
-              BS.
+              I work with founders and lean teams who need practical momentum: a
+              clear scope, weekly visible progress, and usable software at the
+              end of the sprint — not a consulting deck.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
                 <Link href="/contact">
-                  Tell Me About Your Project{" "}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  Send a short brief <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -60,15 +73,17 @@ export default function WorkWithMePage() {
 
       <section className="py-16 border-y">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">
-            What I Offer
+          <h2 className="text-2xl font-bold tracking-tight mb-6">
+            Best-fit engagements
           </h2>
-          <div className="gradient-line w-16 mb-10" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((service) => {
               const Icon = serviceIcons[service.id] || Zap;
               return (
-                <Card key={service.id} className="hover-lift border shadow-sm h-full">
+                <Card
+                  key={service.id}
+                  className="hover-lift border shadow-sm h-full"
+                >
                   <CardContent className="p-6 flex flex-col h-full">
                     <Icon className="h-8 w-8 text-primary mb-4" />
                     <h3 className="text-xl font-semibold mb-2">
@@ -99,8 +114,9 @@ export default function WorkWithMePage() {
 
       <section className="py-16 bg-muted/30">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">How It Works</h2>
-          <div className="gradient-line w-16 mb-10" />
+          <h2 className="text-2xl font-bold tracking-tight mb-6">
+            How It Works
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {process.map((step) => (
               <div key={step.step} className="relative">
@@ -119,10 +135,9 @@ export default function WorkWithMePage() {
 
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">
+          <h2 className="text-2xl font-bold tracking-tight mb-6">
             What You Get
           </h2>
-          <div className="gradient-line w-16 mb-10" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service) => (
               <div key={service.id}>
@@ -159,15 +174,16 @@ export default function WorkWithMePage() {
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Have a project in mind?
+            Send a brief. I&apos;ll tell you if there&apos;s a fit.
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-            Tell me about it. I&apos;ll send a proposal within 48 hours.
+            Share the problem, constraints, timeline, and what "done" looks
+            like. If it&apos;s a match, I&apos;ll reply with a concrete
+            next-step plan.
           </p>
           <Button asChild size="lg" className="rounded-full px-8">
             <Link href="/contact">
-              Tell Me About Your Project{" "}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              Send a short brief <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
