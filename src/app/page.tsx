@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
+import { HeroSystemPanel } from "@/components/hero-system-panel";
+import { GradientBadge, NeutralBadge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
@@ -24,44 +26,57 @@ export default function Home() {
   return (
     <PageLayout>
       {/* ── Hero ── */}
-      <section className="py-24 md:py-36 lg:py-44">
+      <section className="py-20 md:py-28 lg:py-36">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="max-w-3xl animate-fade-up">
-            <p className="text-sm font-mono text-muted-foreground mb-5 tracking-widest uppercase">
-              Document AI &middot; Workflow automation &middot; Fast prototypes
-            </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7">
-              I turn document-heavy workflows into{" "}
-              <span className="gradient-text">applied AI systems</span> and
-              fast, usable prototypes.
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-              10+ years across product, engineering, and regulated SaaS.
-              I&apos;ve worked across document workflows, internal tools, and
-              applied AI systems, and I&apos;m strongest where ambiguous
-              problems need to become working software.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 lg:gap-12 lg:items-start">
+            <div className="animate-fade-up">
+              <p className="text-sm font-mono text-muted-foreground mb-5 tracking-widest uppercase">
+                Document AI &middot; Workflow automation &middot; Fast
+                prototypes
+              </p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7">
+                I turn document-heavy workflows into{" "}
+                <span className="gradient-text">applied AI systems</span> and
+                fast, usable prototypes.
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
+                10+ years across product, engineering, and regulated SaaS.
+                I&apos;ve worked across document workflows, internal tools, and
+                applied AI systems, and I&apos;m strongest where ambiguous
+                problems need to become working software.
+              </p>
 
-            <div className="flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8">
-                <Link href="/hire-me">
-                  Hire me for a role <ArrowRight className="ml-2 h-4 w-4" />
+              <div className="flex flex-wrap items-center gap-4">
+                <Button asChild size="lg" className="rounded-full px-8">
+                  <Link href="/hire-me">
+                    Hire me for a role <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  asChild
+                  size="lg"
+                  className="rounded-full px-8"
+                  style={{
+                    border: "1px solid transparent",
+                    background:
+                      "linear-gradient(#0d1422,#0d1422) padding-box, linear-gradient(90deg,rgba(59,130,246,0.5),rgba(139,92,246,0.5),rgba(245,158,11,0.4)) border-box",
+                    color: "rgba(255,255,255,0.85)",
+                  }}
+                >
+                  <Link href="/work-with-me">Work with me on a pilot</Link>
+                </Button>
+                <Link
+                  href="/work"
+                  className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors ml-1"
+                >
+                  Browse selected work
                 </Link>
-              </Button>
-              <Button
-                variant="outline"
-                asChild
-                size="lg"
-                className="rounded-full px-8"
-              >
-                <Link href="/work-with-me">Work with me on a pilot</Link>
-              </Button>
-              <Link
-                href="/work"
-                className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors ml-1"
-              >
-                Browse selected work
-              </Link>
+              </div>
+            </div>
+
+            <div className="hidden lg:flex lg:justify-end">
+              <HeroSystemPanel />
             </div>
           </div>
         </div>
@@ -173,9 +188,12 @@ export default function Home() {
                 <Card className="hover-lift border shadow-sm bg-card h-full">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="text-xs font-mono text-muted-foreground bg-muted px-2 py-1 rounded">
-                        {project.category}
-                      </span>
+                      {project.category === "AI/ML" ||
+                      project.category === "Computer Vision" ? (
+                        <GradientBadge>{project.category}</GradientBadge>
+                      ) : (
+                        <NeutralBadge>{project.category}</NeutralBadge>
+                      )}
                       <span className="text-xs text-muted-foreground ml-auto">
                         {project.year}
                       </span>

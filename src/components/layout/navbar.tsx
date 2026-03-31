@@ -25,8 +25,8 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-md ${
-        scrolled ? "bg-background/95 shadow-sm border-b" : "bg-background/60"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-md bg-background/95 border-b ${
+        scrolled ? "shadow-sm border-border/50" : "border-transparent"
       }`}
     >
       <nav className="flex items-center justify-between p-4 lg:px-8 max-w-[1280px] mx-auto">
@@ -47,6 +47,8 @@ export function Navbar() {
             type="button"
             className="inline-flex items-center justify-center rounded-full p-2.5 text-foreground hover:bg-muted"
             onClick={() => setMobileMenuOpen(true)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             <span className="sr-only">Open main menu</span>
             <Menu className="h-6 w-6" aria-hidden="true" />
@@ -86,8 +88,16 @@ export function Navbar() {
           </div>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md">
+        {/* Mobile menu - uses in-place display to avoid layout shift */}
+        <div 
+          id="mobile-menu"
+          className={`lg:hidden fixed inset-0 z-50 transition-all duration-300 ${
+            mobileMenuOpen 
+              ? 'opacity-100 pointer-events-auto visible' 
+              : 'opacity-0 pointer-events-none invisible'
+          }`}
+          aria-hidden={!mobileMenuOpen}
+        >
             <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm">
               <div className="flex items-center justify-between">
                 <Link
@@ -112,7 +122,32 @@ export function Navbar() {
               </div>
               <div className="mt-6 flow-root">
                 <div className="-my-6">
+                  {/* Mobile CTAs - CRITICAL FIX */}
+                  <div className="py-6 border-b">
+                    <p className="px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                      Get Started
+                    </p>
+                    <div className="space-y-2">
+                      <Link
+                        href="/hire-me"
+                        className="block w-full text-center rounded-full px-4 py-3 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Hire Me
+                      </Link>
+                      <Link
+                        href="/work-with-me"
+                        className="block w-full text-center rounded-full px-4 py-3 text-base font-medium border border-input bg-background hover:bg-accent/10 hover:text-accent transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Work With Me
+                      </Link>
+                    </div>
+                  </div>
                   <div className="space-y-1 py-6">
+                    <p className="px-4 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+                      Navigation
+                    </p>
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -133,7 +168,7 @@ export function Navbar() {
               </div>
             </div>
           </div>
-        )}
+        { /* Mobile menu - CSS transitions used instead of conditional rendering */ }
       </nav>
     </header>
   );

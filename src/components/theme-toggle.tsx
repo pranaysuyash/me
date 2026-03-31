@@ -1,43 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
+  const { theme, setTheme, resolvedTheme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("theme") as string;
-    if (stored === "dark" || stored === "light") {
-      setTheme(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)")) {
-      setTheme("dark");
-    }
   }, []);
 
-  useEffect(() => {
-    if (!mounted) return;
-    const root = document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-    localStorage.setItem("theme", theme);
-  }, [theme, mounted]);
+  // Use systemTheme for SSR consistency, resolvedTheme on client
+  const currentTheme = mounted 
+    ? (theme === "system" ? resolvedTheme : theme)
+    : systemTheme; // SSR-safe fallback
 
-  if (!mounted) return null;
-
+  // Fixed dimensions to prevent layout shift
   return (
     <Button
       variant="ghost"
       size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      aria-label="Toggle theme"
+      onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
+      aria-label={mounted ? `Current theme: ${currentTheme}, click to toggle` : "Loading theme"}
+      suppressHydrationWarning
+      className="w-10 h-10 flex items-center justify-center"
     >
-      {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+      <span className="relative w-5 h-5">
+        <Sun 
+          className={`absolute inset-0 h-5 w-5 transition-all duration-200 ${
+            currentTheme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-50"
+          }`} 
+          aria-hidden="true"
+        />
+        <Moon 
+          className={`absolute inset-0 h-5 w-5 transition-all duration-200 ${
+            currentTheme !== "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-50"
+          }`}
+          aria-hidden="true"
+        />
+      </span>
     </Button>
   );
 }

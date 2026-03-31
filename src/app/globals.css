@@ -53,14 +53,31 @@
 
   html {
     scroll-behavior: smooth;
+    min-height: 100%;
+    color-scheme: light;
+    /* Prevent font loading flash by using size-adjusted fallback */
+    font-size-adjust: from-font;
   }
-
+  
+  /* Ensure body has fixed line-height regardless of font */
   body {
+    min-height: 100%;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+    /* Reserve space for fonts to prevent CLS */
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* .dark class - removes duplicate body styles */
+  .dark {
+    color-scheme: dark;
   }
 }
 
