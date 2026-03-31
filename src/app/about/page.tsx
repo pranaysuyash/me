@@ -16,11 +16,11 @@ import {
 import projectsData from "@/content/projects.json";
 
 export const metadata: Metadata = {
-  title: "About Pranay Suyash — Applied AI Builder, YC-Backed Operator",
+  title: "About | Pranay Suyash",
   description:
-    "10+ years from Big 4 consulting to YC-backed operator. Built MedPiper's data platform and security posture from zero to $1M ARR. Now building AI prototypes and automation systems independently.",
+    "From Big 4 consultant to YC-backed operator. I build AI prototypes and automation systems.",
   openGraph: {
-    title: "About Pranay Suyash",
+    title: "About | Pranay Suyash",
     description:
       "From Big 4 consultant to YC-backed operator. I build AI prototypes and automation systems.",
     type: "website",
@@ -51,7 +51,7 @@ export default function AboutPage() {
                 </Button>
                 <Button asChild className="rounded-full w-full">
                   <Link href="/contact">
-                    <Calendar className="mr-2 h-4 w-4" /> Book a Call
+                    <Calendar className="mr-2 h-4 w-4" /> Contact
                   </Link>
                 </Button>
               </div>
@@ -95,32 +95,41 @@ export default function AboutPage() {
               </h1>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  I spent the first part of my career at Big 4 consulting doing
-                  SAP implementations — good at understanding enterprise
-                  processes, bad at building things that shipped. That changed
-                  when I joined a YC-backed healthcare startup and had to build
-                  from zero.
+                  I started out in enterprise consulting, working on SAP
+                  implementations and large process-heavy systems. That taught
+                  me how organizations actually run, where work gets stuck, and
+                  how much time disappears between a plan and something that is
+                  genuinely usable.
                 </p>
                 <p>
-                  At MedPiper, I went from consultant to operator. I built the
-                  data platform, led security compliance (ISO 27001, SOC 2),
-                  shipped features across four product lines, and learned what
-                  it actually means to move fast when there&apos;s real money
-                  and real users on the line. We scaled to ~$1M ARR before I
-                  left to focus on independent work.
+                  That changed when I joined MedPiper, a YC-backed healthcare
+                  startup, and had to operate much closer to the work itself. I
+                  moved from process and delivery into product, platform,
+                  workflow design, compliance, and hands-on system building. The
+                  work stopped being theoretical very quickly.
                 </p>
                 <p>
-                  What I took from that experience: the gap between &quot;this
-                  is how we should build it&quot; and &quot;this is actually
-                  built&quot; is where most time and money gets lost. I work in
-                  that gap — scoping fast, building weekly, and delivering
-                  working software.
+                  At MedPiper, I&apos;ve worked across product, platform, data
+                  workflows, and security/compliance, helping build systems that
+                  support real healthcare and insurance operations. We scaled to
+                  roughly $1M ARR while I was working across those functions,
+                  and that experience changed how I think about software: speed
+                  matters, but only if what you ship actually survives real
+                  users, real constraints, and messy operations.
                 </p>
                 <p>
-                  I&apos;ve also shipped a paid product on Gumroad (Signature
-                  Extractor Pro) because I wanted to prove I could take an idea
-                  from concept to revenue without a company behind it. Based in
-                  Bengaluru.
+                  What I care about now is the gap between a messy workflow and
+                  a working system. That is where most teams lose time, money,
+                  and momentum. I work best in that gap: understanding the
+                  workflow, reducing ambiguity, and turning it into software
+                  that is clear, useful, and shippable.
+                </p>
+                <p>
+                  Alongside my work at MedPiper, I&apos;ve also built and
+                  shipped independent tools and paid products. That parallel
+                  work matters to me because it keeps me honest about execution:
+                  turning ideas into something real, useful, and shippable.
+                  Based in Bengaluru.
                 </p>
               </div>
             </div>
@@ -213,16 +222,16 @@ export default function AboutPage() {
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Want to work together?
+            Two ways to work with me
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild className="rounded-full px-8">
               <Link href="/hire-me">
-                Hire Me <ArrowRight className="ml-2 h-4 w-4" />
+                Hiring me for a role <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" asChild className="rounded-full px-8">
-              <Link href="/work-with-me">Work With Me</Link>
+              <Link href="/work-with-me">Work with me on a project</Link>
             </Button>
           </div>
         </div>

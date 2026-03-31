@@ -50,8 +50,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-satoshi)", "var(--font-plus-jakarta)", "system-ui", "sans-serif"],
-        display: ["var(--font-satoshi)", "system-ui", "sans-serif"],
+        sans: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
+        display: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
       },
       borderRadius: {

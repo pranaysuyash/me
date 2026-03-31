@@ -7,7 +7,7 @@
       "description": "A production-grade metadata extraction engine that parses PDFs, images, and documents at scale. Handles 45K+ field types with high accuracy using a combination of rule-based and ML approaches.",
       "problem": "Organizations need to extract structured metadata from thousands of heterogeneous documents — invoices, contracts, medical records, research papers — each with different formats and field layouts.",
       "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with React dashboard for monitoring.",
-      "result": "Successfully processes 45,000+ distinct metadata field types. Deployed as a Dockerized microservice handling production workloads. Reduced manual data entry time by an estimated 80% for pilot users.",
+      "result": "Production-grade metadata extraction system built for document-heavy healthcare workflows.",
       "techStack": [
         "Python",
         "FastAPI",
@@ -21,7 +21,7 @@
       "links": {
         "github": "https://github.com/pranaysuyash/metaextract"
       },
-      "year": "2024"
+      "year": "2025"
     },
     {
       "slug": "codecollector",
@@ -30,7 +30,7 @@
       "description": "A command-line tool that scans codebases, extracts patterns, and generates structured analysis reports. Built for developers who need quick insights into code quality and architecture.",
       "problem": "Developers joining new projects or auditing existing codebases need quick, structured insights without setting up heavy analysis tools or IDEs.",
       "approach": "Built as a Python CLI using AST parsing and pattern matching. Generates JSON/Markdown reports with metrics on code complexity, duplication, dependency graphs, and anti-pattern detection. Designed for zero-config usage with sensible defaults.",
-      "result": "41 GitHub stars from developers using it for quick codebase audits and pattern detection. Shows depth in Python AST parsing and developer tooling.",
+      "result": "Developer CLI tool for codebase inspection, pattern detection, and security analysis. Used by developers for quick codebase audits.",
       "techStack": ["Python", "AST", "Click", "Rich"],
       "category": "Developer Tools",
       "featured": false,
@@ -56,20 +56,28 @@
       "year": "2024"
     },
     {
-      "slug": "signature-extractor-pro",
-      "title": "Signature Extractor Pro",
-      "tagline": "OpenCV-powered signature extraction — paid product on Gumroad",
-      "description": "A desktop tool that automatically detects and extracts signatures from scanned documents using computer vision. Sold as a paid product on Gumroad.",
-      "problem": "Legal and financial teams process thousands of signed documents daily. Manually cropping signatures is tedious, error-prone, and doesn't scale.",
-      "approach": "Used OpenCV contour detection and morphological operations to isolate signature regions from document scans. Handles various document formats, ink colors, and background noise. Batch processing for high-volume workflows.",
-      "result": "Shipped as a paid product on Gumroad. Validates product-building skills: identified a niche need, built the solution, and brought it to market.",
-      "techStack": ["Python", "OpenCV", "NumPy", "Pillow"],
+      "slug": "sig-ext-fastapi",
+      "title": "SignKit",
+      "tagline": "Signature extraction & PDF signing — commercial desktop product",
+      "description": "A commercial desktop application for signature extraction and PDF document processing. PySide6 frontend with FastAPI backend, PostgreSQL database, and PDF signing capabilities. Handles batch document workflows for legal and financial teams. Built from idea to paid product.",
+      "problem": "Legal and financial teams process thousands of signed documents daily. They need signature extraction, PDF signing, and organized output management in one complete workflow.",
+      "approach": "PySide6 cross-platform desktop app with FastAPI backend. PostgreSQL for document metadata and user management. OpenCV-based signature extraction with morphological operations. PDF signing with embedded certificate support.",
+      "result": "Commercial signature extraction product built from idea to paid product, including extraction, signing, and workflow tooling.",
+      "techStack": [
+        "PySide6",
+        "FastAPI",
+        "PostgreSQL",
+        "OpenCV",
+        "Stripe",
+        "Python"
+      ],
       "category": "Computer Vision",
       "featured": true,
       "links": {
-        "gumroad": "https://pranaysuyash.gumroad.com/l/clexp"
+        "live": "https://signkit.work",
+        "github": "https://github.com/pranaysuyash/sig_ext_fastapi_react"
       },
-      "year": "2023"
+      "year": "2025"
     },
     {
       "slug": "echopanel",
@@ -78,14 +86,14 @@
       "description": "A native macOS menu bar app that captures system audio, transcribes it in real-time using Whisper, and provides searchable transcripts. Built with Swift frontend and FastAPI backend.",
       "problem": "Professionals in meetings, interviews, and research need to capture and search audio content without switching between multiple tools or relying on cloud services.",
       "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite for local transcript storage with full-text search. Designed for minimal UI presence with maximum utility.",
-      "result": "Working prototype demonstrating macOS native development with AI integration. Shows ability to build full-stack desktop applications.",
+      "result": "macOS menu bar prototype combining native UX, audio capture, and AI transcription.",
       "techStack": ["Swift", "FastAPI", "Whisper", "SQLite", "AVFoundation"],
       "category": "macOS",
-      "featured": false,
+      "featured": true,
       "links": {
         "github": "https://github.com/pranaysuyash/EchoPanel"
       },
-      "year": "2024"
+      "year": "2026"
     },
     {
       "slug": "echoai-mlx",
@@ -104,30 +112,15 @@
       "year": "2024"
     },
     {
-      "slug": "chrome-tab-manager",
-      "title": "Chrome Tab Manager",
-      "tagline": "macOS tab management with AppleScript automation",
-      "description": "A macOS utility that manages Chrome tabs across multiple windows using AppleScript automation. Groups, searches, and organizes tabs for power users.",
-      "problem": "Power users accumulate hundreds of Chrome tabs across dozens of windows. Browser tab management is limited and doesn't support cross-window operations.",
-      "approach": "AppleScript-based automation interfacing with Chrome's Apple Events API. CLI tool for batch operations: group by domain, close duplicates, save sessions, search across tabs.",
-      "result": "Daily-use utility for personal productivity. Demonstrates macOS automation skills and practical system integration.",
-      "techStack": ["AppleScript", "Shell", "macOS"],
-      "category": "macOS",
-      "featured": false,
-      "links": {
-        "github": "https://github.com/pranaysuyash/chrome-tab-manager"
-      },
-      "year": "2024"
-    },
-    {
-      "slug": "photosearch",
+      "slug": "photosearch-experiment",
       "title": "PhotoSearch",
-      "tagline": "AI photo workstation with CLIP & face recognition",
-      "description": "A desktop photo search application using CLIP for semantic search, InsightFace for face recognition, and LanceDB for vector storage. Built with Tauri for cross-platform support.",
+      "tagline": "Modular AI photo workstation — semantic search, face recognition & clustering",
+      "description": "A full-stack AI photo workstation using FastAPI backend with LanceDB vector storage, CLIP semantic search, and InsightFace face recognition. Tauri desktop app with React frontend. Handles 10K+ photo libraries with sub-second semantic search.",
       "problem": "Photo libraries grow to tens of thousands of images. Traditional folder/tag organization breaks down. People need semantic search — 'find photos of the beach at sunset' or 'photos with Sarah'.",
-      "approach": "Tauri app with Python ML backend. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. LanceDB stores vectors for fast similarity search. React frontend with real-time search and face browsing.",
-      "result": "Functional desktop app demonstrating multi-modal AI search. Handles 10K+ photo libraries with sub-second search.",
+      "approach": "FastAPI backend with LanceDB for vector storage. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. Tauri desktop app with React frontend. Modular architecture separating ML pipeline from UI.",
+      "result": "Photo search workstation using multimodal retrieval, semantic search, and face recognition.",
       "techStack": [
+        "FastAPI",
         "Tauri",
         "React",
         "Python",
@@ -136,25 +129,11 @@
         "LanceDB"
       ],
       "category": "AI/ML",
-      "featured": false,
+      "featured": true,
       "links": {
-        "github": "https://github.com/pranaysuyash/photosearch"
+        "github": "https://github.com/pranaysuyash/photosearch-experiment"
       },
-      "year": "2024"
-    },
-    {
-      "slug": "sceneguide",
-      "title": "SceneGuide",
-      "tagline": "Computer vision accessibility app for blind & elderly users",
-      "description": "An accessibility-focused app that uses computer vision to describe scenes, read text, and identify objects for visually impaired and elderly users.",
-      "problem": "Visually impaired and elderly users struggle with daily tasks that require visual understanding — reading labels, navigating spaces, identifying objects.",
-      "approach": "Mobile-first app using device camera for real-time scene analysis. Object detection, OCR, and scene description via optimized CV models. Audio feedback for accessibility. Designed for simplicity with large touch targets and voice-first interaction.",
-      "result": "Working prototype demonstrating accessible AI application design. Shows commitment to inclusive technology.",
-      "techStack": ["Python", "OpenCV", "TTS", "OCR"],
-      "category": "AI/ML",
-      "featured": false,
-      "links": {},
-      "year": "2023"
+      "year": "2025"
     },
     {
       "slug": "robonomics",
@@ -189,9 +168,9 @@
       "year": "2023"
     },
     {
-      "slug": "guus",
-      "title": "Guus",
-      "tagline": "Freelance marketplace platform — client work via Upwork",
+      "slug": "appscript-work",
+      "title": "Appscript Work",
+      "tagline": "Freelance marketplace platform — client work via Upwork (Guus project)",
       "description": "A freelance marketplace platform built as client work through Upwork. Connects freelancers with businesses seeking specific technical services.",
       "problem": "Client needed a marketplace platform connecting skilled freelancers with businesses. Required user management, project posting, bidding, and payment integration.",
       "approach": "Full-stack web application with user authentication, project listings, bidding system, messaging, and payment processing. Built for scalability with clean API design.",
@@ -203,34 +182,50 @@
       "year": "2022"
     },
     {
-      "slug": "medpiper-dashboard",
-      "title": "MedPiper Dashboard",
-      "tagline": "Healthcare analytics with ISO 27001 compliance",
-      "description": "Internal analytics dashboard for MedPiper Technologies (YC S20) handling healthcare data with full ISO 27001 compliance. Real-time metrics, reporting, and data security.",
-      "problem": "Healthcare organizations need powerful analytics dashboards that also meet strict data security and compliance requirements (ISO 27001). Most analytics tools aren't built for compliance-first environments.",
-      "approach": "Built internal dashboard with role-based access control, audit logging, and encrypted data handling. Real-time metrics visualization with drill-down capabilities. Designed for compliance with ISO 27001 standards including data classification and access policies.",
-      "result": "Production dashboard used daily at MedPiper. Passed ISO 27001 audit. Handles sensitive healthcare data with zero security incidents.",
-      "techStack": ["React", "Python", "PostgreSQL", "ISO 27001"],
-      "category": "Product",
-      "featured": false,
-      "links": {},
-      "year": "2021"
-    },
-    {
-      "slug": "learning-for-kids",
-      "title": "Learning for Kids",
-      "tagline": "AI vision edtech with MediaPipe gesture recognition",
-      "description": "An educational app for children using AI-powered vision and gesture recognition to create interactive learning experiences. Uses MediaPipe for real-time hand tracking.",
+      "slug": "advay-learning",
+      "title": "Advay Learning",
+      "tagline": "MediaPipe-powered educational app for children with gesture recognition",
+      "description": "An educational Android app for children using MediaPipe for real-time hand gesture recognition. Children interact with learning content through physical movements captured by the device camera. Adaptive difficulty based on performance. Built with Flutter/Dart for Android.",
       "problem": "Traditional educational apps for children are passive screen time. Parents and educators want interactive, physical-movement-based learning that engages kids beyond tapping screens.",
-      "approach": "Built with MediaPipe for real-time hand gesture recognition. Children interact with educational content through physical movements captured by the device camera. Adaptive difficulty based on performance.",
-      "result": "Working prototype demonstrating AI-powered interactive education. Shows ability to build engaging experiences with cutting-edge CV technology.",
-      "techStack": ["Python", "MediaPipe", "OpenCV", "React"],
+      "approach": "Built with MediaPipe for real-time hand gesture recognition. Children interact with educational content through physical movements. Flutter/Dart for Android with real-time CV pipeline.",
+      "result": "Working educational app demonstrating AI-powered interactive education for children. Shows ability to build engaging mobile experiences with cutting-edge CV technology.",
+      "techStack": ["Flutter", "Dart", "MediaPipe", "Python", "OpenCV"],
       "category": "AI/ML",
       "featured": false,
       "links": {
-        "github": "https://github.com/pranaysuyash/learning-for-kids"
+        "github": "https://github.com/pranaysuyash/advay-learning"
       },
-      "year": "2023"
+      "year": "2025"
+    },
+    {
+      "slug": "scene-guide-v3",
+      "title": "SceneGuide v3",
+      "tagline": "Computer vision accessibility app for blind & elderly users (v3)",
+      "description": "An accessibility-focused mobile app using computer vision to describe scenes, read text, and identify objects for visually impaired and elderly users. Built with Flutter/Dart for Android with real-time scene analysis, OCR, and audio feedback. Version 3 with improved accuracy and new features.",
+      "problem": "Visually impaired and elderly users struggle with daily tasks that require visual understanding — reading labels, navigating spaces, identifying objects. They need simple, reliable assistance for everyday visual tasks.",
+      "approach": "Flutter app using device camera for real-time scene analysis. Object detection, OCR, and scene description via optimized CV models. Audio feedback for accessibility. Large touch targets and voice-first interaction designed for elderly users.",
+      "result": "Working mobile app demonstrating accessible AI application design. Shows commitment to inclusive technology and mobile CV deployment.",
+      "techStack": ["Flutter", "Dart", "Computer Vision", "OCR", "TTS"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {},
+      "year": "2025"
+    },
+    {
+      "slug": "tabpilot",
+      "title": "TabPilot",
+      "tagline": "Native macOS Swift app for managing and organizing browser tabs",
+      "description": "A native macOS Swift app for managing and organizing browser tabs across multiple windows. Uses native macOS APIs for Chrome tab management with AppleScript automation. Staging-first development workflow with production-ready architecture.",
+      "problem": "Power users accumulate hundreds of Chrome tabs across dozens of windows. Browser tab management is limited and doesn't support cross-window operations or intelligent organization.",
+      "approach": "Native Swift macOS app with widget extension. AppleScript-based Chrome automation. Widget for quick tab previews. Clean Architecture with proper separation of concerns.",
+      "result": "Working native macOS app demonstrating advanced Swift development, macOS platform integration, and native app distribution.",
+      "techStack": ["Swift", "AppleScript", "macOS", "WidgetKit"],
+      "category": "macOS",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/tabpilot"
+      },
+      "year": "2025"
     },
     {
       "slug": "vespr",
@@ -245,6 +240,192 @@
       "featured": false,
       "links": {
         "github": "https://github.com/pranaysuyash/vespr"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "model-lab",
+      "title": "model-lab",
+      "tagline": "On-device audio AI — MLX, Whisper & model evaluation infrastructure",
+      "description": "A systematic audio AI experimentation repo including model-lab: a production-ready model testing framework for ASR, TTS, and chat models. Features automated scorecards, production grades (A/B/C), cost analysis, and multi-device benchmarking (MPS/CUDA/CPU). Supports Whisper, LFM2.5-Audio, and on-device Apple Silicon optimization.",
+      "problem": "Selecting the right audio AI model requires systematic evaluation across accuracy, speed, cost, and hardware — not just running a few tests. Teams need infrastructure to make deployment decisions with data.",
+      "approach": "Built model-lab as a repeatable evaluation framework with shared harness, identical metrics, and automated comparison dashboards. Tested across Apple Silicon MPS, NVIDIA CUDA, and CPU. Produced production readiness grades for Whisper variants and LFM2.5-Audio.",
+      "result": "Contributed to local-first AI development approaches. model-lab enables systematic model selection decisions rather than intuition-based choices.",
+      "techStack": [
+        "Python",
+        "MLX",
+        "Whisper",
+        "Apple Silicon",
+        "CUDA",
+        "Jupyter"
+      ],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/speech-experiments"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "waste-segregation-app",
+      "title": "Waste Segregation App",
+      "tagline": "AI-powered waste classification — Flutter app with Firebase & gamification",
+      "description": "A comprehensive Flutter cross-platform app for waste identification and segregation guidance using AI-powered image classification. Uses OpenAI GPT-4.1-nano and Gemini Vision for item identification across 5 waste categories (wet, dry, hazardous, medical, non-waste). Features gamification with points, achievements, streaks, and family dashboards. Firebase Firestore for real-time sync, Hive for local storage, published to Google Play.",
+      "problem": "Improper waste segregation is a major environmental problem. People don't know how to classify waste correctly, leading to recycling contamination and increased landfill burden.",
+      "approach": "Flutter cross-platform app with camera/gallery image capture. OpenAI and Gemini Vision AI for classification. Gamification system with points, achievements, challenges, and family dashboards. Firebase Firestore for cloud sync, Hive for offline local storage. Educational content on waste categories. Community-driven disposal facility database.",
+      "result": "Published to Google Play (May 2025), 698 commits, comprehensive AI waste classification app with gamification and community features.",
+      "techStack": [
+        "Flutter",
+        "Dart",
+        "Firebase",
+        "OpenAI",
+        "Gemini Vision",
+        "Hive",
+        "Riverpod"
+      ],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/Waste-Segregation-App"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "rag-insurance",
+      "title": "Insurance RAG",
+      "tagline": "RAG-based insurance document Q&A system",
+      "description": "A RAG (Retrieval Augmented Generation) system for insurance documents. Allows querying insurance policies, claims, and documents using natural language with accurate, sourced answers.",
+      "problem": "Insurance documents are complex and lengthy. Agents and customers struggle to find specific information about coverage, claims, and policy details.",
+      "approach": "Built a RAG pipeline for insurance documents with vector embeddings and LLM-powered Q&A. Document chunking, embedding generation, and semantic search for accurate retrieval with source citations.",
+      "result": "Working RAG system for insurance document Q&A. Demonstrates LLM application development and vector database integration.",
+      "techStack": ["Python", "RAG", "LLM", "Vector Database"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/rag_insurance"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "showmetime",
+      "title": "ShowMeTime",
+      "tagline": "Live teaching app for kids to learn clock — showmetime.com",
+      "description": "A live web app for teaching children how to read clocks and tell time. Interactive exercises and visual learning for kids. Published at showmetime.com.",
+      "problem": "Children struggle to learn analog and digital time concepts. Traditional teaching methods aren't engaging or interactive enough.",
+      "approach": "Built a web app with interactive clock exercises, visual feedback, and progressive difficulty. Designed for young learners with engaging UI and gamified learning.",
+      "result": "Live app at showmetime.com. Demonstrates ability to ship consumer-facing web products.",
+      "techStack": ["HTML", "JavaScript", "CSS"],
+      "category": "Product",
+      "featured": false,
+      "links": {
+        "live": "https://showmetime.com"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "kenya-shif",
+      "title": "Kenya SHIF",
+      "tagline": "Health insurance project for Kenya's Social Health Insurance Fund",
+      "description": "A project for Kenya's Social Health Insurance Fund (SHIF) — the new national health insurance system replacing NHIF. Built as a freelance engagement.",
+      "problem": "Kenya transitioned from NHIF to SHIF requiring new systems for enrollment, contributions, and benefits management.",
+      "approach": "Built systems to support SHIF registration, contribution tracking, and benefits verification for the new national health insurance scheme.",
+      "result": "Completed freelance project for Kenya health insurance system transition. One-off engagement that a hiring manager gave but didn't pursue.",
+      "techStack": ["Python", "Healthcare", "Insurance"],
+      "category": "Product",
+      "featured": false,
+      "links": {},
+      "year": "2025"
+    },
+    {
+      "slug": "file-info-explorer",
+      "title": "File Info Explorer",
+      "tagline": "VS Code extension for file metadata exploration",
+      "description": "A VS Code extension for exploring and visualizing file metadata, sizes, and directory structure within the editor.",
+      "problem": "Developers need quick insights into file sizes, modification times, and directory structures without leaving their editor.",
+      "approach": "VS Code extension that provides file tree visualization, size information, and metadata browsing directly in the editor.",
+      "result": "Published VS Code extension. Demonstrates developer tooling experience.",
+      "techStack": ["TypeScript", "VS Code API"],
+      "category": "Developer Tools",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/file-info-explorer-vscode"
+      },
+      "year": "2024"
+    },
+    {
+      "slug": "frame-analyser",
+      "title": "Frame Analyser",
+      "tagline": "Video frame-by-frame AI analyser — React, TypeScript, Vite",
+      "description": "A video analysis tool that processes videos frame-by-frame using AI. Built with React, TypeScript, and Vite for the frontend.",
+      "problem": "Video analysis for detailed inspection requires frame-by-frame review. Existing tools are either too basic or too complex for quick AI-powered video analysis.",
+      "approach": "Built a web app that uploads videos and runs AI analysis on individual frames. React/TypeScript frontend with Vite for fast development and performance.",
+      "result": "Working video analysis tool. Demonstrates AI integration with video processing and React frontend development.",
+      "techStack": ["React", "TypeScript", "Vite", "AI"],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/frame_analyser"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "agents",
+      "title": "Agents Platform",
+      "tagline": "Local-first multi-agent orchestration with human-gated risk tiers",
+      "description": "A protocol-first, local-first multi-agent orchestration platform with human-gated risk tiers. Supports OpenAI, Anthropic, Ollama, LangGraph, and ADK runtimes. Features durable local snapshot persistence, background adapter run queue, and pluggable policy engine.",
+      "problem": "Multi-agent systems need proper orchestration, risk management, and human oversight. Existing frameworks lack fine-grained control over agent actions and risk tiers.",
+      "approach": "Built a platform with structured task-thread collaboration, human-gated risk tiers, and adapter model for multiple LLM runtimes. Local-first with snapshot persistence for restart recovery.",
+      "result": "Working multi-agent platform scaffold with production-oriented architecture. Supports multiple AI providers with reliability controls.",
+      "techStack": [
+        "TypeScript",
+        "Node.js",
+        "LangGraph",
+        "OpenAI",
+        "Anthropic"
+      ],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/agents"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "avia-new",
+      "title": "avia_new",
+      "tagline": "Enterprise audio/video transcription platform with admin dashboard",
+      "description": "Enterprise-scale audio/video transcription and entity extraction platform with comprehensive admin dashboard and business analytics. Features advanced audio preprocessing (spectral analysis, pitch detection, fingerprinting), NLP model management, action item extraction from meeting transcripts, and enterprise features including SSO, compliance, and multi-tenant support.",
+      "problem": "Enterprises need to transcribe, analyze, and extract value from large volumes of audio/video content at scale with proper admin controls and analytics.",
+      "approach": "Full-stack enterprise platform with Python/TypeScript stack. Whisper-based transcription, spaCy NLP, advanced audio preprocessing, admin dashboard with revenue tracking and user management, multi-tenant architecture with SSO support.",
+      "result": "Enterprise audio/video intelligence platform with comprehensive features for business analytics and transcription workflows.",
+      "techStack": [
+        "Python",
+        "TypeScript",
+        "Whisper",
+        "spaCy",
+        "SQLAlchemy",
+        "React"
+      ],
+      "category": "AI/ML",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/avia_new"
+      },
+      "year": "2025"
+    },
+    {
+      "slug": "ai-glossary-pro",
+      "title": "AI Glossary Pro",
+      "tagline": "AI terminology reference and definitions database",
+      "description": "A comprehensive AI terminology reference tool providing definitions and explanations for AI/ML terms and concepts. Built as a quick-reference resource for AI practitioners.",
+      "problem": "AI terminology is vast and rapidly evolving. Practitioners need quick access to clear definitions of AI/ML terms without searching through lengthy documentation.",
+      "approach": "Simple web application with organized AI terminology database and search functionality for quick term lookup.",
+      "result": "Reference tool for AI terminology. Demonstrates ability to organize and present technical information accessibly.",
+      "techStack": ["HTML", "JavaScript"],
+      "category": "Product",
+      "featured": false,
+      "links": {
+        "github": "https://github.com/pranaysuyash/aiglossarypro"
       },
       "year": "2024"
     }

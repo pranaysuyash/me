@@ -16,20 +16,45 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Applied AI Builder | Product Engineer",
+  title: {
+    default:
+      "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    template: "%s | Pranay Suyash",
+  },
   description:
-    "I build AI-powered products and ship revenue-generating SaaS tools. 10+ years across product, engineering, and applied AI. Currently leading data & data security at MedPiper (YC S20).",
+    "I turn document-heavy workflows into applied AI systems and fast, usable prototypes. 10+ years across product, engineering, and regulated SaaS.",
   keywords: [
     "Pranay Suyash",
-    "AI",
-    "ML",
-    "SaaS",
-    "Portfolio",
-    "Developer",
-    "Product Leader",
     "Applied AI",
     "Workflow Automation",
+    "Document Extraction",
+    "Internal Tools",
+    "Fast Prototypes",
+    "Product Engineering",
+    "macOS",
   ],
+  authors: [{ name: "Pranay Suyash" }],
+  creator: "Pranay Suyash",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://pranaysuyash.com",
+    siteName: "Pranay Suyash",
+    title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    description:
+      "I turn document-heavy workflows into applied AI systems and fast, usable prototypes.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    description:
+      "I turn document-heavy workflows into applied AI systems and fast, usable prototypes.",
+    creator: "@pranaysuyash",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -40,9 +65,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,400&display=swap"
-          rel="stylesheet"
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta
+          name="theme-color"
+          content="#0f172a"
+          media="(prefers-color-scheme: dark)"
+        />
+        <meta
+          name="theme-color"
+          content="#f8fafc"
+          media="(prefers-color-scheme: light)"
         />
       </head>
       <body

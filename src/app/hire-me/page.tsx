@@ -13,13 +13,13 @@ import {
 import projectsData from "@/content/projects.json";
 
 export const metadata: Metadata = {
-  title: "Hire Pranay Suyash — Applied AI, Product & Workflow Automation Roles",
+  title: "Hire Me | Pranay Suyash",
   description:
-    "Hiring for applied AI, product engineering, workflow automation, or founding engineer roles. 10+ years, YC-backed operator, shipped 45K+ field document extraction and a paid Gumroad product.",
+    "Best fit for applied AI, workflow systems, product/platform work, and prototyping roles where ambiguous problems need to become clear, working software.",
   openGraph: {
-    title: "Hire Pranay Suyash",
+    title: "Hire Me | Pranay Suyash",
     description:
-      "Applied AI, product engineering, and workflow automation. 10+ years, YC-backed operator.",
+      "Applied AI, workflow systems, and product execution. 10+ years across product, engineering, and regulated SaaS.",
     type: "website",
   },
 };
@@ -62,16 +62,15 @@ export default function HireMePage() {
               Hire <span className="gradient-text">Pranay Suyash</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              10+ years across product, engineering, and regulated SaaS. Built
-              and scaled a YC-backed healthcare platform from concept to ~$1M
-              ARR. Best fit for roles where shipping history matters more than
-              credential lists.
+              Best fit for applied AI, workflow systems, product/platform work,
+              and prototyping roles where ambiguous problems need to become
+              clear, working software.
             </p>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              I bring operational context from running product and engineering
-              at a startup, plus hands-on technical depth in Python, AI/ML, and
-              cloud systems. I work best where ambiguity needs to become a
-              scoped, working deliverable fast.
+              10+ years across product, engineering, and regulated SaaS.
+              I&apos;ve worked across document workflows, internal tools, and
+              applied AI systems. I&apos;m strongest where ambiguous problems
+              need to become working software.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
@@ -119,7 +118,51 @@ export default function HireMePage() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight mb-8">Experience</h2>
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-base font-semibold mb-3">
+                Why I&apos;m a strong hire now
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                I&apos;m strongest in roles where product judgment, workflow
+                understanding, and hands-on execution all matter. My background
+                spans enterprise process work, startup operating reality,
+                platform thinking, compliance-heavy environments, and
+                independent product shipping. That mix is useful when a team
+                needs someone who can reduce ambiguity, make practical
+                trade-offs, and turn a messy workflow into a working system.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-base font-semibold mb-3">
+                How I work inside teams
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                I work well across product, engineering, operations, and
+                leadership, especially in environments where the real work sits
+                between functions rather than neatly inside one role. I&apos;m
+                comfortable with process-heavy and regulated contexts, but I
+                care about keeping execution concrete and moving. My bias is
+                toward clarity, weekly progress, and software that holds up
+                under real usage.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <h3 className="text-base font-semibold mb-3">
+              Open to remote &amp; distributed roles
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Open to roles in Bengaluru, across India, and remote or
+              distributed teams where strong written communication and
+              independent execution matter.
+            </p>
+          </div>
+
+          <h2 className="text-2xl font-bold tracking-tight mb-8 mt-14">
+            Experience
+          </h2>
           <div className="space-y-8">
             {experience.map((exp) => (
               <div
@@ -227,7 +270,7 @@ export default function HireMePage() {
       <section className="py-16">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight mb-3">
-            Selected proof
+            Selected work
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {projectsData.projects

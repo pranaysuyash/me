@@ -15,7 +15,7 @@
     --secondary-foreground: 222 47% 11%;
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-    --accent: 27 100% 50%;
+    --accent: 25 100% 39%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
@@ -32,19 +32,19 @@
     --card-foreground: 210 20% 98%;
     --popover: 222 47% 6%;
     --popover-foreground: 210 20% 98%;
-    --primary: 217 100% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 217 100% 62%;
+    --primary-foreground: 222 47% 6%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 20% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 27 100% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 27 90% 56%;
+    --accent-foreground: 222 47% 6%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 20% 98%;
     --border: 217 33% 25%;
     --input: 217 33% 25%;
-    --ring: 217 100% 50%;
+    --ring: 217 100% 65%;
   }
 
   * {
@@ -58,13 +58,15 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
 @layer components {
   .gradient-text {
-    background: linear-gradient(135deg, #005EFF 0%, #FF7E00 100%);
+    background: linear-gradient(135deg, #0066cc 0%, #cc6600 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -76,7 +78,15 @@
     border-radius: 9999px;
     overflow: hidden;
     padding: 1.5px;
-    background: linear-gradient(135deg, #005EFF 0%, #FF7E00 100%);
+    background: linear-gradient(135deg, #0066cc 0%, #cc6600 100%);
+  }
+
+  .gradient-border {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+    padding: 1.5px;
+    background: linear-gradient(135deg, #005eff 0%, #ff7e00 100%);
   }
 
   .gradient-border-inner {
@@ -86,11 +96,13 @@
 
   .gradient-line {
     height: 2px;
-    background: linear-gradient(90deg, #005EFF 0%, #FF7E00 100%);
+    background: linear-gradient(90deg, #005eff 0%, #ff7e00 100%);
   }
 
   .hover-lift {
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .hover-lift:hover {

@@ -31,8 +31,15 @@ export function Navbar() {
     >
       <nav className="flex items-center justify-between p-4 lg:px-8 max-w-[1280px] mx-auto">
         <div className="flex lg:flex-1">
-          <Link href="/" className="font-bold text-2xl gradient-text">
-            PS
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 rounded-lg border border-border bg-muted flex items-center justify-center shrink-0 transition-opacity group-hover:opacity-80">
+              <span className="text-sm font-bold tracking-tight text-foreground">
+                PS
+              </span>
+            </div>
+            <span className="hidden lg:block text-sm font-semibold text-foreground">
+              Pranay
+            </span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -60,17 +67,18 @@ export function Navbar() {
             </Link>
           ))}
           <div className="flex items-center gap-3 ml-4 pl-4 border-l">
-            <ThemeToggle />
             <Link
               href="/work-with-me"
               className="text-sm font-medium px-4 py-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
             >
               Work With Me
             </Link>
+            <ThemeToggle />
             <Link
               href="https://github.com/pranaysuyash"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub profile"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Github className="h-5 w-5" />
@@ -84,10 +92,14 @@ export function Navbar() {
               <div className="flex items-center justify-between">
                 <Link
                   href="/"
-                  className="font-bold text-2xl gradient-text"
+                  className="flex items-center gap-3"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  PS
+                  <div className="w-8 h-8 rounded-lg border border-border bg-muted flex items-center justify-center shrink-0">
+                    <span className="text-sm font-bold tracking-tight text-foreground">
+                      PS
+                    </span>
+                  </div>
                 </Link>
                 <button
                   type="button"
