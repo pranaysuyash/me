@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,13 @@ export default function ContactPage() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const type = new URLSearchParams(window.location.search).get("type");
+    if (type === "project" || type === "call") {
+      setActiveTab(type);
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<

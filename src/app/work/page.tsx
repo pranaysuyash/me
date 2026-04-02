@@ -128,8 +128,10 @@ export default function WorkPage() {
       ) as Record<string, Project[]>)
     : groupedNonFeatured;
 
-  const categories = CATEGORY_ORDER.filter(
-    (c) => c.key === "featured" || filteredGrouped[c.key],
+  const categories = CATEGORY_ORDER.filter((c) =>
+    c.key === "featured"
+      ? allFeatured.length > 0
+      : Boolean(groupedNonFeatured[c.key]),
   );
 
   return (
