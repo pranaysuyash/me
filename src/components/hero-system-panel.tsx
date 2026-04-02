@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const STEPS = ["OCR", "Extraction", "Validation", "Routing"] as const;
 
 function getStepState(
   index: number,
   activeIndex: number,
-  cycleStart: number,
 ): "done" | "active" | "pending" {
-  const normalizedActive =
-    (((activeIndex - cycleStart) % STEPS.length) + STEPS.length) % STEPS.length;
-  if (index < normalizedActive) return "done";
-  if (index === normalizedActive) return "active";
+  if (index < activeIndex) return "done";
+  if (index === activeIndex) return "active";
   return "pending";
 }
 
@@ -58,21 +55,14 @@ function StatusDot({ state }: { state: "done" | "active" | "pending" }) {
 function StepRow({
   label,
   state,
-  delay = 0,
 }: {
   label: string;
   state: "done" | "active" | "pending";
-  delay?: number;
 }) {
   const isActive = state === "active";
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.35, delay }}
-      className="relative overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2.5"
-    >
+    <div className="relative overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2.5">
       {isActive ? (
         <motion.div
           className="absolute inset-x-3 bottom-0 h-px bg-blue-400/70"
@@ -112,50 +102,59 @@ function StepRow({
           {isActive ? "Running" : state === "done" ? "Done" : "Queued"}
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
-function OutputRow({
-  field,
-  value,
-  delay = 0,
-}: {
-  field: string;
-  value: string;
-  delay?: number;
-}) {
+function OutputRow({ field, value }: { field: string; value: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3, delay }}
-      className="flex items-center justify-between gap-4 border-b border-white/8 py-2 last:border-b-0 last:pb-0"
-    >
+    <div className="flex items-center justify-between gap-4 border-b border-white/8 py-2 last:border-b-0 last:pb-0">
       <span className="text-sm text-white/58">{field}</span>
       <span className="text-sm text-white/88">{value}</span>
-    </motion.div>
+    </div>
   );
 }
+
+const slideVariants = {
+  enter: (direction: number) => ({
+    y: direction > 0 ? 60 : -60,
+    opacity: 0,
+  }),
+  center: {
+    y: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    y: direction > 0 ? -60 : 60,
+    opacity: 0,
+  }),
+};
+
+type Phase = "input-processing" | "processing-output";
 
 export function HeroSystemPanel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [showOutput, setShowOutput] = useState(false);
+  const [phase, setPhase] = useState<Phase>("input-processing");
+  const [direction, setDirection] = useState(1);
+
+  const advance = useCallback(() => {
+    setActiveIndex((prev) => {
+      const next = (prev + 1) % STEPS.length;
+      if (next === 3) {
+        setDirection(1);
+        setPhase("processing-output");
+      } else if (next === 0) {
+        setDirection(-1);
+        setPhase("input-processing");
+      }
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => {
-        const next = (prev + 1) % STEPS.length;
-        if (next === 3) {
-          setShowOutput(true);
-          setTimeout(() => setShowOutput(false), 1000);
-        }
-        return next;
-      });
-    }, 1200);
-
+    const interval = setInterval(advance, 2200);
     return () => clearInterval(interval);
-  }, []);
+  }, [advance]);
 
   return (
     <motion.div
@@ -186,114 +185,128 @@ export function HeroSystemPanel() {
             </motion.h3>
           </div>
 
-          <div className="space-y-4 p-4">
-            <motion.section
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.3 }}
-              className="rounded-xl border border-white/8 bg-white/[0.025] p-4"
-            >
-              <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                Input
-              </p>
-
-              <div className="rounded-lg border border-white/8 bg-white/[0.03] p-3.5">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-12 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.05] text-[11px] font-medium text-orange-300">
-                    PDF
-                  </div>
-
-                  <div className="min-w-0">
-                    <p className="truncate text-base font-medium text-white/92">
-                      quarterly_report.pdf
-                    </p>
-                    <p className="mt-1 text-sm text-white/52">
-                      PDF · 8 pages · uploaded
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 space-y-2">
-                  {[82, 65, 42].map((w, i) => (
-                    <motion.div
-                      key={w}
-                      initial={{ opacity: 0, scaleX: 0.8 }}
-                      animate={{ opacity: 1, scaleX: 1 }}
-                      transition={{ delay: 0.2 + i * 0.06, duration: 0.25 }}
-                      style={{
-                        width: `${w}%`,
-                        transformOrigin: "left center",
-                      }}
-                      className="h-2 rounded-full bg-white/8"
-                    />
-                  ))}
-                </div>
-              </div>
-            </motion.section>
-
-            <motion.section
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="rounded-xl border border-white/8 bg-white/[0.025] p-4"
-            >
-              <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                Processing
-              </p>
-
-              <div className="space-y-2.5">
-                {STEPS.map((step, i) => (
-                  <StepRow
-                    key={step}
-                    label={step}
-                    state={getStepState(i, activeIndex, 0)}
-                    delay={0.22 + i * 0.05}
-                  />
-                ))}
-              </div>
-            </motion.section>
-
-            <motion.section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
-              <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                Structured output
-              </p>
-
-              <div className="rounded-lg border border-white/[0.06] bg-white/[0.01] px-4 py-3 min-h-[128px] flex flex-col">
-                <div
-                  className={`transition-opacity duration-300 ${!showOutput ? "opacity-40" : "opacity-100"}`}
+          <div className="relative overflow-hidden p-4">
+            <AnimatePresence mode="popLayout" custom={direction}>
+              {phase === "input-processing" ? (
+                <motion.div
+                  key="input-processing"
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    y: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.25 },
+                  }}
+                  className="space-y-4"
                 >
-                  <OutputRow
-                    field="Total Revenue"
-                    value={showOutput ? "$2.4M" : "—"}
-                    delay={0}
-                  />
-                  <OutputRow
-                    field="Operating Expenses"
-                    value={showOutput ? "$1.1M" : "—"}
-                    delay={0}
-                  />
-                  <OutputRow
-                    field="Net Profit"
-                    value={showOutput ? "$847K" : "—"}
-                    delay={0}
-                  />
-                  <OutputRow
-                    field="Quarter"
-                    value={showOutput ? "Q3 2025" : "—"}
-                    delay={0}
-                  />
-                </div>
-                <div className="mt-auto pt-2 text-sm text-white/60 min-h-[24px]">
-                  {showOutput ? (
-                    "✓ Fields extracted"
-                  ) : (
-                    <span className="text-white/25">
-                      Waiting for routing...
-                    </span>
-                  )}
-                </div>
-              </div>
-            </motion.section>
+                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
+                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
+                      Input
+                    </p>
+
+                    <div className="rounded-lg border border-white/8 bg-white/[0.03] p-3.5">
+                      <div className="flex items-start gap-3">
+                        <div className="flex h-12 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.05] text-[11px] font-medium text-orange-300">
+                          PDF
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="truncate text-base font-medium text-white/92">
+                            quarterly_report.pdf
+                          </p>
+                          <p className="mt-1 text-sm text-white/52">
+                            PDF · 8 pages · uploaded
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 space-y-2">
+                        {[82, 65, 42].map((w, i) => (
+                          <motion.div
+                            key={w}
+                            initial={{ opacity: 0, scaleX: 0.8 }}
+                            animate={{ opacity: 1, scaleX: 1 }}
+                            transition={{
+                              delay: 0.2 + i * 0.06,
+                              duration: 0.25,
+                            }}
+                            style={{
+                              width: `${w}%`,
+                              transformOrigin: "left center",
+                            }}
+                            className="h-2 rounded-full bg-white/8"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+
+                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
+                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
+                      Processing
+                    </p>
+
+                    <div className="space-y-2.5">
+                      {STEPS.map((step, i) => (
+                        <StepRow
+                          key={step}
+                          label={step}
+                          state={getStepState(i, activeIndex)}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="processing-output"
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    y: { type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.25 },
+                  }}
+                  className="space-y-4"
+                >
+                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
+                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
+                      Processing
+                    </p>
+
+                    <div className="space-y-2.5">
+                      {STEPS.map((step, i) => (
+                        <StepRow
+                          key={step}
+                          label={step}
+                          state={getStepState(i, activeIndex)}
+                        />
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
+                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
+                      Structured output
+                    </p>
+
+                    <div className="rounded-lg border border-white/[0.06] bg-white/[0.01] px-4 py-3">
+                      <OutputRow field="Total Revenue" value="$2.4M" />
+                      <OutputRow field="Operating Expenses" value="$1.1M" />
+                      <OutputRow field="Net Profit" value="$847K" />
+                      <OutputRow field="Quarter" value="Q3 2025" />
+                      <div className="mt-2 pt-2 text-sm text-emerald-300/80 border-t border-white/8">
+                        ✓ Fields extracted
+                      </div>
+                    </div>
+                  </section>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

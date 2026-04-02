@@ -1,97 +1,84 @@
-# Pranay Suyash Portfolio
+# Pranay Suyash — Portfolio
 
-A personal portfolio website for Pranay Suyash, showcasing projects, skills, and professional experience.
+Personal portfolio site showcasing projects, experience, and consulting services.
+
+**Live:** [pranaysuyash.com](https://pranaysuyash.com)
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS with shadcn/ui components
-- **Animations**: Framer Motion
-- **API Routes**: GitHub integration, contact form
-- **Content**: JSON-based with CRUD admin panel
-- **Authentication**: GitHub OAuth (for admin access)
+- **Framework:** Next.js 15 (App Router, static export)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 + shadcn/ui components
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
+- **State:** Zustand
+
+## Architecture
+
+This is a fully static site — no server, no database, no API routes. All content is sourced from JSON files in `src/content/`. The build produces a plain `out/` folder deployable to S3, Cloudflare Pages, GitHub Pages, or any static host.
+
+### Third-party services
+
+| Service                          | Purpose                                    |
+| -------------------------------- | ------------------------------------------ |
+| [FormBold](https://formbold.com) | Contact form submissions (serverless)      |
+| [Cal.com](https://cal.com)       | Booking/scheduling (15-min & 30-min calls) |
 
 ## Getting Started
 
-### Prerequisites
+```bash
+# Install dependencies
+npm install
 
-- Node.js 18.17 or later
-- npm or yarn
+# Run dev server
+npm run dev
 
-### Installation
+# Build static export
+npm run build
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/pranaysuyash/portfolio.git
-   cd portfolio
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. Set up environment variables:
-   Create a `.env.local` file in the root directory with the following variables:
-   ```
-   # Email (for contact form)
-   EMAIL_USER=your-email@gmail.com
-   EMAIL_PASS=your-app-password
-
-   # GitHub OAuth (for admin access)
-   GITHUB_ID=your-github-oauth-app-id
-   GITHUB_SECRET=your-github-oauth-app-secret
-   NEXTAUTH_SECRET=your-nextauth-secret
-   NEXTAUTH_URL=http://localhost:3000
-
-   # Admin access
-   ADMIN_EMAILS=pranay.suyash@gmail.com
-   ```
-
-4. Run the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the site.
+# Preview static build locally
+npx serve out -l 3000
+```
 
 ## Project Structure
 
-- `/src/app/` - Next.js app router pages
-- `/src/components/` - React components
-  - `/ui/` - shadcn/ui components
-  - `/layout/` - Layout components (navbar, footer, etc.)
-- `/src/content/` - JSON data files for projects, timeline, etc.
-- `/src/app/api/` - Next.js API routes
-- `/public/` - Static assets
+```
+├── public/              # Static assets (images, robots.txt, sitemap.xml)
+├── src/
+│   ├── app/             # Next.js pages (all static)
+│   ├── components/      # React components
+│   │   ├── ui/          # shadcn/ui primitives
+│   │   └── layout/      # Navbar, footer, page layout
+│   └── content/         # JSON data (projects, services, experience, etc.)
+├── docs/                # Documentation
+│   ├── audits/          # Portfolio & technical audits
+│   ├── decisions/       # Architecture decisions
+│   ├── marketing/       # Marketing & outreach docs
+│   ├── personas/        # Target audience personas
+│   ├── strategy/        # Strategy & planning docs
+│   └── archive/         # Historical/reference docs
+└── tools/               # Reusable helper utilities
+```
 
-## Features
+## Scripts
 
-- **Dynamic Projects**: Showcase projects with detailed case study pages
-- **Live GitHub Integration**: Displays pinned repositories
-- **Medium RSS Feed**: Pulls latest articles from Medium
-- **Contact Form**: Email integration with spam protection
-- **Admin Panel**: CRUD operations for content management
-- **Responsive Design**: Mobile-first approach
-- **Dark Mode**: System preference & toggle
+| Command             | Description                   |
+| ------------------- | ----------------------------- |
+| `npm run dev`       | Start dev server              |
+| `npm run build`     | Build static export to `out/` |
+| `npm run lint`      | Run ESLint                    |
+| `npm run typecheck` | Run TypeScript type checking  |
+| `npm run format`    | Format code with Prettier     |
 
-## Admin Access
+## Deployment
 
-The `/admin` route is protected by GitHub OAuth. Only email addresses listed in the `ADMIN_EMAILS` environment variable can access the admin panel.
+The site is a static export. Deploy the `out/` folder to any static host:
+
+```bash
+npm run build
+# Upload out/ to S3 + CloudFront, Cloudflare Pages, GitHub Pages, etc.
+```
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [Lucide Icons](https://lucide.dev/)
+MIT
