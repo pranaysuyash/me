@@ -64,10 +64,9 @@ export default function HireMePage() {
               working software quickly.
             </p>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              14 years across product and engineering. Most recently at
-              MedPiper (YC S20), where I shipped workflow-heavy systems,
-              internal tools, and applied AI features in a regulated healthcare
-              context.
+              14 years across product and engineering. Most recently at MedPiper
+              (YC S20), where I shipped workflow-heavy systems, internal tools,
+              and applied AI features in a regulated healthcare context.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-5">
@@ -85,10 +84,14 @@ export default function HireMePage() {
                 size="lg"
                 className="rounded-full px-8"
               >
-                <Link href="/pranay_resume.html" target="_blank">
+                <a
+                  href="/pranay_resume.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Download className="mr-2 h-4 w-4" /> Download resume{" "}
                   <span className="text-xs opacity-60 ml-1">(PDF)</span>
-                </Link>
+                </a>
               </Button>
             </div>
 
@@ -118,8 +121,8 @@ export default function HireMePage() {
           <div className="mb-12">
             <h2 className="text-2xl font-bold tracking-tight mb-3">Role fit</h2>
             <p className="text-sm text-muted-foreground mb-6 max-w-xl">
-              I am strongest in roles that combine product judgment with hands-on
-              execution.
+              I am strongest in roles that combine product judgment with
+              hands-on execution.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
@@ -139,12 +142,14 @@ export default function HireMePage() {
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-base font-semibold mb-3">Execution context</h3>
+              <h3 className="text-base font-semibold mb-3">
+                Execution context
+              </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 At MedPiper I worked across product, platform, and operations,
-                shipping workflow systems tied to real business constraints.
-                A representative outcome: reducing insurance processing from
-                ~4 weeks to ~10 days.
+                shipping workflow systems tied to real business constraints. A
+                representative outcome: reducing insurance processing from ~4
+                weeks to ~10 days.
               </p>
             </div>
             <div>
@@ -152,10 +157,10 @@ export default function HireMePage() {
                 Team and collaboration style
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                I work closely with product, ops, and engineering. I am comfortable
-                with ownership-heavy roles where requirements are incomplete,
-                trade-offs are real, and progress needs to stay visible week to
-                week.
+                I work closely with product, ops, and engineering. I am
+                comfortable with ownership-heavy roles where requirements are
+                incomplete, trade-offs are real, and progress needs to stay
+                visible week to week.
               </p>
             </div>
           </div>
@@ -198,22 +203,30 @@ export default function HireMePage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                         <div>
                           <span className="text-muted-foreground">Team: </span>
-                          <span className="font-medium">{exp.scope.teamSize}</span>
+                          <span className="font-medium">
+                            {exp.scope.teamSize}
+                          </span>
                         </div>
                         <div>
                           <span className="text-muted-foreground">
-                            Ownership: 
+                            Ownership:
                           </span>
-                          <span className="font-medium">{exp.scope.ownership}</span>
+                          <span className="font-medium">
+                            {exp.scope.ownership}
+                          </span>
                         </div>
                         <div>
                           <span className="text-muted-foreground">
-                            Reporting: 
+                            Reporting:
                           </span>
-                          <span className="font-medium">{exp.scope.reporting}</span>
+                          <span className="font-medium">
+                            {exp.scope.reporting}
+                          </span>
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Context: </span>
+                          <span className="text-muted-foreground">
+                            Context:{" "}
+                          </span>
                           <span className="font-medium">
                             {exp.scope.environment}
                           </span>
@@ -250,7 +263,9 @@ export default function HireMePage() {
               <div className="space-y-4">
                 {strengths.map((s) => (
                   <div key={s.area}>
-                    <p className="text-sm font-semibold text-foreground">{s.area}</p>
+                    <p className="text-sm font-semibold text-foreground">
+                      {s.area}
+                    </p>
                     <p className="text-sm text-muted-foreground">{s.detail}</p>
                   </div>
                 ))}
@@ -265,7 +280,8 @@ export default function HireMePage() {
                     <div key={edu.institution}>
                       <p className="font-medium">{edu.institution}</p>
                       <p className="text-sm text-muted-foreground">
-                        {edu.degree} &middot; {edu.period} &middot; {edu.location}
+                        {edu.degree} &middot; {edu.period} &middot;{" "}
+                        {edu.location}
                       </p>
                     </div>
                   ))}
@@ -274,7 +290,9 @@ export default function HireMePage() {
 
               {credibilitySignals.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-3">Credibility signal</h3>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Credibility signal
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {credibilitySignals.map((signal) => (
                       <span
@@ -335,7 +353,9 @@ export default function HireMePage() {
 
       <section className="py-16 bg-muted/30">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Ready to talk?</h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">
+            Ready to talk?
+          </h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
             Book a 15-minute call and I&apos;ll come prepared with a practical
             point of view on role fit, ownership scope, and immediate execution
@@ -345,7 +365,9 @@ export default function HireMePage() {
             <Button asChild size="lg" className="rounded-full px-8">
               <Link href="/contact?type=call">
                 <Calendar className="mr-2 h-4 w-4" /> Book a 15-min call{" "}
-                <span className="text-xs opacity-60 ml-1">(opens scheduler)</span>
+                <span className="text-xs opacity-60 ml-1">
+                  (opens scheduler)
+                </span>
               </Link>
             </Button>
             <Button

@@ -45,9 +45,13 @@ export default function AboutPage() {
                   asChild
                   className="rounded-full w-full"
                 >
-                  <Link href="/pranay_resume.html" target="_blank">
+                  <a
+                    href="/pranay_resume.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Download className="mr-2 h-4 w-4" /> Resume
-                  </Link>
+                  </a>
                 </Button>
                 <Button asChild className="rounded-full w-full">
                   <Link href="/contact">
