@@ -27,6 +27,15 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
     ? Object.entries(project.links).filter(([, url]) => url && url !== "#")
     : [];
 
+  const hasTechnicalDepth =
+    "technicalDepth" in project && project.technicalDepth;
+  const hasOutcomes = "outcomes" in project && project.outcomes;
+  const hasOwnership = "ownership" in project && project.ownership;
+  const hasConstraints = "constraints" in project && project.constraints;
+  const hasTradeoffs = "tradeoffs" in project && project.tradeoffs;
+  const hasWhatChanged = "whatChanged" in project && project.whatChanged;
+  const hasArtifacts = "artifacts" in project && project.artifacts;
+
   return (
     <PageLayout>
       <article className="py-20 md:py-28">
@@ -109,6 +118,254 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 </p>
               </section>
 
+              {/* Technical Depth Section */}
+              {hasTechnicalDepth && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-4">
+                    Technical Implementation
+                  </h2>
+                  <div className="space-y-4">
+                    {project.technicalDepth?.architecture && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Architecture
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.architecture}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.cvPipeline && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          CV Pipeline
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.cvPipeline}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.ocrPipeline && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          OCR Pipeline
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.ocrPipeline}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.audioCapture && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Audio Capture
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.audioCapture}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.transcription && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Transcription
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.transcription}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.normalization && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Schema Normalization
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.normalization}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.storage && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Storage & Search
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.storage}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.performance && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Performance
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.performance}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.backend && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Backend
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.backend}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.signing && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Digital Signing
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.signing}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.monetization && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Monetization
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.monetization}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.distribution && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Distribution
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.distribution}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.ux && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          UX Design
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.ux}
+                        </p>
+                      </div>
+                    )}
+                    {project.technicalDepth?.integration && (
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">
+                          Integration
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {project.technicalDepth.integration}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* Outcomes Section */}
+              {hasOutcomes && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Outcomes</h2>
+                  <ul className="space-y-2">
+                    {project.outcomes?.map((outcome, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {hasOwnership && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Ownership & scope</h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {project.ownership as string}
+                  </p>
+                </section>
+              )}
+
+              {hasConstraints && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Constraints</h2>
+                  <ul className="space-y-2">
+                    {(project.constraints as string[]).map((item, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {hasTradeoffs && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Trade-offs</h2>
+                  <ul className="space-y-2">
+                    {(project.tradeoffs as string[]).map((item, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {hasWhatChanged && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">What changed</h2>
+                  <ul className="space-y-2">
+                    {(project.whatChanged as string[]).map((item, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {hasArtifacts && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">
+                    Workflow artifacts
+                  </h2>
+                  <ul className="space-y-2">
+                    {(project.artifacts as string[]).map((item, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
               <section>
                 <h2 className="text-xl font-semibold mb-3">Result</h2>
                 <p className="text-muted-foreground leading-relaxed">
@@ -123,7 +380,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               href="/work"
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              &larr; Back to all projects
+              ← Back to all projects
             </Link>
             <div className="flex gap-3">
               <Button variant="outline" asChild className="rounded-full">

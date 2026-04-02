@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { PageLayout } from '@/components/layout/page-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,10 +15,20 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 const bookingUrl = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_BOOKING_URL;
 
 export default function ContactPage() {
+  return (
+    <Suspense fallback={<div />}>
+      <ContactPageContent />
+    </Suspense>
+  );
+}
+
+function ContactPageContent() {
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<'call' | 'project'>('call');
   const [formData, setFormData] = useState({
     name: '',
@@ -32,6 +42,13 @@ export default function ContactPage() {
     'idle' | 'loading' | 'success' | 'error'
   >('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    const type = searchParams.get('type');
+    if (type === 'call' || type === 'project') {
+      setActiveTab(type);
+    }
+  }, [searchParams]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -84,31 +101,31 @@ export default function ContactPage() {
           </div>
 
           <div className='flex gap-2 mb-8'>
-            <button
-              type='button'
-              onClick={() => setActiveTab('call')}
+              <button
+                type='button'
+                onClick={() => setActiveTab('call')}
               className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
                 activeTab === 'call'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:text-primary'
               }`}
-            >
-              <Calendar className='h-4 w-4 inline mr-2' />
-              Book a Call
-            </button>
-            <button
-              type='button'
+              >
+                <Calendar className='h-4 w-4 inline mr-2' />
+              Book a 15-min Call
+              </button>
+              <button
+                type='button'
               onClick={() => setActiveTab('project')}
               className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
                 activeTab === 'project'
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:text-primary'
               }`}
-            >
-              <Send className='h-4 w-4 inline mr-2' />
-              Tell Me About Your Project
-            </button>
-          </div>
+              >
+                <Send className='h-4 w-4 inline mr-2' />
+              Send a Short Brief
+              </button>
+            </div>
 
           {activeTab === 'call' ? (
             <div className='border rounded-xl p-8'>
@@ -164,10 +181,10 @@ export default function ContactPage() {
               className='border rounded-xl p-8 space-y-5'
             >
               <h2 className='text-xl font-semibold mb-1'>
-                Tell me about your project
+                Send a short brief (2-minute form)
               </h2>
               <p className='text-sm text-muted-foreground mb-4'>
-                I&apos;ll send a proposal within 48 hours.
+                I&apos;ll reply with next steps within 48 hours.
               </p>
 
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
@@ -280,7 +297,7 @@ export default function ContactPage() {
                 className='w-full rounded-full'
                 size='lg'
               >
-                {status === 'loading' ? 'Sending...' : 'Send Project Inquiry'}
+                {status === 'loading' ? 'Sending...' : 'Send Brief'}
                 <Send className='ml-2 h-4 w-4' />
               </Button>
 

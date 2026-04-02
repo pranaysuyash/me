@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import projectsData from "@/content/projects.json";
 
 export const metadata: Metadata = {
   title: "Work With Me | Pranay Suyash",
@@ -131,6 +130,30 @@ const faqItems = [
   },
 ];
 
+const buyerProof = [
+  {
+    title: "Workflow compression in healthcare ops",
+    detail:
+      "Reduced insurance processing from ~4 weeks to ~10 days by replacing manual handoffs with a tighter workflow system.",
+    shape:
+      "Engagement shape: workflow diagnosis → scoped internal build → iteration with ops feedback",
+  },
+  {
+    title: "Document-heavy extraction pipeline",
+    detail:
+      "Built production extraction handling 45K+ metadata fields across heterogeneous document formats.",
+    shape:
+      "Engagement shape: narrow first version for core document types, then expand coverage with confidence scoring",
+  },
+  {
+    title: "Signature product to paid usage",
+    detail:
+      "Built SignKit from idea to paid product, including extraction, signing workflow, and billing.",
+    shape:
+      "Engagement shape: focused product slice with clear handoff, not a long open-ended build",
+  },
+];
+
 export default function WorkWithMePage() {
   return (
     <PageLayout>
@@ -152,17 +175,19 @@ export default function WorkWithMePage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
-                <Link href="/contact">
-                  Send a short brief <ArrowRight className="ml-2 h-4 w-4" />
+                <Link href="/contact?type=project">
+                  Send a short brief{" "}
+                  <span className="text-xs opacity-60 ml-1">(2-min form)</span>{" "}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                variant="ghost"
-                asChild
-                size="lg"
-                className="rounded-full px-8"
-              >
-                <Link href="/work">Browse selected work</Link>
+              <Button variant="outline" asChild size="lg" className="rounded-full px-8">
+                <Link href="/contact?type=call">
+                  Book a 15-min call{" "}
+                  <span className="text-xs opacity-60 ml-1">
+                    (opens scheduler)
+                  </span>
+                </Link>
               </Button>
             </div>
           </div>
@@ -188,8 +213,8 @@ export default function WorkWithMePage() {
                     <p className="font-medium text-sm">Before</p>
                     <p className="text-sm text-muted-foreground">
                       Scattered tools, manual steps, unclear ownership, and too
-                      much time lost between "we should build this" and
-                      something people can actually use.
+                      much time lost between &ldquo;we should build this&rdquo;
+                      and something people can actually use.
                     </p>
                   </div>
                 </div>
@@ -347,6 +372,70 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
+      {/* ── Buyer-facing proof ── */}
+      <section className="py-16 border-y">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="mb-10">
+            <h2 className="text-2xl font-bold tracking-tight mb-3">
+              Recent engagement outcomes
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Concrete examples of what this work can look like in practice.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {buyerProof.map((proof) => (
+              <Card key={proof.title} className="border shadow-sm h-full">
+                <CardContent className="p-6">
+                  <h3 className="text-base font-semibold mb-2">{proof.title}</h3>
+                  <p className="text-sm text-primary mb-3 leading-relaxed">
+                    {proof.detail}
+                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {proof.shape}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Ambiguity-friendly entry path ── */}
+      <section className="py-16">
+        <div className="container max-w-3xl mx-auto px-4 md:px-6 lg:px-8">
+          <Card className="border bg-muted/30">
+            <CardContent className="p-7 md:p-8">
+              <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-3">
+                Not sure what this should be yet?
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                If the workflow is broken, too manual, too slow, or too messy,
+                but the right first build is still unclear, that can still be the
+                starting point. The goal is to reduce ambiguity into a realistic
+                first version, not force the problem into the wrong package.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild className="rounded-full px-6">
+                  <Link href="/contact?type=project">
+                    Describe the problem{" "}
+                    <span className="text-xs opacity-60 ml-1">(2-min form)</span>
+                  </Link>
+                </Button>
+                <Button variant="outline" asChild className="rounded-full px-6">
+                  <Link href="/contact?type=call">
+                    Start with the workflow{" "}
+                    <span className="text-xs opacity-60 ml-1">
+                      (opens scheduler)
+                    </span>
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* ── FAQ ── */}
       <section className="py-16">
         <div className="container max-w-2xl mx-auto px-4 md:px-6 lg:px-8">
@@ -369,19 +458,27 @@ export default function WorkWithMePage() {
       {/* ── Closing CTA ── */}
       <section className="py-16 border-t">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Send a brief. I&apos;ll tell you if there&apos;s a fit.
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Ready to start?</h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-            Share the problem, the constraints, the timeline, and what "done"
-            needs to look like. If it&apos;s a fit, I&apos;ll reply with a
-            concrete next-step plan.
+            Share the problem, the constraints, the timeline, and what
+            &ldquo;done&rdquo; needs to look like. If it&apos;s a fit, I&apos;ll
+            reply with a concrete next-step plan.
           </p>
-          <Button asChild size="lg" className="rounded-full px-8">
-            <Link href="/contact">
-              Send a short brief <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/contact?type=project">
+                Send a short brief{" "}
+                <span className="text-xs opacity-60 ml-1">(2-min form)</span>{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="outline" asChild size="lg" className="rounded-full px-8">
+              <Link href="/contact?type=call">
+                Book a 15-min call{" "}
+                <span className="text-xs opacity-60 ml-1">(opens scheduler)</span>
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </PageLayout>

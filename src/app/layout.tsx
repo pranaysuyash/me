@@ -36,38 +36,32 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    default: "Pranay Suyash | Product · Document AI · YC S20",
     template: "%s | Pranay Suyash",
   },
   description:
-    "I turn document-heavy workflows into applied AI systems and fast, usable prototypes. 10+ years across product, engineering, and regulated SaaS.",
+    "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product, most recently at MedPiper (YC S20).",
   keywords: [
     "Pranay Suyash",
-    "Applied AI",
+    "Document AI",
+    "Product Builder",
     "Workflow Automation",
-    "Document Extraction",
-    "Internal Tools",
-    "Fast Prototypes",
-    "Product Engineering",
-    "macOS",
+    "YC S20",
   ],
-  authors: [{ name: "Pranay Suyash" }],
-  creator: "Pranay Suyash",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://pranaysuyash.com",
     siteName: "Pranay Suyash",
-    title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    title: "Pranay Suyash | Product · Document AI · YC S20",
     description:
-      "I turn document-heavy workflows into applied AI systems and fast, usable prototypes.",
+      "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    title: "Pranay Suyash | Product · Document AI · YC S20",
     description:
-      "I turn document-heavy workflows into applied AI systems and fast, usable prototypes.",
+      "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product.",
     creator: "@pranaysuyash",
   },
   robots: {

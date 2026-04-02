@@ -3,311 +3,403 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const STEPS = ["OCR", "Extraction", "Validation", "Routing"] as const;
+const EXTRACTION_FIELDS = [
+  { key: "policy_num", label: "Policy Number", value: "BC-2024-78432" },
+  { key: "patient_name", label: "Patient Name", value: "John Smith" },
+  { key: "provider", label: "Provider", value: "City Medical Center" },
+  { key: "dos", label: "Date of Service", value: "2024-03-15" },
+  { key: "amount", label: "Total Amount", value: "$2,450.00" },
+  { key: "status", label: "Claim Status", value: "Pending Review" },
+] as const;
 
-function getStepState(
-  index: number,
-  activeIndex: number,
-): "done" | "active" | "pending" {
-  if (index < activeIndex) return "done";
-  if (index === activeIndex) return "active";
-  return "pending";
-}
+const PROCESSING_STEPS = [
+  { id: "upload", label: "Document uploaded", status: "complete" as const },
+  { id: "ocr", label: "OCR processing", status: "complete" as const },
+  { id: "extract", label: "Field extraction", status: "running" as const },
+  { id: "validate", label: "Data validation", status: "pending" as const },
+  { id: "route", label: "Route to queue", status: "pending" as const },
+] as const;
 
-function StatusDot({ state }: { state: "done" | "active" | "pending" }) {
-  if (state === "done") {
+function StatusIcon({
+  status,
+}: {
+  status: "complete" | "running" | "pending" | "error";
+}) {
+  if (status === "complete") {
     return (
-      <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[10px] text-emerald-300">
-        ✓
+      <span
+        title="Complete"
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400"
+      >
+        <svg
+          className="h-3 w-3"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clipRule="evenodd"
+          />
+        </svg>
       </span>
     );
   }
 
-  if (state === "active") {
+  if (status === "running") {
     return (
       <motion.span
-        className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-blue-400/40 bg-blue-400/15"
-        animate={{
-          boxShadow: [
-            "0 0 0px rgba(96,165,250,0.0)",
-            "0 0 8px rgba(96,165,250,0.2)",
-            "0 0 0px rgba(96,165,250,0.0)",
-          ],
-        }}
+        title="Running"
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/15"
+        animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <motion.span
-          className="h-2 w-2 rounded-full bg-blue-400"
-          animate={{ opacity: [0.7, 1, 0.7], scale: [1, 1.1, 1] }}
+          className="h-2.5 w-2.5 rounded-full bg-blue-400"
+          animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.span>
     );
   }
 
+  if (status === "error") {
+    return (
+      <span
+        title="Error"
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500/15 text-red-400"
+      >
+        <svg
+          className="h-3 w-3"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </span>
+    );
+  }
+
   return (
-    <span className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-white/10 bg-transparent">
-      <span className="h-2 w-2 rounded-full bg-white/20" />
+    <span
+      title="Pending"
+      className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/15"
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-white/30" />
     </span>
   );
 }
 
 function StepRow({
   label,
-  state,
+  status,
+  isLast,
 }: {
   label: string;
-  state: "done" | "active" | "pending";
+  status: "complete" | "running" | "pending" | "error";
+  isLast?: boolean;
 }) {
-  const isActive = state === "active";
-
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2.5">
-      {isActive ? (
-        <motion.div
-          className="absolute inset-x-3 bottom-0 h-px bg-blue-400/70"
-          animate={{ opacity: [0.4, 1, 0.4], scaleX: [0.8, 1, 0.8] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "left center" }}
-        />
-      ) : null}
-
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <StatusDot state={state} />
-          <span
-            className={[
-              "text-sm",
-              isActive
-                ? "text-white"
-                : state === "done"
-                  ? "text-white/85"
-                  : "text-white/55",
-            ].join(" ")}
-          >
-            {label}
-          </span>
-        </div>
-
-        <span
-          className={[
-            "text-[11px] uppercase tracking-[0.12em]",
-            isActive
-              ? "text-blue-300"
-              : state === "done"
-                ? "text-emerald-300/90"
-                : "text-white/35",
-          ].join(" ")}
-        >
-          {isActive ? "Running" : state === "done" ? "Done" : "Queued"}
-        </span>
+    <div className="flex items-center gap-3">
+      <div className="flex flex-col items-center">
+        <StatusIcon status={status} />
+        {!isLast && (
+          <div
+            className={`w-px h-6 mt-1 ${
+              status === "complete" ? "bg-emerald-500/30" : "bg-white/10"
+            }`}
+          />
+        )}
       </div>
+      <span
+        className={`text-sm ${
+          status === "complete"
+            ? "text-white/80"
+            : status === "running"
+              ? "text-blue-300 font-medium"
+              : "text-white/50"
+        }`}
+      >
+        {label}
+      </span>
+      {status === "running" && (
+        <span className="ml-auto text-xs text-blue-400/80 animate-pulse">
+          Processing...
+        </span>
+      )}
     </div>
   );
 }
 
-function OutputRow({ field, value }: { field: string; value: string }) {
+function FieldRow({
+  label,
+  value,
+  confidence,
+  isNew,
+}: {
+  label: string;
+  value: string;
+  confidence?: number;
+  isNew?: boolean;
+}) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-white/8 py-2 last:border-b-0 last:pb-0">
-      <span className="text-sm text-white/58">{field}</span>
-      <span className="text-sm text-white/88">{value}</span>
-    </div>
+    <motion.div
+      initial={isNew ? { opacity: 0, x: -10 } : false}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex items-center justify-between py-2 border-b border-white/[0.06] last:border-0"
+    >
+      <span className="text-sm text-white/55">{label}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-white/90 font-mono">{value}</span>
+        {confidence !== undefined && (
+          <span
+            className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+              confidence >= 95
+                ? "bg-emerald-500/15 text-emerald-400"
+                : confidence >= 85
+                  ? "bg-amber-500/15 text-amber-400"
+                  : "bg-white/10 text-white/50"
+            }`}
+          >
+            {confidence}%
+          </span>
+        )}
+      </div>
+    </motion.div>
   );
 }
-
-const slideVariants = {
-  enter: (direction: number) => ({
-    y: direction > 0 ? 60 : -60,
-    opacity: 0,
-  }),
-  center: {
-    y: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    y: direction > 0 ? -60 : 60,
-    opacity: 0,
-  }),
-};
-
-type Phase = "input-processing" | "processing-output";
 
 export function HeroSystemPanel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [phase, setPhase] = useState<Phase>("input-processing");
-  const [direction, setDirection] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
+  const [extractedCount, setExtractedCount] = useState(0);
+  const [showConfidence, setShowConfidence] = useState(false);
 
   const advance = useCallback(() => {
-    setActiveIndex((prev) => {
-      const next = (prev + 1) % STEPS.length;
-      if (next === 3) {
-        setDirection(1);
-        setPhase("processing-output");
-      } else if (next === 0) {
-        setDirection(-1);
-        setPhase("input-processing");
+    setCurrentStep((prev) => {
+      if (prev < 4) {
+        return prev + 1;
       }
-      return next;
+      // Reset after completion
+      setTimeout(() => {
+        setCurrentStep(0);
+        setExtractedCount(0);
+        setShowConfidence(false);
+      }, 2000);
+      return prev;
     });
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(advance, 2200);
+    const interval = setInterval(advance, 1800);
     return () => clearInterval(interval);
   }, [advance]);
 
+  useEffect(() => {
+    if (currentStep >= 2 && extractedCount < EXTRACTION_FIELDS.length) {
+      const timeout = setTimeout(() => {
+        setExtractedCount((prev) => prev + 1);
+        if (extractedCount >= 2) {
+          setShowConfidence(true);
+        }
+      }, 400);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentStep, extractedCount]);
+
+  const getStepStatus = (index: number) => {
+    if (index < currentStep) return "complete";
+    if (index === currentStep) return "running";
+    return "pending";
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, scale: 0.985 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="relative mx-auto w-full max-w-[420px]"
     >
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-2xl">
-        <div className="rounded-xl border border-white/8 bg-[#0d1422]/90">
-          <div className="border-b border-white/8 px-5 py-4">
-            <motion.p
+      <div className="relative rounded-2xl border border-white/[0.1] bg-[#0b111a] shadow-xl overflow-hidden">
+        {/* Header */}
+        <div className="px-4 py-3 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.015]">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
+            </div>
+            <span className="text-xs text-white/40 font-mono ml-2">
+              claims_intake_queue
+            </span>
+          </div>
+          <span className="text-[10px] text-white/35 uppercase tracking-wider">
+            Ops Console
+          </span>
+        </div>
+
+        <div className="p-4 space-y-4">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="rounded-md border border-white/[0.07] bg-white/[0.015] p-2.5">
+              <p className="text-[10px] text-white/40 uppercase tracking-wide">Queue</p>
+              <p className="text-sm font-mono text-white/85 mt-0.5">126</p>
+            </div>
+            <div className="rounded-md border border-white/[0.07] bg-white/[0.015] p-2.5">
+              <p className="text-[10px] text-white/40 uppercase tracking-wide">SLA risk</p>
+              <p className="text-sm font-mono text-amber-300 mt-0.5">14</p>
+            </div>
+            <div className="rounded-md border border-white/[0.07] bg-white/[0.015] p-2.5">
+              <p className="text-[10px] text-white/40 uppercase tracking-wide">Done today</p>
+              <p className="text-sm font-mono text-emerald-300 mt-0.5">89</p>
+            </div>
+          </div>
+
+          {/* Document Input Card */}
+          <div className="rounded-lg border border-white/[0.07] bg-white/[0.015] p-3">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-white/[0.03] border border-white/10">
+                <svg
+                  className="h-5 w-5 text-white/70"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-white/90 truncate">
+                  insurance_claim_2024.pdf
+                </p>
+                <p className="text-xs text-white/40 mt-0.5">
+                  PDF • 3 pages • 2.4 MB
+                </p>
+              </div>
+              <span className="text-[10px] px-2 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/25">
+                Processing
+              </span>
+            </div>
+          </div>
+
+          {/* Processing Steps */}
+          <div className="rounded-lg border border-white/[0.07] bg-white/[0.015] p-3">
+            <p className="text-[10px] uppercase tracking-wider text-white/40 mb-3 font-mono">
+              Extraction Pipeline
+            </p>
+            <div className="space-y-0">
+              {PROCESSING_STEPS.map((step, i) => (
+                <StepRow
+                  key={step.id}
+                  label={step.label}
+                  status={getStepStatus(i)}
+                  isLast={i === PROCESSING_STEPS.length - 1}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Extracted Data */}
+          <AnimatePresence mode="wait">
+            {currentStep >= 2 && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="rounded-lg border border-white/[0.07] bg-white/[0.015] p-3"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[10px] uppercase tracking-wider text-white/40 font-mono">
+                    Extracted Fields
+                  </p>
+                  {showConfidence && (
+                    <span className="text-[10px] text-emerald-300/80">
+                      ✓ {extractedCount} fields extracted
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-0">
+                  {EXTRACTION_FIELDS.slice(0, extractedCount).map(
+                    (field, i) => (
+                      <FieldRow
+                        key={field.key}
+                        label={field.label}
+                        value={field.value}
+                        confidence={showConfidence ? 94 + (i % 5) : undefined}
+                        isNew={i === extractedCount - 1}
+                      />
+                    ),
+                  )}
+                  {extractedCount === 0 && (
+                    <p className="text-sm text-white/30 py-2 text-center">
+                      Waiting for extraction...
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Processing Stats */}
+          {currentStep >= 3 && (
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.05, duration: 0.25 }}
-              className="text-[11px] uppercase tracking-[0.16em] text-white/42"
+              className="flex items-center gap-4 text-xs text-white/40"
             >
-              System preview
-            </motion.p>
-
-            <motion.h3
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-              className="mt-2 text-[22px] font-medium tracking-[-0.02em] text-white/92"
-            >
-              Document → structure
-            </motion.h3>
-          </div>
-
-          <div className="relative overflow-hidden p-4">
-            <AnimatePresence mode="popLayout" custom={direction}>
-              {phase === "input-processing" ? (
-                <motion.div
-                  key="input-processing"
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    y: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.25 },
-                  }}
-                  className="space-y-4"
+              <div className="flex items-center gap-1.5">
+                <svg
+                  className="h-3.5 w-3.5 text-blue-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
                 >
-                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
-                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                      Input
-                    </p>
-
-                    <div className="rounded-lg border border-white/8 bg-white/[0.03] p-3.5">
-                      <div className="flex items-start gap-3">
-                        <div className="flex h-12 w-10 shrink-0 items-center justify-center rounded-md border border-white/10 bg-white/[0.05] text-[11px] font-medium text-orange-300">
-                          PDF
-                        </div>
-
-                        <div className="min-w-0">
-                          <p className="truncate text-base font-medium text-white/92">
-                            quarterly_report.pdf
-                          </p>
-                          <p className="mt-1 text-sm text-white/52">
-                            PDF · 8 pages · uploaded
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 space-y-2">
-                        {[82, 65, 42].map((w, i) => (
-                          <motion.div
-                            key={w}
-                            initial={{ opacity: 0, scaleX: 0.8 }}
-                            animate={{ opacity: 1, scaleX: 1 }}
-                            transition={{
-                              delay: 0.2 + i * 0.06,
-                              duration: 0.25,
-                            }}
-                            style={{
-                              width: `${w}%`,
-                              transformOrigin: "left center",
-                            }}
-                            className="h-2 rounded-full bg-white/8"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-
-                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
-                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                      Processing
-                    </p>
-
-                    <div className="space-y-2.5">
-                      {STEPS.map((step, i) => (
-                        <StepRow
-                          key={step}
-                          label={step}
-                          state={getStepState(i, activeIndex)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="processing-output"
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    y: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.25 },
-                  }}
-                  className="space-y-4"
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>~1.2s avg extraction</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <svg
+                  className="h-3.5 w-3.5 text-emerald-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
                 >
-                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
-                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                      Processing
-                    </p>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>96% avg confidence</span>
+              </div>
+            </motion.div>
+          )}
+        </div>
 
-                    <div className="space-y-2.5">
-                      {STEPS.map((step, i) => (
-                        <StepRow
-                          key={step}
-                          label={step}
-                          state={getStepState(i, activeIndex)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-
-                  <section className="rounded-xl border border-white/8 bg-white/[0.025] p-4">
-                    <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-white/42">
-                      Structured output
-                    </p>
-
-                    <div className="rounded-lg border border-white/[0.06] bg-white/[0.01] px-4 py-3">
-                      <OutputRow field="Total Revenue" value="$2.4M" />
-                      <OutputRow field="Operating Expenses" value="$1.1M" />
-                      <OutputRow field="Net Profit" value="$847K" />
-                      <OutputRow field="Quarter" value="Q3 2025" />
-                      <div className="mt-2 pt-2 text-sm text-emerald-300/80 border-t border-white/8">
-                        ✓ Fields extracted
-                      </div>
-                    </div>
-                  </section>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+        {/* Footer */}
+        <div className="px-4 py-2 border-t border-white/[0.06] bg-white/[0.02] flex items-center justify-between">
+          <span className="text-[10px] text-white/30">ID: DOC-7829-Q1</span>
+          <span className="text-[10px] text-white/30">v2.4.1</span>
         </div>
       </div>
     </motion.div>

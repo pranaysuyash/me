@@ -8,13 +8,47 @@
       "problem": "Organizations need to extract structured metadata from thousands of heterogeneous documents — invoices, contracts, medical records, research papers — each with different formats and field layouts.",
       "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with React dashboard for monitoring.",
       "result": "Production-grade metadata extraction system built for document-heavy healthcare workflows.",
+      "technicalDepth": {
+        "architecture": "Modular FastAPI backend with pluggable parsers per document type. Async job queue for batch processing. PostgreSQL for metadata storage, Redis for caching.",
+        "ocrPipeline": "Tesseract OCR with custom preprocessing (deskewing, denoising, contrast normalization). Layout analysis using heuristic + ML-based region detection.",
+        "normalization": "Unified schema mapping 45K+ field variations to standardized outputs. Confidence scoring per field with fallback rules.",
+        "performance": "Handles 1000+ pages/hour on single instance. Sub-2s response for single-page documents.",
+        "integration": "REST API with webhook callbacks. React dashboard for monitoring queue status and reviewing extraction accuracy."
+      },
+      "outcomes": [
+        "Processing 45,000+ distinct field types from heterogeneous document formats",
+        "Reduced manual data entry by ~80% for healthcare document workflows",
+        "Confidence scoring enables human review queue prioritization",
+        "Deployed in production handling thousands of documents weekly"
+      ],
+      "ownership": "Owned system design and implementation end-to-end: extraction pipeline, normalization logic, API layer, and operator-facing monitoring flow.",
+      "constraints": [
+        "Heterogeneous source documents with inconsistent layouts and noisy scans",
+        "Need for usable confidence scores to support human review queues",
+        "Production reliability requirements in document-heavy healthcare operations"
+      ],
+      "tradeoffs": [
+        "Used a hybrid rules + ML approach instead of model-only extraction to keep outputs debuggable and reliable by field type",
+        "Prioritized high-confidence core fields first, then expanded long-tail field coverage incrementally"
+      ],
+      "whatChanged": [
+        "Manual extraction and copy-paste became API-backed structured outputs",
+        "Review teams moved from full-document checking to confidence-prioritized exception review"
+      ],
+      "artifacts": [
+        "Queue-level extraction status view for operations",
+        "Per-field confidence and normalization trace for reviewer decisions",
+        "Unified output schema mapping thousands of field variants"
+      ],
       "techStack": [
         "Python",
         "FastAPI",
         "React",
         "Docker",
         "Tesseract OCR",
-        "PostgreSQL"
+        "PostgreSQL",
+        "Redis",
+        "Celery"
       ],
       "category": "AI/ML",
       "featured": true,
@@ -63,13 +97,46 @@
       "problem": "Legal and financial teams process thousands of signed documents daily. They need signature extraction, PDF signing, and organized output management in one complete workflow.",
       "approach": "PySide6 cross-platform desktop app with FastAPI backend. PostgreSQL for document metadata and user management. OpenCV-based signature extraction with morphological operations. PDF signing with embedded certificate support.",
       "result": "Commercial signature extraction product built from idea to paid product, including extraction, signing, and workflow tooling.",
+      "technicalDepth": {
+        "cvPipeline": "OpenCV morphological operations (dilation, erosion, contour detection) to isolate signature regions. Handles handwritten signatures on scanned documents, photos, and mixed backgrounds.",
+        "backend": "FastAPI with async document processing. PostgreSQL for user accounts, document metadata, and audit trails. File storage with organized output folders.",
+        "signing": "PDF signing with embedded certificate chains. Signature appearance customization. Batch signing for multi-document workflows.",
+        "monetization": "Stripe integration for subscription billing. License key validation. Trial mode with full feature access for 14 days.",
+        "distribution": "Cross-platform builds for Windows and macOS. Code-signed binaries. Auto-updater integration."
+      },
+      "outcomes": [
+        "Shipped as paid product with Stripe subscription billing",
+        "Signature extraction accuracy >90% on clean documents, >75% on degraded scans",
+        "Batch processing workflows save legal teams hours per week",
+        "Cross-platform deployment (Windows/macOS) with code signing"
+      ],
+      "ownership": "Owned product and build from idea to paid release: desktop UX, extraction/signing pipeline, billing integration, packaging, and shipping workflow.",
+      "constraints": [
+        "Needed both signature extraction and signing in one operational flow, not separate tools",
+        "Cross-platform distribution and update reliability for non-technical end users",
+        "Accuracy requirements on imperfect scanned documents"
+      ],
+      "tradeoffs": [
+        "Chose desktop-first workflow (PySide6) for local file-heavy operations instead of web-only upload flow",
+        "Focused initial release on core extraction + signing reliability before broader template and collaboration features"
+      ],
+      "whatChanged": [
+        "Replaced fragmented manual signing process with a single structured workflow",
+        "Moved from prototype utility to paid product with licensing and subscription flow"
+      ],
+      "artifacts": [
+        "Batch signing queue with status tracking",
+        "Signature region extraction pipeline and confidence checks",
+        "Stripe-backed subscription and license handling"
+      ],
       "techStack": [
         "PySide6",
         "FastAPI",
         "PostgreSQL",
         "OpenCV",
         "Stripe",
-        "Python"
+        "Python",
+        "PyInstaller"
       ],
       "category": "Computer Vision",
       "featured": true,
@@ -87,7 +154,46 @@
       "problem": "Professionals in meetings, interviews, and research need to capture and search audio content without switching between multiple tools or relying on cloud services.",
       "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite for local transcript storage with full-text search. Designed for minimal UI presence with maximum utility.",
       "result": "macOS menu bar prototype combining native UX, audio capture, and AI transcription.",
-      "techStack": ["Swift", "FastAPI", "Whisper", "SQLite", "AVFoundation"],
+      "technicalDepth": {
+        "audioCapture": "AVFoundation audio engine with custom audio buffer management. Captures system audio via CoreAudio APIs. Real-time streaming to backend.",
+        "transcription": "Whisper model (base/large) for on-device transcription. Chunked processing for real-time results. Speaker diarization experiments.",
+        "storage": "SQLite with FTS5 for full-text search. Local-first architecture with export options (SRT, TXT, JSON).",
+        "ux": "Menu bar widget with global hotkey. Minimal UI: record button, status indicator, transcript view. Searchable history with timestamp navigation.",
+        "integration": "FastAPI backend for optional cloud processing. WebSocket streaming for live transcription preview."
+      },
+      "outcomes": [
+        "Native macOS UX with global hotkey activation",
+        "Real-time transcription with Whisper on Apple Silicon",
+        "Local-first storage with full-text search across transcripts",
+        "Export formats: SRT, plain text, structured JSON"
+      ],
+      "ownership": "Owned prototype architecture and implementation across native app layer, transcription pipeline integration, and local-first transcript retrieval flow.",
+      "constraints": [
+        "Needed low-friction capture from a menu bar workflow, not a heavy standalone app",
+        "Latency had to stay acceptable for near-real-time transcript feedback",
+        "Local-first storage and search expectations for privacy-sensitive usage"
+      ],
+      "tradeoffs": [
+        "Prioritized reliable capture + searchable transcript history over broad collaboration features",
+        "Used practical chunked processing strategy to balance speed and accuracy during live sessions"
+      ],
+      "whatChanged": [
+        "Audio capture and transcript retrieval moved from ad-hoc tools to one integrated flow",
+        "Users could search transcript history by content and timestamp instead of replaying long recordings"
+      ],
+      "artifacts": [
+        "Menu bar recorder with status and quick actions",
+        "Transcript history with full-text search",
+        "Export pipeline for SRT/TXT/JSON handoff"
+      ],
+      "techStack": [
+        "Swift",
+        "FastAPI",
+        "Whisper",
+        "SQLite",
+        "AVFoundation",
+        "CoreAudio"
+      ],
       "category": "macOS",
       "featured": true,
       "links": {
@@ -119,6 +225,35 @@
       "problem": "Photo libraries grow to tens of thousands of images. Traditional folder/tag organization breaks down. People need semantic search — 'find photos of the beach at sunset' or 'photos with Sarah'.",
       "approach": "FastAPI backend with LanceDB for vector storage. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. Tauri desktop app with React frontend. Modular architecture separating ML pipeline from UI.",
       "result": "Photo search workstation using multimodal retrieval, semantic search, and face recognition.",
+      "technicalDepth": {
+        "architecture": "FastAPI service layer with separate indexing and query paths. LanceDB stores embeddings; desktop client uses Tauri + React for local workflow UX.",
+        "performance": "Incremental indexing for large libraries and sub-second retrieval on common semantic query paths after warm cache.",
+        "integration": "Combined CLIP semantic retrieval with InsightFace-based person clustering to support both concept and identity-driven search."
+      },
+      "outcomes": [
+        "Semantic retrieval over 10K+ photo libraries with practical interactive latency",
+        "Face clustering reduced manual album organization overhead",
+        "Desktop workflow unified indexing, query, and review in one tool"
+      ],
+      "ownership": "Owned full-stack implementation of indexing, retrieval, and desktop workflow orchestration for semantic and face-based search.",
+      "constraints": [
+        "Large local libraries with mixed quality metadata and inconsistent naming",
+        "Need for a desktop-first experience that can handle long indexing runs",
+        "Balancing semantic relevance, face matching quality, and query latency"
+      ],
+      "tradeoffs": [
+        "Prioritized local workstation workflow and retrieval quality over cloud sync features in early versions",
+        "Shipped combined semantic + face search path before broader media management capabilities"
+      ],
+      "whatChanged": [
+        "Browsing by folders and filenames shifted to concept-driven retrieval",
+        "People-centric queries became practical via face clustering instead of manual tagging"
+      ],
+      "artifacts": [
+        "Indexing status workflow for large photo libraries",
+        "Semantic query interface with ranked result grid",
+        "Face cluster review and merge flow"
+      ],
       "techStack": [
         "FastAPI",
         "Tauri",
@@ -525,6 +660,12 @@
       "period": "2020 — Present",
       "location": "Bengaluru, India",
       "tag": "YC S20",
+      "scope": {
+        "teamSize": "Grew from 2 cofounders to 45 people at peak (2025)",
+        "ownership": "Initially: product strategy, platform architecture, workflow automation. Later: AI/experimentation, new verticals, growth initiatives",
+        "reporting": "Reported to CEO; direct ownership of 3 product lines; led AI & experimental bets in later years",
+        "environment": "Healthcare/insurance regulated SaaS; B2B2C marketplace; YC-backed growth stage"
+      },
       "highlights": [
         "Built platform from ground up; scaled to ~$1M ARR",
         "Reduced insurance sales & ops TAT from ~4 weeks → ~10 days via workflow automation",
@@ -575,10 +716,8 @@
     }
   ],
   "certifications": [
-    "Y Combinator S20 — Startup Acceleration",
-    "SAP Certified — Sales & Distribution",
-    "Zenva Certificate — Data Science & AI",
-    "HPI Certificate — Data Science"
+    "Y Combinator S20 — Accelerator Alumni",
+    "SAP Certified — Sales & Distribution"
   ],
   "awards": [
     "EY Excellence Award — Client Delivery",

@@ -3,19 +3,19 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
 import { HeroSystemPanel } from "@/components/hero-system-panel";
 import { GradientBadge, NeutralBadge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+  title: "Pranay Suyash | Workflow Systems · Document AI · YC S20",
   description:
-    "I turn document-heavy workflows into applied AI systems and fast, usable prototypes. 10+ years across product, engineering, and regulated SaaS.",
+    "I turn messy workflows and unstructured inputs into working systems. 14 years building products, most recently at MedPiper (YC S20), including reducing insurance processing from 4 weeks to 10 days.",
   openGraph: {
-    title: "Pranay Suyash | Document AI, Workflow Automation, Fast Prototypes",
+    title: "Pranay Suyash | Workflow Systems · Document AI · YC S20",
     description:
-      "I turn document-heavy workflows into applied AI systems and fast, usable prototypes.",
+      "I turn messy workflows and unstructured inputs into working systems. 14 years building products with measurable outcomes.",
     type: "website",
   },
 };
@@ -31,25 +31,25 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 lg:gap-12 lg:items-start">
             <div className="animate-fade-up">
               <p className="text-sm font-mono text-muted-foreground mb-5 tracking-widest uppercase">
-                Document AI &middot; Workflow automation &middot; Fast
-                prototypes
+                Workflow systems &middot; Document AI &middot; YC S20
               </p>
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7">
-                I turn document-heavy workflows into{" "}
-                <span className="gradient-text">applied AI systems</span> and
-                fast, usable prototypes.
+                I turn messy workflows and{" "}
+                <span className="gradient-text">unstructured inputs</span> into
+                working systems.
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-                10+ years across product, engineering, and regulated SaaS.
-                I&apos;ve worked across document workflows, internal tools, and
-                applied AI systems, and I&apos;m strongest where ambiguous
-                problems need to become working software.
+                14 years shipping products, most recently at MedPiper (YC S20).
+                I build operational software where workflows are broken, inputs
+                are messy, and teams need something usable fast — including
+                reducing insurance processing from 4 weeks to 10 days.
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
                 <Button asChild size="lg" className="rounded-full px-8">
                   <Link href="/hire-me">
-                    Hire me for a role <ArrowRight className="ml-2 h-4 w-4" />
+                    Join your team full-time{" "}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
                 <Button
@@ -64,7 +64,12 @@ export default function Home() {
                     color: "rgba(255,255,255,0.85)",
                   }}
                 >
-                  <Link href="/work-with-me">Work with me on a pilot</Link>
+                  <Link href="/work-with-me">
+                    Build a pilot together{" "}
+                    <span className="text-xs opacity-60 ml-1">
+                      (2-min form)
+                    </span>
+                  </Link>
                 </Button>
                 <Link
                   href="/work"
@@ -91,7 +96,8 @@ export default function Home() {
             </span>
             <span className="text-border hidden sm:inline">·</span>
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">10+</span> years
+              <span className="font-semibold text-foreground">14</span> years
+              experience
             </span>
             <span className="text-border hidden sm:inline">·</span>
             <span className="text-muted-foreground">
@@ -100,63 +106,9 @@ export default function Home() {
             </span>
             <span className="text-border hidden sm:inline">·</span>
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">
-                Paid product
-              </span>{" "}
-              shipped
+              <span className="font-semibold text-foreground">Shipped</span>{" "}
+              paid product
             </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Choose your path ── */}
-      <section className="py-20 md:py-28">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-sm font-mono text-muted-foreground tracking-widest uppercase mb-10">
-            Why are you here?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Link href="/hire-me" className="group">
-              <Card className="hover-lift border-2 hover:border-primary/40 transition-colors h-full bg-card">
-                <CardContent className="p-8">
-                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-4">
-                    Hiring path
-                  </p>
-                  <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-                    I&apos;m hiring
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    You&apos;re a hiring manager or recruiter looking for
-                    applied AI, product, workflow automation, prototyping, or
-                    technical operator roles. See role fit, proof, and resume.
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-                    See role fit <ArrowRight className="h-4 w-4" />
-                  </span>
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/work-with-me" className="group">
-              <Card className="hover-lift border hover:border-accent/40 transition-colors h-full bg-card">
-                <CardContent className="p-8">
-                  <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-4">
-                    Project path
-                  </p>
-                  <h3 className="text-2xl font-bold mb-3 group-hover:text-accent transition-colors">
-                    I need a pilot built
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    You&apos;re a founder or team that needs a focused AI
-                    prototype, internal tool, automation workflow, or fast MVP.
-                    Send a brief and I&apos;ll tell you if there&apos;s a fit.
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-                    See what I offer <ArrowRight className="h-4 w-4" />
-                  </span>
-                </CardContent>
-              </Card>
-            </Link>
           </div>
         </div>
       </section>
@@ -178,7 +130,7 @@ export default function Home() {
               href="/work"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors shrink-0"
             >
-              All projects <ArrowUpRight className="h-4 w-4" />
+              All projects <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
@@ -233,37 +185,38 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
               <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
-                Hiring for an applied AI or product role?
+                For employers
               </p>
               <h3 className="text-xl font-bold mb-3">
-                See role fit, selected work, and resume.
+                Hiring for a full-time role?
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Best fit for applied AI product roles, founding engineer roles,
-                and technical operator positions where execution and product
-                judgment matter.
+                See role fit, ownership scope, selected work, and direct contact
+                details in one place.
               </p>
               <Button asChild className="rounded-full px-7">
                 <Link href="/hire-me">
-                  Hire me for a role <ArrowRight className="ml-2 h-4 w-4" />
+                  Join your team full-time{" "}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
 
             <div className="md:border-l md:pl-10">
               <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
-                Need a focused prototype or pilot?
+                For founders & teams
               </p>
               <h3 className="text-xl font-bold mb-3">
-                Send a brief. I&apos;ll tell you if there&apos;s a fit.
+                Need a scoped pilot build?
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                AI prototypes, document extraction workflows, internal tools,
-                and automation systems. Scoped in weeks, not months.
+                AI prototypes, workflow automation, and internal tools scoped
+                for measurable first outcomes.
               </p>
               <Button variant="outline" asChild className="rounded-full px-7">
                 <Link href="/work-with-me">
-                  Work with me on a pilot{" "}
+                  Build a pilot together{" "}
+                  <span className="text-xs opacity-60 ml-1">(2-min form)</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
