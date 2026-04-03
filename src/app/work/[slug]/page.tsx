@@ -9,6 +9,11 @@ interface WorkDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+type Project = (typeof projectsData.projects)[0] & {
+  demonstrates?: string;
+  proofRole?: string;
+};
+
 export function generateStaticParams() {
   return projectsData.projects.map((project) => ({
     slug: project.slug,
@@ -17,7 +22,7 @@ export function generateStaticParams() {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params;
-  const project = projectsData.projects.find((p) => p.slug === slug);
+  const project = projectsData.projects.find((p) => p.slug === slug) as Project | undefined;
 
   if (!project) {
     notFound();
@@ -117,6 +122,24 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                   {project.approach}
                 </p>
               </section>
+
+              {/* Outcomes before technical depth for featured/flagship projects */}
+              {hasOutcomes && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Outcomes</h2>
+                  <ul className="space-y-2">
+                    {project.outcomes?.map((outcome, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
 
               {/* Technical Depth Section */}
               {hasTechnicalDepth && (
@@ -269,23 +292,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 </section>
               )}
 
-              {/* Outcomes Section */}
-              {hasOutcomes && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">Outcomes</h2>
-                  <ul className="space-y-2">
-                    {project.outcomes?.map((outcome, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
+              {/* Outcomes suppressed here — shown after Approach above for all projects */}
 
               {hasOwnership && (
                 <section>
@@ -372,6 +379,16 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                   {project.result}
                 </p>
               </section>
+
+              {/* What this demonstrates — flagship projects only */}
+              {project.featured && (project as Project & { demonstrates?: string }).demonstrates && (
+                <section className="border-t pt-8">
+                  <h2 className="text-xl font-semibold mb-3">What this demonstrates</h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {(project as Project & { demonstrates?: string }).demonstrates}
+                  </p>
+                </section>
+              )}
             </div>
           </div>
 
@@ -383,11 +400,11 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               ← Back to all projects
             </Link>
             <div className="flex gap-3">
+              <Button asChild className="rounded-full">
+                <Link href="/work-with-me">Start a pilot</Link>
+              </Button>
               <Button variant="outline" asChild className="rounded-full">
                 <Link href="/hire-me">Hire Me</Link>
-              </Button>
-              <Button asChild className="rounded-full">
-                <Link href="/work-with-me">Work With Me</Link>
               </Button>
             </div>
           </div>

@@ -29,7 +29,7 @@ const engagements = [
   },
   {
     id: "automation",
-    title: "Workflow automation or internal tool",
+    title: "Workflow build or internal tool",
     body: "A practical system that reduces repetitive work, cleans up a messy process, or gives a team a tool they can actually use day to day.",
     bestFit:
       "Manual work, document-heavy operations, data movement, approval flows, or internal coordination that is slowing a team down.",
@@ -38,8 +38,8 @@ const engagements = [
   },
   {
     id: "advisory",
-    title: "Technical advisory",
-    body: "A short, senior-level working engagement for teams that need help deciding what to build, how to scope it, or which technical direction is actually realistic.",
+    title: "Workflow audit & advisory",
+    body: "A short, focused working engagement for teams that need help deciding what to build, how to scope it, or which technical direction is actually viable given the workflow constraints.",
     bestFit:
       "A team is making a high-stakes product, architecture, or AI implementation decision and wants sharper technical judgment before committing.",
     timeline: "1 to 2 weeks",
@@ -169,9 +169,9 @@ export default function WorkWithMePage() {
               weeks
             </h1>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              I work on focused builds where a workflow needs to become a usable
-              system quickly: document extraction, internal tools, workflow
-              automation, and applied AI prototypes.
+              I work on focused builds where a workflow problem needs to become
+              a practical, usable system quickly. Scoped, delivered, with a
+              clear handoff.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">

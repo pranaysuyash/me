@@ -3,11 +3,14 @@
     {
       "slug": "metaextract",
       "title": "MetaExtract",
-      "tagline": "Extract 45,000+ metadata fields from any document",
-      "description": "A production-grade metadata extraction engine that parses PDFs, images, and documents at scale. Handles 45K+ field types with high accuracy using a combination of rule-based and ML approaches.",
-      "problem": "Organizations need to extract structured metadata from thousands of heterogeneous documents — invoices, contracts, medical records, research papers — each with different formats and field layouts.",
-      "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with React dashboard for monitoring.",
-      "result": "Production-grade metadata extraction system built for document-heavy healthcare workflows.",
+      "tagline": "Large modular extraction system for heterogeneous document workflows",
+      "description": "A production-grade modular extraction system that parses PDFs, images, and documents across heterogeneous formats. Built with a per-format parser architecture, unified schema normalization with confidence scoring, and async processing queue for document-heavy operations.",
+      "problem": "Organizations working with large volumes of heterogeneous documents — invoices, contracts, medical records, research papers — need structured extraction that is reliable, debuggable, and expandable across new formats without rewriting the core system.",
+      "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with a React dashboard for monitoring and exception review.",
+      "result": "Production modular extraction system built for document-heavy healthcare workflows — reliable, field-typed, and expandable across formats.",
+      "featuredOrder": 3,
+      "proofRole": "Systems depth — modular extraction architecture with reliability and coverage discipline",
+      "demonstrates": "Production extraction system built for reliability and coverage at scale: modular FastAPI backend with per-format parsers, Tesseract OCR with preprocessing, unified schema normalization with confidence scoring, async processing queue, and operator-facing monitoring flow. Shows ability to own extraction system design end-to-end in a regulated operational context.",
       "technicalDepth": {
         "architecture": "Modular FastAPI backend with pluggable parsers per document type. Async job queue for batch processing. PostgreSQL for metadata storage, Redis for caching.",
         "ocrPipeline": "Tesseract OCR with custom preprocessing (deskewing, denoising, contrast normalization). Layout analysis using heuristic + ML-based region detection.",
@@ -92,11 +95,14 @@
     {
       "slug": "sig-ext-fastapi",
       "title": "SignKit",
-      "tagline": "Signature extraction & PDF signing — commercial desktop product",
-      "description": "A commercial desktop application for signature extraction and PDF document processing. PySide6 frontend with FastAPI backend, PostgreSQL database, and PDF signing capabilities. Handles batch document workflows for legal and financial teams. Built from idea to paid product.",
-      "problem": "Legal and financial teams process thousands of signed documents daily. They need signature extraction, PDF signing, and organized output management in one complete workflow.",
-      "approach": "PySide6 cross-platform desktop app with FastAPI backend. PostgreSQL for document metadata and user management. OpenCV-based signature extraction with morphological operations. PDF signing with embedded certificate support.",
-      "result": "Commercial signature extraction product built from idea to paid product, including extraction, signing, and workflow tooling.",
+      "tagline": "Paid desktop product — signature extraction, PDF signing, and billing shipped end-to-end",
+      "description": "A commercial desktop application for signature extraction and PDF document processing. PySide6 frontend with FastAPI backend, PostgreSQL database, PDF signing with certificate chains, Stripe subscription billing, and cross-platform distribution. Taken from idea to paid product with early customer validation.",
+      "problem": "Legal and financial teams process large volumes of signed documents and need signature extraction, PDF signing, and organized output management in one structured workflow — not fragmented across separate tools.",
+      "approach": "PySide6 cross-platform desktop app with FastAPI backend. PostgreSQL for document metadata and user management. OpenCV-based signature extraction with morphological operations. PDF signing with embedded certificate support. Stripe integration for subscription billing and license management. PyInstaller for cross-platform distribution.",
+      "result": "Paid product with early customer validation — signature extraction, PDF signing, and full billing stack shipped end-to-end.",
+      "featuredOrder": 2,
+      "proofRole": "Commercial validation — paid product shipped end-to-end from idea to customer",
+      "demonstrates": "Product taken from idea to paying customer: desktop UX, CV-based signature extraction pipeline, PDF signing with certificate chains, Stripe subscription billing, PyInstaller packaging, code-signed cross-platform distribution. Full ownership of the idea-to-monetization arc — not just the technical build.",
       "technicalDepth": {
         "cvPipeline": "OpenCV morphological operations (dilation, erosion, contour detection) to isolate signature regions. Handles handwritten signatures on scanned documents, photos, and mixed backgrounds.",
         "backend": "FastAPI with async document processing. PostgreSQL for user accounts, document metadata, and audit trails. File storage with organized output folders.",
@@ -105,10 +111,10 @@
         "distribution": "Cross-platform builds for Windows and macOS. Code-signed binaries. Auto-updater integration."
       },
       "outcomes": [
-        "Shipped as paid product with Stripe subscription billing",
+        "Paid product with early customer validation — Stripe billing, license management, and distribution shipped",
         "Signature extraction accuracy >90% on clean documents, >75% on degraded scans",
-        "Batch processing workflows save legal teams hours per week",
-        "Cross-platform deployment (Windows/macOS) with code signing"
+        "Batch processing workflows replace fragmented manual signing with one structured flow",
+        "Cross-platform deployment (Windows/macOS) with code signing and auto-updater"
       ],
       "ownership": "Owned product and build from idea to paid release: desktop UX, extraction/signing pipeline, billing integration, packaging, and shipping workflow.",
       "constraints": [
@@ -149,11 +155,14 @@
     {
       "slug": "echopanel",
       "title": "EchoPanel",
-      "tagline": "macOS menu bar audio capture & transcription",
-      "description": "A native macOS menu bar app that captures system audio, transcribes it in real-time using Whisper, and provides searchable transcripts. Built with Swift frontend and FastAPI backend.",
-      "problem": "Professionals in meetings, interviews, and research need to capture and search audio content without switching between multiple tools or relying on cloud services.",
-      "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite for local transcript storage with full-text search. Designed for minimal UI presence with maximum utility.",
-      "result": "macOS menu bar prototype combining native UX, audio capture, and AI transcription.",
+      "tagline": "Local-first meeting intelligence — capture, transcribe, search, and retrieve",
+      "description": "A native macOS menu bar application for local-first audio intelligence. Captures system audio via AVFoundation, transcribes in real-time with Whisper, stores searchable transcripts in SQLite with full-text search, and exports to structured formats. Privacy-first architecture — no cloud requirement.",
+      "problem": "Professionals in meetings, research, and interviews need to capture, search, and act on audio without cloud dependency, fragmented tooling, or the overhead of a heavy standalone app.",
+      "approach": "Swift menu bar app using AVFoundation for system audio capture. FastAPI backend with Whisper for on-device or local transcription. SQLite with FTS5 for full-text transcript search. Modular architecture separating capture, transcription, storage, and export layers. Designed for minimal UI presence with maximum daily utility.",
+      "result": "Local-first audio intelligence platform combining native macOS UX, AI transcription, full-text search, and structured export — owned end-to-end across native app, backend, and data layers.",
+      "featuredOrder": 1,
+      "proofRole": "Platform breadth — native macOS + AI transcription + local search, owned end-to-end",
+      "demonstrates": "End-to-end ownership of a local-first AI product: native macOS audio capture layer (Swift/AVFoundation), AI transcription pipeline (Whisper), full-text search over transcripts (SQLite FTS5), and structured export. Shows ability to design and ship a complete privacy-first product across native app, backend, and data layers without fragmenting ownership.",
       "technicalDepth": {
         "audioCapture": "AVFoundation audio engine with custom audio buffer management. Captures system audio via CoreAudio APIs. Real-time streaming to backend.",
         "transcription": "Whisper model (base/large) for on-device transcription. Chunked processing for real-time results. Speaker diarization experiments.",
@@ -220,9 +229,12 @@
     {
       "slug": "photosearch-experiment",
       "title": "PhotoSearch",
-      "tagline": "Modular AI photo workstation — semantic search, face recognition & clustering",
-      "description": "A full-stack AI photo workstation using FastAPI backend with LanceDB vector storage, CLIP semantic search, and InsightFace face recognition. Tauri desktop app with React frontend. Handles 10K+ photo libraries with sub-second semantic search.",
-      "problem": "Photo libraries grow to tens of thousands of images. Traditional folder/tag organization breaks down. People need semantic search — 'find photos of the beach at sunset' or 'photos with Sarah'.",
+      "tagline": "Local-first natural language media search and analysis workstation",
+      "description": "A full-stack desktop workstation for natural language search over local photo libraries. CLIP semantic embeddings power concept-driven queries across 10K+ image libraries. Includes people clustering as one feature layer, metadata browsing, review/edit flows, and local-vs-hybrid search modes. Built with FastAPI backend, LanceDB vector storage, and Tauri desktop app.",
+      "problem": "Photo libraries grow to tens of thousands of images with no practical way to retrieve them. Folders and tags break down at scale. People need to find photos the way they think about them — 'the trip to Goa,' 'that dinner in December' — without manually tagging everything or uploading to the cloud.",
+      "featuredOrder": 4,
+      "proofRole": "Local-first multimodal search workstation — natural language retrieval over personal media",
+      "demonstrates": "Local-first product thinking applied to personal media: semantic search workstation using CLIP embeddings for natural language retrieval, people clustering as one of several feature layers, metadata and review flows, and local-first architecture. Shows ability to design a complete desktop AI workstation across ML pipeline, vector storage, and UX layers.",
       "approach": "FastAPI backend with LanceDB for vector storage. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. Tauri desktop app with React frontend. Modular architecture separating ML pipeline from UI.",
       "result": "Photo search workstation using multimodal retrieval, semantic search, and face recognition.",
       "technicalDepth": {
@@ -380,12 +392,12 @@
     },
     {
       "slug": "model-lab",
-      "title": "model-lab",
-      "tagline": "On-device audio AI — MLX, Whisper & model evaluation infrastructure",
-      "description": "A systematic audio AI experimentation repo including model-lab: a production-ready model testing framework for ASR, TTS, and chat models. Features automated scorecards, production grades (A/B/C), cost analysis, and multi-device benchmarking (MPS/CUDA/CPU). Supports Whisper, LFM2.5-Audio, and on-device Apple Silicon optimization.",
-      "problem": "Selecting the right audio AI model requires systematic evaluation across accuracy, speed, cost, and hardware — not just running a few tests. Teams need infrastructure to make deployment decisions with data.",
-      "approach": "Built model-lab as a repeatable evaluation framework with shared harness, identical metrics, and automated comparison dashboards. Tested across Apple Silicon MPS, NVIDIA CUDA, and CPU. Produced production readiness grades for Whisper variants and LFM2.5-Audio.",
-      "result": "Production-ready evaluation framework for ASR/TTS models with automated scorecards and multi-device benchmarking.",
+      "title": "Model Lab",
+      "tagline": "Pipeline evaluation workbench for ASR, diarization, and audio AI models",
+      "description": "A systematic evaluation harness for audio AI pipelines. Runs repeatable comparison tests across Whisper variants, LFM2.5-Audio, and other ASR/diarization models with shared metrics, automated scorecards, multi-device benchmarking (Apple Silicon MPS / NVIDIA CUDA / CPU), and production readiness grades (A/B/C). Built for making model deployment decisions on evidence, not intuition.",
+      "problem": "Selecting the right audio AI model for production requires systematic evaluation across accuracy, speed, cost, and hardware compatibility — not ad hoc testing. Teams need infrastructure to compare models on the same metrics and make deployment decisions with data.",
+      "approach": "Built a repeatable evaluation harness with shared test infrastructure, identical metrics across runs, and automated comparison dashboards. Tested Whisper variants and LFM2.5-Audio across Apple Silicon MPS, NVIDIA CUDA, and CPU. Produced structured scorecards with production readiness grades.",
+      "result": "Evaluation harness for audio AI pipelines with repeatable comparison runs, automated scorecards, and multi-device benchmarking — a workbench for deployment decisions, not a consumer product.",
       "techStack": [
         "Python",
         "MLX",

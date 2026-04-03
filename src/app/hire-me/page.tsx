@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight, Download, CheckCircle2, Calendar } from "lucide-react";
 import projectsData from "@/content/projects.json";
@@ -61,12 +60,13 @@ export default function HireMePage() {
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
               Best fit for product systems, workflow automation, applied AI, and
               prototype-heavy roles where ambiguous problems need to become
-              working software quickly.
+              working software.
             </p>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
               14 years across product and engineering. Most recently at MedPiper
-              (YC S20), where I shipped workflow-heavy systems, internal tools,
-              and applied AI features in a regulated healthcare context.
+              (YC S20) — scaled a healthcare platform, shipped workflow systems
+              that compressed insurance processing from 4 weeks to 10 days, and
+              ran product across multiple lines in a regulated context.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-5">
@@ -329,24 +329,20 @@ export default function HireMePage() {
           <h2 className="text-2xl font-bold tracking-tight mb-3">
             Selected work
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {projectsData.projects
-              .filter((p) => p.featured)
-              .map((project) => (
-                <Link key={project.slug} href={`/work/${project.slug}`}>
-                  <Card className="hover-lift border shadow-sm h-full">
-                    <CardContent className="p-5">
-                      <p className="text-xs font-mono text-muted-foreground mb-2">
-                        {project.category} &middot; {project.year}
-                      </p>
-                      <h3 className="font-semibold mb-1">{project.title}</h3>
-                      <p className="text-xs text-muted-foreground">
-                        {project.tagline}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+          <p className="text-muted-foreground text-sm mb-6 max-w-xl">
+            Four flagship projects across platform breadth, commercial validation,
+            systems depth, and local-first product thinking.
+          </p>
+          <div className="flex gap-4">
+            <Button asChild className="rounded-full px-7">
+              <Link href="/work">Browse flagship work <span className="ml-1 opacity-60">→</span></Link>
+            </Button>
+            <Button variant="outline" asChild className="rounded-full px-7">
+              <Link href="/work/echopanel">EchoPanel</Link>
+            </Button>
+            <Button variant="outline" asChild className="rounded-full px-7">
+              <Link href="/work/sig-ext-fastapi">SignKit</Link>
+            </Button>
           </div>
         </div>
       </section>
