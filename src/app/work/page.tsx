@@ -5,21 +5,7 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
-
-type Project = (typeof projectsData.projects)[0] & {
-  featuredOrder?: number;
-  proofRole?: string;
-};
-
-const FLAGSHIP_SLUGS = [
-  "echopanel",
-  "sig-ext-fastapi",
-  "metaextract",
-  "photosearch-experiment",
-];
-const TECHNICAL_DEPTH_SLUGS = ["model-lab"];
 
 const CATEGORY_ORDER = [
   { key: "AI/ML", label: "AI & Machine Learning" },
@@ -32,21 +18,44 @@ const CATEGORY_ORDER = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "AI/ML": "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-  "Computer Vision": "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  macOS: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  "Developer Tools": "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+  "AI/ML":
+    "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
+  "Computer Vision":
+    "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+  macOS:
+    "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
+  "Developer Tools":
+    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
   Product: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
   Data: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
   Mobile: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
+  Featured: "bg-primary/10 text-primary",
 };
 
-function FlagshipCard({ project }: { project: Project }) {
+type Project = (typeof projectsData.projects)[0] & {
+  flagshipRank?: number;
+  proofRole?: string;
+  proofSummary?: string;
+};
+
+function ProjectCard({
+  project,
+  featured = false,
+}: {
+  project: Project;
+  featured?: boolean;
+}) {
   return (
-    <Link href={`/work/${project.slug}`} className="block">
-      <Card className="hover-lift h-full border shadow-sm bg-card">
+    <Link key={project.slug} href={`/work/${project.slug}`} className="block">
+      <Card
+        className={`hover-lift h-full transition-all duration-200 ${
+          featured
+            ? "border-2 border-primary/20 bg-card"
+            : "border shadow-sm bg-card"
+        }`}
+      >
         <CardContent className="p-6 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
             <span
               className={`text-xs font-mono px-2 py-1 rounded ${
                 CATEGORY_COLORS[project.category] ||
@@ -55,99 +64,27 @@ function FlagshipCard({ project }: { project: Project }) {
             >
               {project.category}
             </span>
+            {featured && (
+              <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
+                Featured
+              </span>
+            )}
             <span className="text-xs text-muted-foreground ml-auto">
               {project.year}
             </span>
           </div>
-          <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+          <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+          <p className="text-sm text-muted-foreground mb-4 leading-relaxed flex-1">
             {project.tagline}
           </p>
-          {/* Proof role — what this demonstrates */}
-          {project.proofRole && (
-            <p className="text-xs text-primary/60 mt-3 pt-3 border-t border-border/50 leading-relaxed">
-              {project.proofRole}
-            </p>
-          )}
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {project.techStack.slice(0, 3).map((tech) => (
+          <p className="text-xs text-primary/80 leading-relaxed mb-4">
+            {project.result}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {project.techStack.slice(0, 5).map((tech) => (
               <span
                 key={tech}
                 className="text-xs font-mono bg-primary/5 text-primary px-2 py-0.5 rounded"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-1 mt-4 text-xs text-primary font-medium">
-            View case study <ArrowRight className="h-3 w-3 ml-1" />
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-}
-
-function TechnicalDepthCard({ project }: { project: Project }) {
-  return (
-    <Link href={`/work/${project.slug}`} className="block max-w-2xl">
-      <Card className="h-full border border-dashed shadow-none bg-muted/20 hover:bg-muted/40 transition-colors">
-        <CardContent className="p-5 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-mono px-2 py-0.5 rounded bg-muted text-muted-foreground">
-              {project.category}
-            </span>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {project.year}
-            </span>
-          </div>
-          <h3 className="text-base font-semibold mb-1">{project.title}</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-            {project.tagline}
-          </p>
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {project.techStack.slice(0, 4).map((tech) => (
-              <span
-                key={tech}
-                className="text-xs font-mono text-muted-foreground/70 px-2 py-0.5 rounded border border-border/50"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-}
-
-function CompactCard({ project }: { project: Project }) {
-  return (
-    <Link href={`/work/${project.slug}`} className="block">
-      <Card className="hover-lift h-full border shadow-sm bg-card">
-        <CardContent className="p-5 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span
-              className={`text-xs font-mono px-2 py-0.5 rounded ${
-                CATEGORY_COLORS[project.category] ||
-                "bg-muted text-muted-foreground"
-              }`}
-            >
-              {project.category}
-            </span>
-            <span className="text-xs text-muted-foreground ml-auto">
-              {project.year}
-            </span>
-          </div>
-          <h3 className="text-sm font-semibold mb-1">{project.title}</h3>
-          <p className="text-xs text-muted-foreground leading-relaxed flex-1">
-            {project.tagline}
-          </p>
-          <div className="flex flex-wrap gap-1 mt-3">
-            {project.techStack.slice(0, 3).map((tech) => (
-              <span
-                key={tech}
-                className="text-[10px] font-mono bg-primary/5 text-primary px-1.5 py-0.5 rounded"
               >
                 {tech}
               </span>
@@ -162,119 +99,163 @@ function CompactCard({ project }: { project: Project }) {
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  const allProjects = projectsData.projects as Project[];
+  const allFeatured = projectsData.projects
+    .filter((p: Project) => p.featured)
+    .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99));
 
-  // Flagship 4 — in confirmed order via featuredOrder
-  const flagshipProjects = FLAGSHIP_SLUGS.map(
-    (slug) => allProjects.find((p) => p.slug === slug)!
-  ).filter(Boolean);
-
-  // Technical depth — Model Lab
-  const technicalDepthProjects = TECHNICAL_DEPTH_SLUGS.map(
-    (slug) => allProjects.find((p) => p.slug === slug)!
-  ).filter(Boolean);
-
-  // More work — everything else
-  const moreWorkProjects = allProjects.filter(
-    (p) => !FLAGSHIP_SLUGS.includes(p.slug) && !TECHNICAL_DEPTH_SLUGS.includes(p.slug)
+  const allNonFeatured = projectsData.projects.filter(
+    (p: Project) => !p.featured,
   );
 
-  const filteredMoreWork = activeFilter
-    ? moreWorkProjects.filter((p) => p.category === activeFilter)
-    : moreWorkProjects;
-
-  const availableCategories = CATEGORY_ORDER.filter((c) =>
-    moreWorkProjects.some((p) => p.category === c.key)
+  const technicalDepthProjects = allNonFeatured.filter(
+    (p: Project) => p.slug === "model-lab",
   );
+
+  const archiveProjects = allNonFeatured.filter(
+    (p: Project) => p.slug !== "model-lab",
+  );
+
+  const groupedNonFeatured = archiveProjects.reduce(
+    (acc, project) => {
+      const cat = project.category;
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(project);
+      return acc;
+    },
+    {} as Record<string, Project[]>,
+  );
+
+  const filteredGrouped = activeFilter
+    ? (Object.fromEntries(
+        Object.entries(groupedNonFeatured)
+          .map(([cat, projects]) => [
+            cat,
+            (projects as Project[]).filter(
+              (p: Project) => p.category === activeFilter,
+            ),
+          ])
+          .filter(([, projects]) => (projects as Project[]).length > 0),
+      ) as Record<string, Project[]>)
+    : groupedNonFeatured;
+
+  const categories = CATEGORY_ORDER.filter((c) => Boolean(groupedNonFeatured[c.key]));
 
   return (
     <PageLayout>
       <section className="py-20 md:py-28">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          {/* Page header */}
-          <div className="max-w-3xl animate-fade-up mb-16">
+          <div className="max-w-3xl animate-fade-up mb-12">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Selected <span className="gradient-text">work</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Scoped builds, workflow systems, and practical AI across four flagship
-              proof anchors — plus secondary technical depth and a broader archive.
+              Curated proof first, then technical depth. This is not an archive
+              of equal-weight projects.
             </p>
           </div>
 
-          {/* ── Flagship section — editorial, no filters ── */}
-          <div className="mb-16">
-            <div className="flex items-center gap-4 mb-8">
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest shrink-0">
-                Flagship work
-              </h2>
-              <div className="flex-1 h-px bg-border" />
-            </div>
+          <div className="mb-14">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
+              Flagship work (fixed order)
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {flagshipProjects.map((project) => (
-                <FlagshipCard key={project.slug} project={project} />
+              {allFeatured.map((project: Project) => (
+                <Link key={project.slug} href={`/work/${project.slug}`} className="block">
+                  <Card className="hover-lift h-full border shadow-sm bg-card">
+                    <CardContent className="p-6 flex flex-col h-full">
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                          {project.category}
+                        </span>
+                        <span className="text-xs text-muted-foreground">{project.year}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                        {project.tagline}
+                      </p>
+                      {(project.proofRole || project.proofSummary) && (
+                        <p className="proof-angle mb-4 leading-relaxed">
+                          <span className="font-medium text-foreground">What this proves:</span>{" "}
+                          {project.proofSummary || project.proofRole}
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 mt-auto">
+                        {project.techStack.slice(0, 3).map((tech) => (
+                          <span key={tech} className="text-xs text-muted-foreground">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* ── Technical depth — Model Lab ── */}
-          <div className="mb-16">
-            <div className="flex items-center gap-4 mb-4">
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest shrink-0">
+          {technicalDepthProjects.length > 0 && (
+            <div className="border-t pt-12 mt-2 mb-12">
+              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
                 Technical depth
               </h2>
-              <div className="flex-1 h-px bg-border" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {technicalDepthProjects.map((project: Project) => (
+                  <ProjectCard key={project.slug} project={project} />
+                ))}
+              </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
-              Evaluation infrastructure and pipeline rigor — not commercial products,
-              but evidence of how I think about model selection, reliability, and
-              systematic testing.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {technicalDepthProjects.map((project) => (
-                <TechnicalDepthCard key={project.slug} project={project} />
-              ))}
-            </div>
-          </div>
+          )}
 
-          {/* ── More work — with category filters ── */}
-          <div>
-            <div className="flex items-center gap-4 mb-6">
-              <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest shrink-0">
-                More work
-              </h2>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-
-            {/* Filters only in this section */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              <Button
-                variant={activeFilter === null ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter(null)}
-                className="text-xs"
-              >
-                All
-              </Button>
-              {availableCategories.map((cat) => (
+          <div className="border-t pt-12 mt-2">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  More work
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Secondary archive (filters kept here for navigation).
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
                 <Button
-                  key={cat.key}
-                  variant={activeFilter === cat.key ? "default" : "outline"}
+                  variant={activeFilter === null ? "default" : "outline"}
                   size="sm"
-                  onClick={() =>
-                    setActiveFilter(activeFilter === cat.key ? null : cat.key)
-                  }
+                  onClick={() => setActiveFilter(null)}
                   className="text-xs"
                 >
-                  {cat.label}
+                  All
                 </Button>
-              ))}
+                {categories.map((cat) => (
+                  <Button
+                    key={cat.key}
+                    variant={activeFilter === cat.key ? "default" : "outline"}
+                    size="sm"
+                    onClick={() =>
+                      setActiveFilter(activeFilter === cat.key ? null : cat.key)
+                    }
+                    className="text-xs"
+                  >
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredMoreWork.map((project) => (
-                <CompactCard key={project.slug} project={project} />
-              ))}
+            <div className="space-y-10">
+              {Object.entries(filteredGrouped)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([cat, projects]) => (
+                  <div key={cat}>
+                    <h3 className="text-xs uppercase tracking-wide text-muted-foreground mb-4">
+                      {cat} <span className="opacity-60">({projects.length})</span>
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {projects.map((project: Project) => (
+                        <ProjectCard key={project.slug} project={project} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
