@@ -47,6 +47,24 @@ const strengths = [
   },
 ];
 
+const roleFitMatrix = [
+  {
+    environment: "Ambiguous workflow product",
+    ownership: "Turn messy operational reality into a scoped system.",
+    proof: "MedPiper insurance processing: about 4 weeks to about 10 days.",
+  },
+  {
+    environment: "AI prototype or extraction feature",
+    ownership: "Design reviewable model output, validation, and handoff loops.",
+    proof: "MetaExtract and the No Claim Until Reviewed eval thesis.",
+  },
+  {
+    environment: "Founder-stage or lean product team",
+    ownership: "Move from vague problem to usable first version quickly.",
+    proof: "SignKit moved from idea to paid workflow product.",
+  },
+] as const;
+
 export default function HireMePage() {
   const { experience, education, awards } = projectsData;
   const credibilitySignals = (projectsData.certifications || []).filter((c) =>
@@ -55,22 +73,22 @@ export default function HireMePage() {
 
   return (
     <PageLayout>
-      <section className="py-20 md:py-28">
+      <section className="border-b bg-[#10191a] py-20 text-white md:py-28">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
-            <p className="text-sm font-mono text-muted-foreground mb-4 tracking-widest uppercase">
+            <p className="text-sm font-semibold text-teal-100/75 mb-4 tracking-[0.2em] uppercase">
               For hiring teams
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Hire <span className="gradient-text">Pranay Suyash</span>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white">
+              Hire the operator who can own the messy middle.
             </h1>
-            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
+            <p className="text-lg text-white/72 mb-4 leading-relaxed">
               Best fit where the work is messy, the requirements are incomplete,
               and someone needs to turn ambiguity into working software. Not a
               specialist role. Not a generalist role. A particular kind of
               operator.
             </p>
-            <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
+            <p className="text-sm text-white/62 mb-8 leading-relaxed max-w-2xl">
               14 years across product and system building. Most recently at
               MedPiper (YC S20), shipping workflow-heavy systems in regulated
               healthcare operations. Insurance processing went from about 4
@@ -78,7 +96,7 @@ export default function HireMePage() {
             </p>
 
             <div className="flex flex-wrap gap-4 mb-5">
-              <Button asChild size="lg" className="rounded-full px-8">
+              <Button asChild size="lg" className="rounded-md px-8">
                 <Link href="/contact?type=call">
                   <Calendar className="mr-2 h-4 w-4" /> Book a 15-min call{" "}
                   <span className="text-xs opacity-60 ml-1">
@@ -90,7 +108,7 @@ export default function HireMePage() {
                 variant="outline"
                 asChild
                 size="lg"
-                className="rounded-full px-8"
+                className="rounded-md border-white/30 bg-white/5 px-8 text-white hover:bg-white/10"
               >
                 <a
                   href="/pranay_resume.html"
@@ -103,10 +121,10 @@ export default function HireMePage() {
               </Button>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-white/62">
               <a
                 href="mailto:pranay.suyash@gmail.com"
-                className="hover:text-primary transition-colors"
+                className="hover:text-white transition-colors"
               >
                 pranay.suyash@gmail.com
               </a>
@@ -115,7 +133,7 @@ export default function HireMePage() {
                 href="https://linkedin.com/in/pranaysuyash"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-primary transition-colors"
+                className="hover:text-white transition-colors"
               >
                 linkedin.com/in/pranaysuyash
               </a>
@@ -146,6 +164,28 @@ export default function HireMePage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="mb-14 overflow-hidden rounded-md border bg-card shadow-sm">
+            <div className="grid grid-cols-1 border-b bg-muted/50 px-5 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground md:grid-cols-3">
+              <span>Environment</span>
+              <span>What I own</span>
+              <span>Proof</span>
+            </div>
+            {roleFitMatrix.map((row) => (
+              <div
+                key={row.environment}
+                className="grid grid-cols-1 gap-3 border-b px-5 py-5 last:border-b-0 md:grid-cols-3"
+              >
+                <p className="font-medium">{row.environment}</p>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  {row.ownership}
+                </p>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  {row.proof}
+                </p>
+              </div>
+            ))}
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">

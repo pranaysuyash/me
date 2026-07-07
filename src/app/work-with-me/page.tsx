@@ -3,7 +3,12 @@ import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ClipboardCheck,
+  FileSearch,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Work With Me",
@@ -20,8 +25,8 @@ export const metadata: Metadata = {
 const engagements = [
   {
     id: "prototypes",
-    title: "AI prototype",
-    body: "A focused first version of an AI product, built to prove the workflow works without overbuilding.",
+    title: "AI workflow prototype",
+    body: "A focused first version of an AI product or extraction flow, built around review gates instead of demo-only magic.",
     bestFit:
       "You have an idea for an AI product and need something real to test with users or stakeholders.",
     timeline: "2 to 4 weeks",
@@ -29,8 +34,8 @@ const engagements = [
   },
   {
     id: "automation",
-    title: "Workflow automation or internal tool",
-    body: "A practical system that reduces repetitive work, cleans up a messy process, or gives a team something they actually use.",
+    title: "Workflow build sprint",
+    body: "A practical internal tool or automation path that turns a manual process into a usable system.",
     bestFit:
       "Manual work, document handling, approval flows, or coordination that is slowing a team down.",
     timeline: "1 to 3 weeks",
@@ -39,7 +44,7 @@ const engagements = [
   {
     id: "advisory",
     title: "Workflow audit and advisory",
-    body: "A short sprint for teams that need sharper decisions on scope, risk, and direction before committing to a bigger build.",
+    body: "A short diagnostic sprint for teams that need sharper scope, architecture, and risk judgment before committing to a build.",
     bestFit:
       "You have operational pain but need a clearer first-build plan before spending real money.",
     timeline: "1 to 2 weeks",
@@ -65,6 +70,27 @@ const deliverySteps = [
     body: "You get something usable, documented, and understandable, with a short support window to close the loop properly.",
   },
 ];
+
+const fitSignals = [
+  {
+    title: "Good fit",
+    items: [
+      "A workflow is already costing time, money, or trust",
+      "There is a real user or operator who can react to a first version",
+      "You want a working system and a clear next decision",
+    ],
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Poor fit",
+    items: [
+      "The goal is a vague AI demo without a workflow owner",
+      "Success depends on a giant rewrite before anything can ship",
+      "Nobody can provide examples, edge cases, or operational context",
+    ],
+    icon: FileSearch,
+  },
+] as const;
 
 const deliverables = [
   {
@@ -94,7 +120,7 @@ const deliverables = [
   },
   {
     id: "advisory",
-    title: "Technical advisory",
+    title: "Workflow audit and advisory",
     outcome:
       "A sharper decision before time and money get committed in the wrong direction.",
     items: [
@@ -157,23 +183,23 @@ const buyerProof = [
 export default function WorkWithMePage() {
   return (
     <PageLayout>
-      {/* ── Hero ── */}
-      <section className="py-20 md:py-28">
+      <section className="border-b bg-[#10191a] py-20 text-white md:py-28">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
-            <p className="text-sm font-mono text-muted-foreground mb-4 tracking-wide uppercase">
+            <p className="text-sm font-semibold text-teal-100/75 mb-4 tracking-[0.2em] uppercase">
               For founders & teams
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              From workflow pain to working software
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white">
+              Turn a painful workflow into a reviewable first system.
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              You have a workflow that is stuck, messy, or too manual. I come
-              in, figure out what is actually happening, and build a focused
-              first version that works. Usually in a few weeks.
+            <p className="text-lg text-white/72 mb-8 leading-relaxed">
+              I work best when the business pain is real but the software shape
+              is still fuzzy: documents, approvals, extraction, internal tools,
+              AI review loops, or process handoffs that need a credible first
+              version.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="rounded-full px-8">
+              <Button asChild size="lg" className="rounded-md px-8">
                 <Link href="/contact?type=project">
                   Send a short brief{" "}
                   <span className="text-xs opacity-60 ml-1">(2-min form)</span>{" "}
@@ -184,7 +210,7 @@ export default function WorkWithMePage() {
                 variant="outline"
                 asChild
                 size="lg"
-                className="rounded-full px-8"
+                className="rounded-md border-white/30 bg-white/5 px-8 text-white hover:bg-white/10"
               >
                 <Link href="/contact?type=call">
                   Book a 15-min call{" "}
@@ -194,6 +220,40 @@ export default function WorkWithMePage() {
                 </Link>
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-14 border-b">
+        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {fitSignals.map((signal) => {
+              const Icon = signal.icon;
+              return (
+                <div
+                  key={signal.title}
+                  className="rounded-md border bg-card p-6 shadow-sm"
+                >
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h2 className="text-lg font-semibold">{signal.title}</h2>
+                  </div>
+                  <ul className="space-y-2">
+                    {signal.items.map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-sm leading-6 text-muted-foreground"
+                      >
+                        <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

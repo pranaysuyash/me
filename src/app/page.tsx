@@ -1,9 +1,17 @@
 import { Metadata } from "next";
+import Link from "next/link";
+import {
+  ArrowRight,
+  BookOpen,
+  BriefcaseBusiness,
+  ClipboardCheck,
+  FileSearch,
+  ShieldCheck,
+  Workflow,
+} from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
 import { HeroSystemPanel } from "@/components/hero-system-panel";
 import { noClaimEbook } from "@/lib/ebook";
@@ -15,16 +23,77 @@ type Project = (typeof projectsData.projects)[number] & {
 };
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Product & Workflow Systems",
+  title: "Pranay Suyash | Operator-Builder for Workflow Systems",
   description:
-    "I turn messy workflows and unstructured inputs into working systems. 14 years building products, most recently at MedPiper (YC S20).",
+    "I turn messy operational workflows, unstructured documents, and ambiguous product ideas into reviewable software systems.",
   openGraph: {
-    title: "Pranay Suyash | Product & Workflow Systems",
+    title: "Pranay Suyash | Operator-Builder for Workflow Systems",
     description:
-      "I turn messy workflows and unstructured inputs into working systems. 14 years building products at MedPiper (YC S20).",
+      "Portfolio, client work, and hiring proof for workflow-heavy software, AI prototypes, and operational systems.",
     type: "website",
   },
 };
+
+const routes = [
+  {
+    title: "Hire me",
+    body: "For teams that need someone who can own ambiguous workflow problems and ship visible progress.",
+    href: "/hire-me",
+    cta: "See role fit",
+    icon: BriefcaseBusiness,
+  },
+  {
+    title: "Scope a pilot",
+    body: "For founders and operators with a painful process, messy documents, or an AI workflow that needs a first version.",
+    href: "/work-with-me",
+    cta: "Start with the problem",
+    icon: Workflow,
+  },
+  {
+    title: "Read the book",
+    body: "For builders who want the operating discipline behind AI evals, extraction quality, and review gates.",
+    href: noClaimEbook.path,
+    cta: "Open the book page",
+    icon: BookOpen,
+  },
+] as const;
+
+const operatingLoop = [
+  {
+    label: "Map reality",
+    body: "Find the actual workflow, not the meeting-room version.",
+    icon: FileSearch,
+  },
+  {
+    label: "Build review gates",
+    body: "Make uncertain output inspectable before it becomes a business decision.",
+    icon: ClipboardCheck,
+  },
+  {
+    label: "Ship proof",
+    body: "Tie each claim to a working surface, metric, artifact, or handoff.",
+    icon: ShieldCheck,
+  },
+] as const;
+
+const proofPoints = [
+  {
+    signal: "MedPiper (YC S20)",
+    result: "Insurance processing moved from about 4 weeks to about 10 days.",
+  },
+  {
+    signal: "14 years",
+    result: "Product, engineering, operations, and founder-level execution.",
+  },
+  {
+    signal: "SignKit",
+    result: "An idea became a paid desktop workflow product.",
+  },
+  {
+    signal: "No Claim Until Reviewed",
+    result: "Daily AI eval writing turned into a sellable PDF + EPUB.",
+  },
+] as const;
 
 export default function Home() {
   const featuredProjects = (projectsData.projects as Project[])
@@ -33,103 +102,218 @@ export default function Home() {
 
   return (
     <PageLayout>
-      {/* Hero */}
-      <section className="py-20 md:py-28 lg:py-36">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 lg:gap-12 lg:items-start">
-            <div className="animate-fade-up">
-              <p className="text-sm text-muted-foreground mb-5 tracking-wide uppercase">
-                Pranay Suyash
-              </p>
-              <h1
-                aria-label="I take messy workflows and turn them into software that actually works."
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7"
-              >
-                I take messy workflows and{" "}
-                <span className="gradient-text">turn them into software</span>{" "}
-                that actually works.
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-                Operations stuck, documents everywhere, no clear spec. I come
-                in, figure out what is actually happening, and build a focused
-                first version. Usually in a few weeks.
-              </p>
+      <section className="relative overflow-hidden border-b bg-[#10191a] text-white">
+        <div className="ledger-grid absolute inset-0 opacity-55" aria-hidden />
+        <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_460px] lg:px-8 lg:py-28">
+          <div className="animate-fade-up">
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-teal-100/75">
+              Pranay Suyash · operator-builder
+            </p>
+            <h1 className="max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              I turn messy workflows into software people can trust.
+            </h1>
+            <p className="mt-7 max-w-2xl text-base leading-8 text-white/72 md:text-lg">
+              Hiring team, founder, or curious builder: the pattern is the same.
+              I take ambiguous operational reality, shape it into a reviewable
+              system, and ship something useful enough to change the next
+              decision.
+            </p>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <Button asChild size="lg" className="rounded-full px-8">
-                  <Link href="/work-with-me">
-                    Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button
-                  variant="outline"
-                  asChild
-                  size="lg"
-                  className="rounded-full px-8"
-                >
-                  <Link href="/hire-me">See role fit</Link>
-                </Button>
-                <Link
-                  href="/work"
-                  className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors ml-1"
-                >
-                  Browse selected work
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Button asChild size="lg" className="rounded-md px-7">
+                <Link href="/work-with-me">
+                  Scope a pilot <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </div>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
+              >
+                <Link href="/hire-me">Hire me</Link>
+              </Button>
+              <Link
+                href="/work"
+                className="text-sm font-medium text-white/62 underline-offset-4 transition-colors hover:text-white hover:underline"
+              >
+                Browse proof
+              </Link>
+            </div>
+          </div>
+
+          <div className="hidden md:block lg:pt-2">
+            <HeroSystemPanel />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b bg-background py-8">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-3 px-4 sm:grid-cols-2 md:px-6 lg:grid-cols-4 lg:px-8">
+          {proofPoints.map((point) => (
+            <div key={point.signal} className="evidence-rule py-2">
+              <p className="text-sm font-semibold text-foreground">
+                {point.signal}
+              </p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                {point.result}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-18 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10 max-w-3xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Choose the right door
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
+              One body of proof, three ways to use it.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {routes.map((route) => {
+              const Icon = route.icon;
+              return (
+                <Link key={route.title} href={route.href}>
+                  <Card className="hover-lift h-full border bg-card shadow-sm">
+                    <CardContent className="flex h-full flex-col p-6">
+                      <div className="mb-5 flex items-center justify-between">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <h3 className="text-xl font-semibold">{route.title}</h3>
+                      <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
+                        {route.body}
+                      </p>
+                      <p className="mt-5 text-sm font-medium text-primary">
+                        {route.cta}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-muted/45 py-18 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Operating loop
+              </p>
+              <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
+                I am most useful in the messy middle.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
+                The middle is where specs are incomplete, documents are
+                inconsistent, ownership is fuzzy, and the first build needs
+                judgment as much as code.
+              </p>
             </div>
 
-            <div className="hidden lg:flex lg:justify-end">
-              <HeroSystemPanel />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {operatingLoop.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <div
+                    key={step.label}
+                    className="rounded-md border bg-background p-5 shadow-sm"
+                  >
+                    <div className="mb-6 flex items-center justify-between">
+                      <Icon className="h-5 w-5 text-primary" />
+                      <span className="font-mono text-xs text-muted-foreground">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    <h3 className="font-semibold">{step.label}</h3>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      {step.body}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Proof strip */}
-      <section className="py-10 border-y">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm">
-            <span className="font-semibold text-foreground tracking-wide">
-              MedPiper (YC S20)
-            </span>
-            <span className="text-border hidden sm:inline">&middot;</span>
-            <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">14</span> years
-              shipping products and untangling workflows
-            </span>
-            <span className="text-border hidden sm:inline">&middot;</span>
-            <span className="text-muted-foreground">
-              Insurance processing:{" "}
-              <span className="font-semibold text-foreground">
-                ~4 weeks to ~10 days
-              </span>
-            </span>
-            <span className="text-border hidden sm:inline">&middot;</span>
-            <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">SignKit</span>{" "}
-              went from idea to paid product
-            </span>
+      <section className="py-18 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Case files
+              </p>
+              <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
+                Selected work with proof attached.
+              </h2>
+            </div>
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              All projects <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {featuredProjects.slice(0, 4).map((project) => (
+              <Link key={project.slug} href={`/work/${project.slug}`}>
+                <Card className="hover-lift h-full border bg-card shadow-sm">
+                  <CardContent className="p-6">
+                    <div className="mb-5 flex items-center gap-3">
+                      <span className="rounded-md bg-muted px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                        {project.category}
+                      </span>
+                      <span className="ml-auto font-mono text-xs text-muted-foreground">
+                        {project.year}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-semibold">{project.title}</h3>
+                    <p className="mt-2 text-sm font-medium leading-6 text-muted-foreground">
+                      {project.tagline}
+                    </p>
+                    {(project.proofRole || project.proofSummary) && (
+                      <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
+                        <span className="font-semibold text-foreground">
+                          Proof:
+                        </span>{" "}
+                        {project.proofSummary || project.proofRole}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Ebook launch */}
-      <section className="border-b bg-[#071017] py-14 text-white">
+      <section className="border-y bg-[#10191a] py-16 text-white">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-7 px-4 md:grid-cols-[1fr_auto] md:px-6 lg:px-8">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">
-              New ebook
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/75">
+              Productized thinking
             </p>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
               {noClaimEbook.title}
             </h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/72 md:text-base">
-              {noClaimEbook.description} Includes PDF + EPUB, with Dodo checkout
-              ready for launch.
+              {noClaimEbook.description} The bundle includes PDF + EPUB and
+              turns the daily eval/extraction writing into a durable asset.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
-            <Button asChild className="rounded-full px-7">
+            <Button asChild className="rounded-md px-7">
               <Link href={noClaimEbook.path}>
                 View the book <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -137,7 +321,7 @@ export default function Home() {
             <Button
               asChild
               variant="outline"
-              className="rounded-full border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
+              className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
             >
               <Link href={noClaimEbook.checkoutUrl}>
                 {noClaimEbook.checkoutLabel}
@@ -147,113 +331,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Selected work */}
-      <section className="py-20 md:py-28 bg-muted/30">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
-                Selected work
-              </h2>
-              <p className="text-muted-foreground max-w-lg">
-                Four projects worth looking at. Each one solved a different kind
-                of messy operational problem.
-              </p>
-            </div>
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors shrink-0"
-            >
-              All projects <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {featuredProjects.slice(0, 4).map((project) => (
-              <Link key={project.slug} href={`/work/${project.slug}`}>
-                <Card className="hover-lift border shadow-sm bg-card h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                        {project.category}
-                      </span>
-                      <span className="text-xs text-muted-foreground ml-auto">
-                        {project.year}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed font-medium">
-                      {project.tagline}
-                    </p>
-                    {(project.proofRole || project.proofSummary) && (
-                      <p className="proof-angle mb-4 leading-relaxed">
-                        <span className="font-medium text-foreground">
-                          Why it matters:{" "}
-                        </span>
-                        {project.proofSummary || project.proofRole}
-                      </p>
-                    )}
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {project.techStack.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="text-xs text-muted-foreground"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+      <section className="py-18 md:py-24">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 md:grid-cols-2 md:px-6 lg:px-8">
+          <div className="rounded-md border bg-card p-7 shadow-sm">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              For founders & operators
+            </p>
+            <h3 className="text-2xl font-bold tracking-tight">
+              Have a workflow that should already be software?
+            </h3>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">
+              Start with the pain, the users, the existing tools, and what a
+              useful first version needs to prove.
+            </p>
+            <Button asChild className="mt-6 rounded-md px-7">
+              <Link href="/work-with-me">
+                Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-            ))}
+            </Button>
           </div>
-        </div>
-      </section>
 
-      {/* Closing CTA */}
-      <section className="py-20 md:py-28 border-t">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-              <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
-                For founders & teams
-              </p>
-              <h3 className="text-xl font-bold mb-3">
-                Stuck on a workflow that should already work?
-              </h3>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Start with the problem. Pilot, workflow audit, or focused build.
-                Tied to a real operational pain, not a wish list.
-              </p>
-              <Button asChild className="rounded-full px-7">
-                <Link href="/work-with-me">
-                  Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-
-            <div className="md:border-l md:pl-10">
-              <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">
-                For hiring teams
-              </p>
-              <h3 className="text-xl font-bold mb-3">
-                Need someone who ships, not just plans?
-              </h3>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Not a pure engineer, not a product manager, not a consultant.
-                Someone who takes ambiguous operational problems and ships
-                working software.
-              </p>
-              <Button variant="outline" asChild className="rounded-full px-7">
-                <Link href="/hire-me">
-                  See role fit
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+          <div className="rounded-md border bg-card p-7 shadow-sm">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              For hiring teams
+            </p>
+            <h3 className="text-2xl font-bold tracking-tight">
+              Need an operator-builder, not another clean-lane specialist?
+            </h3>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">
+              I fit best where product judgment, technical execution, and
+              operational reality need to sit in the same person.
+            </p>
+            <Button variant="outline" asChild className="mt-6 rounded-md px-7">
+              <Link href="/hire-me">
+                See role fit <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

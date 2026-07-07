@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "deploy:cloudflare": "npm run build && wrangler pages deploy out --project-name pranay --branch main",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",

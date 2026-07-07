@@ -8,9 +8,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
   { name: "Work", href: "/work" },
-  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "Work With Me", href: "/work-with-me" },
   { name: "Hire Me", href: "/hire-me" },
+  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
 ];
 
@@ -137,21 +137,21 @@ export function Navbar() {
                   <div className="space-y-2">
                     <Link
                       href="/work-with-me"
-                      className="block w-full text-center rounded-full px-4 py-3 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      className="block w-full text-center rounded-md px-4 py-3 text-base font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Work With Me
                     </Link>
                     <Link
                       href="/books/no-claim-without-evidence"
-                      className="block w-full text-center rounded-full px-4 py-3 text-base font-medium border border-input bg-background hover:bg-accent/10 hover:text-accent transition-colors"
+                      className="block w-full text-center rounded-md px-4 py-3 text-base font-medium border border-input bg-background hover:bg-accent/10 hover:text-accent transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       New Ebook
                     </Link>
                     <Link
                       href="/hire-me"
-                      className="block w-full text-center rounded-full px-4 py-3 text-base font-medium border border-input bg-background hover:bg-accent/10 hover:text-accent transition-colors"
+                      className="block w-full text-center rounded-md px-4 py-3 text-base font-medium border border-input bg-background hover:bg-accent/10 hover:text-accent transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Hire Me

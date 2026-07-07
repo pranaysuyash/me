@@ -3,48 +3,48 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    --background: 130 18% 98%;
+    --foreground: 185 16% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 185 16% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 217 100% 50%;
+    --popover-foreground: 185 16% 8%;
+    --primary: 176 78% 25%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 25 100% 39%;
+    --secondary: 132 17% 93%;
+    --secondary-foreground: 185 16% 8%;
+    --muted: 132 17% 93%;
+    --muted-foreground: 188 10% 38%;
+    --accent: 23 62% 43%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 100% 50%;
-    --radius: 0.75rem;
+    --destructive-foreground: 130 18% 98%;
+    --border: 150 12% 86%;
+    --input: 150 12% 86%;
+    --ring: 176 78% 25%;
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 20% 98%;
-    --card: 217 33% 17%;
-    --card-foreground: 210 20% 98%;
-    --popover: 222 47% 6%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 217 100% 62%;
-    --primary-foreground: 222 47% 6%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 27 90% 56%;
-    --accent-foreground: 222 47% 6%;
+    --background: 185 22% 6%;
+    --foreground: 130 18% 98%;
+    --card: 185 18% 10%;
+    --card-foreground: 130 18% 98%;
+    --popover: 185 22% 6%;
+    --popover-foreground: 130 18% 98%;
+    --primary: 174 54% 53%;
+    --primary-foreground: 185 22% 6%;
+    --secondary: 185 18% 12%;
+    --secondary-foreground: 130 18% 98%;
+    --muted: 185 18% 12%;
+    --muted-foreground: 145 10% 70%;
+    --accent: 24 74% 58%;
+    --accent-foreground: 185 22% 6%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 20% 98%;
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 217 100% 65%;
+    --border: 185 14% 22%;
+    --input: 185 14% 22%;
+    --ring: 174 54% 53%;
   }
 
   * {
@@ -58,7 +58,7 @@
     /* Prevent font loading flash by using size-adjusted fallback */
     font-size-adjust: from-font;
   }
-  
+
   /* Ensure body has fixed line-height regardless of font */
   body {
     min-height: 100%;
@@ -83,7 +83,7 @@
 
 @layer components {
   .gradient-text {
-    background: linear-gradient(135deg, #0066cc 0%, #cc6600 100%);
+    background: linear-gradient(135deg, #0d746d 0%, #b45f2a 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -95,15 +95,7 @@
     border-radius: 9999px;
     overflow: hidden;
     padding: 1.5px;
-    background: linear-gradient(135deg, #0066cc 0%, #cc6600 100%);
-  }
-
-  .gradient-border {
-    position: relative;
-    border-radius: 9999px;
-    overflow: hidden;
-    padding: 1.5px;
-    background: linear-gradient(135deg, #005eff 0%, #ff7e00 100%);
+    background: linear-gradient(135deg, #0d746d 0%, #b45f2a 100%);
   }
 
   .gradient-border-inner {
@@ -113,7 +105,7 @@
 
   .gradient-line {
     height: 2px;
-    background: linear-gradient(90deg, #005eff 0%, #ff7e00 100%);
+    background: linear-gradient(90deg, #0d746d 0%, #b45f2a 100%);
   }
 
   .hover-lift {
@@ -124,7 +116,23 @@
 
   .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px -5px rgba(0, 94, 255, 0.12);
+    box-shadow: 0 10px 26px -12px rgba(13, 116, 109, 0.32);
+  }
+
+  .ledger-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(135deg, rgba(13, 116, 109, 0.18), rgba(180, 95, 42, 0.09));
+    background-size:
+      24px 24px,
+      24px 24px,
+      100% 100%;
+  }
+
+  .evidence-rule {
+    border-left: 3px solid hsl(var(--primary));
+    padding-left: 0.875rem;
   }
 }
 

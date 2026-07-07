@@ -1,248 +1,175 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { CheckCircle2, FileSearch, GitBranch, ShieldCheck } from "lucide-react";
 
-const TRANSCRIPT_LINES = [
+const evidenceRows = [
   {
-    time: "00:12",
-    speaker: "Speaker 1",
-    text: "the renewal process takes about three weeks right now",
+    source: "MedPiper",
+    input: "manual insurance handoffs",
+    evidence: "~4 weeks to ~10 days",
+    output: "workflow compression",
   },
   {
-    time: "00:18",
-    speaker: "Speaker 2",
-    text: "yeah and most of that is just waiting for document verification",
+    source: "SignKit",
+    input: "signature extraction pain",
+    evidence: "idea to paid product",
+    output: "commercial proof",
   },
   {
-    time: "00:24",
-    speaker: "Speaker 1",
-    text: "can we cut that down if we auto-extract the key fields",
+    source: "MetaExtract",
+    input: "variable airline documents",
+    evidence: "schema + review gates",
+    output: "trusted extraction",
   },
   {
-    time: "00:31",
-    speaker: "Speaker 2",
-    text: "probably. the bottleneck is the manual data entry on the intake side",
-  },
-  {
-    time: "00:38",
-    speaker: "Speaker 1",
-    text: "let me build a quick prototype this week and test it on the last batch",
+    source: "No Claim",
+    input: "AI eval posts",
+    evidence: "PDF + EPUB product",
+    output: "authority asset",
   },
 ] as const;
 
-const SEARCH_QUERY = "renewal bottleneck";
-const MATCH_LINE = 2;
-
-function StatusDot({
-  status,
-}: {
-  status: "recording" | "processing" | "done";
-}) {
-  if (status === "recording") {
-    return (
-      <span className="inline-flex items-center gap-1.5">
-        <motion.span
-          className="h-2 w-2 rounded-full bg-red-400"
-          animate={{ opacity: [1, 0.3, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        />
-        <span className="text-[10px] text-red-300/80 uppercase tracking-wider">
-          Recording
-        </span>
-      </span>
-    );
-  }
-  if (status === "processing") {
-    return (
-      <span className="inline-flex items-center gap-1.5">
-        <motion.span
-          className="h-2 w-2 rounded-full bg-blue-400"
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 1, repeat: Infinity }}
-        />
-        <span className="text-[10px] text-blue-300/80 uppercase tracking-wider">
-          Transcribing
-        </span>
-      </span>
-    );
-  }
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className="h-2 w-2 rounded-full bg-emerald-400" />
-      <span className="text-[10px] text-emerald-300/80 uppercase tracking-wider">
-        Saved
-      </span>
-    </span>
-  );
-}
+const flowSteps = [
+  { label: "Find the real workflow", icon: FileSearch },
+  { label: "Build the reviewable path", icon: GitBranch },
+  { label: "Ship with evidence", icon: ShieldCheck },
+] as const;
 
 export function HeroSystemPanel() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [phase, setPhase] = useState<"recording" | "processing" | "done">(
-    "recording",
-  );
-  const [searchReveal, setSearchReveal] = useState(false);
+  const [activeRow, setActiveRow] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
-  const reset = useCallback(() => {
-    setVisibleLines(0);
-    setPhase("recording");
-    setSearchReveal(false);
-  }, []);
+  const active = evidenceRows[activeRow];
 
   useEffect(() => {
-    if (visibleLines < TRANSCRIPT_LINES.length) {
-      const delay = phase === "recording" ? 2200 : 600;
-      const timeout = setTimeout(() => {
-        setVisibleLines((prev) => prev + 1);
-        if (visibleLines === 0) setPhase("recording");
-        if (visibleLines === 2) setPhase("processing");
-      }, delay);
-      return () => clearTimeout(timeout);
-    } else if (!searchReveal) {
-      setPhase("done");
-      const timeout = setTimeout(() => setSearchReveal(true), 1200);
-      return () => clearTimeout(timeout);
-    } else {
-      const timeout = setTimeout(reset, 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [visibleLines, phase, searchReveal, reset]);
+    if (prefersReducedMotion) return;
+    const timeout = setTimeout(
+      () => setActiveRow((current) => (current + 1) % evidenceRows.length),
+      2200,
+    );
+    return () => clearTimeout(timeout);
+  }, [activeRow, prefersReducedMotion]);
+
+  const pulseTransition = useMemo(
+    () => ({
+      duration: 1.7,
+      repeat: Infinity,
+      repeatType: "reverse" as const,
+      ease: "easeInOut" as const,
+    }),
+    [],
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="relative mx-auto w-full max-w-[420px]"
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="relative mx-auto w-full max-w-[460px]"
     >
-      <div className="relative rounded-2xl border border-white/[0.1] bg-[#0b111a] shadow-xl overflow-hidden">
-        {/* Header */}
-        <div className="px-4 py-3 border-b border-white/[0.07] flex items-center justify-between bg-white/[0.015]">
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
-              <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
-            </div>
-            <span className="text-xs text-white/40 font-mono ml-2">
-              echopanel
-            </span>
+      <div className="ledger-grid overflow-hidden rounded-lg border border-white/12 bg-[#11191a] shadow-2xl shadow-black/25">
+        <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-4 py-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
+              Evidence ledger
+            </p>
+            <p className="mt-1 text-xs text-white/72">
+              claim → proof → operating value
+            </p>
           </div>
-          <StatusDot status={phase} />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-emerald-100">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+            live proof
+          </span>
         </div>
 
-        {/* Transcript */}
-        <div className="p-4 min-h-[280px]">
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-[10px] text-white/40 uppercase tracking-wider font-mono">
-              Transcript
-            </p>
-            <span className="text-[10px] text-white/30 font-mono">
-              Product standup, Mar 14
-            </span>
+        <div className="p-4">
+          <div className="grid grid-cols-3 gap-2 pb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/38">
+            <span>Source</span>
+            <span>Evidence</span>
+            <span>Value</span>
           </div>
 
-          <div className="space-y-2.5">
-            {TRANSCRIPT_LINES.slice(0, visibleLines).map((line, i) => {
-              const isMatch = searchReveal && i === MATCH_LINE;
+          <div className="space-y-2">
+            {evidenceRows.map((row, index) => {
+              const isActive = index === activeRow;
               return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className={`flex gap-3 text-sm ${isMatch ? "bg-white/[0.06] -mx-2 px-2 py-1.5 rounded-md" : ""}`}
+                <button
+                  type="button"
+                  key={row.source}
+                  onClick={() => setActiveRow(index)}
+                  className={`grid w-full grid-cols-3 gap-2 rounded-md border px-3 py-3 text-left transition-colors ${
+                    isActive
+                      ? "border-teal-300/35 bg-teal-200/[0.08]"
+                      : "border-white/8 bg-white/[0.025] hover:bg-white/[0.045]"
+                  }`}
                 >
-                  <span className="text-white/30 font-mono text-xs shrink-0 pt-0.5 w-10 text-right">
-                    {line.time}
-                  </span>
-                  <div className="min-w-0">
-                    <span className="text-white/50 text-xs">
-                      {line.speaker}
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-semibold text-white">
+                      {row.source}
                     </span>
-                    <p
-                      className={`leading-snug ${isMatch ? "text-white/90" : "text-white/60"}`}
-                    >
-                      {isMatch ? (
-                        <>
-                          {line.text
-                            .split(new RegExp(`(${SEARCH_QUERY})`, "gi"))
-                            .map((part, j) =>
-                              part.toLowerCase() === SEARCH_QUERY ? (
-                                <mark
-                                  key={j}
-                                  className="bg-amber-400/25 text-amber-200 rounded px-0.5"
-                                >
-                                  {part}
-                                </mark>
-                              ) : (
-                                part
-                              ),
-                            )}
-                        </>
-                      ) : (
-                        line.text
-                      )}
-                    </p>
-                  </div>
-                </motion.div>
+                    <span className="mt-0.5 block truncate text-[11px] text-white/45">
+                      {row.input}
+                    </span>
+                  </span>
+                  <span className="self-center text-xs font-medium leading-snug text-teal-100">
+                    {row.evidence}
+                  </span>
+                  <span className="self-center text-xs leading-snug text-white/68">
+                    {row.output}
+                  </span>
+                </button>
               );
             })}
           </div>
 
-          {visibleLines < TRANSCRIPT_LINES.length && (
-            <div className="mt-2.5 flex gap-3">
-              <span className="w-10" />
-              <div className="space-y-2 flex-1">
-                <div className="h-3 w-3/4 rounded bg-white/[0.06]" />
-                <div className="h-3 w-1/2 rounded bg-white/[0.04]" />
-              </div>
+          <div className="mt-4 rounded-md border border-white/10 bg-black/18 p-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[hsl(var(--accent))]">
+                Current read
+              </p>
+              <CheckCircle2 className="h-4 w-4 text-emerald-300" />
             </div>
-          )}
+            <p className="text-sm leading-6 text-white/76">
+              {active.source} is here because it shows the same pattern:
+              ambiguous input, a reviewable system, and a result that can be
+              explained after the fact.
+            </p>
+          </div>
+
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            {flowSteps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.label}
+                  className="rounded-md border border-white/8 bg-white/[0.035] p-3"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <Icon className="h-4 w-4 text-teal-100" />
+                    <span className="font-mono text-[10px] text-white/35">
+                      0{index + 1}
+                    </span>
+                  </div>
+                  <p className="text-[11px] leading-4 text-white/68">
+                    {step.label}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Search bar reveal */}
-        <AnimatePresence>
-          {searchReveal && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="border-t border-white/[0.07]"
-            >
-              <div className="px-4 py-3 flex items-center gap-2">
-                <svg
-                  className="h-3.5 w-3.5 text-white/30 shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <span className="text-sm text-white/50 font-mono">
-                  {SEARCH_QUERY}
-                </span>
-                <span className="ml-auto text-[10px] text-emerald-300/70">
-                  1 match
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Footer */}
-        <div className="px-4 py-2 border-t border-white/[0.06] bg-white/[0.02] flex items-center justify-between">
-          <span className="text-[10px] text-white/30">Local · SQLite</span>
-          <span className="text-[10px] text-white/30" aria-hidden="true">
-            EchoPanel
-          </span>
+        <div className="flex items-center justify-between border-t border-white/10 bg-white/[0.025] px-4 py-3">
+          <span className="text-[10px] text-white/38">portfolio evidence</span>
+          <motion.span
+            className="h-1.5 w-20 rounded-full bg-teal-200/70"
+            animate={prefersReducedMotion ? undefined : { opacity: [0.3, 0.9] }}
+            transition={pulseTransition}
+          />
+          <span className="text-[10px] text-white/38">client + hiring</span>
         </div>
       </div>
     </motion.div>
