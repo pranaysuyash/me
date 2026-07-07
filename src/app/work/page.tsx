@@ -138,7 +138,9 @@ export default function WorkPage() {
       ) as Record<string, Project[]>)
     : groupedNonFeatured;
 
-  const categories = CATEGORY_ORDER.filter((c) => Boolean(groupedNonFeatured[c.key]));
+  const categories = CATEGORY_ORDER.filter((c) =>
+    Boolean(groupedNonFeatured[c.key]),
+  );
 
   return (
     <PageLayout>
@@ -149,39 +151,51 @@ export default function WorkPage() {
               Selected <span className="gradient-text">work</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Curated proof first, then technical depth. This is not an archive
-              of equal-weight projects.
+              The strongest projects first. Everything else is below.
             </p>
           </div>
 
           <div className="mb-14">
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-              Flagship work (fixed order)
+              Flagship
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {allFeatured.map((project: Project) => (
-                <Link key={project.slug} href={`/work/${project.slug}`} className="block">
+                <Link
+                  key={project.slug}
+                  href={`/work/${project.slug}`}
+                  className="block"
+                >
                   <Card className="hover-lift h-full border shadow-sm bg-card">
                     <CardContent className="p-6 flex flex-col h-full">
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <span className="text-xs uppercase tracking-wide text-muted-foreground">
                           {project.category}
                         </span>
-                        <span className="text-xs text-muted-foreground">{project.year}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {project.year}
+                        </span>
                       </div>
-                      <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                      <h3 className="text-lg font-semibold mb-2">
+                        {project.title}
+                      </h3>
                       <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
                         {project.tagline}
                       </p>
                       {(project.proofRole || project.proofSummary) && (
                         <p className="proof-angle mb-4 leading-relaxed">
-                          <span className="font-medium text-foreground">What this proves:</span>{" "}
+                          <span className="font-medium text-foreground">
+                            Why it matters:{" "}
+                          </span>
                           {project.proofSummary || project.proofRole}
                         </p>
                       )}
                       <div className="flex flex-wrap gap-x-3 gap-y-1 mt-auto">
                         {project.techStack.slice(0, 3).map((tech) => (
-                          <span key={tech} className="text-xs text-muted-foreground">
+                          <span
+                            key={tech}
+                            className="text-xs text-muted-foreground"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -213,7 +227,7 @@ export default function WorkPage() {
                   More work
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Secondary archive (filters kept here for navigation).
+                  Older projects, experiments, and client work.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -247,7 +261,8 @@ export default function WorkPage() {
                 .map(([cat, projects]) => (
                   <div key={cat}>
                     <h3 className="text-xs uppercase tracking-wide text-muted-foreground mb-4">
-                      {cat} <span className="opacity-60">({projects.length})</span>
+                      {cat}{" "}
+                      <span className="opacity-60">({projects.length})</span>
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {projects.map((project: Project) => (

@@ -23,7 +23,9 @@ export function generateStaticParams() {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params;
-  const project = projectsData.projects.find((p) => p.slug === slug) as Project | undefined;
+  const project = projectsData.projects.find((p) => p.slug === slug) as
+    | Project
+    | undefined;
 
   if (!project) {
     notFound();
@@ -76,13 +78,17 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               {project.tagline}
             </p>
 
-            {(project.proofRole || project.demonstrates || project.proofSummary) && (
+            {(project.proofRole ||
+              project.demonstrates ||
+              project.proofSummary) && (
               <div className="mb-8 rounded-xl border bg-muted/20 p-4">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                  What this proves
+                  Why it matters
                 </p>
                 <p className="text-sm leading-relaxed text-foreground/90">
-                  {project.proofSummary || project.proofRole || project.demonstrates}
+                  {project.proofSummary ||
+                    project.proofRole ||
+                    project.demonstrates}
                 </p>
               </div>
             )}
@@ -117,17 +123,6 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 ))}
               </div>
             )}
-
-            <div className="mb-10 rounded-xl border bg-muted/20 p-4">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                Visual proof surface
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                This case study is structured for proof-first reading. Live proof
-                modules and richer screenshot stacks are planned as a follow-up
-                phase.
-              </p>
-            </div>
 
             <div className="space-y-10">
               <section>
@@ -174,9 +169,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               {/* Technical Depth Section */}
               {hasTechnicalDepth && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-4">
-                    What was built
-                  </h2>
+                  <h2 className="text-xl font-semibold mb-4">What was built</h2>
                   <div className="space-y-4">
                     {project.technicalDepth?.architecture && (
                       <div>
@@ -326,7 +319,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
 
               {hasOwnership && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-3">Ownership and scope</h2>
+                  <h2 className="text-xl font-semibold mb-3">
+                    Ownership and scope
+                  </h2>
                   <p className="text-muted-foreground leading-relaxed">
                     {project.ownership as string}
                   </p>
@@ -411,18 +406,25 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               </section>
 
               {/* What this demonstrates — flagship projects only */}
-              {project.featured && (project as Project & { demonstrates?: string }).demonstrates && (
-                <section className="border-t pt-8">
-                  <h2 className="text-xl font-semibold mb-3">What this demonstrates</h2>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {(project as Project & { demonstrates?: string }).demonstrates}
-                  </p>
-                </section>
-              )}
+              {project.featured &&
+                (project as Project & { demonstrates?: string })
+                  .demonstrates && (
+                  <section className="border-t pt-8">
+                    <h2 className="text-xl font-semibold mb-3">
+                      Why this project matters
+                    </h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {
+                        (project as Project & { demonstrates?: string })
+                          .demonstrates
+                      }
+                    </p>
+                  </section>
+                )}
 
               {project.featured && project.proofRole && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-3">Proof angle</h2>
+                  <h2 className="text-xl font-semibold mb-3">What it proves</h2>
                   <p className="text-muted-foreground leading-relaxed">
                     {project.proofRole}
                   </p>

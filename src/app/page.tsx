@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import projectsData from "@/content/projects.json";
 import { HeroSystemPanel } from "@/components/hero-system-panel";
+import { noClaimEbook } from "@/lib/ebook";
 
 type Project = (typeof projectsData.projects)[number] & {
   flagshipRank?: number;
@@ -14,13 +15,13 @@ type Project = (typeof projectsData.projects)[number] & {
 };
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Workflow Systems · Document AI · YC S20",
+  title: "Pranay Suyash | Product & Workflow Systems",
   description:
-    "I turn messy workflows and unstructured inputs into working systems. 14 years building products, most recently at MedPiper (YC S20), including reducing insurance processing from 4 weeks to 10 days.",
+    "I turn messy workflows and unstructured inputs into working systems. 14 years building products, most recently at MedPiper (YC S20).",
   openGraph: {
-    title: "Pranay Suyash | Workflow Systems · Document AI · YC S20",
+    title: "Pranay Suyash | Product & Workflow Systems",
     description:
-      "I turn messy workflows and unstructured inputs into working systems. 14 years building products with measurable outcomes.",
+      "I turn messy workflows and unstructured inputs into working systems. 14 years building products at MedPiper (YC S20).",
     type: "website",
   },
 };
@@ -30,55 +31,43 @@ export default function Home() {
     .filter((p) => p.featured)
     .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99));
 
-  const homeVariant = "pilot-first" as const;
-  const ctaVariants = {
-    "pilot-first": {
-      primary: { label: "Start a pilot", href: "/work-with-me" },
-      secondary: {
-        label: "Hiring me for delivery roles",
-        href: "/hire-me",
-      },
-    },
-    "hiring-first": {
-      primary: { label: "Explore role fit", href: "/hire-me" },
-      secondary: { label: "Discuss a scoped build", href: "/work-with-me" },
-    },
-  };
-  const ctaConfig = ctaVariants[homeVariant];
-
   return (
     <PageLayout>
-      {/* ── Hero ── */}
+      {/* Hero */}
       <section className="py-20 md:py-28 lg:py-36">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 lg:gap-12 lg:items-start">
             <div className="animate-fade-up">
               <p className="text-sm text-muted-foreground mb-5 tracking-wide uppercase">
-                Pranay Suyash &middot; Product / Workflow / Practical AI Systems
+                Pranay Suyash
               </p>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7">
-                I turn messy workflows and{" "}
-                <span className="gradient-text">unstructured inputs</span> into
-                usable systems.
+              <h1
+                aria-label="I take messy workflows and turn them into software that actually works."
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-7"
+              >
+                I take messy workflows and{" "}
+                <span className="gradient-text">turn them into software</span>{" "}
+                that actually works.
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
-                I work at the intersection of product delivery, workflow design,
-                and AI-enabled execution — especially where operations are messy,
-                documents are unstructured, and teams need practical outcomes
-                fast.
+                Operations stuck, documents everywhere, no clear spec. I come
+                in, figure out what is actually happening, and build a focused
+                first version. Usually in a few weeks.
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
                 <Button asChild size="lg" className="rounded-full px-8">
-                  <Link href={ctaConfig.primary.href}>
-                    {ctaConfig.primary.label}{" "}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link href="/work-with-me">
+                    Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="outline" asChild size="lg" className="rounded-full px-8">
-                  <Link href={ctaConfig.secondary.href}>
-                    {ctaConfig.secondary.label}
-                  </Link>
+                <Button
+                  variant="outline"
+                  asChild
+                  size="lg"
+                  className="rounded-full px-8"
+                >
+                  <Link href="/hire-me">See role fit</Link>
                 </Button>
                 <Link
                   href="/work"
@@ -96,48 +85,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Proof strip ── */}
+      {/* Proof strip */}
       <section className="py-10 border-y">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm">
             <span className="font-semibold text-foreground tracking-wide">
               MedPiper (YC S20)
             </span>
-            <span className="text-border hidden sm:inline">·</span>
+            <span className="text-border hidden sm:inline">&middot;</span>
             <span className="text-muted-foreground">
               <span className="font-semibold text-foreground">14</span> years
-              product + workflow delivery
+              shipping products and untangling workflows
             </span>
-            <span className="text-border hidden sm:inline">·</span>
+            <span className="text-border hidden sm:inline">&middot;</span>
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">Paid product</span>{" "}
-              with early customer validation
+              Insurance processing:{" "}
+              <span className="font-semibold text-foreground">
+                ~4 weeks to ~10 days
+              </span>
             </span>
-            <span className="text-border hidden sm:inline">·</span>
+            <span className="text-border hidden sm:inline">&middot;</span>
             <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">Large modular</span>{" "}
-              extraction system
-            </span>
-            <span className="text-border hidden sm:inline">·</span>
-            <span className="text-muted-foreground">
-              <span className="font-semibold text-foreground">~$1M ARR</span>{" "}
-              platform growth context
+              <span className="font-semibold text-foreground">SignKit</span>{" "}
+              went from idea to paid product
             </span>
           </div>
         </div>
       </section>
 
-      {/* ── Selected work ── */}
+      {/* Ebook launch */}
+      <section className="border-b bg-[#071017] py-14 text-white">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-7 px-4 md:grid-cols-[1fr_auto] md:px-6 lg:px-8">
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">
+              New ebook
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              {noClaimEbook.title}
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/72 md:text-base">
+              {noClaimEbook.description} Includes PDF + EPUB, with Dodo checkout
+              ready for launch.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
+            <Button asChild className="rounded-full px-7">
+              <Link href={noClaimEbook.path}>
+                View the book <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
+            >
+              <Link href={noClaimEbook.checkoutUrl}>
+                {noClaimEbook.checkoutLabel}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Selected work */}
       <section className="py-20 md:py-28 bg-muted/30">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
-                Flagship work
+                Selected work
               </h2>
               <p className="text-muted-foreground max-w-lg">
-                Curated proof of product delivery, commercial execution, systems
-                depth, and local-first multimodal workflow design.
+                Four projects worth looking at. Each one solved a different kind
+                of messy operational problem.
               </p>
             </div>
             <Link
@@ -169,7 +189,9 @@ export default function Home() {
                     </p>
                     {(project.proofRole || project.proofSummary) && (
                       <p className="proof-angle mb-4 leading-relaxed">
-                        <span className="font-medium text-foreground">What this proves:</span>{" "}
+                        <span className="font-medium text-foreground">
+                          Why it matters:{" "}
+                        </span>
                         {project.proofSummary || project.proofRole}
                       </p>
                     )}
@@ -191,7 +213,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Closing CTA ── */}
+      {/* Closing CTA */}
       <section className="py-20 md:py-28 border-t">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -200,16 +222,15 @@ export default function Home() {
                 For founders & teams
               </p>
               <h3 className="text-xl font-bold mb-3">
-                Need a scoped pilot or workflow build?
+                Stuck on a workflow that should already work?
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Start with a practical scope: pilot, workflow audit, or focused
-                build tied to a real operational problem.
+                Start with the problem. Pilot, workflow audit, or focused build.
+                Tied to a real operational pain, not a wish list.
               </p>
               <Button asChild className="rounded-full px-7">
                 <Link href="/work-with-me">
-                  Start a pilot{" "}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -219,15 +240,16 @@ export default function Home() {
                 For hiring teams
               </p>
               <h3 className="text-xl font-bold mb-3">
-                Hiring for product/workflow/AI delivery roles?
+                Need someone who ships, not just plans?
               </h3>
               <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                Explore role fit for operator-builder execution in
-                product-heavy, workflow-heavy teams.
+                Not a pure engineer, not a product manager, not a consultant.
+                Someone who takes ambiguous operational problems and ships
+                working software.
               </p>
               <Button variant="outline" asChild className="rounded-full px-7">
                 <Link href="/hire-me">
-                  Hiring me for delivery roles
+                  See role fit
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

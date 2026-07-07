@@ -36,32 +36,26 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pranay Suyash | Product · Document AI · YC S20",
+    default: "Pranay Suyash | Product & Workflow Systems",
     template: "%s | Pranay Suyash",
   },
   description:
-    "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product, most recently at MedPiper (YC S20).",
-  keywords: [
-    "Pranay Suyash",
-    "Document AI",
-    "Product Builder",
-    "Workflow Automation",
-    "YC S20",
-  ],
+    "I turn messy workflows into working systems. 14 years building products, most recently at MedPiper (YC S20).",
+  keywords: ["Pranay Suyash", "Product Builder", "Workflow Systems", "YC S20"],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://pranaysuyash.com",
     siteName: "Pranay Suyash",
-    title: "Pranay Suyash | Product · Document AI · YC S20",
+    title: "Pranay Suyash | Product & Workflow Systems",
     description:
-      "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product.",
+      "I turn messy workflows into working systems. 14 years building products at MedPiper (YC S20).",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pranay Suyash | Product · Document AI · YC S20",
+    title: "Pranay Suyash | Product & Workflow Systems",
     description:
-      "I build document extraction tools that cut insurance processing from 4 weeks to 10 days. 14 years shipping product.",
+      "I turn messy workflows into working systems. 14 years building products.",
     creator: "@pranaysuyash",
   },
   robots: {
