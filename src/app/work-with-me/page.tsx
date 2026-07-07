@@ -6,13 +6,13 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Work With Me | Pranay Suyash",
+  title: "Work With Me",
   description:
-    "Scoped project work: AI prototypes, document extraction workflows, internal tools, and automation systems — delivered in 2–4 weeks.",
+    "Scoped project work: workflow builds, AI prototypes, internal tools, and automation. Focused first versions in a few weeks.",
   openGraph: {
     title: "Work With Me | Pranay Suyash",
     description:
-      "Scoped builds for document extraction, workflow automation, and applied AI prototypes.",
+      "Scoped builds for workflow problems, AI prototypes, and internal tools. Focused first versions in a few weeks.",
     type: "website",
   },
 };
@@ -21,27 +21,27 @@ const engagements = [
   {
     id: "prototypes",
     title: "AI prototype",
-    body: "A focused first version of an applied AI product, built to validate the workflow, the interaction, and the technical approach without overbuilding.",
+    body: "A focused first version of an AI product, built to prove the workflow works without overbuilding.",
     bestFit:
-      "A product idea needs to become something real that a team or early users can interact with.",
+      "You have an idea for an AI product and need something real to test with users or stakeholders.",
     timeline: "2 to 4 weeks",
     price: "$10K+",
   },
   {
     id: "automation",
     title: "Workflow automation or internal tool",
-    body: "A practical system that reduces repetitive work, cleans up a messy process, or gives a team a tool they can actually use day to day.",
+    body: "A practical system that reduces repetitive work, cleans up a messy process, or gives a team something they actually use.",
     bestFit:
-      "Manual work, document-heavy operations, data movement, approval flows, or internal coordination that is slowing a team down.",
+      "Manual work, document handling, approval flows, or coordination that is slowing a team down.",
     timeline: "1 to 3 weeks",
     price: "$5K+",
   },
   {
     id: "advisory",
-    title: "Technical advisory",
-    body: "A short, senior-level working engagement for teams that need help deciding what to build, how to scope it, or which technical direction is actually realistic.",
+    title: "Workflow audit and advisory",
+    body: "A short sprint for teams that need sharper decisions on scope, risk, and direction before committing to a bigger build.",
     bestFit:
-      "A team is making a high-stakes product, architecture, or AI implementation decision and wants sharper technical judgment before committing.",
+      "You have operational pain but need a clearer first-build plan before spending real money.",
     timeline: "1 to 2 weeks",
     price: "$3K+",
   },
@@ -132,21 +132,21 @@ const faqItems = [
 
 const buyerProof = [
   {
-    title: "Workflow compression in healthcare ops",
+    title: "Insurance processing turnaround",
     detail:
       "Reduced insurance processing from ~4 weeks to ~10 days by replacing manual handoffs with a tighter workflow system.",
     shape:
       "Engagement shape: workflow diagnosis → scoped internal build → iteration with ops feedback",
   },
   {
-    title: "Document-heavy extraction pipeline",
+    title: "Extraction system for variable documents",
     detail:
-      "Built production extraction handling 45K+ metadata fields across heterogeneous document formats.",
+      "Built a modular extraction system for documents that never come in the same format twice.",
     shape:
       "Engagement shape: narrow first version for core document types, then expand coverage with confidence scoring",
   },
   {
-    title: "Signature product to paid usage",
+    title: "From idea to paid product",
     detail:
       "Built SignKit from idea to paid product, including extraction, signing workflow, and billing.",
     shape:
@@ -165,13 +165,12 @@ export default function WorkWithMePage() {
               For founders & teams
             </p>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Build a scoped <span className="gradient-text">pilot</span> in
-              weeks
+              From workflow pain to working software
             </h1>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              I work on focused builds where a workflow needs to become a usable
-              system quickly: document extraction, internal tools, workflow
-              automation, and applied AI prototypes.
+              You have a workflow that is stuck, messy, or too manual. I come
+              in, figure out what is actually happening, and build a focused
+              first version that works. Usually in a few weeks.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild size="lg" className="rounded-full px-8">
@@ -181,7 +180,12 @@ export default function WorkWithMePage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" asChild size="lg" className="rounded-full px-8">
+              <Button
+                variant="outline"
+                asChild
+                size="lg"
+                className="rounded-full px-8"
+              >
                 <Link href="/contact?type=call">
                   Book a 15-min call{" "}
                   <span className="text-xs opacity-60 ml-1">
@@ -200,11 +204,11 @@ export default function WorkWithMePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-4">
-                From operational drag to a working system
+                What changes
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                The best fit is a real workflow problem, a narrow first version,
-                and a team that wants something useful quickly.
+                You know the problem. The question is what the first version
+                should actually do. That is where I start.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -377,17 +381,19 @@ export default function WorkWithMePage() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="mb-10">
             <h2 className="text-2xl font-bold tracking-tight mb-3">
-              Recent engagement outcomes
+              What this work looks like
             </h2>
             <p className="text-sm text-muted-foreground">
-              Concrete examples of what this work can look like in practice.
+              Examples of the kind of problems this work addresses.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {buyerProof.map((proof) => (
               <Card key={proof.title} className="border shadow-sm h-full">
                 <CardContent className="p-6">
-                  <h3 className="text-base font-semibold mb-2">{proof.title}</h3>
+                  <h3 className="text-base font-semibold mb-2">
+                    {proof.title}
+                  </h3>
                   <p className="text-sm text-primary mb-3 leading-relaxed">
                     {proof.detail}
                   </p>
@@ -407,19 +413,20 @@ export default function WorkWithMePage() {
           <Card className="border bg-muted/30">
             <CardContent className="p-7 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-3">
-                Not sure what this should be yet?
+                Not sure where to start?
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                If the workflow is broken, too manual, too slow, or too messy,
-                but the right first build is still unclear, that can still be the
-                starting point. The goal is to reduce ambiguity into a realistic
-                first version, not force the problem into the wrong package.
+                If the problem is real but the scope is not clear yet, that is a
+                fine starting point. Part of the work is figuring out what the
+                first version should actually do.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button asChild className="rounded-full px-6">
                   <Link href="/contact?type=project">
                     Describe the problem{" "}
-                    <span className="text-xs opacity-60 ml-1">(2-min form)</span>
+                    <span className="text-xs opacity-60 ml-1">
+                      (2-min form)
+                    </span>
                   </Link>
                 </Button>
                 <Button variant="outline" asChild className="rounded-full px-6">
@@ -458,7 +465,9 @@ export default function WorkWithMePage() {
       {/* ── Closing CTA ── */}
       <section className="py-16 border-t">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Ready to start?</h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">
+            Have a problem in mind?
+          </h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
             Share the problem, the constraints, the timeline, and what
             &ldquo;done&rdquo; needs to look like. If it&apos;s a fit, I&apos;ll
@@ -472,10 +481,17 @@ export default function WorkWithMePage() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button variant="outline" asChild size="lg" className="rounded-full px-8">
+            <Button
+              variant="outline"
+              asChild
+              size="lg"
+              className="rounded-full px-8"
+            >
               <Link href="/contact?type=call">
                 Book a 15-min call{" "}
-                <span className="text-xs opacity-60 ml-1">(opens scheduler)</span>
+                <span className="text-xs opacity-60 ml-1">
+                  (opens scheduler)
+                </span>
               </Link>
             </Button>
           </div>

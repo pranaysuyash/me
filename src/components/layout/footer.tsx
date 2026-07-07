@@ -16,6 +16,7 @@ const socialLinks = [
 
 const footerNav = [
   { name: "Work", href: "/work" },
+  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "Hire Me", href: "/hire-me" },
   { name: "Work With Me", href: "/work-with-me" },
   { name: "About", href: "/about" },
@@ -32,7 +33,7 @@ export function Footer() {
               PS
             </Link>
             <p className="text-sm text-muted-foreground">
-              Document AI, workflow automation, and product systems.
+              Messy workflows into working software.
             </p>
           </div>
 

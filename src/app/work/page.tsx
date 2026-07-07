@@ -8,7 +8,6 @@ import Link from "next/link";
 import projectsData from "@/content/projects.json";
 
 const CATEGORY_ORDER = [
-  { key: "featured", label: "Featured" },
   { key: "AI/ML", label: "AI & Machine Learning" },
   { key: "Computer Vision", label: "Computer Vision" },
   { key: "macOS", label: "macOS & Native" },
@@ -33,7 +32,11 @@ const CATEGORY_COLORS: Record<string, string> = {
   Featured: "bg-primary/10 text-primary",
 };
 
-type Project = (typeof projectsData.projects)[0];
+type Project = (typeof projectsData.projects)[0] & {
+  flagshipRank?: number;
+  proofRole?: string;
+  proofSummary?: string;
+};
 
 function ProjectCard({
   project,
@@ -96,16 +99,23 @@ function ProjectCard({
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  const allFeatured = projectsData.projects.filter((p: Project) => p.featured);
+  const allFeatured = projectsData.projects
+    .filter((p: Project) => p.featured)
+    .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99));
+
   const allNonFeatured = projectsData.projects.filter(
     (p: Project) => !p.featured,
   );
 
-  const filteredFeatured = activeFilter
-    ? allFeatured.filter((p: Project) => p.category === activeFilter)
-    : allFeatured;
+  const technicalDepthProjects = allNonFeatured.filter(
+    (p: Project) => p.slug === "model-lab",
+  );
 
-  const groupedNonFeatured = allNonFeatured.reduce(
+  const archiveProjects = allNonFeatured.filter(
+    (p: Project) => p.slug !== "model-lab",
+  );
+
+  const groupedNonFeatured = archiveProjects.reduce(
     (acc, project) => {
       const cat = project.category;
       if (!acc[cat]) acc[cat] = [];
@@ -129,9 +139,7 @@ export default function WorkPage() {
     : groupedNonFeatured;
 
   const categories = CATEGORY_ORDER.filter((c) =>
-    c.key === "featured"
-      ? allFeatured.length > 0
-      : Boolean(groupedNonFeatured[c.key]),
+    Boolean(groupedNonFeatured[c.key]),
   );
 
   return (
@@ -143,72 +151,128 @@ export default function WorkPage() {
               Selected <span className="gradient-text">work</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              A few projects that show how I scope, build, and ship applied AI
-              and workflow-heavy systems.
+              The strongest projects first. Everything else is below.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-10">
-            <Button
-              variant={activeFilter === null ? "default" : "outline"}
-              size="sm"
-              onClick={() => setActiveFilter(null)}
-              className="text-xs"
-            >
-              All
-            </Button>
-            {categories.map((cat) =>
-              cat.key !== "featured" ? (
-                <Button
-                  key={cat.key}
-                  variant={activeFilter === cat.key ? "default" : "outline"}
-                  size="sm"
-                  onClick={() =>
-                    setActiveFilter(activeFilter === cat.key ? null : cat.key)
-                  }
-                  className="text-xs"
+          <div className="mb-14">
+            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
+              Flagship
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {allFeatured.map((project: Project) => (
+                <Link
+                  key={project.slug}
+                  href={`/work/${project.slug}`}
+                  className="block"
                 >
-                  {cat.label}
-                </Button>
-              ) : null,
-            )}
+                  <Card className="hover-lift h-full border shadow-sm bg-card">
+                    <CardContent className="p-6 flex flex-col h-full">
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                          {project.category}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {project.year}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                        {project.tagline}
+                      </p>
+                      {(project.proofRole || project.proofSummary) && (
+                        <p className="proof-angle mb-4 leading-relaxed">
+                          <span className="font-medium text-foreground">
+                            Why it matters:{" "}
+                          </span>
+                          {project.proofSummary || project.proofRole}
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 mt-auto">
+                        {project.techStack.slice(0, 3).map((tech) => (
+                          <span
+                            key={tech}
+                            className="text-xs text-muted-foreground"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {categories.map((cat) => {
-            const isFeatured = cat.key === "featured";
-            if (isFeatured && filteredFeatured.length === 0) return null;
-            const projects = isFeatured
-              ? filteredFeatured
-              : filteredGrouped[cat.key] || [];
-
-            if (projects.length === 0) return null;
-
-            return (
-              <div key={cat.key} className="mb-12">
-                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-                  {isFeatured ? "Featured" : cat.label}
-                  <span className="ml-2 text-muted-foreground/50">
-                    ({projects.length})
-                  </span>
-                </h2>
-                <div
-                  className={
-                    isFeatured
-                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
-                      : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                  }
-                >
-                  {projects.map((project: Project) => (
-                    <ProjectCard
-                      key={project.slug}
-                      project={project}
-                      featured={isFeatured}
-                    />
-                  ))}
-                </div>
+          {technicalDepthProjects.length > 0 && (
+            <div className="border-t pt-12 mt-2 mb-12">
+              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
+                Technical depth
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {technicalDepthProjects.map((project: Project) => (
+                  <ProjectCard key={project.slug} project={project} />
+                ))}
               </div>
-            );
-          })}
+            </div>
+          )}
+
+          <div className="border-t pt-12 mt-2">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+              <div>
+                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  More work
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Older projects, experiments, and client work.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant={activeFilter === null ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveFilter(null)}
+                  className="text-xs"
+                >
+                  All
+                </Button>
+                {categories.map((cat) => (
+                  <Button
+                    key={cat.key}
+                    variant={activeFilter === cat.key ? "default" : "outline"}
+                    size="sm"
+                    onClick={() =>
+                      setActiveFilter(activeFilter === cat.key ? null : cat.key)
+                    }
+                    className="text-xs"
+                  >
+                    {cat.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-10">
+              {Object.entries(filteredGrouped)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([cat, projects]) => (
+                  <div key={cat}>
+                    <h3 className="text-xs uppercase tracking-wide text-muted-foreground mb-4">
+                      {cat}{" "}
+                      <span className="opacity-60">({projects.length})</span>
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {projects.map((project: Project) => (
+                        <ProjectCard key={project.slug} project={project} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
         </div>
       </section>
     </PageLayout>

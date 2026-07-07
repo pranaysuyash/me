@@ -1,16 +1,16 @@
 # Session Context
 
-- Generated: 2026-07-07T13:48:46Z
-- Project: `.worktrees/pranay-main-ebook`
+- Generated: 2026-07-07T14:09:30Z
+- Project: `pranay`
 - Provider: `local`
 - Model: `BAAI/bge-m3`
-- Project collection: `projects_proj_worktrees_pranay_main_ebook`
+- Project collection: `projects_proj_pranay`
 - Shared collection: `projects_workspace_shared`
 
 ## Project Motto
 
-- File: `/Users/pranay/Projects/.worktrees/pranay-main-ebook/motto_v3.md`
-- Legacy bridge: `/Users/pranay/Projects/.worktrees/pranay-main-ebook/motto_v2.md`
+- File: `/Users/pranay/Projects/pranay/motto_v3.md`
+- Legacy bridge: `/Users/pranay/Projects/pranay/motto_v2.md`
 - Source: `/Users/pranay/Downloads/motto_v3.md`
 - Sync status: `synced from /Users/pranay/Downloads/motto_v3.md; legacy motto_v2.md symlinked to motto_v3.md`
 - Guidance: read this before implementation or review on this project.
@@ -18,51 +18,51 @@
 ## Project-Focused Retrieval
 
 ### Architecture Decisions
-- Collection: `projects_proj_worktrees_pranay_main_ebook`
-- Query: `architecture decisions for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Collection: `projects_proj_pranay`
+- Query: `architecture decisions for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### Project Management Workflow
-- Collection: `projects_proj_worktrees_pranay_main_ebook`
-- Query: `project management workflow for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Collection: `projects_proj_pranay`
+- Query: `project management workflow for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### Known Issues and Worklogs
-- Collection: `projects_proj_worktrees_pranay_main_ebook`
-- Query: `known issues and worklog for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Collection: `projects_proj_pranay`
+- Query: `known issues and worklog for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### Prompts and Guidelines
-- Collection: `projects_proj_worktrees_pranay_main_ebook`
-- Query: `prompts and guidelines for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Collection: `projects_proj_pranay`
+- Query: `prompts and guidelines for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### System Learning Graph
-- Collection: `projects_proj_worktrees_pranay_main_ebook`
-- Query: `knowledge graph memory learning feedback loops autoresearch semantic taste graph for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Collection: `projects_proj_pranay`
+- Query: `knowledge graph memory learning feedback loops autoresearch semantic taste graph for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ## Shared Cross-Project Retrieval
 
 ### Reusable Patterns
 - Collection: `projects_workspace_shared`
-- Query: `similar architecture patterns for .worktrees/pranay-main-ebook`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+- Query: `similar architecture patterns for pranay`
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### Process Templates
 - Collection: `projects_workspace_shared`
 - Query: `project management templates and workflows`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### Common Failure Modes
 - Collection: `projects_workspace_shared`
 - Query: `lessons learned mistakes retrospectives postmortems`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 ### System Learning Graph
 - Collection: `projects_workspace_shared`
 - Query: `knowledge graph memory learning feedback loops autoresearch semantic taste graph`
-_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project .worktrees/pranay-main-ebook` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
+_Fast mode (--skip-index): retrieval skipped to keep startup non-blocking. Run `/Users/pranay/Projects/agent-start --project pranay` for full retrieval, or set `AGENT_START_SKIP_INDEX_RETRIEVE=1` if you want retrieval with skip-index._
 
 
 ---

@@ -7,38 +7,40 @@ import {
   ArrowRight,
   Calendar,
   Download,
-  CheckCircle2,
   Github,
   Linkedin,
   Twitter,
   Mail,
 } from "lucide-react";
-import projectsData from "@/content/projects.json";
 
 export const metadata: Metadata = {
-  title: "About | Pranay Suyash",
+  title: "About",
   description:
-    "From Big 4 consultant to YC-backed operator. I build AI prototypes and automation systems.",
+    "Background, worldview, and how Pranay approaches messy workflows and product systems.",
   openGraph: {
     title: "About | Pranay Suyash",
     description:
-      "From Big 4 consultant to YC-backed operator. I build AI prototypes and automation systems.",
+      "Background, worldview, and how Pranay approaches messy workflows and product systems.",
     type: "website",
   },
 };
 
 export default function AboutPage() {
-  const { experience, education, certifications, awards } = projectsData;
-
   return (
     <PageLayout>
       <section className="py-20 md:py-28">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 items-start">
             <div className="animate-fade-up">
-              <div className="w-40 h-40 bg-muted rounded-full flex items-center justify-center text-4xl font-bold text-primary mb-6">
+              <div className="w-40 h-40 rounded-full flex items-center justify-center text-5xl font-bold text-foreground mb-6 bg-gradient-to-br from-primary/20 via-primary/10 to-muted border-2 border-primary/20">
                 PS
               </div>
+              <p className="name-display text-xl font-semibold mb-1">
+                Pranay Suyash
+              </p>
+              <p className="text-sm text-muted-foreground mb-6">
+                I find the mess and build the thing that fixes it
+              </p>
               <div className="flex flex-col gap-3">
                 <Button
                   variant="outline"
@@ -99,41 +101,44 @@ export default function AboutPage() {
               </h1>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  I started out in enterprise consulting, working on SAP
-                  implementations and large process-heavy systems. That taught
-                  me how organizations actually run, where work gets stuck, and
-                  how much time disappears between a plan and something that is
-                  genuinely usable.
+                  I started out in enterprise consulting at EY, working on SAP
+                  implementations for retail and consumer clients. Five years of
+                  watching how large organizations actually run (and where work
+                  gets stuck) taught me something useful: most operational drag
+                  is not a technology problem. It is a process and ownership
+                  problem.
                 </p>
                 <p>
                   That changed when I joined MedPiper, a YC-backed healthcare
-                  startup, and had to operate much closer to the work itself. I
-                  moved from process and delivery into product, platform,
+                  startup. I moved from consulting into product, platform,
                   workflow design, compliance, and hands-on system building. The
-                  work stopped being theoretical very quickly.
+                  distance between a plan and something usable went from months
+                  to weeks. That changed how I think about software.
                 </p>
                 <p>
-                  At MedPiper, I&apos;ve worked across product, platform, data
-                  workflows, and security/compliance, helping build systems that
-                  support real healthcare and insurance operations. We scaled to
-                  roughly $1M ARR while I was working across those functions,
-                  and that experience changed how I think about software: speed
-                  matters, but only if what you ship actually survives real
-                  users, real constraints, and messy operations.
+                  At MedPiper, I have worked across product, platform, data
+                  workflows, and security/compliance. We scaled to roughly $1M
+                  ARR while I was working across those functions. The main thing
+                  I learned: speed matters, but only if what you ship actually
+                  survives real users and messy operations. Shipping fast and
+                  shipping something that works are not the same thing.
                 </p>
                 <p>
                   What I care about now is the gap between a messy workflow and
-                  a working system. That is where most teams lose time, money,
-                  and momentum. I work best in that gap: understanding the
-                  workflow, reducing ambiguity, and turning it into software
+                  a working system. That gap is where most teams lose time,
+                  money, and momentum. I work best there: understanding what is
+                  actually happening, reducing ambiguity, and building software
                   that is clear, useful, and shippable.
                 </p>
                 <p>
-                  Alongside my work at MedPiper, I&apos;ve also built and
-                  shipped independent tools and paid products. That parallel
-                  work matters to me because it keeps me honest about execution:
-                  turning ideas into something real, useful, and shippable.
-                  Based in Bengaluru.
+                  I do not optimize for technical elegance. I optimize for
+                  useful systems with clear inputs, safe outputs, and workflows
+                  that teams can actually trust day to day.
+                </p>
+                <p>
+                  Alongside MedPiper, I have built and shipped independent
+                  products to stay close to execution reality. Based in
+                  Bengaluru, India.
                 </p>
               </div>
             </div>
@@ -141,101 +146,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 border-y">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-8">Timeline</h2>
-          <div className="space-y-8">
-            {experience.map((exp) => (
-              <div
-                key={exp.company + exp.role}
-                className="flex flex-col md:flex-row gap-4 md:gap-8"
-              >
-                <div className="md:w-48 shrink-0">
-                  <p className="text-sm text-muted-foreground">{exp.period}</p>
-                  {exp.tag && (
-                    <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-0.5 rounded mt-1 inline-block">
-                      {exp.tag}
-                    </span>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{exp.role}</h3>
-                  <p className="text-muted-foreground mb-3">
-                    {exp.company} &middot; {exp.location}
-                  </p>
-                  <ul className="space-y-1.5">
-                    {exp.highlights.map((h) => (
-                      <li
-                        key={h}
-                        className="text-sm text-muted-foreground flex items-start gap-2"
-                      >
-                        <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-muted/30">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Education</h3>
-              <div className="space-y-4">
-                {education.map((edu) => (
-                  <div key={edu.institution}>
-                    <p className="font-medium">{edu.institution}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {edu.degree} &middot; {edu.period}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Certifications</h3>
-              <div className="space-y-2">
-                {certifications.map((cert) => (
-                  <p key={cert} className="text-sm text-muted-foreground">
-                    {cert}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Awards</h3>
-              <div className="space-y-2">
-                {awards.map((award) => (
-                  <p key={award} className="text-sm text-muted-foreground">
-                    {award}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16">
+      <section className="py-16 border-t">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Two ways to work with me
+            Two ways to work together
           </h2>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild className="rounded-full px-8">
-              <Link href="/hire-me">
-                Hiring me for a role <ArrowRight className="ml-2 h-4 w-4" />
+              <Link href="/work-with-me">
+                Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" asChild className="rounded-full px-8">
-              <Link href="/work-with-me">Work with me on a project</Link>
+              <Link href="/hire-me">Explore role fit</Link>
             </Button>
           </div>
         </div>

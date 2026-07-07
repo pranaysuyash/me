@@ -3,23 +3,27 @@
     {
       "slug": "metaextract",
       "title": "MetaExtract",
-      "tagline": "Extract 45,000+ metadata fields from any document",
-      "description": "A production-grade metadata extraction engine that parses PDFs, images, and documents at scale. Handles 45K+ field types with high accuracy using a combination of rule-based and ML approaches.",
-      "problem": "Organizations need to extract structured metadata from thousands of heterogeneous documents — invoices, contracts, medical records, research papers — each with different formats and field layouts.",
-      "approach": "Built a FastAPI backend with a modular extraction pipeline. Each document type gets a dedicated parser combining regex patterns, layout analysis, and ML classification. Results are normalized into a unified schema and served via REST API with React dashboard for monitoring.",
-      "result": "Production-grade metadata extraction system built for document-heavy healthcare workflows.",
+      "tagline": "Structured data from documents that never come in the same format twice",
+      "proofRole": "Systems depth / extraction moat",
+      "proofSummary": "Takes a real production mess (different formats, different layouts, noisy scans) and turns it into structured, reviewable output.",
+      "demonstrates": "How I design modular extraction systems that handle real document variability while staying operable for teams.",
+      "flagshipRank": 3,
+      "description": "A modular extraction system built to pull structured data from PDFs, scanned images, and documents that never come in the same format twice. Designed for document-heavy healthcare operations where the inputs are messy and the outputs need to be reliable.",
+      "problem": "Organizations sit on thousands of documents (invoices, contracts, medical records, reports) that each arrive in a different layout, format, and quality level. Getting structured data out of them means either massive manual effort or brittle one-off scripts that break when the next batch looks different.",
+      "approach": "Built a FastAPI backend with a pluggable parser architecture: each document type gets its own parser combining layout heuristics, regex patterns, and ML classification. Results normalize into a unified schema. Async job queue handles batch runs. React dashboard gives operations visibility into queue status and extraction quality.",
+      "result": "Modular extraction system handling heterogeneous document workflows in healthcare operations.",
       "technicalDepth": {
         "architecture": "Modular FastAPI backend with pluggable parsers per document type. Async job queue for batch processing. PostgreSQL for metadata storage, Redis for caching.",
         "ocrPipeline": "Tesseract OCR with custom preprocessing (deskewing, denoising, contrast normalization). Layout analysis using heuristic + ML-based region detection.",
-        "normalization": "Unified schema mapping 45K+ field variations to standardized outputs. Confidence scoring per field with fallback rules.",
-        "performance": "Handles 1000+ pages/hour on single instance. Sub-2s response for single-page documents.",
+        "normalization": "Unified schema mapping variations to standardized outputs. Confidence scoring per field with fallback rules.",
+        "performance": "Designed for batch processing of heterogeneous document sets. Single-page extraction completes in a few seconds on standard hardware.",
         "integration": "REST API with webhook callbacks. React dashboard for monitoring queue status and reviewing extraction accuracy."
       },
       "outcomes": [
-        "Processing 45,000+ distinct field types from heterogeneous document formats",
-        "Reduced manual data entry by ~80% for healthcare document workflows",
+        "Processes highly variable semantic structures from heterogeneous document formats",
+        "Reduced manual data entry for core healthcare document workflows",
         "Confidence scoring enables human review queue prioritization",
-        "Deployed in production handling thousands of documents weekly"
+        "Operational in production document-heavy workflows"
       ],
       "ownership": "Owned system design and implementation end-to-end: extraction pipeline, normalization logic, API layer, and operator-facing monitoring flow.",
       "constraints": [
@@ -60,10 +64,10 @@
     {
       "slug": "codecollector",
       "title": "CodeCollector",
-      "tagline": "Codebase analysis CLI — zero-config pattern detection and complexity reports",
-      "description": "A command-line tool that scans codebases, extracts patterns, and generates structured analysis reports. Built for developers who need quick insights into code quality and architecture.",
-      "problem": "Developers joining new projects or auditing existing codebases need quick, structured insights without setting up heavy analysis tools or IDEs.",
-      "approach": "Built as a Python CLI using AST parsing and pattern matching. Generates JSON/Markdown reports with metrics on code complexity, duplication, dependency graphs, and anti-pattern detection. Designed for zero-config usage with sensible defaults.",
+      "tagline": "Codebase analysis CLI for pattern detection and complexity reports",
+      "description": "A command-line tool that scans codebases, extracts patterns, and generates structured analysis reports. Zero-config usage with sensible defaults.",
+      "problem": "Developers joining new projects or auditing existing codebases need quick, structured insights without setting up heavy analysis tools.",
+      "approach": "Python CLI using AST parsing and pattern matching. Generates JSON/Markdown reports with metrics on code complexity, duplication, dependency graphs, and anti-pattern detection.",
       "result": "Python CLI using AST parsing for codebase pattern detection and complexity reports.",
       "techStack": ["Python", "AST", "Click", "Rich"],
       "category": "Developer Tools",
@@ -76,10 +80,10 @@
     {
       "slug": "caption-art",
       "title": "Caption Art",
-      "tagline": "AI-powered creative automation for visual content",
-      "description": "An AI creative tool that generates artistic captions, applies style transfers, and creates visual content using generative AI models. Combines text generation with image manipulation.",
-      "problem": "Content creators and social media managers spend hours crafting captions and visual styles for each post. Existing tools are either too generic or require design skills.",
-      "approach": "React + TypeScript frontend with FastAPI backend. Integrated Fal AI for generative models. Users upload images, select style parameters, and the system generates styled captions and visual variations. Pipeline includes image analysis, style matching, and text generation.",
+      "tagline": "Generative AI for styled visual content captions",
+      "description": "An AI creative tool that generates artistic captions and visual content variations using generative AI models. Combines image analysis with style matching and text generation.",
+      "problem": "Content creators spend hours crafting captions and visual styles for each post. Existing tools are either too generic or require design skills.",
+      "approach": "React + TypeScript frontend with FastAPI backend. Integrated Fal AI for generative models. Pipeline includes image analysis, style matching, and text generation.",
       "result": "Generative AI pipeline combining image analysis, style matching, and text generation via Fal AI.",
       "techStack": ["React", "TypeScript", "FastAPI", "Fal AI", "Tailwind CSS"],
       "category": "AI/ML",
@@ -91,24 +95,33 @@
     },
     {
       "slug": "sig-ext-fastapi",
+      "screenshots": [
+        "/assets/projects/signkit/hero.jpg",
+        "/assets/projects/signkit/detail1.jpg",
+        "/assets/projects/signkit/detail2.jpg"
+      ],
       "title": "SignKit",
-      "tagline": "Signature extraction & PDF signing — commercial desktop product",
-      "description": "A commercial desktop application for signature extraction and PDF document processing. PySide6 frontend with FastAPI backend, PostgreSQL database, and PDF signing capabilities. Handles batch document workflows for legal and financial teams. Built from idea to paid product.",
-      "problem": "Legal and financial teams process thousands of signed documents daily. They need signature extraction, PDF signing, and organized output management in one complete workflow.",
-      "approach": "PySide6 cross-platform desktop app with FastAPI backend. PostgreSQL for document metadata and user management. OpenCV-based signature extraction with morphological operations. PDF signing with embedded certificate support.",
-      "result": "Commercial signature extraction product built from idea to paid product, including extraction, signing, and workflow tooling.",
+      "tagline": "Signature extraction and PDF signing, built into one desktop workflow",
+      "proofRole": "Productization + early commercial validation",
+      "proofSummary": "Went from identifying a workflow pain point to shipping a paid product with real users. Not a demo, not a side project. A commercial tool people pay for.",
+      "demonstrates": "How I take a workflow pain point from idea to paid product with real usage and operational constraints.",
+      "flagshipRank": 2,
+      "description": "A commercial desktop application for signature extraction and PDF document processing. Handles batch document workflows for legal and financial teams. Built from idea to paid product, including extraction, signing, billing, and cross-platform distribution.",
+      "problem": "Legal and financial teams process thousands of signed documents. The existing workflow means juggling separate tools for extraction, signing, and organization. Nobody wants three apps for what should be one flow.",
+      "approach": "PySide6 cross-platform desktop app with FastAPI backend. OpenCV-based signature extraction using morphological operations. PDF signing with embedded certificate support. PostgreSQL for document metadata and user management. Stripe for billing, license keys, and trial flow.",
+      "result": "Paid product with early customer validation. Extraction, signing, billing, and distribution shipped end-to-end.",
       "technicalDepth": {
         "cvPipeline": "OpenCV morphological operations (dilation, erosion, contour detection) to isolate signature regions. Handles handwritten signatures on scanned documents, photos, and mixed backgrounds.",
-        "backend": "FastAPI with async document processing. PostgreSQL for user accounts, document metadata, and audit trails. File storage with organized output folders.",
+        "backend": "FastAPI with async document processing. PostgreSQL for user accounts, document metadata, and audit trails.",
         "signing": "PDF signing with embedded certificate chains. Signature appearance customization. Batch signing for multi-document workflows.",
         "monetization": "Stripe integration for subscription billing. License key validation. Trial mode with full feature access for 14 days.",
         "distribution": "Cross-platform builds for Windows and macOS. Code-signed binaries. Auto-updater integration."
       },
       "outcomes": [
-        "Shipped as paid product with Stripe subscription billing",
-        "Signature extraction accuracy >90% on clean documents, >75% on degraded scans",
-        "Batch processing workflows save legal teams hours per week",
-        "Cross-platform deployment (Windows/macOS) with code signing"
+        "Paid product with early customer validation",
+        "Signature extraction handles clean and degraded scanned documents",
+        "Batch processing workflows for legal and financial teams",
+        "Cross-platform distribution (Windows/macOS) with code signing and auto-update"
       ],
       "ownership": "Owned product and build from idea to paid release: desktop UX, extraction/signing pipeline, billing integration, packaging, and shipping workflow.",
       "constraints": [
@@ -148,30 +161,39 @@
     },
     {
       "slug": "echopanel",
+      "screenshots": [
+        "/assets/projects/echopanel/hero.jpg",
+        "/assets/projects/echopanel/detail1.jpg",
+        "/assets/projects/echopanel/detail2.jpg"
+      ],
       "title": "EchoPanel",
-      "tagline": "macOS menu bar audio capture & transcription",
-      "description": "A native macOS menu bar app that captures system audio, transcribes it in real-time using Whisper, and provides searchable transcripts. Built with Swift frontend and FastAPI backend.",
-      "problem": "Professionals in meetings, interviews, and research need to capture and search audio content without switching between multiple tools or relying on cloud services.",
-      "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite for local transcript storage with full-text search. Designed for minimal UI presence with maximum utility.",
-      "result": "macOS menu bar prototype combining native UX, audio capture, and AI transcription.",
+      "tagline": "Record a meeting, find what was said later",
+      "proofRole": "Platform breadth + real product use case",
+      "proofSummary": "Combines native macOS UX, transcription, and local-first retrieval into one workflow. Not three separate tools duct-taped together.",
+      "demonstrates": "How I combine product workflow design with technical implementation to build practical local-first systems.",
+      "flagshipRank": 1,
+      "description": "A native macOS menu bar app that captures meeting audio, transcribes it, and makes the transcript searchable after the fact. The whole point: you hit record, forget about it, then search the transcript when you need to find what was actually said.",
+      "problem": "People in meetings, interviews, and research sessions spend more time replaying recordings to find a specific moment than they spent in the meeting itself. Existing tools either dump raw audio files, require cloud uploads, or make searching painful.",
+      "approach": "Swift menu bar app using AVFoundation for audio capture. FastAPI backend with Whisper for transcription. SQLite with full-text search for local transcript storage. Global hotkey so recording starts in one tap. Minimal UI, maximum utility.",
+      "result": "Local-first meeting capture with transcription and full-text search across all recordings.",
       "technicalDepth": {
-        "audioCapture": "AVFoundation audio engine with custom audio buffer management. Captures system audio via CoreAudio APIs. Real-time streaming to backend.",
-        "transcription": "Whisper model (base/large) for on-device transcription. Chunked processing for real-time results. Speaker diarization experiments.",
+        "audioCapture": "AVFoundation audio engine with custom audio buffer management. Captures system audio via CoreAudio APIs. Streaming to backend for near-real-time processing.",
+        "transcription": "Whisper model for on-device transcription. Chunked processing for live sessions. Speaker diarization experiments.",
         "storage": "SQLite with FTS5 for full-text search. Local-first architecture with export options (SRT, TXT, JSON).",
         "ux": "Menu bar widget with global hotkey. Minimal UI: record button, status indicator, transcript view. Searchable history with timestamp navigation.",
-        "integration": "FastAPI backend for optional cloud processing. WebSocket streaming for live transcription preview."
+        "integration": "FastAPI backend for optional processing. WebSocket streaming for live transcription preview."
       },
       "outcomes": [
         "Native macOS UX with global hotkey activation",
-        "Real-time transcription with Whisper on Apple Silicon",
-        "Local-first storage with full-text search across transcripts",
+        "On-device transcription with Whisper on Apple Silicon",
+        "Local-first storage with full-text search across all transcripts",
         "Export formats: SRT, plain text, structured JSON"
       ],
       "ownership": "Owned prototype architecture and implementation across native app layer, transcription pipeline integration, and local-first transcript retrieval flow.",
       "constraints": [
         "Needed low-friction capture from a menu bar workflow, not a heavy standalone app",
-        "Latency had to stay acceptable for near-real-time transcript feedback",
-        "Local-first storage and search expectations for privacy-sensitive usage"
+        "Transcription latency had to stay acceptable for near-real-time feedback",
+        "Local-first storage and search for privacy-sensitive usage"
       ],
       "tradeoffs": [
         "Prioritized reliable capture + searchable transcript history over broad collaboration features",
@@ -205,10 +227,10 @@
       "slug": "echoai-mlx",
       "title": "EchoAI-MLX",
       "tagline": "Fine-tuned Whisper on Apple Silicon",
-      "description": "Fine-tuned Whisper speech recognition model optimized for Apple Silicon using the MLX framework. Demonstrates on-device ML training and inference.",
-      "problem": "Cloud-based speech recognition has latency, privacy, and cost issues. On-device models need optimization for specific hardware and use cases.",
-      "approach": "Used Apple's MLX framework to fine-tune Whisper on domain-specific audio data. Optimized for Apple Silicon GPU and Neural Engine. Benchmarking against base Whisper models for accuracy and speed.",
-      "result": "Fine-tuned Whisper on Apple Silicon using MLX. Benchmarked against base models for accuracy and speed on domain-specific audio.",
+      "description": "Fine-tuned Whisper speech recognition model optimized for Apple Silicon using the MLX framework. On-device ML training and inference benchmarking.",
+      "problem": "Cloud-based speech recognition has latency, privacy, and cost issues. On-device models need optimization for specific hardware.",
+      "approach": "Used Apple's MLX framework to fine-tune Whisper on domain-specific audio data. Optimized for Apple Silicon GPU and Neural Engine. Benchmarking against base Whisper models.",
+      "result": "Fine-tuned Whisper on Apple Silicon using MLX. Benchmarked against base models for accuracy and speed.",
       "techStack": ["Python", "MLX", "Whisper", "Apple Silicon"],
       "category": "AI/ML",
       "featured": false,
@@ -219,31 +241,40 @@
     },
     {
       "slug": "photosearch-experiment",
+      "screenshots": [
+        "/assets/projects/photosearch/hero.jpg",
+        "/assets/projects/photosearch/detail1.jpg",
+        "/assets/projects/photosearch/detail2.jpg"
+      ],
       "title": "PhotoSearch",
-      "tagline": "Modular AI photo workstation — semantic search, face recognition & clustering",
-      "description": "A full-stack AI photo workstation using FastAPI backend with LanceDB vector storage, CLIP semantic search, and InsightFace face recognition. Tauri desktop app with React frontend. Handles 10K+ photo libraries with sub-second semantic search.",
-      "problem": "Photo libraries grow to tens of thousands of images. Traditional folder/tag organization breaks down. People need semantic search — 'find photos of the beach at sunset' or 'photos with Sarah'.",
-      "approach": "FastAPI backend with LanceDB for vector storage. CLIP generates embeddings for semantic search. InsightFace identifies and clusters faces. Tauri desktop app with React frontend. Modular architecture separating ML pipeline from UI.",
-      "result": "Photo search workstation using multimodal retrieval, semantic search, and face recognition.",
+      "tagline": "Search your photos by describing what is in them",
+      "proofRole": "Local-first multimodal search + product thinking",
+      "proofSummary": "Turns a folder of photos into a searchable library. You describe what you are looking for and it finds it, locally.",
+      "demonstrates": "How I build local-first products where natural language retrieval, clustering, and review workflows work together.",
+      "flagshipRank": 4,
+      "description": "A local-first media search workstation. Instead of browsing by folder or filename, you describe what you are looking for and the system finds matching photos. Supports natural language queries, metadata exploration, and people clustering as one layer of the workflow.",
+      "problem": "Large photo libraries become unmanageable with folders and filenames. You know the photo you want but you can not find it. Existing tools either require cloud uploads or do not understand what is actually in the image.",
+      "approach": "FastAPI + LanceDB backend with CLIP-based semantic retrieval. Tauri + React desktop client for local-first workflow. People clustering as a supporting feature, not the main story. Incremental indexing so large libraries do not require a full rebuild every time.",
+      "result": "Local-first media search workstation with natural language retrieval, metadata workflows, and people clustering.",
       "technicalDepth": {
         "architecture": "FastAPI service layer with separate indexing and query paths. LanceDB stores embeddings; desktop client uses Tauri + React for local workflow UX.",
-        "performance": "Incremental indexing for large libraries and sub-second retrieval on common semantic query paths after warm cache.",
-        "integration": "Combined CLIP semantic retrieval with InsightFace-based person clustering to support both concept and identity-driven search."
+        "performance": "Incremental indexing for large libraries. Semantic queries return results quickly on indexed collections.",
+        "integration": "Combined CLIP semantic retrieval with person clustering and metadata workflows to support concept, context, and identity-oriented review paths."
       },
       "outcomes": [
-        "Semantic retrieval over 10K+ photo libraries with practical interactive latency",
-        "Face clustering reduced manual album organization overhead",
-        "Desktop workflow unified indexing, query, and review in one tool"
+        "Natural language retrieval across local photo libraries",
+        "Face clustering for people-centric queries without manual tagging",
+        "Desktop workflow that unifies indexing, search, and review in one tool"
       ],
-      "ownership": "Owned full-stack implementation of indexing, retrieval, and desktop workflow orchestration for semantic and face-based search.",
+      "ownership": "Owned full-stack implementation of indexing, natural-language retrieval, metadata flows, and desktop workflow orchestration.",
       "constraints": [
         "Large local libraries with mixed quality metadata and inconsistent naming",
-        "Need for a desktop-first experience that can handle long indexing runs",
-        "Balancing semantic relevance, face matching quality, and query latency"
+        "Desktop-first experience that can handle long indexing runs",
+        "Balancing semantic relevance, people clustering quality, and query latency"
       ],
       "tradeoffs": [
         "Prioritized local workstation workflow and retrieval quality over cloud sync features in early versions",
-        "Shipped combined semantic + face search path before broader media management capabilities"
+        "Shipped semantic retrieval + clustering workflow before broader media management capabilities"
       ],
       "whatChanged": [
         "Browsing by folders and filenames shifted to concept-driven retrieval",
@@ -273,10 +304,10 @@
     {
       "slug": "robonomics",
       "title": "Robonomics",
-      "tagline": "Robot workforce data journalism & visualization",
-      "description": "A data journalism project analyzing robot workforce trends, automation impact, and labor market shifts through interactive visualizations and data stories.",
-      "problem": "Public discourse on automation and robots replacing jobs is driven by anecdotes rather than data. People need clear, data-driven perspectives on how automation is actually reshaping work.",
-      "approach": "Collected and cleaned public datasets on robot installations, employment statistics, and productivity metrics. Built interactive visualizations showing trends by industry, region, and job type. Data stories with narrative context.",
+      "tagline": "Robot workforce data journalism and visualization",
+      "description": "A data journalism project analyzing robot workforce trends, automation impact, and labor market shifts through interactive visualizations.",
+      "problem": "Public discourse on automation and robots replacing jobs is driven by anecdotes rather than data.",
+      "approach": "Collected and cleaned public datasets on robot installations, employment statistics, and productivity metrics. Built interactive D3.js visualizations showing trends by industry, region, and job type.",
       "result": "Data journalism on robot workforce trends with interactive D3.js visualizations.",
       "techStack": ["Python", "Pandas", "Matplotlib", "D3.js"],
       "category": "Data",
@@ -290,9 +321,9 @@
       "slug": "bas5minute",
       "title": "Bas5Minute",
       "tagline": "Isochrone travel maps for Indian cities",
-      "description": "An isochrone map tool that visualizes how far you can travel in 5, 10, 15 minutes from any point in Indian cities using public transport, walking, and driving.",
-      "problem": "Urban planners, real estate analysts, and commuters in Indian cities lack tools to visualize actual travel accessibility. Google Maps shows routes but not aggregate reachability.",
-      "approach": "Built with mapping APIs and routing engines. Generates isochrone polygons for different transport modes. Interactive map interface with time sliders. Optimized for Indian city road networks and transit data.",
+      "description": "Visualizes how far you can travel in 5, 10, 15 minutes from any point in Indian cities using public transport, walking, and driving.",
+      "problem": "Urban planners and commuters in Indian cities lack tools to visualize actual travel accessibility beyond point-to-point routing.",
+      "approach": "Built with mapping APIs and routing engines. Generates isochrone polygons for different transport modes. Interactive map interface with time sliders.",
       "result": "Isochrone maps for Indian cities using public transit, walking, and driving routes.",
       "techStack": ["Python", "Leaflet", "OpenStreetMap", "Routing API"],
       "category": "Data",
@@ -305,11 +336,11 @@
     {
       "slug": "appscript-work",
       "title": "Appscript Work",
-      "tagline": "Freelance marketplace platform — client work via Upwork (Guus project)",
+      "tagline": "Freelance marketplace platform (Upwork client project)",
       "description": "A freelance marketplace platform built as client work through Upwork. Connects freelancers with businesses seeking specific technical services.",
-      "problem": "Client needed a marketplace platform connecting skilled freelancers with businesses. Required user management, project posting, bidding, and payment integration.",
-      "approach": "Full-stack web application with user authentication, project listings, bidding system, messaging, and payment processing. Built for scalability with clean API design.",
-      "result": "Delivered as client project via Upwork. Demonstrates ability to ship production-quality work for paying clients.",
+      "problem": "Client needed a marketplace platform connecting skilled freelancers with businesses.",
+      "approach": "Full-stack web application with user authentication, project listings, bidding system, messaging, and payment processing.",
+      "result": "Delivered as client project via Upwork.",
       "techStack": ["React", "Node.js", "PostgreSQL", "Stripe"],
       "category": "Product",
       "featured": false,
@@ -320,10 +351,10 @@
       "slug": "advay-learning",
       "title": "Advay Learning",
       "tagline": "MediaPipe-powered educational app for children with gesture recognition",
-      "description": "An educational Android app for children using MediaPipe for real-time hand gesture recognition. Children interact with learning content through physical movements captured by the device camera. Adaptive difficulty based on performance. Built with Flutter/Dart for Android.",
-      "problem": "Traditional educational apps for children are passive screen time. Parents and educators want interactive, physical-movement-based learning that engages kids beyond tapping screens.",
-      "approach": "Built with MediaPipe for real-time hand gesture recognition. Children interact with educational content through physical movements. Flutter/Dart for Android with real-time CV pipeline.",
-      "result": "Educational app with real-time hand tracking for children. Built with MediaPipe and Flutter for Android.",
+      "description": "An educational Android app for children using MediaPipe for real-time hand gesture recognition. Children interact with learning content through physical movements.",
+      "problem": "Traditional educational apps for children are passive screen time. Parents want interactive, physical-movement-based learning.",
+      "approach": "Built with MediaPipe for real-time hand gesture recognition. Flutter/Dart for Android with adaptive difficulty based on performance.",
+      "result": "Educational app with real-time hand tracking for children. Built with MediaPipe and Flutter.",
       "techStack": ["Flutter", "Dart", "MediaPipe", "Python", "OpenCV"],
       "category": "AI/ML",
       "featured": false,
@@ -335,10 +366,10 @@
     {
       "slug": "scene-guide-v3",
       "title": "SceneGuide v3",
-      "tagline": "Computer vision accessibility app for blind & elderly users (v3)",
-      "description": "An accessibility-focused mobile app using computer vision to describe scenes, read text, and identify objects for visually impaired and elderly users. Built with Flutter/Dart for Android with real-time scene analysis, OCR, and audio feedback. Version 3 with improved accuracy and new features.",
-      "problem": "Visually impaired and elderly users struggle with daily tasks that require visual understanding — reading labels, navigating spaces, identifying objects. They need simple, reliable assistance for everyday visual tasks.",
-      "approach": "Flutter app using device camera for real-time scene analysis. Object detection, OCR, and scene description via optimized CV models. Audio feedback for accessibility. Large touch targets and voice-first interaction designed for elderly users.",
+      "tagline": "Computer vision accessibility app for blind and elderly users",
+      "description": "An accessibility-focused mobile app using computer vision to describe scenes, read text, and identify objects for visually impaired and elderly users.",
+      "problem": "Visually impaired and elderly users struggle with daily tasks that require visual understanding. They need simple, reliable assistance for everyday tasks.",
+      "approach": "Flutter app using device camera for real-time scene analysis. Object detection, OCR, and audio feedback. Voice-first interaction designed for elderly users.",
       "result": "Accessibility app using CV to describe scenes and read text aloud for visually impaired users.",
       "techStack": ["Flutter", "Dart", "Computer Vision", "OCR", "TTS"],
       "category": "AI/ML",
@@ -349,10 +380,10 @@
     {
       "slug": "tabpilot",
       "title": "TabPilot",
-      "tagline": "Native macOS Swift app for managing and organizing browser tabs",
-      "description": "A native macOS Swift app for managing and organizing browser tabs across multiple windows. Uses native macOS APIs for Chrome tab management with AppleScript automation. Staging-first development workflow with production-ready architecture.",
-      "problem": "Power users accumulate hundreds of Chrome tabs across dozens of windows. Browser tab management is limited and doesn't support cross-window operations or intelligent organization.",
-      "approach": "Native Swift macOS app with widget extension. AppleScript-based Chrome automation. Widget for quick tab previews. Clean Architecture with proper separation of concerns.",
+      "tagline": "Native macOS Swift app for managing browser tabs across windows",
+      "description": "A native macOS Swift app for managing and organizing browser tabs across multiple windows. Uses AppleScript automation for Chrome tab management.",
+      "problem": "Power users accumulate hundreds of Chrome tabs across dozens of windows. Browser tab management does not support cross-window operations.",
+      "approach": "Native Swift macOS app with widget extension. AppleScript-based Chrome automation. Clean Architecture with proper separation of concerns.",
       "result": "Native macOS app with AppleScript Chrome automation for cross-window tab management.",
       "techStack": ["Swift", "AppleScript", "macOS", "WidgetKit"],
       "category": "macOS",
@@ -365,11 +396,11 @@
     {
       "slug": "vespr",
       "title": "Vespr",
-      "tagline": "Voice-first journaling app — React Native/Expo",
-      "description": "A voice-first journaling mobile app built with React Native and Expo. Users capture thoughts by voice, with AI-powered transcription, tagging, and mood analysis.",
-      "problem": "Traditional journaling requires typing, which creates friction. Most people think faster than they type. Voice capture lowers the barrier to consistent journaling.",
-      "approach": "React Native + Expo for cross-platform mobile. Voice recording with Whisper transcription. AI-powered tagging and mood analysis. Simple, calming UI designed for daily use with minimal interaction.",
-      "result": "Voice journaling app with Whisper transcription and AI tagging on iOS and Android.",
+      "tagline": "Voice-first journaling app (React Native/Expo)",
+      "description": "A voice-first journaling mobile app. Users capture thoughts by voice, with AI-powered transcription, tagging, and mood analysis.",
+      "problem": "Traditional journaling requires typing, which creates friction. Most people think faster than they type.",
+      "approach": "React Native + Expo for cross-platform mobile. Voice recording with Whisper transcription. Simple, calming UI designed for daily use.",
+      "result": "Voice journaling app with Whisper transcription and AI tagging.",
       "techStack": ["React Native", "Expo", "Whisper", "TypeScript"],
       "category": "Mobile",
       "featured": false,
@@ -381,11 +412,13 @@
     {
       "slug": "model-lab",
       "title": "model-lab",
-      "tagline": "On-device audio AI — MLX, Whisper & model evaluation infrastructure",
-      "description": "A systematic audio AI experimentation repo including model-lab: a production-ready model testing framework for ASR, TTS, and chat models. Features automated scorecards, production grades (A/B/C), cost analysis, and multi-device benchmarking (MPS/CUDA/CPU). Supports Whisper, LFM2.5-Audio, and on-device Apple Silicon optimization.",
-      "problem": "Selecting the right audio AI model requires systematic evaluation across accuracy, speed, cost, and hardware — not just running a few tests. Teams need infrastructure to make deployment decisions with data.",
-      "approach": "Built model-lab as a repeatable evaluation framework with shared harness, identical metrics, and automated comparison dashboards. Tested across Apple Silicon MPS, NVIDIA CUDA, and CPU. Produced production readiness grades for Whisper variants and LFM2.5-Audio.",
-      "result": "Production-ready evaluation framework for ASR/TTS models with automated scorecards and multi-device benchmarking.",
+      "tagline": "Audio pipeline evaluation workbench for comparing ASR and diarization models",
+      "proofRole": "Secondary technical depth: evaluation rigor",
+      "proofSummary": "Built the infrastructure to compare models fairly: same harness, same data, same metrics. The kind of discipline that matters before deployment decisions.",
+      "description": "A systematic evaluation workbench for audio AI models (ASR, diarization, related pipelines). Designed to answer a specific question: which model should we actually deploy, given our accuracy, speed, cost, and hardware constraints?",
+      "problem": "Choosing the right audio AI model means comparing across accuracy, speed, cost, and hardware. Running a few informal tests is not enough to make a deployment decision. Teams need infrastructure to evaluate with data.",
+      "approach": "Built as a repeatable evaluation framework with shared harness, identical metrics, and automated comparison dashboards. Tested across Apple Silicon MPS, NVIDIA CUDA, and CPU. Produced readiness grades for Whisper variants and LFM2.5-Audio.",
+      "result": "Evaluation harness for ASR pipeline comparison with repeatable runs, scorecards, and hardware-aware findings.",
       "techStack": [
         "Python",
         "MLX",
@@ -404,10 +437,10 @@
     {
       "slug": "waste-segregation-app",
       "title": "Waste Segregation App",
-      "tagline": "AI-powered waste classification — Flutter app with Firebase & gamification",
-      "description": "A comprehensive Flutter cross-platform app for waste identification and segregation guidance using AI-powered image classification. Uses OpenAI GPT-4.1-nano and Gemini Vision for item identification across 5 waste categories (wet, dry, hazardous, medical, non-waste). Features gamification with points, achievements, streaks, and family dashboards. Firebase Firestore for real-time sync, Hive for local storage, published to Google Play.",
-      "problem": "Improper waste segregation is a major environmental problem. People don't know how to classify waste correctly, leading to recycling contamination and increased landfill burden.",
-      "approach": "Flutter cross-platform app with camera/gallery image capture. OpenAI and Gemini Vision AI for classification. Gamification system with points, achievements, challenges, and family dashboards. Firebase Firestore for cloud sync, Hive for offline local storage. Educational content on waste categories. Community-driven disposal facility database.",
+      "tagline": "AI-powered waste classification with gamification",
+      "description": "A Flutter cross-platform app for waste identification using AI image classification. Uses GPT-4.1-nano and Gemini Vision across 5 waste categories. Features gamification with points, streaks, and family dashboards.",
+      "problem": "Improper waste segregation is a major environmental problem. People do not know how to classify waste correctly.",
+      "approach": "Flutter cross-platform app with camera capture. OpenAI and Gemini Vision for classification. Gamification with points and achievements. Firebase for sync, Hive for local storage.",
       "result": "Published Flutter app with GPT-4.1-nano and Gemini Vision classification across 5 waste categories.",
       "techStack": [
         "Flutter",
@@ -429,10 +462,10 @@
       "slug": "rag-insurance",
       "title": "Insurance RAG",
       "tagline": "RAG-based insurance document Q&A system",
-      "description": "A RAG (Retrieval Augmented Generation) system for insurance documents. Allows querying insurance policies, claims, and documents using natural language with accurate, sourced answers.",
-      "problem": "Insurance documents are complex and lengthy. Agents and customers struggle to find specific information about coverage, claims, and policy details.",
-      "approach": "Built a RAG pipeline for insurance documents with vector embeddings and LLM-powered Q&A. Document chunking, embedding generation, and semantic search for accurate retrieval with source citations.",
-      "result": "RAG pipeline with vector embeddings and LLM-powered Q&A for insurance policies with source citations.",
+      "description": "A RAG system for insurance documents. Allows querying insurance policies and claims using natural language with sourced answers.",
+      "problem": "Insurance documents are complex and lengthy. Agents and customers struggle to find specific information about coverage and claims.",
+      "approach": "Built a RAG pipeline with vector embeddings and LLM-powered Q&A. Document chunking, embedding generation, and semantic search with source citations.",
+      "result": "RAG pipeline with vector embeddings and LLM-powered Q&A for insurance policies.",
       "techStack": ["Python", "RAG", "LLM", "Vector Database"],
       "category": "AI/ML",
       "featured": false,
@@ -444,10 +477,10 @@
     {
       "slug": "showmetime",
       "title": "ShowMeTime",
-      "tagline": "Live teaching app for kids to learn clock — showmetime.com",
-      "description": "A live web app for teaching children how to read clocks and tell time. Interactive exercises and visual learning for kids. Published at showmetime.com.",
-      "problem": "Children struggle to learn analog and digital time concepts. Traditional teaching methods aren't engaging or interactive enough.",
-      "approach": "Built a web app with interactive clock exercises, visual feedback, and progressive difficulty. Designed for young learners with engaging UI and gamified learning.",
+      "tagline": "Live teaching app for kids to learn clock reading",
+      "description": "A live web app for teaching children how to read clocks and tell time. Interactive exercises and visual learning. Published at showmetime.com.",
+      "problem": "Children struggle to learn analog and digital time concepts with traditional methods.",
+      "approach": "Built a web app with interactive clock exercises, visual feedback, and progressive difficulty.",
       "result": "Interactive clock-learning web app for kids at showmetime.com.",
       "techStack": ["HTML", "JavaScript", "CSS"],
       "category": "Product",
@@ -460,11 +493,11 @@
     {
       "slug": "kenya-shif",
       "title": "Kenya SHIF",
-      "tagline": "Health insurance project for Kenya's Social Health Insurance Fund",
-      "description": "A project for Kenya's Social Health Insurance Fund (SHIF) — the new national health insurance system replacing NHIF. Built as a freelance engagement.",
+      "tagline": "Health insurance systems for Kenya's Social Health Insurance Fund",
+      "description": "Built systems for Kenya's Social Health Insurance Fund (SHIF) supporting registration, contribution tracking, and benefits verification. Freelance engagement.",
       "problem": "Kenya transitioned from NHIF to SHIF requiring new systems for enrollment, contributions, and benefits management.",
       "approach": "Built systems to support SHIF registration, contribution tracking, and benefits verification for the new national health insurance scheme.",
-      "result": "Freelance engagement building systems for Kenya's national health insurance transition (SHIF).",
+      "result": "Freelance engagement building systems for Kenya's national health insurance transition.",
       "techStack": ["Python", "Healthcare", "Insurance"],
       "category": "Product",
       "featured": false,
@@ -475,10 +508,10 @@
       "slug": "file-info-explorer",
       "title": "File Info Explorer",
       "tagline": "VS Code extension for file metadata exploration",
-      "description": "A VS Code extension for exploring and visualizing file metadata, sizes, and directory structure within the editor.",
-      "problem": "Developers need quick insights into file sizes, modification times, and directory structures without leaving their editor.",
-      "approach": "VS Code extension that provides file tree visualization, size information, and metadata browsing directly in the editor.",
-      "result": "Published VS Code extension for file metadata visualization in the editor.",
+      "description": "A VS Code extension for exploring file sizes, modification times, and directory structure within the editor.",
+      "problem": "Developers need quick insights into file metadata without leaving their editor.",
+      "approach": "VS Code extension providing file tree visualization, size information, and metadata browsing.",
+      "result": "Published VS Code extension for file metadata visualization.",
       "techStack": ["TypeScript", "VS Code API"],
       "category": "Developer Tools",
       "featured": false,
@@ -490,11 +523,11 @@
     {
       "slug": "frame-analyser",
       "title": "Frame Analyser",
-      "tagline": "Video frame-by-frame AI analyser — React, TypeScript, Vite",
-      "description": "A video analysis tool that processes videos frame-by-frame using AI. Built with React, TypeScript, and Vite for the frontend.",
-      "problem": "Video analysis for detailed inspection requires frame-by-frame review. Existing tools are either too basic or too complex for quick AI-powered video analysis.",
-      "approach": "Built a web app that uploads videos and runs AI analysis on individual frames. React/TypeScript frontend with Vite for fast development and performance.",
-      "result": "Video analysis tool with AI-powered frame inspection using React and TypeScript.",
+      "tagline": "Video frame-by-frame AI analysis tool",
+      "description": "A video analysis tool that processes videos frame-by-frame using AI. Built with React, TypeScript, and Vite.",
+      "problem": "Video analysis for detailed inspection requires frame-by-frame review.",
+      "approach": "Web app that uploads videos and runs AI analysis on individual frames. React/TypeScript frontend with Vite.",
+      "result": "Video analysis tool with AI-powered frame inspection.",
       "techStack": ["React", "TypeScript", "Vite", "AI"],
       "category": "AI/ML",
       "featured": false,
@@ -507,9 +540,9 @@
       "slug": "agents",
       "title": "Agents Platform",
       "tagline": "Local-first multi-agent orchestration with human-gated risk tiers",
-      "description": "A protocol-first, local-first multi-agent orchestration platform with human-gated risk tiers. Supports OpenAI, Anthropic, Ollama, LangGraph, and ADK runtimes. Features durable local snapshot persistence, background adapter run queue, and pluggable policy engine.",
-      "problem": "Multi-agent systems need proper orchestration, risk management, and human oversight. Existing frameworks lack fine-grained control over agent actions and risk tiers.",
-      "approach": "Built a platform with structured task-thread collaboration, human-gated risk tiers, and adapter model for multiple LLM runtimes. Local-first with snapshot persistence for restart recovery.",
+      "description": "A local-first multi-agent orchestration platform with human-gated risk tiers. Supports OpenAI, Anthropic, Ollama, LangGraph, and ADK runtimes. Features durable local snapshot persistence and pluggable policy engine.",
+      "problem": "Multi-agent systems need proper orchestration, risk management, and human oversight. Existing frameworks lack fine-grained control over agent actions.",
+      "approach": "Built with structured task-thread collaboration, human-gated risk tiers, and adapter model for multiple LLM runtimes. Local-first with snapshot persistence for restart recovery.",
       "result": "Multi-agent platform with OpenAI, Anthropic, and Ollama runtimes. Human-gated risk tiers and local snapshot persistence.",
       "techStack": [
         "TypeScript",
@@ -529,10 +562,10 @@
       "slug": "avia-new",
       "title": "avia_new",
       "tagline": "Enterprise audio/video transcription platform with admin dashboard",
-      "description": "Enterprise-scale audio/video transcription and entity extraction platform with comprehensive admin dashboard and business analytics. Features advanced audio preprocessing (spectral analysis, pitch detection, fingerprinting), NLP model management, action item extraction from meeting transcripts, and enterprise features including SSO, compliance, and multi-tenant support.",
-      "problem": "Enterprises need to transcribe, analyze, and extract value from large volumes of audio/video content at scale with proper admin controls and analytics.",
-      "approach": "Full-stack enterprise platform with Python/TypeScript stack. Whisper-based transcription, spaCy NLP, advanced audio preprocessing, admin dashboard with revenue tracking and user management, multi-tenant architecture with SSO support.",
-      "result": "Enterprise transcription platform with Whisper, spaCy NLP, and admin dashboard for business analytics.",
+      "description": "Enterprise audio/video transcription and entity extraction platform with admin dashboard and business analytics. Features Whisper-based transcription, spaCy NLP, and multi-tenant architecture.",
+      "problem": "Enterprises need to transcribe and extract value from large volumes of audio/video content with proper admin controls.",
+      "approach": "Full-stack platform with Python/TypeScript. Whisper-based transcription, spaCy NLP, admin dashboard with user management, multi-tenant architecture.",
+      "result": "Enterprise transcription platform with Whisper, spaCy NLP, and admin dashboard.",
       "techStack": [
         "Python",
         "TypeScript",
@@ -552,10 +585,10 @@
       "slug": "ai-glossary-pro",
       "title": "AI Glossary Pro",
       "tagline": "AI terminology reference and definitions database",
-      "description": "A comprehensive AI terminology reference tool providing definitions and explanations for AI/ML terms and concepts. Built as a quick-reference resource for AI practitioners.",
-      "problem": "AI terminology is vast and rapidly evolving. Practitioners need quick access to clear definitions of AI/ML terms without searching through lengthy documentation.",
-      "approach": "Simple web application with organized AI terminology database and search functionality for quick term lookup.",
-      "result": "Quick-reference AI terminology database for practitioners.",
+      "description": "A quick-reference AI terminology tool providing definitions and explanations for AI/ML terms.",
+      "problem": "AI terminology is vast and rapidly evolving. Practitioners need quick access to clear definitions.",
+      "approach": "Web application with organized AI terminology database and search functionality.",
+      "result": "Quick-reference AI terminology database.",
       "techStack": ["HTML", "JavaScript"],
       "category": "Product",
       "featured": false,
@@ -568,95 +601,92 @@
   "services": [
     {
       "id": "prototypes",
-      "title": "AI/ML Product Prototypes",
-      "description": "From concept to working prototype in 2–4 weeks. I build AI-powered prototypes that validate your idea with real users — not slide decks.",
-      "timeline": "2–4 weeks",
+      "title": "AI prototype",
+      "description": "A focused first version of an AI product, built to validate the workflow, the interaction, and the technical approach without overbuilding.",
+      "timeline": "2 to 4 weeks",
       "priceFrom": "$10K",
       "deliverables": [
-        "Working prototype with core AI functionality",
-        "API design and documentation",
-        "Deployment to staging environment",
-        "Technical architecture document"
+        "Working prototype with the core AI workflow in place",
+        "Technical direction clear enough for the next build decision",
+        "Basic documentation and handoff notes"
       ],
-      "idealFor": "Founders with an AI product idea who need to validate fast"
+      "idealFor": "Teams that need to validate quickly before investing in a larger build"
     },
     {
       "id": "automation",
-      "title": "Workflow Automation & Internal Tools",
-      "description": "Automate repetitive processes and build internal tools that save your team hours every week. Document processing, data pipelines, dashboards, and integrations.",
-      "timeline": "1–3 weeks",
+      "title": "Workflow automation or internal tool",
+      "description": "A practical system that reduces repetitive work, cleans up a messy process, or gives a team a tool they can actually use day to day.",
+      "timeline": "1 to 3 weeks",
       "priceFrom": "$5K",
       "deliverables": [
-        "Automated workflow or internal tool",
-        "Integration with existing systems",
-        "Documentation and training",
-        "30-day support period"
+        "Working internal tool or automation flow",
+        "Integration with the existing process or stack where needed",
+        "Basic operational documentation"
       ],
-      "idealFor": "Teams drowning in manual processes and data work"
+      "idealFor": "Teams losing time to repetitive work, document handling, or process bottlenecks"
     },
     {
       "id": "advisory",
-      "title": "Technical Advisory",
-      "description": "Architecture reviews, AI/ML approach evaluation, and product roadmap planning. For teams making critical technical decisions who need a second opinion.",
-      "timeline": "1–2 weeks",
+      "title": "Technical advisory",
+      "description": "A short working sprint for teams that need sharper decisions on scope, workflow risk, and practical implementation direction before committing to a bigger build.",
+      "timeline": "1 to 2 weeks",
       "priceFrom": "$3K",
       "deliverables": [
-        "Architecture review and written recommendations",
-        "Technology evaluation and selection",
-        "Product roadmap with technical feasibility",
-        "Decision framework document"
+        "Architecture or implementation review",
+        "Trade-off analysis and written recommendation",
+        "Feasibility view tied to the actual product or workflow context"
       ],
-      "idealFor": "Teams making critical technical decisions with senior stakes"
+      "idealFor": "Teams that need better judgment before choosing architecture, stack, or AI approach"
     }
   ],
   "process": [
     {
       "step": 1,
-      "title": "Discovery Call",
-      "description": "We discuss your problem, constraints, and goals. I ask questions to understand the technical and business context."
+      "title": "Discovery",
+      "description": "We get clear on the problem, the constraints, the users, and what a useful first version actually needs to do."
     },
     {
       "step": 2,
-      "title": "Proposal & Scope",
-      "description": "I send a clear proposal with timeline, deliverables, and pricing. No surprises."
+      "title": "Scope",
+      "description": "I turn that into a concrete scope with deliverables, timeline, and clear boundaries."
     },
     {
       "step": 3,
-      "title": "Build & Iterate",
-      "description": "I build in weekly milestones. You see working software every week, not status reports."
+      "title": "Build",
+      "description": "I work in short milestones so progress is visible early. The goal is working software, not long status cycles."
     },
     {
       "step": 4,
-      "title": "Deliver & Support",
-      "description": "Working software delivered with documentation. 30-day support period included."
+      "title": "Handoff",
+      "description": "You get something usable, documented, and understandable, with a short support window to close the loop properly."
     }
   ],
   "faq": [
     {
-      "question": "What's the smallest scope you've taken?",
-      "answer": "The smallest was a two-week document extraction prototype for a healthcare startup that needed to validate before their board meeting. They had a vague brief, I scoped it, built it, and they used the results to justify a full build. If the problem is clear and the scope is real, I'll take it on."
+      "question": "What is the smallest scope you take?",
+      "answer": "Usually something with a clear workflow, a real user need, and a narrow first version that can be built in weeks rather than months."
     },
     {
-      "question": "What if I only have a vague idea?",
-      "answer": "That's fine. Most good engagements start with 'we have this problem and we think AI might help.' I ask a lot of questions in the discovery call to get to the actual problem — not the stated solution. If the fit isn't there, I'll tell you."
+      "question": "What if the idea is still vague?",
+      "answer": "That is fine as long as there is a real problem underneath it. Part of the early work is turning a vague request into a tighter scope."
     },
     {
       "question": "Do you work with existing teams?",
-      "answer": "Yes. I've augmented teams for specific sprints and projects. I'm comfortable working in your codebase, your workflow, and your stack — as long as the problem is well-defined."
+      "answer": "Yes. That is often the best setup. I can plug into an existing product, engineering, or operations context and help move a specific build forward."
     },
     {
       "question": "What does a typical week look like?",
-      "answer": "Week 1 is discovery and scoping. Week 2 onwards, you get a working demo every Friday. You see code, you see the system working, you can interact with it. Not a slide deck, not a status report."
+      "answer": "Clear milestone, visible progress, and working output. I prefer short feedback loops over long reporting cycles."
     },
     {
-      "question": "Do you handle deployment and DevOps?",
-      "answer": "Yes. Docker containers, AWS deployments, CI/CD pipelines, and monitoring are included in prototype and automation engagements. I don't hand off 'call someone else to deploy.'"
+      "question": "Do you handle deployment?",
+      "answer": "Yes. Docker containers, CI/CD pipelines, and monitoring are included in prototype and automation engagements. I do not hand off and say call someone else to deploy."
     }
   ],
   "experience": [
     {
       "company": "MedPiper Technologies",
-      "role": "Co‑Founder / Head of Product & Platforms",
+      "role": "Co-Founder / Head of Product & Platforms",
       "period": "2020 — Present",
       "location": "Bengaluru, India",
       "tag": "YC S20",
@@ -668,8 +698,8 @@
       },
       "highlights": [
         "Built platform from ground up; scaled to ~$1M ARR",
-        "Reduced insurance sales & ops TAT from ~4 weeks → ~10 days via workflow automation",
-        "Launched Instaclinic, HCPwire, HCPconnect from concept → MVP → scaled adoption",
+        "Reduced insurance sales & ops TAT from ~4 weeks to ~10 days via workflow automation",
+        "Launched Instaclinic, HCPwire, HCPconnect from concept to MVP to scaled adoption",
         "Built content program with 50+ healthcare professional contributors",
         "Integrated AI features (OCR, RAG) as product enhancements",
         "Led ISO 27001 recertification and SOC 2 compliance programs",

@@ -6,10 +6,16 @@ import Link from "next/link";
 import { ArrowRight, Download, CheckCircle2, Calendar } from "lucide-react";
 import projectsData from "@/content/projects.json";
 
+type Project = (typeof projectsData.projects)[number] & {
+  flagshipRank?: number;
+  proofRole?: string;
+  proofSummary?: string;
+};
+
 export const metadata: Metadata = {
-  title: "Hire Me | Pranay Suyash",
+  title: "Hire Me",
   description:
-    "Role fit, ownership scope, and proof for product systems, workflow automation, applied AI, and prototype-heavy roles.",
+    "Role fit and proof for product-workflow roles where ambiguous operational problems need to become working software.",
   openGraph: {
     title: "Hire Me | Pranay Suyash",
     description:
@@ -20,14 +26,14 @@ export const metadata: Metadata = {
 
 const strengths = [
   {
-    area: "Product + execution",
+    area: "Product with hands-on execution",
     detail:
-      "I can scope with product context and still ship the core build. Useful when teams need fewer handoffs between planning and delivery.",
+      "I scope with product context and ship the core build. Useful when teams need fewer handoffs between planning and delivery.",
   },
   {
     area: "Workflow-heavy systems",
     detail:
-      "Strong fit for document-heavy, operations-heavy, and internal tooling problems where the pain is in messy process, not just UI polish.",
+      "Strong fit for document-heavy, operations-heavy, and internal tooling problems. The kind where the pain is in messy process, not just UI polish.",
   },
   {
     area: "Fast first versions",
@@ -53,20 +59,22 @@ export default function HireMePage() {
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
           <div className="max-w-3xl animate-fade-up">
             <p className="text-sm font-mono text-muted-foreground mb-4 tracking-widest uppercase">
-              For hiring managers &amp; recruiters
+              For hiring teams
             </p>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Hire <span className="gradient-text">Pranay Suyash</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              Best fit for product systems, workflow automation, applied AI, and
-              prototype-heavy roles where ambiguous problems need to become
-              working software quickly.
+              Best fit where the work is messy, the requirements are incomplete,
+              and someone needs to turn ambiguity into working software. Not a
+              specialist role. Not a generalist role. A particular kind of
+              operator.
             </p>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-              14 years across product and engineering. Most recently at MedPiper
-              (YC S20), where I shipped workflow-heavy systems, internal tools,
-              and applied AI features in a regulated healthcare context.
+              14 years across product and system building. Most recently at
+              MedPiper (YC S20), shipping workflow-heavy systems in regulated
+              healthcare operations. Insurance processing went from about 4
+              weeks to about 10 days. That is the kind of outcome I focus on.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-5">
@@ -121,16 +129,16 @@ export default function HireMePage() {
           <div className="mb-12">
             <h2 className="text-2xl font-bold tracking-tight mb-3">Role fit</h2>
             <p className="text-sm text-muted-foreground mb-6 max-w-xl">
-              I am strongest in roles that combine product judgment with
-              hands-on execution.
+              I am strongest where product judgment and hands-on execution sit
+              in the same person.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                "Applied AI workflows",
-                "Internal tools & automation",
-                "Product systems & platforms",
-                "Prototyping and pilot builds",
-                "Cross-functional operator roles",
+                "Workflow-heavy product roles",
+                "Internal tools and operational automation",
+                "AI feature prototyping and pilots",
+                "Cross-functional operator who ships",
+                "Regulated-context delivery",
               ].map((role) => (
                 <div key={role} className="flex items-center gap-2 text-sm">
                   <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
@@ -143,24 +151,23 @@ export default function HireMePage() {
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h3 className="text-base font-semibold mb-3">
-                Execution context
+                What I shipped at MedPiper
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                At MedPiper I worked across product, platform, and operations,
-                shipping workflow systems tied to real business constraints. A
-                representative outcome: reducing insurance processing from ~4
-                weeks to ~10 days.
+                At MedPiper I worked across product, platform, and operations.
+                Insurance processing went from about 4 weeks to about 10 days
+                because we replaced manual handoffs with a tighter system. That
+                is the kind of outcome I optimize for.
               </p>
             </div>
             <div>
               <h3 className="text-base font-semibold mb-3">
-                Team and collaboration style
+                How I show up on teams
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                I work closely with product, ops, and engineering. I am
-                comfortable with ownership-heavy roles where requirements are
-                incomplete, trade-offs are real, and progress needs to stay
-                visible week to week.
+                I take ownership of ambiguous scopes and make progress visible
+                week to week. I am comfortable in roles where nobody is going to
+                hand me a clean spec.
               </p>
             </div>
           </div>
@@ -329,20 +336,33 @@ export default function HireMePage() {
           <h2 className="text-2xl font-bold tracking-tight mb-3">
             Selected work
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
+            The same projects shown across the site. Not portfolio decoration.
+            Each one addresses a real workflow problem.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {projectsData.projects
-              .filter((p) => p.featured)
-              .map((project) => (
+              .filter((p: Project) => p.featured)
+              .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99))
+              .map((project: Project) => (
                 <Link key={project.slug} href={`/work/${project.slug}`}>
                   <Card className="hover-lift border shadow-sm h-full">
                     <CardContent className="p-5">
-                      <p className="text-xs font-mono text-muted-foreground mb-2">
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
                         {project.category} &middot; {project.year}
                       </p>
                       <h3 className="font-semibold mb-1">{project.title}</h3>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         {project.tagline}
                       </p>
+                      {(project.proofRole || project.proofSummary) && (
+                        <p className="proof-angle mt-3">
+                          <span className="font-medium text-foreground">
+                            Why it matters:
+                          </span>{" "}
+                          {project.proofSummary || project.proofRole}
+                        </p>
+                      )}
                     </CardContent>
                   </Card>
                 </Link>
@@ -354,12 +374,11 @@ export default function HireMePage() {
       <section className="py-16 bg-muted/30">
         <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
-            Ready to talk?
+            Want to see if the fit is right?
           </h2>
           <p className="text-muted-foreground max-w-lg mx-auto mb-8">
-            Book a 15-minute call and I&apos;ll come prepared with a practical
-            point of view on role fit, ownership scope, and immediate execution
-            priorities.
+            Book a short call. I will come prepared with a point of view on role
+            fit, ownership scope, and what I would prioritize first.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild size="lg" className="rounded-full px-8">

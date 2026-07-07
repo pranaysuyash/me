@@ -9,6 +9,12 @@ interface WorkDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+type Project = (typeof projectsData.projects)[0] & {
+  demonstrates?: string;
+  proofRole?: string;
+  proofSummary?: string;
+};
+
 export function generateStaticParams() {
   return projectsData.projects.map((project) => ({
     slug: project.slug,
@@ -17,7 +23,9 @@ export function generateStaticParams() {
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params;
-  const project = projectsData.projects.find((p) => p.slug === slug);
+  const project = projectsData.projects.find((p) => p.slug === slug) as
+    | Project
+    | undefined;
 
   if (!project) {
     notFound();
@@ -70,6 +78,21 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               {project.tagline}
             </p>
 
+            {(project.proofRole ||
+              project.demonstrates ||
+              project.proofSummary) && (
+              <div className="mb-8 rounded-xl border bg-muted/20 p-4">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                  Why it matters
+                </p>
+                <p className="text-sm leading-relaxed text-foreground/90">
+                  {project.proofSummary ||
+                    project.proofRole ||
+                    project.demonstrates}
+                </p>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-2 mb-8">
               {project.techStack.map((tech) => (
                 <span
@@ -101,29 +124,52 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               </div>
             )}
 
-            <div className="mb-10" />
-
             <div className="space-y-10">
               <section>
-                <h2 className="text-xl font-semibold mb-3">Problem</h2>
+                <h2 className="text-xl font-semibold mb-3">What it is</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  {project.description}
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-xl font-semibold mb-3">Why it exists</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {project.problem}
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-semibold mb-3">Approach</h2>
+                <h2 className="text-xl font-semibold mb-3">
+                  Workflow and build approach
+                </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   {project.approach}
                 </p>
               </section>
 
+              {/* Outcomes before technical depth for featured/flagship projects */}
+              {hasOutcomes && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">Proof</h2>
+                  <ul className="space-y-2">
+                    {project.outcomes?.map((outcome, index) => (
+                      <li
+                        key={index}
+                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
+                      >
+                        <span className="text-primary mt-1.5">→</span>
+                        <span>{outcome}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
               {/* Technical Depth Section */}
               {hasTechnicalDepth && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-4">
-                    Technical Implementation
-                  </h2>
+                  <h2 className="text-xl font-semibold mb-4">What was built</h2>
                   <div className="space-y-4">
                     {project.technicalDepth?.architecture && (
                       <div>
@@ -269,27 +315,13 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 </section>
               )}
 
-              {/* Outcomes Section */}
-              {hasOutcomes && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">Outcomes</h2>
-                  <ul className="space-y-2">
-                    {project.outcomes?.map((outcome, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
+              {/* Outcomes suppressed here — shown after Approach above for all projects */}
 
               {hasOwnership && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-3">Ownership & scope</h2>
+                  <h2 className="text-xl font-semibold mb-3">
+                    Ownership and scope
+                  </h2>
                   <p className="text-muted-foreground leading-relaxed">
                     {project.ownership as string}
                   </p>
@@ -372,6 +404,32 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                   {project.result}
                 </p>
               </section>
+
+              {/* What this demonstrates — flagship projects only */}
+              {project.featured &&
+                (project as Project & { demonstrates?: string })
+                  .demonstrates && (
+                  <section className="border-t pt-8">
+                    <h2 className="text-xl font-semibold mb-3">
+                      Why this project matters
+                    </h2>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {
+                        (project as Project & { demonstrates?: string })
+                          .demonstrates
+                      }
+                    </p>
+                  </section>
+                )}
+
+              {project.featured && project.proofRole && (
+                <section>
+                  <h2 className="text-xl font-semibold mb-3">What it proves</h2>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {project.proofRole}
+                  </p>
+                </section>
+              )}
             </div>
           </div>
 
@@ -383,11 +441,11 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               ← Back to all projects
             </Link>
             <div className="flex gap-3">
+              <Button asChild className="rounded-full">
+                <Link href="/work-with-me">Start a pilot</Link>
+              </Button>
               <Button variant="outline" asChild className="rounded-full">
                 <Link href="/hire-me">Hire Me</Link>
-              </Button>
-              <Button asChild className="rounded-full">
-                <Link href="/work-with-me">Work With Me</Link>
               </Button>
             </div>
           </div>
