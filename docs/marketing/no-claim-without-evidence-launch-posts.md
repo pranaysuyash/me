@@ -109,7 +109,7 @@ How to Build AI Systems You Can Verify
 For AI builders, founders, and engineers working on LLM workflows, evals, extraction, review systems, and release gates.
 
 PDF + EPUB  
-Launch price: $19
+Launch price: ₹1,499
 
 https://pranaysuyash.com/books/no-claim-without-evidence
 
@@ -122,6 +122,21 @@ I just launched an ebook from my AI evals series:
 A practical guide to building AI systems you can verify, not just demo.
 
 PDF + EPUB  
-$19 launch price
+₹1,499 launch price
+
+https://pranaysuyash.com/books/no-claim-without-evidence
+
+## WhatsApp Personal Version
+
+For the last few days I was writing daily notes on AI evals, extraction errors, and evidence-backed systems.
+
+I turned them into a polished ebook:
+
+**No Claim Without Evidence**
+
+It is for builders working on LLM workflows, evals, extraction, review systems, and AI release gates.
+
+PDF + EPUB  
+Launch price: ₹1,499
 
 https://pranaysuyash.com/books/no-claim-without-evidence

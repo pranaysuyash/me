@@ -33,6 +33,9 @@ When the variable is absent, the page CTA falls back to a `mailto:` launch-list 
 - `src/components/layout/footer.tsx`
 - `public/sitemap.xml`
 - `public/books/no-claim-without-evidence/cover.png`
+- `public/books/no-claim-without-evidence/checkout-image.jpg`
+- `docs/marketing/no-claim-dodo-product-setup.md`
+- `docs/marketing/no-claim-without-evidence-launch-posts.md`
 
 ## Validation Plan
 
@@ -41,3 +44,11 @@ When the variable is absent, the page CTA falls back to a `mailto:` launch-list 
 - Browser proof of `/books/no-claim-without-evidence` on desktop and mobile.
 - Confirm all route assets return 200 or cache-valid 304.
 - Set `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL` in the deployment environment before launch checkout goes live.
+
+## Product Setup Artifact
+
+Paste-ready Dodo product fields live in:
+
+`docs/marketing/no-claim-dodo-product-setup.md`
+
+Use `public/books/no-claim-without-evidence/checkout-image.jpg` for the Dodo product image because it is square and below the 3MB upload limit.
