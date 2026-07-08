@@ -22,7 +22,7 @@ NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL
 
 When the variable is present at build time, the page CTA says `Buy with Dodo Payments` and links to that checkout URL.
 
-When the variable is absent, the page CTA falls back to a `mailto:` launch-list request so the site remains usable before the live Dodo product link is created.
+When the variable is absent, the page CTA falls back to the contact form so the site remains usable before the live Dodo product link is created.
 
 ## Affected Files
 
@@ -52,3 +52,5 @@ Paste-ready Dodo product fields live in:
 `docs/marketing/no-claim-dodo-product-setup.md`
 
 Use `public/books/no-claim-without-evidence/checkout-image.jpg` for the Dodo product image because it is square and below the 3MB upload limit.
+
+The ebook page itself should not suggest a waitlist. It should show a purchase CTA when the Dodo checkout URL is configured and an enquiry CTA otherwise.

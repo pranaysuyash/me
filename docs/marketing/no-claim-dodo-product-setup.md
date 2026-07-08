@@ -159,4 +159,4 @@ Copy the Dodo checkout/payment link and set it in the site deployment environmen
 NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=<dodo checkout url>
 ```
 
-Then redeploy the site. The page CTA will automatically change from `Join the launch list` to `Buy with Dodo Payments`.
+Then redeploy the site. The page CTA will automatically change from the enquiry fallback to `Buy with Dodo Payments`.

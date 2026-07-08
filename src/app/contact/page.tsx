@@ -22,12 +22,14 @@ const CAL_30MIN = "https://cal.com/pranaysuyash/30min";
 
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState<"call" | "project">("call");
+  const [leadSource, setLeadSource] = useState("general");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: "",
     budget: "",
+    source: "general",
     honeypot: "",
   });
   const [status, setStatus] = useState<
@@ -36,10 +38,14 @@ export default function ContactPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const type = new URLSearchParams(window.location.search).get("type");
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type");
+    const source = params.get("source") || "general";
     if (type === "project" || type === "call") {
       setActiveTab(type);
     }
+    setLeadSource(source);
+    setFormData((prev) => ({ ...prev, source }));
   }, []);
 
   const handleChange = (
@@ -70,6 +76,7 @@ export default function ContactPage() {
         company: "",
         message: "",
         budget: "",
+        source: leadSource,
         honeypot: "",
       });
     } catch (error) {
@@ -165,10 +172,14 @@ export default function ContactPage() {
               className="border rounded-xl p-8 space-y-5"
             >
               <h2 className="text-xl font-semibold mb-1">
-                Tell me about your project
+                {leadSource === "book"
+                  ? "Tell me what you want to do with the book"
+                  : "Tell me about your project"}
               </h2>
               <p className="text-sm text-muted-foreground mb-4">
-                I&apos;ll send a proposal within 48 hours.
+                {leadSource === "book"
+                  ? "Use this for consulting, workshops, or custom work related to the ebook."
+                  : "I&apos;ll send a proposal within 48 hours."}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -248,7 +259,9 @@ export default function ContactPage() {
                   htmlFor="project-message"
                   className="block text-sm font-medium mb-1.5"
                 >
-                  Tell me about your project{" "}
+                  {leadSource === "book"
+                    ? "What kind of help do you want?"
+                    : "Tell me about your project"}{" "}
                   <span className="text-destructive">*</span>
                 </label>
                 <Textarea
@@ -257,7 +270,11 @@ export default function ContactPage() {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="What are you building? What problem are you solving? What's your timeline?"
+                  placeholder={
+                    leadSource === "book"
+                      ? "What part of the book do you want help applying? Are you looking for consulting, a workshop, or a scoped build?"
+                      : "What are you building? What problem are you solving? What's your timeline?"
+                  }
                   required
                 />
               </div>
@@ -281,7 +298,11 @@ export default function ContactPage() {
                 className="w-full rounded-full"
                 size="lg"
               >
-                {status === "loading" ? "Sending..." : "Send Project Inquiry"}
+                {status === "loading"
+                  ? "Sending..."
+                  : leadSource === "book"
+                    ? "Send Book Enquiry"
+                    : "Send Project Inquiry"}
                 <Send className="ml-2 h-4 w-4" />
               </Button>
 

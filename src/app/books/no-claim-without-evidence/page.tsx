@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   FileText,
   ShieldCheck,
+  Mail,
   Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -70,6 +71,18 @@ const principles = [
   },
 ];
 
+const deliveryNotes = [
+  "PDF + EPUB editions",
+  "Dodo-powered checkout and file delivery",
+  "Built for builders, operators, and teams",
+];
+
+const consultingNotes = [
+  "Workflow review and scoping",
+  "Implementation help for AI extraction or review systems",
+  "Team workshops and productized advisory",
+];
+
 export default function NoClaimWithoutEvidencePage() {
   return (
     <PageLayout>
@@ -104,7 +117,9 @@ export default function NoClaimWithoutEvidencePage() {
                 size="lg"
                 className="rounded-full border-white/30 bg-white/5 px-8 text-white hover:bg-white/10"
               >
-                <Link href="#inside">See what is inside</Link>
+                <Link href={noClaimEbook.consultingUrl}>
+                  {noClaimEbook.consultingLabel}
+                </Link>
               </Button>
             </div>
             <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
@@ -112,20 +127,35 @@ export default function NoClaimWithoutEvidencePage() {
               <span className="text-white/30">/</span>
               <span>{noClaimEbook.format}</span>
               <span className="text-white/30">/</span>
-              <span>Dodo checkout and digital delivery</span>
+              <span>{noClaimEbook.fulfillmentLabel}</span>
             </div>
           </div>
 
-          <div className="mx-auto w-full max-w-[360px] lg:max-w-none">
-            <div className="rounded-[10px] border border-white/12 bg-white/8 p-3 shadow-2xl shadow-cyan-950/70">
-              <Image
-                src={noClaimEbook.cover}
-                alt={`${noClaimEbook.title} cover`}
-                width={1024}
-                height={1536}
-                priority
-                className="h-auto w-full rounded-[6px]"
-              />
+          <div className="space-y-4">
+            <div className="mx-auto w-full max-w-[360px] lg:max-w-none">
+              <div className="rounded-[10px] border border-white/12 bg-white/8 p-3 shadow-2xl shadow-cyan-950/70">
+                <Image
+                  src={noClaimEbook.cover}
+                  alt={`${noClaimEbook.title} cover`}
+                  width={1024}
+                  height={1536}
+                  priority
+                  className="h-auto w-full rounded-[6px]"
+                />
+              </div>
+            </div>
+            <div className="rounded-[10px] border border-white/12 bg-white/6 p-5 backdrop-blur">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">
+                What you get
+              </p>
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-white/78">
+                {deliveryNotes.map((note) => (
+                  <li key={note} className="flex items-start gap-3">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-200" />
+                    <span>{note}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -133,7 +163,7 @@ export default function NoClaimWithoutEvidencePage() {
 
       <section id="inside" className="py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
               <p className="mb-3 text-xs font-mono uppercase tracking-widest text-muted-foreground">
                 The thesis
@@ -152,7 +182,7 @@ export default function NoClaimWithoutEvidencePage() {
               {chapters.map((chapter) => (
                 <div
                   key={chapter}
-                  className="flex gap-3 rounded-lg border bg-card p-4 text-sm"
+                  className="flex gap-3 rounded-lg border bg-card p-4 text-sm shadow-sm"
                 >
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <span>{chapter}</span>
@@ -198,22 +228,91 @@ export default function NoClaimWithoutEvidencePage() {
             </p>
           </div>
 
-          <div className="rounded-lg border bg-card p-6">
-            <p className="text-sm text-muted-foreground">Launch offer</p>
-            <p className="mt-2 text-3xl font-bold">{noClaimEbook.price}</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {noClaimEbook.standardPrice}. Includes PDF and EPUB editions.
-            </p>
-            <Button asChild className="mt-6 w-full rounded-full">
-              <Link href={noClaimEbook.checkoutUrl}>
-                {noClaimEbook.checkoutLabel}
-              </Link>
-            </Button>
-            <p className="mt-4 text-xs leading-6 text-muted-foreground">
-              Checkout and file delivery are intended to run through Dodo
-              Payments. If the checkout link is not yet live, this button opens
-              a direct request email.
-            </p>
+          <Card className="border bg-card shadow-sm">
+            <CardContent className="p-6">
+              <p className="text-sm text-muted-foreground">Launch offer</p>
+              <p className="mt-2 text-3xl font-bold">{noClaimEbook.price}</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {noClaimEbook.standardPrice}. Includes PDF and EPUB editions.
+              </p>
+              <Button asChild className="mt-6 w-full rounded-full">
+                <Link href={noClaimEbook.checkoutUrl}>
+                  {noClaimEbook.checkoutLabel}
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="mt-3 w-full rounded-full"
+              >
+                <Link href={noClaimEbook.consultingUrl}>
+                  {noClaimEbook.consultingLabel}
+                </Link>
+              </Button>
+              <p className="mt-4 text-xs leading-6 text-muted-foreground">
+                Dodo Payments can handle the checkout and digital file delivery
+                for the ebook. For consulting, use the enquiry form so the
+                scope stays productized and clear.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="border-y bg-background py-16 md:py-20">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <Card className="bg-card shadow-sm">
+              <CardContent className="p-7">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                  For consulting
+                </p>
+                <h3 className="text-2xl font-bold tracking-tight">
+                  Need help shaping the same kind of workflow for your team?
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+                  The enquiry path is for custom work, workshops, or scoped
+                  advisory. Use it when you want a human review of your
+                  workflow, not just the ebook.
+                </p>
+                <ul className="mt-6 space-y-3 text-sm text-foreground">
+                  {consultingNotes.map((note) => (
+                    <li key={note} className="flex items-start gap-3">
+                      <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                      <span>{note}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button asChild className="mt-6 rounded-full px-8">
+                  <Link href={noClaimEbook.consultingUrl}>
+                    Send an enquiry <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-muted/35 shadow-sm">
+              <CardContent className="p-7">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                  Why this page works
+                </p>
+                <ul className="space-y-4 text-sm leading-7 text-muted-foreground">
+                  <li>
+                    The purchase path is explicit instead of hiding behind a
+                    placeholder CTA.
+                  </li>
+                  <li>
+                    File delivery stays with the payment layer, so the site
+                    does not need a second storage system just to sell one
+                    ebook.
+                  </li>
+                  <li>
+                    Consulting has its own enquiry path, which keeps custom
+                    work separate from the product sale.
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

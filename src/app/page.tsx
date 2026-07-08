@@ -323,8 +323,16 @@ export default function Home() {
               variant="outline"
               className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
             >
-              <Link href={noClaimEbook.checkoutUrl}>
-                {noClaimEbook.checkoutLabel}
+              <Link
+                href={
+                  noClaimEbook.hasCheckout
+                    ? noClaimEbook.checkoutUrl
+                    : noClaimEbook.consultingUrl
+                }
+              >
+                {noClaimEbook.hasCheckout
+                  ? noClaimEbook.checkoutLabel
+                  : noClaimEbook.consultingLabel}
               </Link>
             </Button>
           </div>
