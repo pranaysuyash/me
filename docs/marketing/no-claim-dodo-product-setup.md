@@ -160,3 +160,4 @@ NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=<dodo checkout url>
 ```
 
 Then redeploy the site. The page CTA will automatically change from the enquiry fallback to `Buy with Dodo Payments`.
+The site also includes a dedicated sample route at `/books/no-claim-without-evidence/sample` so buyers can inspect a real excerpt before checkout.

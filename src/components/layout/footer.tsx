@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { brandTagline } from "@/lib/brand";
 
 const socialLinks = [
   { name: "GitHub", href: "https://github.com/pranaysuyash", icon: Github },
@@ -33,7 +34,7 @@ export function Footer() {
               PS
             </Link>
             <p className="text-sm text-muted-foreground">
-              Messy workflows into working software.
+              {brandTagline}.
             </p>
           </div>
 

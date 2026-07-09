@@ -8,6 +8,10 @@ Checkout:
 
 Use the Dodo Payments checkout link behind `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL`.
 
+Sample chapter:
+
+`https://pranaysuyash.com/books/no-claim-without-evidence/sample`
+
 ## LinkedIn
 
 I turned my recent notes on AI evals, extraction errors, review workflows, evidence, and release gates into a practical ebook:

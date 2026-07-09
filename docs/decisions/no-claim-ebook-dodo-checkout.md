@@ -23,6 +23,7 @@ NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL
 When the variable is present at build time, the page CTA says `Buy with Dodo Payments` and links to that checkout URL.
 
 When the variable is absent, the page CTA falls back to the contact form so the site remains usable before the live Dodo product link is created.
+The main book page also links to a sample chapter at `/books/no-claim-without-evidence/sample` so readers can inspect the writing before purchase.
 
 ## Affected Files
 

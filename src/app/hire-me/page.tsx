@@ -15,7 +15,7 @@ type Project = (typeof projectsData.projects)[number] & {
 export const metadata: Metadata = {
   title: "Hire Me",
   description:
-    "Role fit and proof for product-workflow roles where ambiguous operational problems need to become working software.",
+    "Role fit and proof for product-workflow roles where ambiguous operational problems need to become working solutions.",
   openGraph: {
     title: "Hire Me | Pranay Suyash",
     description:
@@ -84,7 +84,7 @@ export default function HireMePage() {
             </h1>
             <p className="text-lg text-white/72 mb-4 leading-relaxed">
               Best fit where the work is messy, the requirements are incomplete,
-              and someone needs to turn ambiguity into working software. Not a
+              and someone needs to turn ambiguity into working solutions. Not a
               specialist role. Not a generalist role. A particular kind of
               operator.
             </p>

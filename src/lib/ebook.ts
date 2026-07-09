@@ -8,16 +8,19 @@ export const noClaimEbook = {
   standardPrice: "$29 standard price after launch",
   format: "PDF + EPUB",
   cover: "/books/no-claim-without-evidence/cover.png",
+  checkoutImage: "/books/no-claim-without-evidence/checkout-image.jpg",
   path: "/books/no-claim-without-evidence",
+  sampleUrl: "/books/no-claim-without-evidence/sample",
+  sampleLabel: "Read sample chapter",
   checkoutUrl: ebookCheckoutUrl || "/contact?type=project&source=book",
   checkoutLabel: ebookCheckoutUrl
     ? "Buy with Dodo Payments"
-    : "Send an enquiry",
+    : "Request book access",
   consultingUrl: "/contact?type=project&source=book",
   consultingLabel: "Ask about consulting",
   fulfillmentLabel: ebookCheckoutUrl
     ? "Dodo checkout and digital delivery"
-    : "Enquiry form for access and consulting",
+    : "Access request form for now",
   hasCheckout: Boolean(ebookCheckoutUrl),
   description:
     "A practical field guide for building LLM workflows with evidence links, evals, review rules, action traces, and release gates.",

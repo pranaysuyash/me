@@ -63,7 +63,7 @@ const deliverySteps = [
   },
   {
     title: "Build",
-    body: "I work in short milestones so progress is visible early. The goal is working software, not long status cycles.",
+    body: "I work in short milestones so progress is visible early. The goal is working solutions, not long status cycles.",
   },
   {
     title: "Handoff",
@@ -300,15 +300,31 @@ export default function WorkWithMePage() {
               </p>
               <div className="space-y-3">
                 {[
-                  "Problem → scoped build brief",
-                  "Build → working first version",
-                  "Iteration → usable system",
-                ].map((step) => (
-                  <div key={step} className="flex items-center gap-3">
-                    <span className="text-primary font-mono text-sm w-6">
-                      {step.split(" ")[0]}
+                  { label: "01", step: "Problem", detail: "Scoped build brief" },
+                  {
+                    label: "02",
+                    step: "Build",
+                    detail: "Working first version",
+                  },
+                  {
+                    label: "03",
+                    step: "Iterate",
+                    detail: "Usable system",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 items-start"
+                  >
+                    <span className="text-primary font-mono text-sm pt-0.5">
+                      {item.label}
                     </span>
-                    <span className="text-sm">{step}</span>
+                    <div>
+                      <p className="text-sm font-medium">{item.step}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {item.detail}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

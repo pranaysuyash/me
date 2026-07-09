@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Github } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { brandTagline } from "@/lib/brand";
 
 const navigation = [
   { name: "Work", href: "/work" },
@@ -41,7 +42,7 @@ export function Navbar() {
             </div>
             <div className="hidden lg:flex flex-col leading-none">
               <span className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                Messy workflows into working software
+                {brandTagline}
               </span>
               <span className="name-display text-sm font-semibold text-foreground mt-1">
                 Pranay Suyash
@@ -111,7 +112,7 @@ export function Navbar() {
                 </div>
                 <div className="leading-none">
                   <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">
-                    Messy workflows into working software
+                    {brandTagline}
                   </p>
                   <p className="name-display text-sm font-semibold text-foreground mt-1">
                     Pranay Suyash
