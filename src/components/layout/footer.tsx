@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { brandTagline } from "@/lib/brand";
 
 const socialLinks = [
@@ -17,25 +17,23 @@ const socialLinks = [
 
 const footerNav = [
   { name: "Work", href: "/work" },
-  { name: "Work With Me", href: "/work-with-me" },
-  { name: "Hire Me", href: "/hire-me" },
-  { name: "Book", href: "/books/no-claim-without-evidence" },
+  { name: "Services", href: "/work-with-me" },
   { name: "About", href: "/about" },
+  { name: "Writing", href: "/books/no-claim-without-evidence" },
+  { name: "Experience", href: "/hire-me" },
   { name: "Contact", href: "/contact" },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t bg-background">
-      <div className="container py-8 max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <Link href="/" className="font-bold text-xl gradient-text shrink-0">
+      <div className="container mx-auto max-w-[1280px] px-4 py-8 md:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <div className="flex flex-col items-center gap-5 md:flex-row">
+            <Link href="/" className="shrink-0 text-xl font-bold gradient-text">
               PS
             </Link>
-            <p className="text-sm text-muted-foreground">
-              {brandTagline}.
-            </p>
+            <p className="text-sm text-muted-foreground">{brandTagline}.</p>
           </div>
 
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
@@ -43,7 +41,7 @@ export function Footer() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 {item.name}
               </Link>
@@ -56,7 +54,7 @@ export function Footer() {
                 key={link.name}
                 href={link.href}
                 aria-label={link.name}
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-muted-foreground transition-colors hover:text-primary"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -66,10 +64,12 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t pt-6 mt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Pranay Suyash &middot; Bengaluru,
-            India
+            &copy; {new Date().getFullYear()} Pranay Suyash &middot; Bengaluru, India
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Available for selected global and India-based product engagements.
           </p>
         </div>
       </div>
