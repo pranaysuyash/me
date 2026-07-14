@@ -36,10 +36,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pranaysuyash.com"),
-  title: {
-    default: "Pranay Suyash | Product Engineer for AI and Operational Systems",
-    template: "%s | Pranay Suyash",
-  },
+  title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
   description:
     "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
   keywords: [
