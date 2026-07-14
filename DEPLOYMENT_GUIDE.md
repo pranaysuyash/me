@@ -1,402 +1,151 @@
-# DEPLOYMENT GUIDE
+# Portfolio deployment guide
 
-**Site:** pranaysuyash.com  
-**Live URL:** https://c94cf808.pranay-4wy.pages.dev  
-**Platform:** Vercel (via Git integration)  
-**Date:** April 2, 2026
+**Primary domain:** https://pranaysuyash.com  
+**Hosting:** Cloudflare Pages  
+**Cloudflare Pages project:** `pranay`  
+**Build model:** Next.js static export to `out/`  
+**Default branch:** `main`
 
----
+This document is the current deployment contract for the portfolio. It replaces the earlier mixed Vercel and Cloudflare instructions.
 
-## PRE-DEPLOYMENT CHECKLIST
+## 1. Local verification
 
-### Code Status
-- [ ] All TypeScript errors fixed
-- [ ] All ESLint errors fixed
-- [ ] Build passes locally (`npm run build`)
-- [ ] No console errors
-- [ ] No broken links
-
-### Critical Content (P0)
-- [ ] "10+ years" changed to "14 years" (5 locations)
-- [ ] "Why are you here?" changed to "How I can help"
-- [ ] "Available immediately" added
-
-### Assets Ready
-- [ ] Resume PDF/HTML in public/
-- [ ] Favicon working
-- [ ] All project GitHub links working
-- [ ] MetaExtract repo public (verified ✓)
-
-### SEO Ready
-- [ ] Sitemap.xml generated
-- [ ] Robots.txt generated
-- [ ] Meta descriptions updated
-- [ ] OpenGraph tags present
-
----
-
-## DEPLOYMENT STEPS
-
-### Step 1: Final Verification
+Use Node.js 22 and install the locked dependencies.
 
 ```bash
-cd /Users/pranay/Projects/pranay
-
-# Check current branch
-git branch
-
-# Should be: main (or master)
-```
-
-### Step 2: Make P0 Fixes
-
-Edit these files:
-
-1. **src/app/page.tsx** - 3 changes
-2. **src/app/hire-me/page.tsx** - 2+ changes  
-3. **src/app/layout.tsx** - 1 change
-
-See FIXES_REQUIRED_BEFORE_LAUNCH.md for exact code.
-
-### Step 3: Test Build
-
-```bash
-# Install dependencies (if needed)
-npm install
-
-# Run build
-npm run build
-
-# Expected output:
-# ✓ Compiled successfully
-# ✓ Linting and checking validity of types
-# ✓ Collecting page data
-# ✓ Generating static pages (39/39)
-# ✓ Finalizing page optimization
-```
-
-**If build fails:**
-- Fix errors shown
-- Re-run until passes
-
-### Step 4: Commit Changes
-
-```bash
-# Stage all changes
-git add .
-
-# Commit with descriptive message
-git commit -m "fix: correct years of experience (14 years), improve narrative
-
-- Fix '10+ years' → '14 years' across all pages (5 locations)
-- Add YC S20 alum narrative to hire-me page
-- Update proof strip to emphasize track record
-- Add 'available immediately' signal
-- Change 'Why are you here?' to 'How I can help'
-
-Fixes critical credibility issue for job search."
-
-# Push to remote
-git push origin main
-```
-
-### Step 5: Monitor Vercel Deployment
-
-```bash
-# Check Vercel dashboard
-# URL: https://vercel.com/dashboard
-
-# Or use CLI
-vercel --version  # check if installed
-vercel
-```
-
-**Watch for:**
-- Build started
-- Build completed
-- Deployment successful
-
-### Step 6: Verify Live Site
-
-```bash
-# Test homepage
-curl -s https://c94cf808.pranay-4wy.pages.dev | grep "14 years"
-
-# Expected output: Should find "14 years" text
-
-# Test sitemap
-curl -s https://c94cf808.pranay-4wy.pages.dev/sitemap.xml | head -20
-
-# Test robots.txt
-curl -s https://c94cf808.pranay-4wy.pages.dev/robots.txt
-```
-
----
-
-## POST-DEPLOYMENT VERIFICATION
-
-### Browser Testing
-
-**Desktop (Chrome):**
-- [ ] Homepage loads
-- [ ] "14 years" visible in hero
-- [ ] "14 years" visible in proof strip
-- [ ] Navigation works
-- [ ] Dark mode toggle works
-- [ ] Contact form loads
-
-**Mobile (iPhone SE size):**
-- [ ] Homepage loads
-- [ ] No horizontal scroll
-- [ ] Mobile menu opens/closes
-- [ ] Text readable
-- [ ] CTAs clickable
-
-### Page-by-Page Check
-
-**Homepage (/)**
-- [ ] Hero shows "14 years"
-- [ ] Proof strip shows "14 years"
-- [ ] "How I can help" section (or removed)
-- [ ] CTA buttons work
-- [ ] Project cards clickable
-
-**Hire Me (/hire-me)**
-- [ ] Shows "14 years"
-- [ ] Shows "returning to hands-on" narrative
-- [ ] Resume download works
-- [ ] Book call CTA works
-
-**Work With Me (/work-with-me)**
-- [ ] Pricing shows ($10K+, $5K+, $3K+)
-- [ ] Process explained
-- [ ] FAQ visible
-- [ ] Contact CTA works
-
-**Work (/work)**
-- [ ] All 24 projects listed
-- [ ] Filter buttons work
-- [ ] Project cards clickable
-
-**Contact (/contact)**
-- [ ] Form loads
-- [ ] Tab switching works
-- [ ] Form validation works
-- [ ] Submit button clickable
-
-**About (/about)**
-- [ ] Timeline accurate
-- [ ] Experience correct
-- [ ] Resume download works
-
-**Project Detail (/work/metaextract)**
-- [ ] MetaExtract loads
-- [ ] GitHub link works
-- [ ] Back button works
-
-### SEO Verification
-
-```bash
-# Check meta tags
-curl -s https://c94cf808.pranay-4wy.pages.dev | grep -o '<title>.*</title>'
-curl -s https://c94cf808.pranay-4wy.pages.dev | grep -o 'name="description" content="[^"]*"'
-
-# Check OpenGraph
-curl -s https://c94cf808.pranay-4wy.pages.dev | grep "og:"
-
-# Check sitemap accessible
-curl -I https://c94cf808.pranay-4wy.pages.dev/sitemap.xml
-# Should return: HTTP/2 200
-```
-
-### Performance Check
-
-```bash
-# Lighthouse CI (if installed)
-lighthouse https://c94cf808.pranay-4wy.pages.dev --output=json
-
-# Or use Chrome DevTools
-# - Open DevTools → Lighthouse tab
-# - Run audit (Mobile + Desktop)
-# - Check scores: Performance, Accessibility, SEO
-```
-
----
-
-## ROLLBACK PLAN
-
-If deployment breaks:
-
-```bash
-# Revert last commit
-git revert HEAD
-
-# Push revert
-git push origin main
-
-# Or use Vercel dashboard
-# - Go to Deployments
-# - Find previous working deployment
-# - Click "Promote to Production"
-```
-
----
-
-## ANNOUNCEMENT TEMPLATE
-
-### LinkedIn Post
-
-```
-New portfolio is live 🚀
-
-After 5+ years building MedPiper (YC S20) from zero to $1M ARR, 
-I'm returning to hands-on technical work.
-
-Built 24 AI projects exploring document extraction, voice AI, 
-and workflow automation. Check them out at pranaysuyash.com
-
-Open to:
-→ Staff AI Engineer roles
-→ Technical Product Management  
-→ Founding Engineer positions
-→ Consulting ($10K+ projects)
-
-If you're hiring for applied AI or need a focused prototype 
-built in 2-4 weeks, let's talk.
-
-#AI #MachineLearning #Startup #Hiring #OpenToWork
-```
-
-### Twitter/X Post
-
-```
-New portfolio: pranaysuyash.com
-
-14 years. YC S20. $1M ARR track record. 
-24 AI projects. Returning to hands-on IC work.
-
-Open for Staff AI Eng / Technical PM / Founding Eng roles.
-Also consulting ($10K+ prototypes in 2-4 weeks).
-
-DMs open 🚀
-```
-
-### YC Slack (#jobs)
-
-```
-YC S20 alum looking for next role
-
-Built MedPiper from zero to $1M ARR over 5.5 years. 
-Now returning to hands-on technical work.
-
-Expertise:
-• Document AI / OCR (45K+ fields extracted)
-• Voice AI (Whisper, macOS native)
-• Workflow automation (4 weeks → 10 days)
-• FastAPI, Python, React, Swift
-
-Target: Staff AI Engineer, Technical PM, or Founding Engineer
-Location: Bengaluru / Remote US
-
-Portfolio: https://c94cf808.pranay-4wy.pages.dev
-Resume: Available on request
-
-DM me or email pranay.suyash@gmail.com
-```
-
----
-
-## MONITORING POST-LAUNCH
-
-### Week 1 Metrics
-
-| Metric | Target | How to Check |
-|--------|--------|--------------|
-| Homepage visitors | 200 | Vercel Analytics |
-| /hire-me views | 50 | Vercel Analytics |
-| Resume downloads | 10 | Event tracking |
-| Contact submissions | 5 | Form backend |
-| Calendly bookings | 3 | Calendly dashboard |
-
-### Tools to Set Up
-
-1. **Vercel Analytics**
-   - Already included in Pro plan
-   - Check: Dashboard → Analytics
-
-2. **Google Analytics 4** (optional)
-   ```bash
-   npm install @vercel/analytics
-   ```
-   Add to layout.tsx
-
-3. **Calendly Integration**
-   - Set up account
-   - Get embed code
-   - Replace Google Calendar iframe
-
----
-
-## TROUBLESHOOTING
-
-### Build Fails
-
-```bash
-# Check TypeScript
-npx tsc --noEmit
-
-# Check ESLint
-npx next lint
-
-# Clear cache
-rm -rf .next
+npm ci
+npm run typecheck
 npm run build
 ```
 
-### 404 Errors
+A successful build must create a non-empty `out/` directory.
+
+The repository also contains `.github/workflows/site-build.yml`. On every push to `main`, it:
+
+1. installs dependencies with `npm ci`;
+2. runs the static build;
+3. checks that the exported homepage, Work, Services, Contact, and SentinelTwin routes exist and are non-empty.
+
+The CI build is a gate, not a production deployment.
+
+## 2. Production deployment
+
+The package script is the canonical manual deployment command:
 
 ```bash
-# Check if page exists
-ls src/app/[page]/page.tsx
-
-# Check routing
-# Dynamic routes: [slug]/page.tsx
-# Static routes: page.tsx
+npm run deploy:cloudflare
 ```
 
-### Styles Not Applied
+It runs:
 
 ```bash
-# Check Tailwind config
-cat tailwind.config.ts
-
-# Check CSS imports
-# globals.css should import Tailwind
+npm run build
+wrangler pages deploy out --project-name pranay --branch main
 ```
 
-### Contact Form Not Working
+Wrangler must already be authenticated to the Cloudflare account that owns the `pranay` Pages project. Do not commit Cloudflare tokens, account identifiers, or generated credential files.
 
-```bash
-# Check API route
-ls src/app/api/contact/route.ts
+If Cloudflare Pages Git integration is enabled for this repository, a push to `main` may also create a production deployment automatically. Do not assume that happened. Verify the resulting deployment and the custom domain.
 
-# Check environment variables
-# .env should have: RESEND_API_KEY, CONTACT_EMAIL
-```
+## 3. Critical route checks
 
----
+Verify both the Cloudflare deployment URL and the custom domain.
 
-## EMERGENCY CONTACTS
+Required routes:
 
-| Issue | Contact | Method |
-|-------|---------|--------|
-| Vercel down | Vercel Status | https://status.vercel.com |
-| DNS issues | Domain registrar | Support portal |
-| Build failures | Vercel Support | Dashboard → Help |
+- `/`
+- `/work`
+- `/work-with-me`
+- `/contact`
+- `/work/sentineltwin`
+- `/work/sig-ext-fastapi`
+- `/work/metaextract`
+- `/work/echopanel`
+- `/sitemap.xml`
+- `/robots.txt`
 
----
+Check for the current positioning, not merely a `200` response:
 
-**END OF DEPLOYMENT GUIDE**
+- homepage headline begins with “Product systems for work”;
+- desktop navigation includes Work, Services, About, and Writing;
+- Services shows an India INR / Global USD switch;
+- Contact shows regional engagement scopes;
+- Work separates flagship systems from the project archive;
+- SentinelTwin renders its case-study route and product images.
 
-**Status:** Ready to deploy after P0 fixes
-**Next Step:** Fix "10+ years" → "14 years", commit, push
+## 4. Regional-pricing checks
+
+Pricing uses two regional price books, not live currency conversion.
+
+### India
+
+- System mapping sprint: ₹95,000+
+- Focused product build: ₹3.5L+
+- Production system build: ₹8L+
+- Embedded product partner: ₹2.75L/month+
+
+### Global
+
+- System mapping sprint: $2,500+
+- Focused product build: $9,000+
+- Production system build: $22,000+
+- Embedded product partner: $7,500/month+
+
+Detection order:
+
+1. a visitor's explicit selection stored in `localStorage`;
+2. Cloudflare's same-origin `/cdn-cgi/trace` country value;
+3. browser timezone and language hints;
+4. Global USD as the safe initial render.
+
+Manual switching must always remain available. Test both price books and confirm that the Contact form uses the same regional choice.
+
+## 5. Form and conversion checks
+
+The Contact page submits to the configured FormBold endpoint. Before declaring a release healthy:
+
+1. submit one test project brief;
+2. confirm it reaches the expected inbox;
+3. verify the success and error states;
+4. verify the 15-minute and 30-minute Cal.com links;
+5. verify source query parameters are preserved in the submitted form.
+
+Do not publish a phone number unless it is intentionally meant to be public.
+
+## 6. Visual and interaction checks
+
+Test at minimum:
+
+- mobile width around 375px;
+- tablet width around 768px;
+- desktop width around 1440px;
+- light and dark themes;
+- mobile menu open, close, and route selection;
+- Work archive filters;
+- project screenshots and external repository links;
+- no horizontal scrolling;
+- keyboard focus visibility on links, buttons, selects, and inputs.
+
+## 7. Search and social checks
+
+After deployment, inspect the generated HTML for:
+
+- the page-specific `<title>`;
+- meta description;
+- canonical origin through `metadataBase`;
+- Open Graph title and description;
+- Twitter card metadata;
+- updated sitemap entries, especially `/work/sentineltwin`.
+
+The global title must not append “Pranay Suyash” twice.
+
+## 8. Rollback
+
+Cloudflare Pages keeps prior deployments. If the new production build is broken:
+
+1. promote the previous healthy Pages deployment in the Cloudflare dashboard;
+2. fix the repository on `main`;
+3. run the local typecheck and build again;
+4. redeploy and repeat the critical-route checks.
+
+Do not diagnose a production issue from repository state alone. Compare the deployed commit or build timestamp with the current `main` head.
