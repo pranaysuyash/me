@@ -48,7 +48,7 @@ export function RegionalBudgetSelect({
             ?.slice(4)
             .trim()
             .toUpperCase();
-          nextRegion = country === "IN" ? "india" : "global";
+          if (country) nextRegion = country === "IN" ? "india" : "global";
         }
       } catch {
         // Browser hints already provide the local-development fallback.
