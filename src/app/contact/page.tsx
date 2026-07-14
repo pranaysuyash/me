@@ -1,37 +1,41 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Calendar,
+  ExternalLink,
+  Github,
+  Linkedin,
+  Mail,
+  Send,
+} from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Calendar,
-  Send,
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-  ExternalLink,
-} from "lucide-react";
-import Link from "next/link";
+import { RegionalBudgetSelect } from "@/components/regional-budget-select";
 
 const FORMBOLD_ENDPOINT = "https://formbold.com/s/6QZJn";
 const CAL_15MIN = "https://cal.com/pranaysuyash/15min";
 const CAL_30MIN = "https://cal.com/pranaysuyash/30min";
 
+const initialFormData = {
+  name: "",
+  email: "",
+  company: "",
+  website: "",
+  message: "",
+  timeline: "",
+  budget: "",
+  source: "general",
+  honeypot: "",
+};
+
 export default function ContactPage() {
-  const [activeTab, setActiveTab] = useState<"call" | "project">("call");
   const [leadSource, setLeadSource] = useState("general");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-    budget: "",
-    source: "general",
-    honeypot: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -39,325 +43,319 @@ export default function ContactPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const type = params.get("type");
     const source = params.get("source") || "general";
-    if (type === "project" || type === "call") {
-      setActiveTab(type);
-    }
+    const type = params.get("type");
     setLeadSource(source);
-    setFormData((prev) => ({ ...prev, source }));
+    setFormData((previous) => ({
+      ...previous,
+      source: type ? `${source}:${type}` : source,
+    }));
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<
+    event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value } = event.target;
+    setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setStatus("loading");
+    setErrorMessage("");
+
     try {
       const response = await fetch(FORMBOLD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(
-          formData as Record<string, string>,
-        ).toString(),
+        body: new URLSearchParams(formData).toString(),
       });
-      if (!response.ok) throw new Error("Something went wrong.");
+
+      if (!response.ok) throw new Error("The form could not be sent.");
+
       setStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        message: "",
-        budget: "",
-        source: leadSource,
-        honeypot: "",
-      });
+      setFormData({ ...initialFormData, source: leadSource });
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong.",
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while sending the form.",
       );
     }
   };
 
   return (
     <PageLayout>
-      <section className="py-20 md:py-28">
-        <div className="container max-w-3xl mx-auto px-4 md:px-6 lg:px-8">
-          <div className="animate-fade-up">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Let&apos;s <span className="gradient-text">Talk</span>
+      <section className="border-b bg-[#10191a] py-20 text-white md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="max-w-4xl animate-fade-up">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-teal-100/75">
+              Start with the problem
+            </p>
+            <h1 className="text-4xl font-bold tracking-tight text-white md:text-6xl">
+              Describe the work as it exists today.
             </h1>
-            <p className="text-lg text-muted-foreground mb-8">
-              Choose how you&apos;d like to connect.
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
+              The most useful first message includes who does the work, where it breaks,
+              examples of the inputs, the timeline, and what a better system would change.
+              A rough screen recording or sample document is more useful than a polished feature list.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="flex gap-2 mb-8">
-            <button
-              type="button"
-              onClick={() => setActiveTab("call")}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
-                activeTab === "call"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:text-primary"
-              }`}
-            >
-              <Calendar className="h-4 w-4 inline mr-2" />
-              Book a Call
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("project")}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${
-                activeTab === "project"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:text-primary"
-              }`}
-            >
-              <Send className="h-4 w-4 inline mr-2" />
-              Tell Me About Your Project
-            </button>
-          </div>
-
-          {activeTab === "call" ? (
-            <div className="border rounded-xl p-8">
-              <h2 className="text-xl font-semibold mb-3">Book a call</h2>
-              <p className="text-muted-foreground mb-6">
-                Pick a time that works for you. No pressure, no pitch.
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8">
+          <form
+            onSubmit={handleSubmit}
+            className="rounded-xl border bg-card p-6 shadow-sm md:p-8"
+          >
+            <div className="mb-7">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Project brief
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a
-                  href={CAL_15MIN}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-center justify-center border rounded-xl p-6 text-center hover:border-primary/50 transition-colors"
-                >
-                  <Calendar className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-                  <h3 className="font-semibold mb-1">15-minute call</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Quick intro to discuss your needs
-                  </p>
-                  <span className="text-sm font-medium text-primary flex items-center gap-1">
-                    Book now <ExternalLink className="h-3.5 w-3.5" />
-                  </span>
-                </a>
-                <a
-                  href={CAL_30MIN}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col items-center justify-center border rounded-xl p-6 text-center hover:border-primary/50 transition-colors"
-                >
-                  <Calendar className="h-8 w-8 text-primary mb-3 group-hover:scale-110 transition-transform" />
-                  <h3 className="font-semibold mb-1">30-minute call</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Deep dive into your project
-                  </p>
-                  <span className="text-sm font-medium text-primary flex items-center gap-1">
-                    Book now <ExternalLink className="h-3.5 w-3.5" />
-                  </span>
-                </a>
-              </div>
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="border rounded-xl p-8 space-y-5"
-            >
-              <h2 className="text-xl font-semibold mb-1">
-                {leadSource === "book"
-                  ? "Tell me what you want to do with the book"
-                  : "Tell me about your project"}
+              <h2 className="mt-2 text-2xl font-bold tracking-tight">
+                Enough context for a useful response
               </h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                {leadSource === "book"
-                  ? "Use this for consulting, workshops, or custom work related to the ebook."
-                  : "I&apos;ll send a proposal within 48 hours."}
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                I will reply with a fit assessment, the most likely engagement shape,
+                and the next information needed. No generic sales sequence.
               </p>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="project-name"
-                    className="block text-sm font-medium mb-1.5"
-                  >
-                    Name <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="project-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="project-email"
-                    className="block text-sm font-medium mb-1.5"
-                  >
-                    Email <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    id="project-email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="company"
-                    className="block text-sm font-medium mb-1.5"
-                  >
-                    Company
-                  </label>
-                  <Input
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="budget"
-                    className="block text-sm font-medium mb-1.5"
-                  >
-                    Budget Range
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    <option value="">Select range</option>
-                    <option value="<5K">Under $5K</option>
-                    <option value="5-10K">$5K - $10K</option>
-                    <option value="10-25K">$10K - $25K</option>
-                    <option value="25K+">$25K+</option>
-                  </select>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <label
-                  htmlFor="project-message"
-                  className="block text-sm font-medium mb-1.5"
-                >
-                  {leadSource === "book"
-                    ? "What kind of help do you want?"
-                    : "Tell me about your project"}{" "}
-                  <span className="text-destructive">*</span>
+                <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
+                  Name <span className="text-destructive">*</span>
                 </label>
-                <Textarea
-                  id="project-message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
+                <Input
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  placeholder={
-                    leadSource === "book"
-                      ? "What part of the book do you want help applying? Are you looking for consulting, a workshop, or a scoped build?"
-                      : "What are you building? What problem are you solving? What's your timeline?"
-                  }
+                  autoComplete="name"
                   required
                 />
               </div>
-
-              <div className="hidden" aria-hidden="true">
-                <label htmlFor="website">Website</label>
-                <input
-                  id="website"
-                  type="text"
-                  name="honeypot"
-                  value={formData.honeypot}
+              <div>
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
+                  Work email <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  tabIndex={-1}
-                  autoComplete="off"
+                  autoComplete="email"
+                  required
                 />
               </div>
+            </div>
 
-              <Button
-                type="submit"
-                disabled={status === "loading"}
-                className="w-full rounded-full"
-                size="lg"
-              >
-                {status === "loading"
-                  ? "Sending..."
-                  : leadSource === "book"
-                    ? "Send Book Enquiry"
-                    : "Send Project Inquiry"}
-                <Send className="ml-2 h-4 w-4" />
-              </Button>
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="company" className="mb-1.5 block text-sm font-medium">
+                  Company or team
+                </label>
+                <Input
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  autoComplete="organization"
+                />
+              </div>
+              <div>
+                <label htmlFor="website" className="mb-1.5 block text-sm font-medium">
+                  Website or product link
+                </label>
+                <Input
+                  id="website"
+                  name="website"
+                  type="url"
+                  value={formData.website}
+                  onChange={handleChange}
+                  placeholder="https://"
+                />
+              </div>
+            </div>
 
-              {status === "success" && (
-                <p className="text-sm text-green-600 dark:text-green-400 text-center">
-                  Thank you! Your message has been sent. I&apos;ll respond
-                  within 24 hours.
-                </p>
-              )}
-              {status === "error" && (
-                <p className="text-sm text-destructive text-center">
-                  {errorMessage}
-                </p>
-              )}
-            </form>
-          )}
-
-          <div className="mt-12 border rounded-xl p-6">
-            <h3 className="text-sm font-semibold mb-4 text-muted-foreground uppercase tracking-wide">
-              Or reach me directly
-            </h3>
-            <div className="flex flex-wrap gap-6 items-center">
-              <div className="flex items-center gap-2 text-sm">
-                <Mail className="h-4 w-4 text-primary" />
-                <a
-                  href="mailto:pranay.suyash@gmail.com"
-                  className="text-muted-foreground hover:text-primary transition-colors"
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="timeline" className="mb-1.5 block text-sm font-medium">
+                  Timeline
+                </label>
+                <select
+                  id="timeline"
+                  name="timeline"
+                  value={formData.timeline}
+                  onChange={handleChange}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  pranay.suyash@gmail.com
-                </a>
+                  <option value="">Select timing</option>
+                  <option value="urgent">Need to start within 2 weeks</option>
+                  <option value="month">Within a month</option>
+                  <option value="quarter">This quarter</option>
+                  <option value="exploring">Exploring, no fixed date</option>
+                </select>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <Phone className="h-4 w-4 text-primary" />
-                <span className="text-muted-foreground">+91 99104 03502</span>
+              <div>
+                <label htmlFor="budget" className="mb-1.5 block text-sm font-medium">
+                  Rough engagement scope
+                </label>
+                <RegionalBudgetSelect
+                  value={formData.budget}
+                  onChange={handleChange}
+                />
               </div>
-              <div className="flex gap-3">
+            </div>
+
+            <div className="mt-5">
+              <label htmlFor="message" className="mb-1.5 block text-sm font-medium">
+                Current workflow, failure point, and desired outcome{" "}
+                <span className="text-destructive">*</span>
+              </label>
+              <Textarea
+                id="message"
+                name="message"
+                rows={8}
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Who does the work today? What inputs arrive? Where does time, accuracy, or trust break down? What would a useful system change?"
+                required
+              />
+            </div>
+
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="company-site">Company site</label>
+              <input
+                id="company-site"
+                type="text"
+                name="honeypot"
+                value={formData.honeypot}
+                onChange={handleChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              disabled={status === "loading"}
+              className="mt-6 w-full rounded-md"
+              size="lg"
+            >
+              {status === "loading" ? "Sending brief..." : "Send project brief"}
+              <Send className="ml-2 h-4 w-4" />
+            </Button>
+
+            {status === "success" && (
+              <p className="mt-4 text-center text-sm text-green-600 dark:text-green-400">
+                The brief was sent. I will reply within two business days.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="mt-4 text-center text-sm text-destructive">
+                {errorMessage} Email me directly if the problem continues.
+              </p>
+            )}
+          </form>
+
+          <aside className="space-y-5">
+            <div className="rounded-xl border bg-muted/30 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Prefer a call first?
+              </p>
+              <h2 className="mt-2 text-xl font-semibold">Choose the smallest useful conversation.</h2>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                Use 15 minutes for fit and direction. Use 30 minutes when you already
+                have a workflow, examples, constraints, or an existing product to review.
+              </p>
+              <div className="mt-5 grid gap-3">
                 <Link
-                  href="https://github.com/pranaysuyash"
+                  href={CAL_15MIN}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center justify-between rounded-lg border bg-background p-4 transition-colors hover:border-primary/40"
                 >
-                  <Github className="h-5 w-5" />
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm font-semibold">15-minute fit call</p>
+                      <p className="text-xs text-muted-foreground">Problem and next step</p>
+                    </div>
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                </Link>
+                <Link
+                  href={CAL_30MIN}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between rounded-lg border bg-background p-4 transition-colors hover:border-primary/40"
+                >
+                  <div className="flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm font-semibold">30-minute working call</p>
+                      <p className="text-xs text-muted-foreground">Workflow and constraints</p>
+                    </div>
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                </Link>
+              </div>
+            </div>
+
+            <div className="rounded-xl border p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Direct channels
+              </p>
+              <div className="mt-5 space-y-4">
+                <Link
+                  href="mailto:pranay.suyash@gmail.com"
+                  className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Mail className="h-4 w-4 text-primary" />
+                  pranay.suyash@gmail.com
                 </Link>
                 <Link
                   href="https://linkedin.com/in/pranaysuyash"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
-                  <Linkedin className="h-5 w-5" />
+                  <Linkedin className="h-4 w-4 text-primary" />
+                  LinkedIn
+                </Link>
+                <Link
+                  href="https://github.com/pranaysuyash"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Github className="h-4 w-4 text-primary" />
+                  GitHub
                 </Link>
               </div>
             </div>
-          </div>
+
+            <div className="rounded-xl border border-primary/20 bg-primary/[0.035] p-6">
+              <p className="text-sm font-semibold">Before sending a large specification</p>
+              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                A sample input, current tool list, user recording, or broken spreadsheet
+                usually reveals more than a long requirements document.
+              </p>
+              <Link
+                href="/work-with-me"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+              >
+                Review scopes and regional pricing <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </aside>
         </div>
       </section>
     </PageLayout>
