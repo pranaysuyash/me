@@ -1,6 +1,7 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageLayout } from "@/components/layout/page-layout";
 import projectsData from "@/content/projects.json";
@@ -9,95 +10,148 @@ interface WorkDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-type Project = (typeof projectsData.projects)[0] & {
+type BaseProject = (typeof projectsData.projects)[number];
+type Project = BaseProject & {
   demonstrates?: string;
   proofRole?: string;
   proofSummary?: string;
+  screenshots?: string[];
+  technicalDepth?: Record<string, string>;
+  outcomes?: string[];
+  ownership?: string;
+  constraints?: string[];
+  tradeoffs?: string[];
+  whatChanged?: string[];
+  artifacts?: string[];
 };
 
+const TECHNICAL_LABELS: Record<string, string> = {
+  architecture: "Architecture",
+  cvPipeline: "Computer vision pipeline",
+  ocrPipeline: "OCR and preprocessing",
+  audioCapture: "Audio capture",
+  transcription: "Transcription",
+  normalization: "Schema normalization",
+  storage: "Storage and retrieval",
+  performance: "Performance",
+  backend: "Backend",
+  signing: "Digital signing",
+  monetization: "Commercial system",
+  distribution: "Distribution",
+  ux: "Product experience",
+  integration: "Integrations",
+};
+
+function humanizeTechnicalKey(key: string) {
+  if (TECHNICAL_LABELS[key]) return TECHNICAL_LABELS[key];
+  return key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_-]+/g, " ")
+    .replace(/^./, (character) => character.toUpperCase());
+}
+
+function EvidenceList({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-2">
+      {items.map((item) => (
+        <li
+          key={item}
+          className="flex items-start gap-2 text-muted-foreground leading-relaxed"
+        >
+          <span className="mt-1.5 text-primary">→</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function generateStaticParams() {
-  return projectsData.projects.map((project) => ({
-    slug: project.slug,
-  }));
+  return projectsData.projects.map((project) => ({ slug: project.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: WorkDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projectsData.projects.find((item) => item.slug === slug);
+
+  if (!project) return {};
+
+  return {
+    title: `${project.title} | Work | Pranay Suyash`,
+    description: project.description,
+    openGraph: {
+      title: `${project.title} | Pranay Suyash`,
+      description: project.tagline,
+      type: "article",
+    },
+  };
 }
 
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params;
-  const project = projectsData.projects.find((p) => p.slug === slug) as
-    | Project
-    | undefined;
+  const project = projectsData.projects.find(
+    (item) => item.slug === slug,
+  ) as Project | undefined;
 
-  if (!project) {
-    notFound();
-  }
+  if (!project) notFound();
 
   const linkEntries = project.links
     ? Object.entries(project.links).filter(([, url]) => url && url !== "#")
     : [];
-
-  const hasTechnicalDepth =
-    "technicalDepth" in project && project.technicalDepth;
-  const hasOutcomes = "outcomes" in project && project.outcomes;
-  const hasOwnership = "ownership" in project && project.ownership;
-  const hasConstraints = "constraints" in project && project.constraints;
-  const hasTradeoffs = "tradeoffs" in project && project.tradeoffs;
-  const hasWhatChanged = "whatChanged" in project && project.whatChanged;
-  const hasArtifacts = "artifacts" in project && project.artifacts;
+  const technicalEntries = project.technicalDepth
+    ? Object.entries(project.technicalDepth).filter(([, value]) => Boolean(value))
+    : [];
 
   return (
     <PageLayout>
       <article className="py-20 md:py-28">
-        <div className="container max-w-3xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="container mx-auto max-w-4xl px-4 md:px-6 lg:px-8">
           <Link
             href="/work"
-            className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
+            className="mb-8 inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-primary"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to all projects
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to selected work
           </Link>
 
-          <div className="animate-fade-up">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-xs font-mono text-muted-foreground bg-muted px-2 py-1 rounded">
+          <header className="animate-fade-up">
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <span className="rounded bg-muted px-2 py-1 font-mono text-xs text-muted-foreground">
                 {project.category}
               </span>
-              <span className="text-xs text-muted-foreground">
-                {project.year}
-              </span>
+              <span className="text-xs text-muted-foreground">{project.year}</span>
               {project.featured && (
-                <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
-                  Featured
+                <span className="rounded bg-primary/10 px-2 py-1 font-mono text-xs text-primary">
+                  Flagship evidence
                 </span>
               )}
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+            <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
               {project.title}
             </h1>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-muted-foreground">
               {project.tagline}
             </p>
 
-            {(project.proofRole ||
-              project.demonstrates ||
-              project.proofSummary) && (
-              <div className="mb-8 rounded-xl border bg-muted/20 p-4">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                  Why it matters
+            {(project.proofSummary || project.demonstrates || project.proofRole) && (
+              <div className="mt-8 rounded-xl border bg-muted/25 p-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  What this project proves
                 </p>
-                <p className="text-sm leading-relaxed text-foreground/90">
-                  {project.proofSummary ||
-                    project.proofRole ||
-                    project.demonstrates}
+                <p className="mt-3 text-sm leading-7 text-foreground/90">
+                  {project.proofSummary || project.demonstrates || project.proofRole}
                 </p>
               </div>
             )}
 
-            <div className="flex flex-wrap gap-2 mb-8">
+            <div className="mt-8 flex flex-wrap gap-2">
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="text-sm font-mono bg-primary/5 text-primary px-3 py-1 rounded-full"
+                  className="rounded-full bg-primary/5 px-3 py-1 font-mono text-sm text-primary"
                 >
                   {tech}
                 </span>
@@ -105,349 +159,153 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
             </div>
 
             {linkEntries.length > 0 && (
-              <div className="flex flex-wrap gap-3 mb-10">
+              <div className="mt-7 flex flex-wrap gap-3">
                 {linkEntries.map(([label, url]) => (
-                  <Button
-                    key={label}
-                    variant="outline"
-                    asChild
-                    className="rounded-full"
-                  >
+                  <Button key={label} variant="outline" asChild>
                     <Link href={url} target="_blank" rel="noopener noreferrer">
                       {label === "github"
-                        ? "View on GitHub"
-                        : label.charAt(0).toUpperCase() + label.slice(1)}
+                        ? "View repository"
+                        : label === "live"
+                          ? "Open live product"
+                          : label.charAt(0).toUpperCase() + label.slice(1)}
                       <ExternalLink className="ml-2 h-3.5 w-3.5" />
                     </Link>
                   </Button>
                 ))}
               </div>
             )}
+          </header>
 
-            <div className="space-y-10">
-              <section>
-                <h2 className="text-xl font-semibold mb-3">What it is</h2>
-                <p className="text-muted-foreground leading-relaxed">
+          {project.screenshots && project.screenshots.length > 0 && (
+            <section className="mt-12">
+              <h2 className="mb-4 text-xl font-semibold">Product surfaces</h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {project.screenshots.map((screenshot, index) => (
+                  <div
+                    key={screenshot}
+                    className={`overflow-hidden rounded-xl border bg-muted/30 ${
+                      index === 0 ? "sm:col-span-2" : ""
+                    }`}
+                  >
+                    <img
+                      src={screenshot}
+                      alt={`${project.title} product surface ${index + 1}`}
+                      className="h-auto w-full object-cover"
+                      loading={index === 0 ? "eager" : "lazy"}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <div className="mt-14 space-y-12">
+            <section className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                  What it is
+                </p>
+                <p className="leading-8 text-muted-foreground">
                   {project.description}
                 </p>
-              </section>
-
-              <section>
-                <h2 className="text-xl font-semibold mb-3">Why it exists</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.problem}
+              </div>
+              <div>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                  Why it exists
                 </p>
-              </section>
+                <p className="leading-8 text-muted-foreground">{project.problem}</p>
+              </div>
+            </section>
 
+            <section className="border-y py-10">
+              <h2 className="text-2xl font-semibold">Workflow and build approach</h2>
+              <p className="mt-4 leading-8 text-muted-foreground">
+                {project.approach}
+              </p>
+            </section>
+
+            {project.outcomes && project.outcomes.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold mb-3">
-                  Workflow and build approach
-                </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.approach}
-                </p>
+                <h2 className="mb-4 text-2xl font-semibold">Evidence and outcomes</h2>
+                <EvidenceList items={project.outcomes} />
               </section>
+            )}
 
-              {/* Outcomes before technical depth for featured/flagship projects */}
-              {hasOutcomes && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">Proof</h2>
-                  <ul className="space-y-2">
-                    {project.outcomes?.map((outcome, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{outcome}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
-              {/* Technical Depth Section */}
-              {hasTechnicalDepth && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-4">What was built</h2>
-                  <div className="space-y-4">
-                    {project.technicalDepth?.architecture && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Architecture
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.architecture}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.cvPipeline && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          CV Pipeline
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.cvPipeline}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.ocrPipeline && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          OCR Pipeline
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.ocrPipeline}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.audioCapture && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Audio Capture
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.audioCapture}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.transcription && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Transcription
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.transcription}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.normalization && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Schema Normalization
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.normalization}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.storage && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Storage & Search
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.storage}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.performance && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Performance
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.performance}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.backend && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Backend
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.backend}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.signing && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Digital Signing
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.signing}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.monetization && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Monetization
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.monetization}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.distribution && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Distribution
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.distribution}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.ux && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          UX Design
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.ux}
-                        </p>
-                      </div>
-                    )}
-                    {project.technicalDepth?.integration && (
-                      <div>
-                        <h3 className="text-sm font-semibold text-foreground mb-1">
-                          Integration
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {project.technicalDepth.integration}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </section>
-              )}
-
-              {/* Outcomes suppressed here — shown after Approach above for all projects */}
-
-              {hasOwnership && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">
-                    Ownership and scope
-                  </h2>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {project.ownership as string}
-                  </p>
-                </section>
-              )}
-
-              {hasConstraints && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">Constraints</h2>
-                  <ul className="space-y-2">
-                    {(project.constraints as string[]).map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
-              {hasTradeoffs && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">Trade-offs</h2>
-                  <ul className="space-y-2">
-                    {(project.tradeoffs as string[]).map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
-              {hasWhatChanged && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">What changed</h2>
-                  <ul className="space-y-2">
-                    {(project.whatChanged as string[]).map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
-              {hasArtifacts && (
-                <section>
-                  <h2 className="text-xl font-semibold mb-3">
-                    Workflow artifacts
-                  </h2>
-                  <ul className="space-y-2">
-                    {(project.artifacts as string[]).map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-muted-foreground leading-relaxed flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-1.5">→</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
-
+            {technicalEntries.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold mb-3">Result</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.result}
-                </p>
+                <h2 className="text-2xl font-semibold">What was built</h2>
+                <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+                  {technicalEntries.map(([key, value]) => (
+                    <div key={key} className="rounded-lg border bg-card p-5 shadow-sm">
+                      <h3 className="text-sm font-semibold">
+                        {humanizeTechnicalKey(key)}
+                      </h3>
+                      <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                        {value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </section>
+            )}
 
-              {/* What this demonstrates — flagship projects only */}
-              {project.featured &&
-                (project as Project & { demonstrates?: string })
-                  .demonstrates && (
-                  <section className="border-t pt-8">
-                    <h2 className="text-xl font-semibold mb-3">
-                      Why this project matters
-                    </h2>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {
-                        (project as Project & { demonstrates?: string })
-                          .demonstrates
-                      }
-                    </p>
-                  </section>
-                )}
+            {project.ownership && (
+              <section>
+                <h2 className="mb-3 text-2xl font-semibold">Ownership and scope</h2>
+                <p className="leading-8 text-muted-foreground">{project.ownership}</p>
+              </section>
+            )}
 
-              {project.featured && project.proofRole && (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {project.constraints && project.constraints.length > 0 && (
                 <section>
-                  <h2 className="text-xl font-semibold mb-3">What it proves</h2>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {project.proofRole}
-                  </p>
+                  <h2 className="mb-4 text-xl font-semibold">Constraints</h2>
+                  <EvidenceList items={project.constraints} />
+                </section>
+              )}
+              {project.tradeoffs && project.tradeoffs.length > 0 && (
+                <section>
+                  <h2 className="mb-4 text-xl font-semibold">Trade-offs</h2>
+                  <EvidenceList items={project.tradeoffs} />
                 </section>
               )}
             </div>
+
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              {project.whatChanged && project.whatChanged.length > 0 && (
+                <section>
+                  <h2 className="mb-4 text-xl font-semibold">What changed</h2>
+                  <EvidenceList items={project.whatChanged} />
+                </section>
+              )}
+              {project.artifacts && project.artifacts.length > 0 && (
+                <section>
+                  <h2 className="mb-4 text-xl font-semibold">Workflow artifacts</h2>
+                  <EvidenceList items={project.artifacts} />
+                </section>
+              )}
+            </div>
+
+            <section className="rounded-xl border bg-muted/30 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Result
+              </p>
+              <p className="mt-3 text-lg leading-8 text-foreground">{project.result}</p>
+            </section>
           </div>
 
-          <div className="border-t mt-16 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t pt-8 sm:flex-row">
             <Link
               href="/work"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm text-muted-foreground transition-colors hover:text-primary"
             >
-              ← Back to all projects
+              ← Back to selected work
             </Link>
-            <div className="flex gap-3">
-              <Button asChild className="rounded-full">
-                <Link href="/work-with-me">Start a pilot</Link>
-              </Button>
-              <Button variant="outline" asChild className="rounded-full">
-                <Link href="/hire-me">Hire Me</Link>
-              </Button>
-            </div>
+            <Button asChild>
+              <Link href="/contact?type=project&source=case-study">
+                Discuss a related build <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </article>
