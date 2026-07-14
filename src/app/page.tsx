@@ -1,105 +1,143 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
-  BookOpen,
-  BriefcaseBusiness,
-  ClipboardCheck,
+  AudioLines,
+  Boxes,
   FileSearch,
+  Map,
   ShieldCheck,
   Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import projectsData from "@/content/projects.json";
 import { HeroSystemPanel } from "@/components/hero-system-panel";
-import { noClaimEbook } from "@/lib/ebook";
-
-type Project = (typeof projectsData.projects)[number] & {
-  flagshipRank?: number;
-  proofRole?: string;
-  proofSummary?: string;
-};
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Operator-Builder for Workflow Systems",
+  title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
   description:
-    "I turn messy operational workflows, unstructured documents, and ambiguous product ideas into reviewable software systems.",
+    "I design and build document intelligence, local-first AI tools, operational workflows, and simulation-heavy product systems.",
   openGraph: {
-    title: "Pranay Suyash | Operator-Builder for Workflow Systems",
+    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
     description:
-      "Portfolio, client work, and hiring proof for workflow-heavy software, AI prototypes, and operational systems.",
+      "From unclear operational problem to usable, reviewable product system.",
     type: "website",
   },
 };
 
-const routes = [
+const proofPoints = [
   {
-    title: "Hire me",
-    body: "For teams that need someone who can own ambiguous workflow problems and ship visible progress.",
-    href: "/hire-me",
-    cta: "See role fit",
-    icon: BriefcaseBusiness,
+    signal: "14 years",
+    result: "Across product, engineering, operations, and founder-level execution.",
   },
   {
-    title: "Scope a pilot",
-    body: "For founders and operators with a painful process, messy documents, or an AI workflow that needs a first version.",
-    href: "/work-with-me",
-    cta: "Start with the problem",
-    icon: Workflow,
+    signal: "~4 weeks → ~10 days",
+    result: "Insurance-processing turnaround after workflow redesign and tooling.",
   },
   {
-    title: "Read the book",
-    body: "For builders who want the operating discipline behind AI evals, extraction quality, and review gates.",
-    href: noClaimEbook.path,
-    cta: "Open the book page",
-    icon: BookOpen,
+    signal: "Paid product shipped",
+    result: "SignKit moved from workflow pain to a commercial desktop application.",
+  },
+  {
+    signal: "Local-first + reviewable",
+    result: "Privacy, evidence, fallbacks, and human review are designed into the system.",
   },
 ] as const;
 
-const operatingLoop = [
+const capabilityPillars = [
   {
-    label: "Map reality",
-    body: "Find the actual workflow, not the meeting-room version.",
+    title: "Document and media intelligence",
+    body: "OCR, extraction, semantic structure, multimodal search, RAG, evaluation, and reviewer workflows for messy source material.",
     icon: FileSearch,
   },
   {
-    label: "Build review gates",
-    body: "Make uncertain output inspectable before it becomes a business decision.",
-    icon: ClipboardCheck,
+    title: "Operational product systems",
+    body: "Internal tools, approvals, case workflows, automation, and dashboards that replace fragmented manual work.",
+    icon: Workflow,
   },
   {
-    label: "Ship proof",
-    body: "Tie each claim to a working surface, metric, artifact, or handoff.",
-    icon: ShieldCheck,
+    title: "Local-first AI products",
+    body: "Desktop and native software for private files, on-device models, low-latency interaction, and offline-capable workflows.",
+    icon: Boxes,
+  },
+  {
+    title: "Spatial and simulation products",
+    body: "Interactive editors, digital twins, coverage analysis, pathfinding, scene alignment, and evidence-backed spatial decisions.",
+    icon: Map,
   },
 ] as const;
 
-const proofPoints = [
+const selectedSystems = [
   {
-    signal: "MedPiper (YC S20)",
-    result: "Insurance processing moved from about 4 weeks to about 10 days.",
+    title: "SentinelTwin",
+    category: "Spatial intelligence",
+    stage: "Active product build",
+    summary:
+      "A physical-security digital twin for coverage analysis, incident replay, comparison, governance, and evidence-backed hardening decisions.",
+    proves:
+      "Complex product architecture, simulation, interactive editors, and long-horizon system design.",
+    href: "/work/sentineltwin",
+    external: false,
+    icon: Map,
   },
   {
-    signal: "14 years",
-    result: "Product, engineering, operations, and founder-level execution.",
+    title: "SignKit",
+    category: "Computer vision · desktop",
+    stage: "Paid product",
+    summary:
+      "Signature extraction and PDF signing combined into one local file-heavy workflow for people who should not need three separate tools.",
+    proves:
+      "Productization, cross-platform desktop delivery, computer vision, billing, packaging, and commercial validation.",
+    href: "/work/sig-ext-fastapi",
+    external: false,
+    icon: ShieldCheck,
   },
   {
-    signal: "SignKit",
-    result: "An idea became a paid desktop workflow product.",
+    title: "MetaExtract",
+    category: "Document intelligence",
+    stage: "Production workflow system",
+    summary:
+      "A modular extraction system for variable PDFs, scans, and document types with normalized output and confidence-led review.",
+    proves:
+      "Applied AI architecture that stays inspectable, operable, and extensible as document variability grows.",
+    href: "/work/metaextract",
+    external: false,
+    icon: FileSearch,
   },
   {
-    signal: "No Claim Until Reviewed",
-    result: "Daily AI eval writing turned into a sellable PDF + EPUB.",
+    title: "EchoPanel",
+    category: "Local-first audio AI",
+    stage: "Native product system",
+    summary:
+      "A macOS meeting recorder that captures audio, transcribes locally, and makes conversations searchable when the user needs them later.",
+    proves:
+      "Native UX, audio pipelines, on-device inference, private storage, and retrieval in one coherent product flow.",
+    href: "/work/echopanel",
+    external: false,
+    icon: AudioLines,
+  },
+] as const;
+
+const engagementPaths = [
+  {
+    title: "Map the system",
+    body: "For a real problem whose product boundary, architecture, or riskiest assumptions are still unclear.",
+    note: "5 to 7 working days",
+  },
+  {
+    title: "Build the core product path",
+    body: "For an AI-assisted product, internal tool, or local-first workflow that needs to become usable by real people.",
+    note: "3 to 5 weeks",
+  },
+  {
+    title: "Own a production workstream",
+    body: "For larger systems that need integrations, evaluation, governance, deployment, and sustained senior execution.",
+    note: "6 to 12 weeks or monthly",
   },
 ] as const;
 
 export default function Home() {
-  const featuredProjects = (projectsData.projects as Project[])
-    .filter((p) => p.featured)
-    .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99));
-
   return (
     <PageLayout>
       <section className="relative overflow-hidden border-b bg-[#10191a] text-white">
@@ -107,22 +145,22 @@ export default function Home() {
         <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_460px] lg:px-8 lg:py-28">
           <div className="animate-fade-up">
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-teal-100/75">
-              Pranay Suyash · operator-builder
+              Pranay Suyash · product engineer and systems builder
             </p>
-            <h1 className="max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
-              I turn messy workflows into software people can trust.
+            <h1 className="max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+              Product systems for work that is still manual, fragmented, or hard to trust.
             </h1>
-            <p className="mt-7 max-w-2xl text-base leading-8 text-white/72 md:text-lg">
-              Hiring team, founder, or curious builder: the pattern is the same.
-              I take ambiguous operational reality, shape it into a reviewable
-              system, and ship something useful enough to change the next
-              decision.
+            <p className="mt-7 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
+              I design and build document intelligence, local-first AI tools,
+              operational workflows, and spatial simulations. The work starts with
+              the real process and ends with usable software, review states, evidence,
+              and a credible path beyond the first release.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="rounded-md px-7">
-                <Link href="/work-with-me">
-                  Scope a pilot <ArrowRight className="ml-2 h-4 w-4" />
+                <Link href="/contact?type=project&source=home">
+                  Discuss a build <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -131,13 +169,13 @@ export default function Home() {
                 variant="outline"
                 className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
               >
-                <Link href="/hire-me">Hire me</Link>
+                <Link href="/work">See selected systems</Link>
               </Button>
               <Link
-                href="/work"
+                href="/hire-me"
                 className="text-sm font-medium text-white/62 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
-                Browse proof
+                Considering me for a role?
               </Link>
             </div>
           </div>
@@ -163,37 +201,103 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-18 md:py-24">
+      <section className="py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-10 max-w-3xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Choose the right door
+          <div className="mb-10 grid grid-cols-1 gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Capability map
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                The model is a component. The product is the system around it.
+              </h2>
+            </div>
+            <p className="max-w-3xl text-base leading-8 text-muted-foreground lg:justify-self-end">
+              I am most useful where product judgment, architecture, interface design,
+              data or model pipelines, and operational reality need to stay connected.
+              The technology changes by problem; the operating discipline does not.
             </p>
-            <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
-              One body of proof, three ways to use it.
-            </h2>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {routes.map((route) => {
-              const Icon = route.icon;
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {capabilityPillars.map((pillar) => {
+              const Icon = pillar.icon;
               return (
-                <Link key={route.title} href={route.href}>
-                  <Card className="hover-lift h-full border bg-card shadow-sm">
+                <Card key={pillar.title} className="h-full border bg-card shadow-sm">
+                  <CardContent className="p-6">
+                    <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="text-xl font-semibold">{pillar.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                      {pillar.body}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-muted/35 py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-3xl">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Selected systems
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                A smaller set of projects, each proving something different.
+              </h2>
+            </div>
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              Browse the full archive <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            {selectedSystems.map((system) => {
+              const Icon = system.icon;
+              return (
+                <Link
+                  key={system.title}
+                  href={system.href}
+                  target={system.external ? "_blank" : undefined}
+                  rel={system.external ? "noopener noreferrer" : undefined}
+                  className="group"
+                >
+                  <Card className="hover-lift h-full border bg-background shadow-sm">
                     <CardContent className="flex h-full flex-col p-6">
-                      <div className="mb-5 flex items-center justify-between">
+                      <div className="mb-5 flex items-start justify-between gap-4">
                         <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
                           <Icon className="h-5 w-5" />
                         </span>
-                        <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                        <div className="text-right">
+                          <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                            {system.category}
+                          </p>
+                          <p className="mt-1 text-xs text-primary">{system.stage}</p>
+                        </div>
                       </div>
-                      <h3 className="text-xl font-semibold">{route.title}</h3>
-                      <p className="mt-3 flex-1 text-sm leading-7 text-muted-foreground">
-                        {route.body}
+                      <h3 className="text-xl font-semibold group-hover:text-primary">
+                        {system.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                        {system.summary}
                       </p>
-                      <p className="mt-5 text-sm font-medium text-primary">
-                        {route.cta}
+                      <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
+                        <span className="font-semibold text-foreground">
+                          What it proves:
+                        </span>{" "}
+                        {system.proves}
                       </p>
+                      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                        Review the system <ArrowRight className="h-4 w-4" />
+                      </span>
                     </CardContent>
                   </Card>
                 </Link>
@@ -203,96 +307,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/45 py-18 md:py-24">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Operating loop
-              </p>
-              <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
-                I am most useful in the messy middle.
-              </h2>
-              <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
-                The middle is where specs are incomplete, documents are
-                inconsistent, ownership is fuzzy, and the first build needs
-                judgment as much as code.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {operatingLoop.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div
-                    key={step.label}
-                    className="rounded-md border bg-background p-5 shadow-sm"
-                  >
-                    <div className="mb-6 flex items-center justify-between">
-                      <Icon className="h-5 w-5 text-primary" />
-                      <span className="font-mono text-xs text-muted-foreground">
-                        0{index + 1}
-                      </span>
-                    </div>
-                    <h3 className="font-semibold">{step.label}</h3>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      {step.body}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-18 md:py-24">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Case files
-              </p>
-              <h2 className="text-2xl font-bold tracking-tight md:text-4xl">
-                Selected work with proof attached.
-              </h2>
-            </div>
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-              All projects <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {featuredProjects.slice(0, 4).map((project) => (
-              <Link key={project.slug} href={`/work/${project.slug}`}>
-                <Card className="hover-lift h-full border bg-card shadow-sm">
-                  <CardContent className="p-6">
-                    <div className="mb-5 flex items-center gap-3">
-                      <span className="rounded-md bg-muted px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                        {project.category}
-                      </span>
-                      <span className="ml-auto font-mono text-xs text-muted-foreground">
-                        {project.year}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-semibold">{project.title}</h3>
-                    <p className="mt-2 text-sm font-medium leading-6 text-muted-foreground">
-                      {project.tagline}
-                    </p>
-                    {(project.proofRole || project.proofSummary) && (
-                      <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
-                        <span className="font-semibold text-foreground">
-                          Proof:
-                        </span>{" "}
-                        {project.proofSummary || project.proofRole}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Ways to work together
+            </p>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+              Start at the level of uncertainty you actually have.
+            </h2>
+            <p className="mt-4 text-base leading-8 text-muted-foreground">
+              Do not buy a large build when the first problem is scope. Do not buy an
+              audit when the decision is already clear and execution is the bottleneck.
+            </p>
+            <Button asChild variant="outline" className="mt-6 rounded-md">
+              <Link href="/work-with-me">
+                See regional pricing and scopes <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {engagementPaths.map((path, index) => (
+              <div key={path.title} className="rounded-lg border bg-card p-5 shadow-sm">
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="font-mono text-xs text-primary">0{index + 1}</span>
+                  <span className="text-xs text-muted-foreground">{path.note}</span>
+                </div>
+                <h3 className="font-semibold">{path.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {path.body}
+                </p>
+              </div>
             ))}
           </div>
         </div>
@@ -302,80 +348,41 @@ export default function Home() {
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-7 px-4 md:grid-cols-[1fr_auto] md:px-6 lg:px-8">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/75">
-              Productized thinking
+              Writing and operating discipline
             </p>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              {noClaimEbook.title}
+              No Claim Without Evidence
             </h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/72 md:text-base">
-              {noClaimEbook.description} The bundle includes PDF + EPUB and
-              turns the daily eval/extraction writing into a durable asset.
+              A practical field guide to evidence links, evals, review rules, action
+              traces, and release gates for AI-assisted workflows.
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
-            <Button asChild className="rounded-md px-7">
-              <Link href={noClaimEbook.path}>
-                View the book <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
-            >
-              <Link
-                href={
-                  noClaimEbook.hasCheckout
-                    ? noClaimEbook.checkoutUrl
-                    : noClaimEbook.consultingUrl
-                }
-              >
-                {noClaimEbook.hasCheckout
-                  ? noClaimEbook.checkoutLabel
-                  : noClaimEbook.consultingLabel}
-              </Link>
-            </Button>
-          </div>
+          <Button asChild variant="outline" className="border-white/30 bg-white/5 text-white hover:bg-white/10">
+            <Link href="/books/no-claim-without-evidence">
+              Read about the book <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 
-      <section className="py-18 md:py-24">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 md:grid-cols-2 md:px-6 lg:px-8">
-          <div className="rounded-md border bg-card p-7 shadow-sm">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              For founders & operators
-            </p>
-            <h3 className="text-2xl font-bold tracking-tight">
-              Have a workflow that should already be software?
-            </h3>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              Start with the pain, the users, the existing tools, and what a
-              useful first version needs to prove.
-            </p>
-            <Button asChild className="mt-6 rounded-md px-7">
-              <Link href="/work-with-me">
-                Start a pilot <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="rounded-md border bg-card p-7 shadow-sm">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              For hiring teams
-            </p>
-            <h3 className="text-2xl font-bold tracking-tight">
-              Need an operator-builder, not another clean-lane specialist?
-            </h3>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              I fit best where product judgment, technical execution, and
-              operational reality need to sit in the same person.
-            </p>
-            <Button variant="outline" asChild className="mt-6 rounded-md px-7">
-              <Link href="/hire-me">
-                See role fit <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto max-w-[1000px] px-4 text-center md:px-6 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+            The useful first message
+          </p>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
+            Tell me who does the work today, where it breaks, and what a better system would change.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
+            A rough workflow, sample document, screen recording, or existing tool list
+            is more useful than a polished feature specification.
+          </p>
+          <Button asChild size="lg" className="mt-8 rounded-md px-8">
+            <Link href="/contact?type=project&source=home-bottom">
+              Send the problem <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </PageLayout>
