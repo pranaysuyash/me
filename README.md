@@ -1,83 +1,104 @@
-# Pranay Suyash — Portfolio
+# Pranay Suyash — Product systems portfolio
 
-Personal portfolio site showcasing projects, experience, and consulting services.
+Portfolio and commercial site for product engineering work across document intelligence, operational workflows, local-first AI, and spatial or simulation-heavy systems.
 
 **Live:** [pranaysuyash.com](https://pranaysuyash.com)
 
-## Tech Stack
+## Product intent
 
-- **Framework:** Next.js 15 (App Router, static export)
+The site is client-first. It is designed to:
+
+- explain the kinds of systems Pranay can own end to end;
+- show a small set of flagship case studies before the broader project archive;
+- expose architecture, constraints, trade-offs, screenshots, and outcomes rather than technology badges alone;
+- offer separate India INR and Global USD engagement price books;
+- collect problem-first project briefs with regional scope guidance;
+- keep employment experience and writing available as secondary paths.
+
+## Tech stack
+
+- **Framework:** Next.js 15, App Router, static export
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS v4 + shadcn/ui components
+- **Styling:** Tailwind CSS v4 and shadcn/ui primitives
 - **Animations:** Framer Motion
 - **Icons:** Lucide React
-- **State:** Zustand
+- **State:** React state and Zustand where needed
 
 ## Architecture
 
-This is a fully static site — no server, no database, no API routes. All content is sourced from JSON files in `src/content/`. The build produces a plain `out/` folder deployable to S3, Cloudflare Pages, GitHub Pages, or any static host.
+The site exports static HTML and assets to `out/`. It has no application server, database, or API routes.
 
-### Third-party services
+Most portfolio content lives in `src/content/projects.json`. High-signal commercial and product narratives can also use dedicated routes, such as `src/app/work/sentineltwin/page.tsx`, when a generic project record cannot communicate the system accurately.
 
-| Service                          | Purpose                                    |
-| -------------------------------- | ------------------------------------------ |
-| [FormBold](https://formbold.com) | Contact form submissions (serverless)      |
-| [Cal.com](https://cal.com)       | Booking/scheduling (15-min & 30-min calls) |
+### Third-party and platform services
 
-## Getting Started
+| Service | Purpose |
+| --- | --- |
+| Cloudflare Pages | Static hosting and production domain |
+| Cloudflare `/cdn-cgi/trace` | Same-origin country hint for regional pricing |
+| FormBold | Contact-form submissions |
+| Cal.com | 15-minute and 30-minute booking links |
+| GitHub Actions | Static build and critical-route checks |
+
+Regional pricing always includes a manual India / Global switch. Country detection is a convenience, not a hard access rule.
+
+## Getting started
+
+Use Node.js 22.
 
 ```bash
-# Install dependencies
-npm install
-
-# Run dev server
+npm ci
 npm run dev
+```
 
-# Build static export
+Verification:
+
+```bash
+npm run typecheck
 npm run build
+```
 
-# Preview static build locally
+Preview the static export:
+
+```bash
 npx serve out -l 3000
 ```
 
-## Project Structure
+## Project structure
 
-```
-├── public/              # Static assets (images, robots.txt, sitemap.xml)
+```text
+├── .github/workflows/  # Static build and route verification
+├── public/             # Static assets, robots.txt, sitemap.xml
 ├── src/
-│   ├── app/             # Next.js pages (all static)
-│   ├── components/      # React components
-│   │   ├── ui/          # shadcn/ui primitives
-│   │   └── layout/      # Navbar, footer, page layout
-│   └── content/         # JSON data (projects, services, experience, etc.)
-├── docs/                # Documentation
-│   ├── audits/          # Portfolio & technical audits
-│   ├── decisions/       # Architecture decisions
-│   ├── marketing/       # Marketing & outreach docs
-│   ├── personas/        # Target audience personas
-│   ├── strategy/        # Strategy & planning docs
-│   └── archive/         # Historical/reference docs
-└── tools/               # Reusable helper utilities
+│   ├── app/            # Next.js routes and case studies
+│   ├── components/     # Shared React components
+│   │   ├── layout/     # Navbar, footer, page layout
+│   │   └── ui/         # UI primitives
+│   ├── content/        # Project and experience data
+│   └── lib/            # Shared positioning and utility values
+├── docs/               # Current and historical product documentation
+└── tools/              # Helper utilities
 ```
 
 ## Scripts
 
-| Command             | Description                   |
-| ------------------- | ----------------------------- |
-| `npm run dev`       | Start dev server              |
-| `npm run build`     | Build static export to `out/` |
-| `npm run lint`      | Run ESLint                    |
-| `npm run typecheck` | Run TypeScript type checking  |
-| `npm run format`    | Format code with Prettier     |
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the local development server |
+| `npm run typecheck` | Run strict TypeScript checking |
+| `npm run build` | Generate the static site in `out/` |
+| `npm run deploy:cloudflare` | Build and deploy `out/` to the `pranay` Cloudflare Pages project |
+| `npm run format` | Format the repository with Prettier |
 
 ## Deployment
 
-The site is a static export. Deploy the `out/` folder to any static host:
+The canonical manual deployment command is:
 
 ```bash
-npm run build
-# Upload out/ to S3 + CloudFront, Cloudflare Pages, GitHub Pages, etc.
+npm run deploy:cloudflare
 ```
+
+See `DEPLOYMENT_GUIDE.md` for route checks, regional-pricing verification, form validation, and rollback steps.
 
 ## License
 
