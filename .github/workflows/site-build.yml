@@ -1,0 +1,75 @@
+name: Site build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Verify critical exported routes
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+
+          const routeCandidates = {
+            home: ["out/index.html"],
+            work: ["out/work.html", "out/work/index.html"],
+            services: ["out/work-with-me.html", "out/work-with-me/index.html"],
+            contact: ["out/contact.html", "out/contact/index.html"],
+            sentinelTwin: [
+              "out/work/sentineltwin.html",
+              "out/work/sentineltwin/index.html",
+            ],
+          };
+
+          const failures = [];
+          for (const [route, candidates] of Object.entries(routeCandidates)) {
+            const exported = candidates.find(
+              (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 200,
+            );
+            if (!exported) failures.push(`${route}: ${candidates.join(" or ")}`);
+          }
+
+          if (failures.length) {
+            console.error("Missing or empty exported routes:\n" + failures.join("\n"));
+            process.exit(1);
+          }
+
+          const files = [];
+          const walk = (directory) => {
+            for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+              const fullPath = path.join(directory, entry.name);
+              if (entry.isDirectory()) walk(fullPath);
+              else files.push(fullPath);
+            }
+          };
+          walk("out");
+          console.log(`Verified ${Object.keys(routeCandidates).length} critical routes across ${files.length} exported files.`);
+          NODE
