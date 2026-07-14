@@ -1,95 +1,105 @@
 "use client";
 
 import { useState } from "react";
-import { PageLayout } from "@/components/layout/page-layout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { PageLayout } from "@/components/layout/page-layout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import projectsData from "@/content/projects.json";
 
 const CATEGORY_ORDER = [
-  { key: "AI/ML", label: "AI & Machine Learning" },
-  { key: "Computer Vision", label: "Computer Vision" },
-  { key: "macOS", label: "macOS & Native" },
-  { key: "Developer Tools", label: "Developer Tools" },
-  { key: "Product", label: "Product & Other" },
-  { key: "Data", label: "Data & Analytics" },
+  { key: "AI/ML", label: "AI and ML" },
+  { key: "Computer Vision", label: "Computer vision" },
+  { key: "macOS", label: "Native and local-first" },
+  { key: "Developer Tools", label: "Developer tools" },
+  { key: "Product", label: "Product systems" },
+  { key: "Data", label: "Data and analytics" },
   { key: "Mobile", label: "Mobile" },
 ];
 
-const CATEGORY_COLORS: Record<string, string> = {
-  "AI/ML":
-    "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-  "Computer Vision":
-    "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-  macOS:
-    "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-  "Developer Tools":
-    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  Product: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
-  Data: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  Mobile: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200",
-  Featured: "bg-primary/10 text-primary",
-};
+const FLAGSHIP_SLUGS = ["sig-ext-fastapi", "metaextract", "echopanel"];
+const TECHNICAL_DEPTH_SLUGS = ["model-lab", "agents"];
 
-type Project = (typeof projectsData.projects)[0] & {
-  flagshipRank?: number;
+type Project = (typeof projectsData.projects)[number] & {
   proofRole?: string;
   proofSummary?: string;
+  demonstrates?: string;
 };
 
-function ProjectCard({
-  project,
-  featured = false,
-}: {
-  project: Project;
-  featured?: boolean;
-}) {
+const sentinelTwin = {
+  title: "SentinelTwin",
+  category: "Spatial intelligence",
+  year: "2026",
+  stage: "Active product build",
+  tagline:
+    "Physical-security digital twin for coverage analysis, incident replay, comparison, governance, and evidence-backed hardening decisions.",
+  proofSummary:
+    "Shows complex product architecture across interactive editors, deterministic simulation, evidence surfaces, local persistence, and a broader platform spine.",
+  techStack: ["React", "TypeScript", "Three.js", "R3F", "Zustand"],
+  href: "/work/sentineltwin",
+};
+
+function ArchiveProjectCard({ project }: { project: Project }) {
   return (
-    <Link key={project.slug} href={`/work/${project.slug}`} className="block">
-      <Card
-        className={`hover-lift h-full transition-all duration-200 ${
-          featured
-            ? "border-2 border-primary/20 bg-card"
-            : "border shadow-sm bg-card"
-        }`}
-      >
-        <CardContent className="p-6 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-3 flex-wrap">
-            <span
-              className={`text-xs font-mono px-2 py-1 rounded ${
-                CATEGORY_COLORS[project.category] ||
-                "bg-muted text-muted-foreground"
-              }`}
-            >
-              {project.category}
-            </span>
-            {featured && (
-              <span className="text-xs font-mono bg-primary/10 text-primary px-2 py-1 rounded">
-                Featured
-              </span>
-            )}
-            <span className="text-xs text-muted-foreground ml-auto">
+    <Link href={`/work/${project.slug}`} className="block h-full">
+      <Card className="hover-lift h-full border bg-card shadow-sm">
+        <CardContent className="flex h-full flex-col p-5">
+          <div className="mb-3 flex items-center gap-3 text-xs text-muted-foreground">
+            <span className="uppercase tracking-[0.12em]">{project.category}</span>
+            <span className="ml-auto font-mono">{project.year}</span>
+          </div>
+          <h3 className="text-lg font-semibold">{project.title}</h3>
+          <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
+            {project.tagline}
+          </p>
+          <p className="mt-4 text-xs leading-5 text-primary/80">
+            {project.result}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
+
+function ExistingFlagshipCard({ project }: { project: Project }) {
+  return (
+    <Link href={`/work/${project.slug}`} className="group block h-full">
+      <Card className="hover-lift h-full border bg-card shadow-sm">
+        <CardContent className="flex h-full flex-col p-6">
+          <div className="mb-5 flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                {project.category}
+              </p>
+              <p className="mt-1 text-xs text-primary">
+                {project.proofRole || "Flagship system"}
+              </p>
+            </div>
+            <span className="font-mono text-xs text-muted-foreground">
               {project.year}
             </span>
           </div>
-          <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-          <p className="text-sm text-muted-foreground mb-4 leading-relaxed flex-1">
+          <h3 className="text-xl font-semibold group-hover:text-primary">
+            {project.title}
+          </h3>
+          <p className="mt-3 text-sm leading-7 text-muted-foreground">
             {project.tagline}
           </p>
-          <p className="text-xs text-primary/80 leading-relaxed mb-4">
-            {project.result}
+          <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
+            <span className="font-semibold text-foreground">What it proves:</span>{" "}
+            {project.proofSummary || project.demonstrates || project.result}
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {project.techStack.slice(0, 5).map((tech) => (
-              <span
-                key={tech}
-                className="text-xs font-mono bg-primary/5 text-primary px-2 py-0.5 rounded"
-              >
+          <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1">
+            {project.techStack.slice(0, 4).map((tech) => (
+              <span key={tech} className="text-xs text-muted-foreground">
                 {tech}
               </span>
             ))}
           </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+            Review case file <ArrowRight className="h-4 w-4" />
+          </span>
         </CardContent>
       </Card>
     </Link>
@@ -99,180 +109,237 @@ function ProjectCard({
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  const allFeatured = projectsData.projects
-    .filter((p: Project) => p.featured)
-    .sort((a, b) => (a.flagshipRank ?? 99) - (b.flagshipRank ?? 99));
+  const projects = projectsData.projects as Project[];
+  const flagshipProjects = FLAGSHIP_SLUGS.map((slug) =>
+    projects.find((project) => project.slug === slug),
+  ).filter((project): project is Project => Boolean(project));
 
-  const allNonFeatured = projectsData.projects.filter(
-    (p: Project) => !p.featured,
+  const technicalDepthProjects = TECHNICAL_DEPTH_SLUGS.map((slug) =>
+    projects.find((project) => project.slug === slug),
+  ).filter((project): project is Project => Boolean(project));
+
+  const reservedSlugs = new Set([
+    ...FLAGSHIP_SLUGS,
+    ...TECHNICAL_DEPTH_SLUGS,
+  ]);
+  const archiveProjects = projects.filter(
+    (project) => !reservedSlugs.has(project.slug),
   );
 
-  const technicalDepthProjects = allNonFeatured.filter(
-    (p: Project) => p.slug === "model-lab",
-  );
-
-  const archiveProjects = allNonFeatured.filter(
-    (p: Project) => p.slug !== "model-lab",
-  );
-
-  const groupedNonFeatured = archiveProjects.reduce(
+  const groupedArchive = archiveProjects.reduce(
     (acc, project) => {
-      const cat = project.category;
-      if (!acc[cat]) acc[cat] = [];
-      acc[cat].push(project);
+      if (!acc[project.category]) acc[project.category] = [];
+      acc[project.category].push(project);
       return acc;
     },
     {} as Record<string, Project[]>,
   );
 
-  const filteredGrouped = activeFilter
-    ? (Object.fromEntries(
-        Object.entries(groupedNonFeatured)
-          .map(([cat, projects]) => [
-            cat,
-            (projects as Project[]).filter(
-              (p: Project) => p.category === activeFilter,
-            ),
-          ])
-          .filter(([, projects]) => (projects as Project[]).length > 0),
-      ) as Record<string, Project[]>)
-    : groupedNonFeatured;
-
-  const categories = CATEGORY_ORDER.filter((c) =>
-    Boolean(groupedNonFeatured[c.key]),
+  const categories = CATEGORY_ORDER.filter((category) =>
+    Boolean(groupedArchive[category.key]),
   );
+
+  const filteredGrouped = activeFilter
+    ? ({ [activeFilter]: groupedArchive[activeFilter] || [] } as Record<
+        string,
+        Project[]
+      >)
+    : groupedArchive;
 
   return (
     <PageLayout>
-      <section className="py-20 md:py-28">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8">
-          <div className="max-w-3xl animate-fade-up mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Selected <span className="gradient-text">work</span>
+      <section className="border-b bg-[#10191a] py-20 text-white md:py-28">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="max-w-4xl animate-fade-up">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-teal-100/75">
+              Selected work
+            </p>
+            <h1 className="text-4xl font-bold tracking-tight text-white md:text-6xl">
+              Systems, not a repository wall.
             </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              The strongest projects first. Everything else is below.
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
+              The strongest work is grouped by what it proves: commercial product
+              ownership, document and media intelligence, local-first product design,
+              and complex simulation. Older experiments remain available below without
+              competing with the flagship evidence.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="mb-14">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-              Flagship
+      <section className="border-b py-8">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-4 px-4 md:grid-cols-3 md:px-6 lg:px-8">
+          <div className="evidence-rule py-2">
+            <p className="text-sm font-semibold">Commercial proof</p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Paid products, client systems, and workflows tied to a real operating result.
+            </p>
+          </div>
+          <div className="evidence-rule py-2">
+            <p className="text-sm font-semibold">System depth</p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Architecture, constraints, trade-offs, data flow, and reviewer or operator states.
+            </p>
+          </div>
+          <div className="evidence-rule py-2">
+            <p className="text-sm font-semibold">Exploration range</p>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              Native apps, computer vision, audio, agents, mobile, maps, and developer tooling.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Flagship systems
+            </p>
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+              Four projects that explain the breadth without diluting the signal.
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {allFeatured.map((project: Project) => (
-                <Link
-                  key={project.slug}
-                  href={`/work/${project.slug}`}
-                  className="block"
-                >
-                  <Card className="hover-lift h-full border shadow-sm bg-card">
-                    <CardContent className="p-6 flex flex-col h-full">
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                          {project.category}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {project.year}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                        {project.tagline}
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <Link href={sentinelTwin.href} className="group block h-full">
+              <Card className="hover-lift h-full border border-primary/30 bg-primary/[0.025] shadow-sm">
+                <CardContent className="flex h-full flex-col p-6">
+                  <div className="mb-5 flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                        {sentinelTwin.category}
                       </p>
-                      {(project.proofRole || project.proofSummary) && (
-                        <p className="proof-angle mb-4 leading-relaxed">
-                          <span className="font-medium text-foreground">
-                            Why it matters:{" "}
-                          </span>
-                          {project.proofSummary || project.proofRole}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 mt-auto">
-                        {project.techStack.slice(0, 3).map((tech) => (
-                          <span
-                            key={tech}
-                            className="text-xs text-muted-foreground"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      <p className="mt-1 text-xs text-primary">{sentinelTwin.stage}</p>
+                    </div>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      {sentinelTwin.year}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-semibold group-hover:text-primary">
+                    {sentinelTwin.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    {sentinelTwin.tagline}
+                  </p>
+                  <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
+                    <span className="font-semibold text-foreground">What it proves:</span>{" "}
+                    {sentinelTwin.proofSummary}
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1">
+                    {sentinelTwin.techStack.map((tech) => (
+                      <span key={tech} className="text-xs text-muted-foreground">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
+                    Review SentinelTwin <ArrowRight className="h-4 w-4" />
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+
+            {flagshipProjects.map((project) => (
+              <ExistingFlagshipCard key={project.slug} project={project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {technicalDepthProjects.length > 0 && (
+        <section className="border-y bg-muted/35 py-16">
+          <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+            <div className="mb-8 max-w-3xl">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Technical depth
+              </p>
+              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+                Evaluation, model infrastructure, and orchestration work.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              {technicalDepthProjects.map((project) => (
+                <ArchiveProjectCard key={project.slug} project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Project archive
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight">Earlier work and experiments</h2>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                Useful range and learning evidence, deliberately separated from the primary buying signal.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant={activeFilter === null ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter(null)}
+              >
+                All
+              </Button>
+              {categories.map((category) => (
+                <Button
+                  key={category.key}
+                  variant={activeFilter === category.key ? "default" : "outline"}
+                  size="sm"
+                  onClick={() =>
+                    setActiveFilter(
+                      activeFilter === category.key ? null : category.key,
+                    )
+                  }
+                >
+                  {category.label}
+                </Button>
               ))}
             </div>
           </div>
 
-          {technicalDepthProjects.length > 0 && (
-            <div className="border-t pt-12 mt-2 mb-12">
-              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-                Technical depth
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {technicalDepthProjects.map((project: Project) => (
-                  <ProjectCard key={project.slug} project={project} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="border-t pt-12 mt-2">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
-              <div>
-                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                  More work
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  Older projects, experiments, and client work.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  variant={activeFilter === null ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setActiveFilter(null)}
-                  className="text-xs"
-                >
-                  All
-                </Button>
-                {categories.map((cat) => (
-                  <Button
-                    key={cat.key}
-                    variant={activeFilter === cat.key ? "default" : "outline"}
-                    size="sm"
-                    onClick={() =>
-                      setActiveFilter(activeFilter === cat.key ? null : cat.key)
-                    }
-                    className="text-xs"
-                  >
-                    {cat.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-10">
-              {Object.entries(filteredGrouped)
-                .sort(([a], [b]) => a.localeCompare(b))
-                .map(([cat, projects]) => (
-                  <div key={cat}>
-                    <h3 className="text-xs uppercase tracking-wide text-muted-foreground mb-4">
-                      {cat}{" "}
-                      <span className="opacity-60">({projects.length})</span>
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {projects.map((project: Project) => (
-                        <ProjectCard key={project.slug} project={project} />
-                      ))}
-                    </div>
+          <div className="space-y-10">
+            {Object.entries(filteredGrouped)
+              .filter(([, projectsInCategory]) => projectsInCategory.length > 0)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([category, projectsInCategory]) => (
+                <div key={category}>
+                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {category}{" "}
+                    <span className="font-normal opacity-60">
+                      ({projectsInCategory.length})
+                    </span>
+                  </h3>
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                    {projectsInCategory.map((project) => (
+                      <ArchiveProjectCard key={project.slug} project={project} />
+                    ))}
                   </div>
-                ))}
-            </div>
+                </div>
+              ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t py-16">
+        <div className="container mx-auto max-w-[1000px] px-4 text-center md:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold tracking-tight">
+            Have a related workflow or product problem?
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
+            Send the current process, sample inputs, constraints, and what a useful outcome would change.
+          </p>
+          <Button asChild size="lg" className="mt-8 rounded-md px-8">
+            <Link href="/contact?type=project&source=work">
+              Discuss a project <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </PageLayout>
