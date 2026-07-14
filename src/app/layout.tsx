@@ -35,27 +35,36 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pranaysuyash.com"),
   title: {
-    default: "Pranay Suyash | Product & Workflow Systems",
+    default: "Pranay Suyash | Product Engineer for AI and Operational Systems",
     template: "%s | Pranay Suyash",
   },
   description:
-    "I turn messy workflows into working systems. 14 years building products, most recently at MedPiper (YC S20).",
-  keywords: ["Pranay Suyash", "Product Builder", "Workflow Systems", "YC S20"],
+    "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
+  keywords: [
+    "Pranay Suyash",
+    "Product Engineer",
+    "AI Product Development",
+    "Document Intelligence",
+    "Local-first AI",
+    "Workflow Systems",
+    "Spatial Simulation",
+  ],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://pranaysuyash.com",
     siteName: "Pranay Suyash",
-    title: "Pranay Suyash | Product & Workflow Systems",
+    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
     description:
-      "I turn messy workflows into working systems. 14 years building products at MedPiper (YC S20).",
+      "From unclear operational problem to usable, reviewable product system.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pranay Suyash | Product & Workflow Systems",
+    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
     description:
-      "I turn messy workflows into working systems. 14 years building products.",
+      "Document intelligence, local-first AI, operational workflows, and spatial product systems.",
     creator: "@pranaysuyash",
   },
   robots: {
