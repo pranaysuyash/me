@@ -13,7 +13,6 @@ PAGE_HEIGHT = 842
 LEFT = 48
 RIGHT = 48
 TOP = 48
-BOTTOM = 45
 
 
 def pdf_escape(value: str) -> str:
@@ -68,16 +67,14 @@ class Page:
             self.text(prefix + line, size=size, font=font, indent=indent)
 
     def section(self, title: str) -> None:
-        self.y -= 4
-        self.add(line_command(LEFT, self.y + 4, PAGE_WIDTH - RIGHT, self.y + 4, 0.7))
+        self.y -= 5
+        self.add(line_command(LEFT, self.y, PAGE_WIDTH - RIGHT, self.y, 0.7))
+        self.y -= 13
         self.text(title.upper(), size=9.0, font="F2")
         self.y -= 1
 
     def bullet(self, text: str, *, width: int = 93) -> None:
         self.wrapped(text, width=width, size=8.8, indent=8, first_prefix="- ", next_prefix="  ")
-
-    def ensure(self, minimum: float) -> bool:
-        return self.y >= minimum
 
 
 def build_pages() -> list[Page]:
