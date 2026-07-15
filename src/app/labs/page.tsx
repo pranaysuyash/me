@@ -50,8 +50,9 @@ export default function LabsPage() {
                 </div>
                 <div className="divide-y border-y">
                   {projects.map((project) => {
-                    const repository = project.links?.github;
-                    const live = project.links?.live;
+                    const links = project.links as Record<string, string>;
+                    const repository = links.github;
+                    const live = links.live;
                     return (
                       <article key={project.slug} className="grid gap-5 py-6 md:grid-cols-[1fr_auto] md:items-center">
                         <div>
