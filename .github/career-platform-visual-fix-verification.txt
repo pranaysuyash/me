@@ -1,0 +1,3 @@
+Career platform visual-fix verification trigger
+Source head: 9a561bcb0a027af7966df4b3dc2470c0abe1d395
+Purpose: execute strict TypeScript, career and visual source validation, publication checks, static export, postbuild asset verification, generated resume checks, audited route checks, lab checks, and ebook checkout checks.
