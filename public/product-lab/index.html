@@ -4,40 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>Interactive product lab — Pranay Suyash</title>
+    <title>Interactive systems lab — Pranay Suyash</title>
     <style>
       :root {
         color-scheme: dark;
         --accent: #59d7cb;
         --ink: #f4fbf9;
         --muted: rgba(228, 244, 240, 0.64);
-        --panel: rgba(6, 14, 16, 0.82);
+        --panel: rgba(6, 14, 16, 0.86);
         --border: rgba(255, 255, 255, 0.12);
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
+      * { box-sizing: border-box; }
+      html, body {
         width: 100%;
         height: 100%;
         margin: 0;
         overflow: hidden;
         background:
-          radial-gradient(circle at 54% 42%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 43%),
+          radial-gradient(circle at 54% 42%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 44%),
           linear-gradient(155deg, #101b1d 0%, #071013 58%, #04090b 100%);
         color: var(--ink);
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
-
-      button,
-      a {
-        font: inherit;
-      }
+      button, a { font: inherit; }
 
       #lab {
         position: relative;
@@ -47,37 +37,25 @@
         isolation: isolate;
       }
 
-      canvas,
-      .label-layer {
+      canvas, .label-layer {
         position: absolute;
         inset: 0;
         display: block;
       }
-
-      canvas {
-        z-index: 1;
-        touch-action: none;
-      }
-
-      .label-layer {
-        z-index: 2;
-        pointer-events: none;
-      }
+      canvas { z-index: 1; touch-action: none; }
+      .label-layer { z-index: 2; pointer-events: none; }
 
       .interface {
         position: absolute;
         inset: 0;
         z-index: 4;
         pointer-events: none;
+        opacity: 0;
+        transition: opacity 180ms ease;
       }
+      #lab[data-ready="true"] .interface { opacity: 1; }
 
-      .project-tabs,
-      .mode-tabs,
-      .proof-card,
-      .scene-hint,
-      .fallback {
-        pointer-events: auto;
-      }
+      .project-tabs, .mode-tabs, .proof-card, .scene-hint, .fallback { pointer-events: auto; }
 
       .project-tabs {
         position: absolute;
@@ -90,10 +68,9 @@
         padding: 6px;
         border: 1px solid var(--border);
         border-radius: 12px;
-        background: rgba(3, 9, 11, 0.72);
+        background: rgba(3, 9, 11, 0.76);
         backdrop-filter: blur(16px);
       }
-
       .project-tab {
         min-width: 0;
         border: 1px solid transparent;
@@ -103,39 +80,25 @@
         color: rgba(235, 247, 244, 0.48);
         text-align: left;
         cursor: pointer;
-        transition:
-          color 160ms ease,
-          border-color 160ms ease,
-          background 160ms ease;
+        transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
       }
-
-      .project-tab:hover,
-      .project-tab:focus-visible {
-        color: var(--ink);
-        background: rgba(255, 255, 255, 0.045);
-      }
-
+      .project-tab:hover, .project-tab:focus-visible { color: var(--ink); background: rgba(255,255,255,.045); }
       .project-tab[aria-pressed="true"] {
         color: var(--ink);
         border-color: color-mix(in srgb, var(--accent) 42%, transparent);
-        background: color-mix(in srgb, var(--accent) 10%, rgba(255, 255, 255, 0.025));
+        background: color-mix(in srgb, var(--accent) 10%, rgba(255,255,255,.025));
       }
-
-      .project-tab:focus-visible,
-      .mode-tab:focus-visible,
-      .case-link:focus-visible {
+      .project-tab:focus-visible, .mode-tab:focus-visible, .case-link:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 2px;
       }
-
       .project-tab__number {
         display: block;
         margin-bottom: 4px;
         font: 600 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-        letter-spacing: 0.12em;
+        letter-spacing: .12em;
         color: color-mix(in srgb, var(--accent) 72%, white 8%);
       }
-
       .project-tab__name {
         display: block;
         overflow: hidden;
@@ -153,27 +116,24 @@
         border: 1px solid var(--border);
         border-radius: 14px;
         background: var(--panel);
-        box-shadow: 0 24px 68px rgba(0, 0, 0, 0.34);
+        box-shadow: 0 24px 68px rgba(0,0,0,.34);
         padding: 16px;
         backdrop-filter: blur(18px);
       }
-
       .proof-card__eyebrow {
         margin: 0;
         font-size: 9px;
         font-weight: 750;
-        letter-spacing: 0.18em;
+        letter-spacing: .18em;
         text-transform: uppercase;
         color: color-mix(in srgb, var(--accent) 76%, white 9%);
       }
-
       .proof-card h1 {
         margin: 7px 0 0;
         font-size: clamp(22px, 4vw, 30px);
         line-height: 1.05;
-        letter-spacing: -0.035em;
+        letter-spacing: -.035em;
       }
-
       .proof-card__summary {
         margin: 9px 0 0;
         max-width: 48ch;
@@ -181,51 +141,23 @@
         line-height: 1.55;
         color: var(--muted);
       }
-
       .metrics {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 6px;
         margin-top: 13px;
       }
-
       .metric {
         min-width: 0;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255,255,255,.08);
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.028);
+        background: rgba(255,255,255,.028);
         padding: 8px;
       }
-
-      .metric strong,
-      .metric span {
-        display: block;
-      }
-
-      .metric strong {
-        overflow: hidden;
-        font-size: 11px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .metric span {
-        margin-top: 3px;
-        overflow: hidden;
-        font-size: 9px;
-        color: rgba(225, 241, 237, 0.44);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .proof-card__footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 13px;
-      }
-
+      .metric strong, .metric span { display: block; }
+      .metric strong { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+      .metric span { margin-top: 3px; overflow: hidden; font-size: 9px; color: rgba(225,241,237,.44); text-overflow: ellipsis; white-space: nowrap; }
+      .proof-card__footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 13px; }
       .case-link {
         display: inline-flex;
         align-items: center;
@@ -236,22 +168,12 @@
         color: #061012;
         font-size: 10px;
         font-weight: 780;
-        letter-spacing: 0.08em;
+        letter-spacing: .08em;
         text-decoration: none;
         text-transform: uppercase;
       }
-
-      .case-link::after {
-        content: "↗";
-        font-size: 12px;
-      }
-
-      .drag-copy {
-        font-size: 9px;
-        line-height: 1.35;
-        color: rgba(229, 243, 239, 0.38);
-        text-align: right;
-      }
+      .case-link::after { content: "↗"; font-size: 12px; }
+      .drag-copy { font-size: 9px; line-height: 1.35; color: rgba(229,243,239,.38); text-align: right; }
 
       .mode-tabs {
         position: absolute;
@@ -263,65 +185,54 @@
         justify-content: flex-end;
         gap: 6px;
       }
-
       .mode-tab {
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255,255,255,.1);
         border-radius: 999px;
-        background: rgba(4, 11, 13, 0.72);
+        background: rgba(4,11,13,.72);
         padding: 8px 10px;
-        color: rgba(231, 245, 241, 0.48);
+        color: rgba(231,245,241,.48);
         font-size: 9px;
         font-weight: 690;
-        letter-spacing: 0.08em;
+        letter-spacing: .08em;
         text-transform: uppercase;
         cursor: pointer;
         backdrop-filter: blur(12px);
       }
-
-      .mode-tab:hover,
-      .mode-tab[aria-pressed="true"] {
+      .mode-tab:hover, .mode-tab[aria-pressed="true"] {
         border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-        background: color-mix(in srgb, var(--accent) 12%, rgba(4, 11, 13, 0.72));
+        background: color-mix(in srgb, var(--accent) 12%, rgba(4,11,13,.72));
         color: var(--ink);
       }
 
       .object-label {
         display: block;
         transform: translate(-50%, -50%);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255,255,255,.12);
         border-radius: 999px;
-        background: rgba(4, 11, 13, 0.8);
+        background: rgba(4,11,13,.8);
         padding: 5px 7px;
-        color: rgba(238, 249, 246, 0.72);
+        color: rgba(238,249,246,.72);
         font-size: 8px;
         font-weight: 670;
-        letter-spacing: 0.06em;
+        letter-spacing: .06em;
         white-space: nowrap;
         backdrop-filter: blur(10px);
       }
-
-      .object-label[data-tone="alert"] {
-        border-color: rgba(238, 117, 98, 0.4);
-        color: #ffb4a5;
-      }
-
-      .object-label[data-tone="good"] {
-        border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-        color: color-mix(in srgb, var(--accent) 72%, white 18%);
-      }
+      .object-label[data-tone="alert"] { border-color: rgba(238,117,98,.4); color: #ffb4a5; }
+      .object-label[data-tone="good"] { border-color: color-mix(in srgb, var(--accent) 48%, transparent); color: color-mix(in srgb, var(--accent) 72%, white 18%); }
 
       .scene-hint {
         position: absolute;
         top: 78px;
         right: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255,255,255,.08);
         border-radius: 999px;
-        background: rgba(4, 11, 13, 0.55);
+        background: rgba(4,11,13,.55);
         padding: 6px 9px;
         font-size: 8px;
-        letter-spacing: 0.09em;
+        letter-spacing: .09em;
         text-transform: uppercase;
-        color: rgba(229, 243, 239, 0.34);
+        color: rgba(229,243,239,.34);
         backdrop-filter: blur(10px);
       }
 
@@ -329,88 +240,44 @@
         position: absolute;
         inset: 84px 14px 14px;
         z-index: 7;
-        display: none;
+        display: grid;
         place-items: center;
         border: 1px solid var(--border);
         border-radius: 14px;
-        background: #071013;
+        background:
+          radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 46%),
+          #071013;
         padding: 28px;
         text-align: center;
         color: var(--muted);
       }
-
-      .fallback strong {
-        display: block;
-        margin-bottom: 7px;
-        color: var(--ink);
-      }
+      #lab[data-ready="true"] .fallback { display: none; }
+      .fallback strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 18px; }
+      .fallback p { margin: 0 auto; max-width: 50ch; font-size: 13px; line-height: 1.65; }
+      .fallback a { display: inline-flex; margin-top: 18px; color: var(--accent); font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
+      .fallback__status { margin-bottom: 13px; font: 600 9px/1 ui-monospace, monospace; letter-spacing: .15em; text-transform: uppercase; color: color-mix(in srgb, var(--accent) 70%, white 8%); }
 
       @media (max-width: 720px) {
-        #lab {
-          min-height: 520px;
-        }
-
-        .project-tabs {
-          overflow-x: auto;
-          grid-template-columns: repeat(4, minmax(112px, 1fr));
-        }
-
-        .proof-card {
-          right: 14px;
-          width: auto;
-        }
-
-        .proof-card__summary {
-          display: none;
-        }
-
-        .mode-tabs {
-          right: 24px;
-          bottom: 168px;
-          left: 24px;
-          max-width: none;
-          justify-content: center;
-        }
-
-        .metrics {
-          gap: 4px;
-        }
-
-        .scene-hint,
-        .drag-copy {
-          display: none;
-        }
+        #lab { min-height: 520px; }
+        .project-tabs { overflow-x: auto; grid-template-columns: repeat(4, minmax(112px, 1fr)); }
+        .proof-card { right: 14px; width: auto; }
+        .proof-card__summary { display: none; }
+        .mode-tabs { right: 24px; bottom: 168px; left: 24px; max-width: none; justify-content: center; }
+        .metrics { gap: 4px; }
+        .scene-hint, .drag-copy { display: none; }
       }
-
       @media (max-width: 460px) {
-        .project-tab {
-          padding: 8px;
-        }
-
-        .project-tab__number {
-          display: none;
-        }
-
-        .proof-card {
-          padding: 13px;
-        }
-
-        .proof-card h1 {
-          font-size: 21px;
-        }
-
-        .metric {
-          padding: 6px;
-        }
+        .project-tab { padding: 8px; }
+        .project-tab__number { display: none; }
+        .proof-card { padding: 13px; }
+        .proof-card h1 { font-size: 21px; }
+        .metric { padding: 6px; }
       }
-
       @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
           scroll-behavior: auto !important;
-          transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
+          transition-duration: .01ms !important;
+          animation-duration: .01ms !important;
           animation-iteration-count: 1 !important;
         }
       }
@@ -428,7 +295,6 @@
     <main id="lab" aria-label="Interactive product lab">
       <div class="interface">
         <nav id="project-tabs" class="project-tabs" aria-label="Choose a product system"></nav>
-
         <section class="proof-card" aria-live="polite">
           <p id="project-eyebrow" class="proof-card__eyebrow"></p>
           <h1 id="project-title"></h1>
@@ -439,18 +305,43 @@
             <span class="drag-copy">Drag the scene<br />Switch the operating view</span>
           </div>
         </section>
-
         <div id="mode-tabs" class="mode-tabs" aria-label="Choose an operating view"></div>
-        <div class="scene-hint" aria-hidden="true">HTML controls + spatial scene</div>
+        <div class="scene-hint" aria-hidden="true">Illustrative spatial model</div>
       </div>
 
-      <div id="fallback" class="fallback" role="status">
+      <div id="fallback" class="fallback" role="status" aria-live="polite">
         <div>
-          <strong>Interactive surface unavailable</strong>
-          Use the case-study link to review the same product evidence without WebGL.
+          <div class="fallback__status">Loading progressive enhancement</div>
+          <strong>Case studies remain available without WebGL</strong>
+          <p>
+            The spatial scene is supporting evidence. A blocked module, unavailable CDN, or unsupported graphics environment will never hide the factual product record.
+          </p>
+          <a href="/work" target="_parent">Review audited case studies instead</a>
         </div>
       </div>
     </main>
-    <script type="module" src="./scene.js"></script>
+
+    <script>
+      (() => {
+        const lab = document.getElementById("lab");
+        const fallback = document.getElementById("fallback");
+        const markReady = () => {
+          if (!lab.querySelector("canvas")) return false;
+          lab.dataset.ready = "true";
+          fallback.setAttribute("aria-hidden", "true");
+          return true;
+        };
+        if (!markReady()) {
+          const observer = new MutationObserver(() => {
+            if (markReady()) observer.disconnect();
+          });
+          observer.observe(lab, { childList: true, subtree: true });
+        }
+      })();
+    </script>
+    <script type="module" src="/product-lab/scene.js"></script>
+    <noscript>
+      <style>.fallback__status { display: none; }</style>
+    </noscript>
   </body>
 </html>
