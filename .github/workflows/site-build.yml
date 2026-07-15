@@ -55,6 +55,8 @@ jobs:
             terms: ["out/terms.html", "out/terms/index.html"],
             refunds: ["out/refund-policy.html", "out/refund-policy/index.html"],
             delivery: ["out/delivery-policy.html", "out/delivery-policy/index.html"],
+            spatialMap: ["out/spatial-portfolio/index.html"],
+            spatialScript: ["out/spatial-portfolio/scene.js"],
             sitemap: ["out/sitemap.xml"],
             robots: ["out/robots.txt"],
           };
@@ -77,6 +79,18 @@ jobs:
             process.exit(1);
           }
 
+          const home = fs.readFileSync("out/index.html", "utf8");
+          if (!home.includes("/spatial-portfolio/")) {
+            failures.push("homepage does not embed the interactive spatial portfolio");
+          }
+
+          const spatialScript = fs.readFileSync("out/spatial-portfolio/scene.js", "utf8");
+          for (const expected of ["CSS2DRenderer", "OrbitControls", "WebGLRenderer"]) {
+            if (!spatialScript.includes(expected)) {
+              failures.push(`spatial scene missing ${expected}`);
+            }
+          }
+
           const sitemap = fs.readFileSync("out/sitemap.xml", "utf8");
           for (const requiredUrl of [
             "https://pranaysuyash.com/work/sentineltwin",
@@ -91,7 +105,7 @@ jobs:
           }
 
           if (failures.length) {
-            console.error("Metadata contract failed:\n" + failures.join("\n"));
+            console.error("Metadata and interaction contract failed:\n" + failures.join("\n"));
             process.exit(1);
           }
 
