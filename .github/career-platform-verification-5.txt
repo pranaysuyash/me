@@ -1,0 +1,3 @@
+Career platform verification trigger
+Source head: 86241d0486b9f16d0760bfd18872c08f0cc9c286
+Purpose: execute strict TypeScript, canonical source validation, publication checks, static export, generated resume verification, audited route checks, product-lab checks, and ebook checkout checks.
