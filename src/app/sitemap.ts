@@ -9,6 +9,7 @@ const coreRoutes: MetadataRoute.Sitemap = [
   { url: `${baseUrl}/`, changeFrequency: "weekly", priority: 1 },
   { url: `${baseUrl}/work-with-me`, changeFrequency: "weekly", priority: 0.95 },
   { url: `${baseUrl}/work`, changeFrequency: "weekly", priority: 0.9 },
+  { url: `${baseUrl}/systems`, changeFrequency: "weekly", priority: 0.9 },
   { url: `${baseUrl}/contact`, changeFrequency: "monthly", priority: 0.9 },
   { url: `${baseUrl}/work/sentineltwin`, changeFrequency: "weekly", priority: 0.9 },
   { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.7 },
