@@ -15,6 +15,7 @@ const socialLinks = [
 
 const footerNav = [
   { name: "Work", href: "/work" },
+  { name: "Systems", href: "/systems" },
   { name: "Services", href: "/work-with-me" },
   { name: "About", href: "/about" },
   { name: "Writing", href: "/books/no-claim-without-evidence" },
