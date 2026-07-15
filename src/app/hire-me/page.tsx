@@ -6,8 +6,8 @@ import {
   BriefcaseBusiness,
   Calendar,
   CheckCircle2,
+  Download,
   ExternalLink,
-  FileText,
   MapPin,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     description:
       "14+ years across software, Big Four transformation, product leadership, and hands-on system building.",
     url: "https://pranaysuyash.com/hire-me",
-    type: "profile",
+    type: "website",
   },
 };
 
@@ -58,8 +58,8 @@ export default function HireMePage() {
                   variant="outline"
                   className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
                 >
-                  <a href="/pranay_resume.html" target="_blank" rel="noopener noreferrer">
-                    Open resume <FileText className="ml-2 h-4 w-4" />
+                  <a href="/pranay-suyash-resume.pdf" download>
+                    Download resume PDF <Download className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
                 <Button
@@ -71,6 +71,10 @@ export default function HireMePage() {
                   <Link href="/work">Selected work</Link>
                 </Button>
               </div>
+              <p className="mt-4 text-xs leading-5 text-white/45">
+                The PDF is generated from a version-controlled career record during every production build.
+                A browser-printable version remains available at <Link href="/pranay_resume.html" className="underline underline-offset-4 hover:text-white">/pranay_resume.html</Link>.
+              </p>
             </div>
 
             <aside className="border-y border-white/14 py-6">
