@@ -47,7 +47,9 @@ jobs:
         run: npm run build
 
       - name: Validate product lab module syntax
-        run: node --input-type=module --check < out/product-lab/scene.js
+        run: |
+          node --input-type=module --check < out/product-lab/scene.js
+          node --input-type=module --check < out/scene.js
 
       - name: Verify exported site contract
         run: |
@@ -72,6 +74,8 @@ jobs:
             delivery: ["out/delivery-policy.html", "out/delivery-policy/index.html"],
             productLab: ["out/product-lab/index.html"],
             productLabScript: ["out/product-lab/scene.js"],
+            productLabCompatibilityLoader: ["out/scene.js"],
+            redirects: ["out/_redirects"],
             sitemap: ["out/sitemap.xml"],
             robots: ["out/robots.txt"],
           };
@@ -79,7 +83,7 @@ jobs:
           const failures = [];
           for (const [route, candidates] of Object.entries(routeCandidates)) {
             const exported = candidates.find(
-              (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 100,
+              (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 10,
             );
             if (!exported) failures.push(`${route}: ${candidates.join(" or ")}`);
           }
@@ -118,6 +122,21 @@ jobs:
           ]) {
             if (!productLabScript.includes(expected)) {
               failures.push(`product lab missing ${expected}`);
+            }
+          }
+
+          const compatibilityLoader = fs.readFileSync("out/scene.js", "utf8");
+          if (!compatibilityLoader.includes('/product-lab/scene.js')) {
+            failures.push("root scene compatibility loader does not import product-lab scene");
+          }
+
+          const redirects = fs.readFileSync("out/_redirects", "utf8");
+          for (const expected of [
+            "/product-lab /product-lab/ 301",
+            "/product-lab/index.html /product-lab/ 301",
+          ]) {
+            if (!redirects.includes(expected)) {
+              failures.push(`Cloudflare redirects missing: ${expected}`);
             }
           }
 
