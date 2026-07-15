@@ -126,7 +126,7 @@ requireTokens("src/app/work/medpiper-workflow/page.tsx", [
 ]);
 
 requireTokens("src/app/hire-me/page.tsx", [
-  "AI Product Lead",
+  "careerProfile.targetRoles",
   "Download resume PDF",
   "/pranay-suyash-resume.pdf",
   "Current context",
