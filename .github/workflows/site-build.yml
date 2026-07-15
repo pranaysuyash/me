@@ -68,6 +68,14 @@ jobs:
               "out/work/sentineltwin.html",
               "out/work/sentineltwin/index.html",
             ],
+            book: [
+              "out/books/no-claim-without-evidence.html",
+              "out/books/no-claim-without-evidence/index.html",
+            ],
+            bookSample: [
+              "out/books/no-claim-without-evidence/sample.html",
+              "out/books/no-claim-without-evidence/sample/index.html",
+            ],
             privacy: ["out/privacy.html", "out/privacy/index.html"],
             terms: ["out/terms.html", "out/terms/index.html"],
             refunds: ["out/refund-policy.html", "out/refund-policy/index.html"],
@@ -81,11 +89,13 @@ jobs:
           };
 
           const failures = [];
+          const resolvedRoutes = {};
           for (const [route, candidates] of Object.entries(routeCandidates)) {
             const exported = candidates.find(
               (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 10,
             );
             if (!exported) failures.push(`${route}: ${candidates.join(" or ")}`);
+            else resolvedRoutes[route] = exported;
           }
 
           const forbiddenRoutes = ["out/admin.html", "out/admin/index.html"];
@@ -103,12 +113,19 @@ jobs:
             failures.push("homepage does not embed the interactive product lab");
           }
 
-          const systems = fs.readFileSync(
-            fs.existsSync("out/systems.html") ? "out/systems.html" : "out/systems/index.html",
-            "utf8",
-          );
+          const systems = fs.readFileSync(resolvedRoutes.systems, "utf8");
           if (!systems.includes("/product-lab/index.html")) {
             failures.push("systems route does not embed the interactive product lab");
+          }
+
+          const checkoutUrl =
+            "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1";
+          const book = fs.readFileSync(resolvedRoutes.book, "utf8");
+          if (!book.includes(checkoutUrl)) {
+            failures.push("book route does not contain the production Dodo checkout URL");
+          }
+          if (!book.includes("Buy now")) {
+            failures.push("book route does not render the Buy now CTA");
           }
 
           const productLabScript = fs.readFileSync("out/product-lab/scene.js", "utf8");
@@ -126,7 +143,7 @@ jobs:
           }
 
           const compatibilityLoader = fs.readFileSync("out/scene.js", "utf8");
-          if (!compatibilityLoader.includes('/product-lab/scene.js')) {
+          if (!compatibilityLoader.includes("/product-lab/scene.js")) {
             failures.push("root scene compatibility loader does not import product-lab scene");
           }
 
@@ -144,6 +161,7 @@ jobs:
           for (const requiredUrl of [
             "https://pranaysuyash.com/systems",
             "https://pranaysuyash.com/work/sentineltwin",
+            "https://pranaysuyash.com/books/no-claim-without-evidence",
             "https://pranaysuyash.com/privacy",
             "https://pranaysuyash.com/terms",
             "https://pranaysuyash.com/refund-policy",
