@@ -8,14 +8,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   display: "swap",
   preload: true,
-  fallback: [
-    "system-ui",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "sans-serif",
-  ],
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -23,15 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
   preload: true,
-  fallback: [
-    "SFMono-Regular",
-    "Menlo",
-    "Monaco",
-    "Consolas",
-    "Liberation Mono",
-    "Courier New",
-    "monospace",
-  ],
+  fallback: ["SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
 });
 
 const structuredData = {
@@ -42,7 +27,11 @@ const structuredData = {
       "@id": "https://pranaysuyash.com/#person",
       name: "Pranay Suyash",
       url: "https://pranaysuyash.com",
-      jobTitle: "Product Engineer and Systems Builder",
+      jobTitle: "Product Leader and Hands-on Systems Builder",
+      worksFor: {
+        "@type": "Organization",
+        name: "MedPiper Technologies",
+      },
       address: {
         "@type": "PostalAddress",
         addressLocality: "Bengaluru",
@@ -54,11 +43,12 @@ const structuredData = {
         "https://x.com/pranaysuyash",
       ],
       knowsAbout: [
+        "Product leadership",
         "Product engineering",
-        "Document intelligence",
-        "Computer vision",
-        "Local-first AI",
         "Operational workflow systems",
+        "Document intelligence",
+        "Local-first AI",
+        "Internal tools",
         "Spatial simulation",
         "AI evaluation and review systems",
       ],
@@ -69,30 +59,30 @@ const structuredData = {
       url: "https://pranaysuyash.com",
       name: "Pranay Suyash",
       description:
-        "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
+        "Product leadership and hands-on system building across AI, operational workflows, internal tools, local-first products, and spatial simulation.",
       inLanguage: "en",
-      publisher: {
-        "@id": "https://pranaysuyash.com/#person",
-      },
+      publisher: { "@id": "https://pranaysuyash.com/#person" },
     },
   ],
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pranaysuyash.com"),
-  title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
+  title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
   description:
-    "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
+    "Product leadership and hands-on system building across AI, operational workflows, internal tools, local-first products, and spatial simulation.",
   authors: [{ name: "Pranay Suyash", url: "https://pranaysuyash.com" }],
   creator: "Pranay Suyash",
   publisher: "Pranay Suyash",
   keywords: [
     "Pranay Suyash",
-    "Product Engineer",
-    "AI Product Development",
-    "Document Intelligence",
+    "Product Leader",
+    "AI Product Lead",
+    "Principal Product Manager",
+    "Product Systems",
+    "Document Workflow Automation",
     "Local-first AI",
-    "Workflow Systems",
+    "Internal Tools",
     "Spatial Simulation",
   ],
   openGraph: {
@@ -100,42 +90,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://pranaysuyash.com",
     siteName: "Pranay Suyash",
-    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
-    description:
-      "From unclear operational problem to usable, reviewable product system.",
+    title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
+    description: "From ambiguous operational problem to working, reviewable product system.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
-    description:
-      "Document intelligence, local-first AI, operational workflows, and spatial product systems.",
+    title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
+    description: "AI, workflow, internal tools, local-first products, and spatial systems.",
     creator: "@pranaysuyash",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <meta
-          name="theme-color"
-          content="#0f172a"
-          media="(prefers-color-scheme: dark)"
-        />
-        <meta
-          name="theme-color"
-          content="#f8fafc"
-          media="(prefers-color-scheme: light)"
-        />
+        <meta name="theme-color" content="#0d1718" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#f8fbfa" media="(prefers-color-scheme: light)" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -143,15 +116,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className={`${plusJakarta.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
       </body>
