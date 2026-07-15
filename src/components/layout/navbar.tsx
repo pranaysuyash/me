@@ -9,6 +9,7 @@ import { brandTagline } from "@/lib/brand";
 
 const navigation = [
   { name: "Work", href: "/work" },
+  { name: "Systems", href: "/systems" },
   { name: "Services", href: "/work-with-me" },
   { name: "About", href: "/about" },
   { name: "Writing", href: "/books/no-claim-without-evidence" },
@@ -67,7 +68,7 @@ export function Navbar() {
           </button>
         </div>
 
-        <div className="hidden items-center gap-x-5 lg:flex">
+        <div className="hidden items-center gap-x-4 lg:flex">
           {navigation.map((item) => (
             <Link
               key={item.name}
