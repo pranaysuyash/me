@@ -25,6 +25,8 @@ The build writes customer-ready files to:
 - `assets/`: generated diagrams and shared cover input
 - `tools/build_html.py`, `tools/build_pdf.py`, and `tools/build_epub.py`: publication generation
 - `tools/check_manuscript.py` and `tools/check_package.py`: structural and package checks
+- `archive/`: immutable historical manuscripts and production toolchains with
+  provenance and checksums; these are preserved but never run by the active build
 
 The cover source is shared with the sales page at
 `public/books/no-claim-without-evidence/cover.png`. This avoids maintaining two
@@ -51,3 +53,6 @@ responsibilities.
 
 Do not edit the assembled manuscript directly. Edit the relevant source module
 and run `npm run book:build` so PDF and EPUB remain synchronized.
+
+When a script or production approach is superseded, move a byte-for-byte snapshot
+into `archive/<date>-<name>/` with provenance and checksums instead of deleting it.

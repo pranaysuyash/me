@@ -27,3 +27,12 @@ The earlier source project was found at `/Users/pranay/Projects/evidence-based-a
 ## Commercial Boundary
 
 The publication files are ready. Payment activation remains an authenticated Dodo Payments operation: create the one-time digital-publication product, attach both files as protected entitlements, set the localized prices, copy the checkout URL into `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL`, and verify one complete test purchase before production promotion.
+
+## Preservation Addendum
+
+The original July 7 production scripts were initially left only in the recovered
+external project while their evolved replacements became canonical here. That was
+too weak for durable history. The exact original toolchain is now preserved under
+`book/archive/2026-07-07-original-production/` with provenance and SHA-256
+checksums. Superseded source-worthy scripts must be archived rather than deleted;
+only rebuildable caches remain disposable.
