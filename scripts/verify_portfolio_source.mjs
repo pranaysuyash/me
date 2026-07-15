@@ -40,6 +40,8 @@ const career = requireText("src/lib/career.ts", [
   "~4 weeks → ~10 days",
   "~$1M ARR",
   "Sanitized operating evidence",
+  "~10-day turnaround",
+  "This case study is intentionally sanitized",
 ]);
 
 const portfolio = requireText("src/lib/portfolio.ts", [
@@ -99,9 +101,10 @@ requireText("src/app/work/sentineltwin/page.tsx", [
 ]);
 
 requireText("src/app/work/medpiper-workflow/page.tsx", [
-  "Sanitized operating evidence",
-  "~10-day turnaround",
-  "This case study is intentionally sanitized",
+  'from "@/lib/career"',
+  "medpiperCaseStudy.outcomes",
+  "medpiperCaseStudy.disclosure",
+  "What I owned",
 ]);
 
 requireText("src/app/hire-me/page.tsx", [
@@ -153,6 +156,7 @@ requireText("scripts/generate_resume_pdf.py", [
 requireText("package.json", [
   '"prebuild": "python3 scripts/generate_resume_pdf.py"',
   '"resume:build": "python3 scripts/generate_resume_pdf.py"',
+  '"portfolio:validate": "node scripts/verify_portfolio_source.mjs"',
 ]);
 
 const navbar = requireText("src/components/layout/navbar.tsx", [
