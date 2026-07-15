@@ -1,160 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Pranay Suyash — Co‑Founder / Head of Product & Platforms</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pranay Suyash — Product Leader and Hands-on Systems Builder</title>
   <style>
-    :root{
-      --ink:#2c3e50;
-      --muted:#666;
-      --rule:#bdc3c7;
-      --accent:#004080;
-      --success:#1e8e3e;
-    }
-    *{box-sizing:border-box}
-    body{
-      font-family: Arial, Helvetica, sans-serif;
-      line-height:1.5;
-      color:#333;
-      margin:0;
-      padding:24px;
-      font-size:11px;
-    }
-    .header{
-      text-align:center;
-      padding-bottom:14px;
-      border-bottom:2px solid var(--ink);
-      margin-bottom:18px;
-    }
-    .name{font-size:24px;font-weight:700;color:var(--ink);}
-    .contact,.subcontact{color:var(--muted);margin-top:4px;}
-    .title{color:var(--accent);font-weight:700;margin-top:6px;font-size:13px;}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .section{margin-bottom:18px;page-break-inside:avoid;}
-    .section-title{font-size:13.5px;color:var(--ink);font-weight:700;padding-bottom:4px;border-bottom:1px solid var(--rule);margin-bottom:8px;}
-    ul{margin:6px 0 0 16px;padding:0;}
-    ul li{margin:0 0 4px 0;}
-    .impact{font-style:italic;color:var(--success);margin-top:4px}
-    .job-block{margin-bottom:12px;page-break-inside:avoid;}
-    .job-title{font-weight:700;color:var(--ink)}
-    .company-info{color:var(--muted);font-style:italic;margin-top:2px}
-    .two-col{display:flex;gap:24px;align-items:flex-start;page-break-inside:avoid;}
-    .col{flex:1}
-    @media print{
-      body{font-size:10px;padding:16px}
-      .section{margin-bottom:14px}
-      .header{margin-bottom:14px}
-      .two-col{gap:16px}
-      a{text-decoration:none;color:inherit}
-    }
+    :root{--ink:#102022;--muted:#526365;--rule:#ccd7d5;--accent:#0d746d;--paper:#fff;--screen:#edf3f2}
+    *{box-sizing:border-box}html{background:var(--screen)}body{width:min(210mm,100%);min-height:297mm;margin:24px auto;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:10.5pt;line-height:1.45;box-shadow:0 24px 80px rgba(16,32,34,.14)}main{padding:16mm 17mm}h1,h2,h3,p{margin:0}h1{font-size:26pt;line-height:1;letter-spacing:-.04em}h2{margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:4px;color:var(--accent);font-size:10pt;letter-spacing:.12em;text-transform:uppercase}h3{font-size:11pt}a{color:inherit;text-decoration:none}ul{margin:6px 0 0 17px;padding:0}li{margin:0 0 4px}.topbar{display:flex;justify-content:space-between;gap:20px;border-bottom:2px solid var(--ink);padding-bottom:12px}.title{margin-top:6px;color:var(--accent);font-size:12pt;font-weight:700}.contact{text-align:right;color:var(--muted);font-size:9.5pt;line-height:1.55}.section{margin-top:14px;break-inside:avoid}.summary{color:#334547}.proof{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.proof div{border-left:2px solid var(--accent);padding-left:7px}.proof strong{display:block;font-size:11pt}.proof span{display:block;margin-top:2px;color:var(--muted);font-size:8.5pt;line-height:1.35}.experience{margin-top:11px;break-inside:avoid}.experience-head{display:flex;justify-content:space-between;gap:16px}.company{color:var(--accent);font-weight:700}.period{color:var(--muted);font-size:9pt;white-space:nowrap}.context{margin-top:2px;color:var(--muted);font-size:9pt}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}.skills{display:grid;grid-template-columns:1fr 1fr;gap:5px 18px}.skills p{color:var(--muted)}.skills strong{color:var(--ink)}.project{margin-top:8px;break-inside:avoid}.project p{margin-top:2px;color:var(--muted)}.toolbar{position:fixed;right:18px;top:18px}.toolbar button{border:1px solid var(--rule);border-radius:6px;background:white;padding:8px 10px;color:var(--ink);font:600 12px Arial,sans-serif;cursor:pointer;box-shadow:0 8px 24px rgba(16,32,34,.1)}@page{size:A4;margin:0}@media print{html,body{width:210mm;min-height:297mm;margin:0;background:white;box-shadow:none}main{padding:14mm 16mm}.toolbar{display:none}}@media(max-width:760px){body{margin:0;width:100%;box-shadow:none}main{padding:24px}.topbar{flex-direction:column}.contact{text-align:left}.proof,.two-col,.skills{grid-template-columns:1fr}.toolbar{position:static;padding:12px 24px 0}}
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="name">Pranay Suyash</div>
-    <div class="contact">📍 Bengaluru, India &nbsp;|&nbsp; 📧 pranay.suyash@gmail.com &nbsp;|&nbsp; 📱 +91-9910403502</div>
-    <div class="title">Co‑Founder &nbsp;|&nbsp; Head of Product & Platforms &nbsp;|&nbsp; Healthcare &nbsp;|&nbsp; AI/ML &nbsp;|&nbsp; Y Combinator Alumnus (S20)</div>
-    <div class="subcontact">LinkedIn: <a href="https://linkedin.com/in/pranaysuyash">linkedin.com/in/pranaysuyash</a> &nbsp;|&nbsp; Medium: <a href="https://medium.com/@pranaysuyash">medium.com/@pranaysuyash</a></div>
-  </header>
-
-  <section class="section">
-    <div class="section-title">Professional Summary</div>
-    <p>
-      Product & Technology Leader with 13+ years across startups, healthcare platforms, and consulting.
-      As <strong>Co‑Founder / Head of Product & Platforms at MedPiper (YC S20 alum, ~$1M ARR)</strong>, built the platform from the ground up,
-      owned roadmap and GTM, and scaled adoption. Reduced insurance sales/ops turnaround from <strong>~4 weeks → ~10 days</strong> through workflow automation.
-      Hands‑on with AI/ML where it drives value (OCR, RAG), while leading end‑to‑end product lifecycle and cross‑functional execution.
-      Recognized for <strong>delivering measurable business outcomes</strong> and bridging product, engineering, and operations.
-    </p>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Core Competencies</div>
-    <ul>
-      <li><strong>Product Leadership:</strong> End‑to‑end lifecycle, roadmap & prioritization, GTM strategy, adoption & scaling</li>
-      <li><strong>Healthcare/Insurance Platforms:</strong> Sales & ops tracking, workflow automation, compliance (ISO 27001, SOC 2)</li>
-      <li><strong>AI/ML & Systems:</strong> OCR, RAG, LangChain, Hugging Face, OpenAI API</li>
-      <li><strong>Business Impact:</strong> ARR growth, efficiency improvements, cost savings, CX enhancement</li>
-      <li><strong>Tech & Data:</strong> Python, SQL/PostgreSQL, Cloud (AWS, Azure, GCP), Flutter, React familiarity</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Professional Experience</div>
-
-    <div class="job-block">
-      <div class="job-title">Co‑Founder / Head of Product & Platforms</div>
-      <div class="company-info">MedPiper Technologies — Bengaluru — 2020–Present (YC S20 alum, scaled to ~$1M ARR)</div>
-      <ul>
-        <li>Owned product lifecycle for insurance/healthcare platforms; built from scratch to adoption.</li>
-        <li>Reduced insurance sales & operations TAT from <strong>~4 weeks → ~10 days</strong> via automation of documentation, scheduling, onboarding.</li>
-        <li>Defined roadmap & GTM; launched Instaclinic, HCPwire, HCPconnect from concept → MVP → scaled adoption.</li>
-        <li><strong>Healthcare Content Program:</strong> Built a healthcare article platform with regular contributions from <strong>50+ healthcare professionals</strong> to drive reach and credibility.</li>
-        <li>Integrated AI features (OCR for document automation, RAG‑based knowledge retrieval) as product enhancements.</li>
-        <li>Built & scaled teams across product, engineering, and ops; managed vendors and cross‑functional execution.</li>
-        <li>Ensured enterprise‑grade compliance (ISO 27001, SOC 2); led security programs and VAPT.</li>
-      </ul>
-      <div class="impact">Impact: Measurable efficiency and adoption gains; platform positioned as a scalable healthcare/insurance solution.</div>
-    </div>
-
-    <div class="job-block">
-      <div class="job-title">Senior Consultant — SAP SD (Functional)</div>
-      <div class="company-info">EY India — Bengaluru — 2015–2020</div>
-      <ul>
-        <li>Implemented SAP Sales & Distribution for retail and consumer clients; configured end‑to‑end SD workflows.</li>
-        <li>Conducted process studies, blueprinting, and testing; delivered operational efficiency improvements.</li>
-        <li>Worked with business process owners and leadership stakeholders to align requirements and rollout plans.</li>
-        <li>Supported requirement gathering, solution design, UAT, and end‑user training during rollouts.</li>
-        <li>Delivered <strong>$2M+ in savings</strong> through process improvements and workflow automation initiatives.</li>
-        <li>Recognized with multiple EY Excellence Awards for client delivery and team contributions.</li>
-      </ul>
-    </div>
-
-    <div class="job-block">
-      <div class="job-title">Software Engineer</div>
-      <div class="company-info">Wipro Technologies — Greater Noida — 2010–2013</div>
-      <ul>
-        <li>Developed automation frameworks to reduce document processing time for telecom applications.</li>
-        <li>Built data pipelines and metadata layers for network inventory management.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-title">Key Projects & Contributions</div>
-    <ul>
-      <li><strong>Insurance RAG & LLM Agents:</strong> App enabling users to ask natural‑language questions about their insurance policies, improving awareness & decision‑making. <em>(Play Store ready)</em></li>
-      <li><strong>Code Collector (Open Source):</strong> Tooling to collect and package code context from repos/workspaces for LLMs; <em>popular on GitHub with multiple stars</em>.</li>
-      <li><strong>AI/ML Glossary Pro:</strong> Autonomous system for 10K+ AI/ML terms across 295 dimensions; parallelized generation with quality checks.</li>
-      <li><strong>Signature Extractor (CV):</strong> OpenCV‑based tool for automated KYC workflows; streamlined verification.</li>
-      <li><strong>Claude Exporter (Chrome Ext):</strong> Browser automation for exporting and formatting conversations; boosts productivity.</li>
-    </ul>
-  </section>
-
-  <section class="section two-col">
-    <div class="col">
-      <div class="section-title">Education & Certifications</div>
-      <ul>
-        <li>PGDM, FORE School of Management (2013–15)</li>
-        <li>B.Tech, Computer Science, Amity University (2006–10)</li>
-        <li>Y Combinator S20 Cohort — Startup Acceleration</li>
-        <li>SAP Certified — Sales & Distribution</li>
-        <li>Zenva Certificate in Data Science & AI</li>
-        <li>HPI Certificate in Data Science</li>
-      </ul>
-    </div>
-    <div class="col">
-      <div class="section-title">Achievements & Recognition</div>
-      <ul>
-        <li>Y Combinator Alumni — S20 cohort</li>
-        <li>ARR Growth — Co‑founded and scaled MedPiper to ~$1M ARR</li>
-        <li>Operational Impact — $2M+ savings via SAP‑driven process optimization at EY</li>
-        <li>Awards — Multiple EY Excellence Awards; Wipro Recognition</li>
-        <li>Open Source — AI/ML repos, developer extensions, published articles</li>
-        <li>Community — Omdena India Chapter (AI for Good)</li>
-      </ul>
-    </div>
-  </section>
+  <div class="toolbar"><button type="button" onclick="window.print()">Print / Save PDF</button></div>
+  <main>
+    <header class="topbar">
+      <div><h1>Pranay Suyash</h1><p class="title">Product Leader and Hands-on Systems Builder</p></div>
+      <div class="contact">Bengaluru, India · Remote / distributed teams<br />pranaysuyash.com<br />linkedin.com/in/pranaysuyash</div>
+    </header>
+    <section class="section">
+      <h2>Profile</h2>
+      <p class="summary">Product leader with 14+ years across software engineering, Big Four transformation, and a YC-backed healthcare company. Works across product strategy, workflow design, architecture, and hands-on implementation for AI-assisted systems, internal tools, document workflows, and local-first products.</p>
+      <div class="proof"><div><strong>14+ years</strong><span>Software, consulting, product, and leadership</span></div><div><strong>~4 weeks → ~10 days</strong><span>Insurance workflow turnaround</span></div><div><strong>~$1M ARR</strong><span>Helped build and scale MedPiper</span></div><div><strong>Paid product shipped</strong><span>Independent desktop software</span></div></div>
+    </section>
+    <section class="section">
+      <h2>Experience</h2>
+      <article class="experience"><div class="experience-head"><div><h3>Co-Founder / Head of Product &amp; Platforms</h3><p class="company">MedPiper Technologies · YC S20</p></div><p class="period">2020 — Present</p></div><p class="context">Healthcare and insurance product platform; product strategy, platform architecture, workflow automation, new verticals, AI experimentation, growth initiatives, and regulated-context programmes.</p><ul><li>Helped build the platform from the ground up and scale the company to approximately $1M ARR.</li><li>Reduced insurance sales and operations turnaround from roughly four weeks to roughly ten days.</li><li>Owned three product lines and worked across product, engineering, operations, and later-stage AI experiments.</li><li>Helped grow the organisation from two co-founders to 45 people at peak.</li><li>Led or supported ISO 27001 recertification and SOC 2 programmes.</li></ul></article>
+      <article class="experience"><div class="experience-head"><div><h3>Senior Business Consultant — SAP Sales &amp; Distribution</h3><p class="company">EY India</p></div><p class="period">2015 — 2020</p></div><p class="context">Requirements, process mapping, blueprinting, solution design, testing, rollout, and end-user enablement for retail and consumer businesses.</p><ul><li>Delivered SAP Sales &amp; Distribution implementations for retail and consumer clients.</li><li>Contributed to more than $2M in savings through process re-engineering and workflow improvement.</li><li>Received multiple EY Excellence Awards for client delivery and team contributions.</li></ul></article>
+      <article class="experience"><div class="experience-head"><div><h3>Software Engineer</h3><p class="company">Wipro Technologies</p></div><p class="period">2010 — 2013</p></div><ul><li>Built automation that reduced repetitive telecom document-processing work.</li><li>Implemented data pipelines and metadata layers for network inventory workflows.</li></ul></article>
+    </section>
+    <section class="section two-col">
+      <div><h2>Selected product evidence</h2><div class="project"><h3>MedPiper workflow transformation</h3><p>Sanitized case: fragmented insurance operations to a visible workflow with roughly ten-day turnaround.</p></div><div class="project"><h3>SignKit</h3><p>Paid local-first desktop product for signature-image extraction, cleanup, and PDF placement.</p></div><div class="project"><h3>MetaExtract</h3><p>Working product build for file metadata inspection, structured output, and reviewable evidence.</p></div><div class="project"><h3>SentinelTwin</h3><p>Active spatial platform build separating deterministic simulation from AI explanation.</p></div></div>
+      <div><h2>Core capabilities</h2><div class="skills"><p><strong>Product:</strong> Strategy, discovery, roadmaps, prioritisation, workflows</p><p><strong>Applied AI:</strong> Document intelligence, RAG, evaluation, review states</p><p><strong>Systems:</strong> Internal tools, automation, local-first products, spatial simulation</p><p><strong>Technical:</strong> Python, TypeScript, React, FastAPI, Swift, SQL, Docker</p><p><strong>Delivery:</strong> Cross-functional ownership, regulated context, deployment</p><p><strong>Communication:</strong> Decision logs, stakeholder alignment, training</p></div></div>
+    </section>
+    <section class="section two-col"><div><h2>Education</h2><p><strong>PGDM</strong> · FORE School of Management · 2013–2015</p><p style="margin-top:5px"><strong>B.Tech, Computer Science</strong> · Amity School of Engineering &amp; Technology · 2006–2010</p></div><div><h2>Additional evidence</h2><p><strong>Y Combinator:</strong> MedPiper, S20 cohort</p><p style="margin-top:5px"><strong>Publication:</strong> <em>No Claim Without Evidence</em>, a 19-chapter field guide to evidence, evals, review rules, and release gates.</p></div></section>
+  </main>
 </body>
 </html>
