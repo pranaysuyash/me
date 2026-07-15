@@ -41,18 +41,31 @@ def normalize_heading(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip().casefold()
 
 
-def find_heading_page(reader: PdfReader, title: str) -> int:
-    """Find a chapter opening, excluding the front-matter table of contents."""
-    target = normalize_heading(title)
+def locate_heading_pages(reader: PdfReader, titles: list[str]) -> dict[str, int]:
+    """Locate chapter openings in one PDF text pass, excluding front matter."""
+    remaining = {normalize_heading(title): title for title in titles}
+    found: dict[str, int] = {}
+
     for page_index in range(FRONT_MATTER_PAGE_COUNT, len(reader.pages)):
         text = reader.pages[page_index].extract_text() or ""
         lines = [line.strip() for line in text.splitlines() if line.strip()]
         if lines and re.fullmatch(r"\d+", lines[0]):
             lines = lines[1:]
         heading_window = normalize_heading(" ".join(lines[:5]))
-        if heading_window.startswith(target):
-            return page_index
-    raise ValueError(f"could not locate PDF chapter opening: {title}")
+
+        for target, title in list(remaining.items()):
+            if heading_window.startswith(target):
+                found[title] = page_index
+                del remaining[target]
+                break
+
+        if not remaining:
+            break
+
+    if remaining:
+        missing = ", ".join(remaining.values())
+        raise ValueError(f"could not locate PDF chapter openings: {missing}")
+    return found
 
 
 def add_metadata_and_bookmarks() -> None:
@@ -67,14 +80,14 @@ def add_metadata_and_bookmarks() -> None:
         }
     )
 
-    destinations: list[int] = []
-    for title in chapter_titles():
-        page_index = find_heading_page(reader, title)
-        destinations.append(page_index)
-        writer.add_outline_item(title, page_index)
-
+    titles = chapter_titles()
+    page_by_title = locate_heading_pages(reader, titles)
+    destinations = [page_by_title[title] for title in titles]
     if destinations != sorted(destinations) or len(destinations) != len(set(destinations)):
         raise ValueError(f"bookmark destinations are not unique and ordered: {destinations}")
+
+    for title in titles:
+        writer.add_outline_item(title, page_by_title[title])
 
     temporary = OUT.with_suffix(".bookmarked.pdf")
     with temporary.open("wb") as handle:
