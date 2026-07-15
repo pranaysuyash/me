@@ -142,12 +142,12 @@ export default function Home() {
     <PageLayout>
       <section className="relative overflow-hidden border-b bg-[#10191a] text-white">
         <div className="ledger-grid absolute inset-0 opacity-55" aria-hidden />
-        <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_460px] lg:px-8 lg:py-28">
-          <div className="animate-fade-up">
+        <div className="container relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-4 py-14 md:px-6 md:py-16 lg:grid-cols-[minmax(0,0.88fr)_minmax(520px,1.12fr)] lg:gap-12 lg:px-8 lg:py-20">
+          <div className="animate-fade-up lg:py-8">
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-teal-100/75">
               Pranay Suyash · product engineer and systems builder
             </p>
-            <h1 className="max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
               Product systems for work that is still manual, fragmented, or hard to trust.
             </h1>
             <p className="mt-7 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
@@ -169,18 +169,27 @@ export default function Home() {
                 variant="outline"
                 className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
               >
-                <Link href="/work">See selected systems</Link>
+                <Link href="/systems">Explore the systems lab</Link>
               </Button>
               <Link
-                href="/hire-me"
+                href="/work"
                 className="text-sm font-medium text-white/62 underline-offset-4 transition-colors hover:text-white hover:underline"
               >
-                Considering me for a role?
+                Browse case studies
+              </Link>
+            </div>
+
+            <div className="mt-5 md:hidden">
+              <Link
+                href="/systems"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-100/75 transition-colors hover:text-white"
+              >
+                Open the interactive product lab <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
 
-          <div className="hidden md:block lg:pt-2">
+          <div className="hidden min-w-0 md:block">
             <HeroSystemPanel />
           </div>
         </div>
