@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "policy": "Protected publication source and customer deliverables must never be removed by routine cleanup.",
+  "protected_roots": [
+    "book/archive",
+    "book/assets",
+    "book/design",
+    "book/drafts",
+    "book/manuscript",
+    "book/marketing",
+    "book/tools",
+    "book/worklog",
+    "public/books/no-claim-without-evidence"
+  ],
+  "protected_exact": [
+    ".github/workflows/site-build.yml",
+    "book/PRODUCTION_REVIEW.md",
+    "book/PUBLISHING_CHECKLIST.md",
+    "book/README.md",
+    "book/manuscript.md",
+    "book/metadata.json",
+    "book/package-manifest.json",
+    "dist/no-claim-without-evidence.pdf",
+    "dist/no-claim-without-evidence.epub",
+    "dist/no-claim-without-evidence.html",
+    "dist/sales-page.html",
+    "public/books/no-claim-without-evidence/cover.png",
+    "public/books/no-claim-without-evidence/checkout-image.jpg",
+    "requirements-book.txt"
+  ],
+  "safe_cleanup_roots": [
+    ".next",
+    "out"
+  ]
+}

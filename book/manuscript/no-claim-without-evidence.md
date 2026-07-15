@@ -2177,10 +2177,49 @@ This separation prevents prompt thrashing: repeatedly editing model instructions
 
 ### A Structured Log Pattern
 
-Prefer an append-only structured record over free-form notes. JSON Lines works well because each case-run remains independently parseable:
+Use append-only JSON Lines so each case-run remains independently parseable.
 
 ```json
-{"run_id":"eval-2026-08-01-01","case_id":"AIR-001","document_type":"airline_ticket","versions":{"model":"extractor_v4","prompt":"ticket_prompt_v7","schema":"ticket_schema_v3","ground_truth":"ticket_gt_v4","routing":"route_ticket_v2","normalization":"iata_map_2026_07"},"expected":{"origin.normalized_value":"DEL","terminal.status":"not_present_in_document"},"actual":{"origin.raw_value":"Delhi","origin.normalized_value":"BSL","terminal.value":"Terminal 3"},"trace":{"fallback_used":true,"stop_decision":"continue"},"errors":[{"type":"normalization_error","owner":"normalization_data"},{"type":"unsupported_inference","owner":"routing_policy"}],"recommended_work_items":["correct Delhi mapping and add lookup regression","block fallback for absent do-not-infer fields"]}
+{
+  "run_id": "eval-2026-08-01-01",
+  "case_id": "AIR-001",
+  "document_type": "airline_ticket",
+  "versions": {
+    "model": "extractor_v4",
+    "prompt": "ticket_prompt_v7",
+    "schema": "ticket_schema_v3",
+    "ground_truth": "ticket_gt_v4",
+    "routing": "route_ticket_v2",
+    "normalization": "iata_map_2026_07"
+  },
+  "expected": {
+    "origin.normalized_value": "DEL",
+    "terminal.status": "not_present_in_document"
+  },
+  "actual": {
+    "origin.raw_value": "Delhi",
+    "origin.normalized_value": "BSL",
+    "terminal.value": "Terminal 3"
+  },
+  "trace": {
+    "fallback_used": true,
+    "stop_decision": "continue"
+  },
+  "errors": [
+    {
+      "type": "normalization_error",
+      "owner": "normalization_data"
+    },
+    {
+      "type": "unsupported_inference",
+      "owner": "routing_policy"
+    }
+  ],
+  "recommended_work_items": [
+    "correct Delhi mapping and add lookup regression",
+    "block fallback for absent do-not-infer fields"
+  ]
+}
 ```
 
 One case can contain more than one error. Forcing a single label may hide the sequence that produced the failure. At the same time, do not log every internal variable. Capture what supports diagnosis, audit, and reproduction.
@@ -3381,7 +3420,7 @@ This is the model-pipeline-data separation in practice:
 - The **pipeline** controls validation, routing, fallback, review, and final state.
 - The **data/configuration layer** defines schemas, labels, lookup values, thresholds, and product rules.
 
-A model upgrade does not fix a broken lookup table. A better prompt does not fix missing review policy. A passing extraction does not prove production readiness.
+Lookup, policy, and schema defects belong to the configuration bundle, not model tuning. The activation check must validate those relationships before the bundle can affect production behavior.
 
 ### Implementation pattern: validated, versioned bundles
 
@@ -4119,7 +4158,7 @@ Use one record per claim rather than judging a document as one blob.
   "field": "field_name",
   "raw_value": null,
   "normalized_value": null,
-  "status": "supported | normalized | inferred | not_present_in_document | unreadable | ambiguous | conflicting | requires_review",
+  "status": "supported | normalized | ... | requires_review",
   "evidence": [
     {
       "source_ref": "document/page/region",

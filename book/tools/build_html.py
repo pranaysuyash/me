@@ -16,7 +16,19 @@ COVER = ROOT / "public" / "books" / "no-claim-without-evidence" / "cover.png"
 OUT = ROOT / "dist" / "no-claim-without-evidence.html"
 
 
-def inline_markdown(text: str) -> str:
+def citation_numbers(markdown: str) -> dict[str, int]:
+    """Assign stable note numbers in first-reference order."""
+    numbers: dict[str, int] = {}
+    for line in markdown.splitlines():
+        if re.match(r"^\[\^[A-Za-z0-9_-]+\]:", line):
+            continue
+        for citation_id in re.findall(r"\[\^([A-Za-z0-9_-]+)\]", line):
+            if citation_id not in numbers:
+                numbers[citation_id] = len(numbers) + 1
+    return numbers
+
+
+def inline_markdown(text: str, citations: dict[str, int] | None = None) -> str:
     escaped = html.escape(text)
     escaped = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", escaped)
     escaped = re.sub(r"\*(.+?)\*", r"<em>\1</em>", escaped)
@@ -26,15 +38,21 @@ def inline_markdown(text: str) -> str:
         r'<a href="\1">\1</a>',
         escaped,
     )
-    escaped = re.sub(
-        r"\[\^([A-Za-z0-9_-]+)\]",
-        r'<a class="footnote-ref" href="#fn-\1">[\1]</a>',
-        escaped,
-    )
+    def replace_citation(match: re.Match[str]) -> str:
+        citation_id = match.group(1)
+        number = (citations or {}).get(citation_id)
+        if number is None:
+            return match.group(0)
+        return (
+            f'<sup class="footnote-ref"><a href="#fn-{citation_id}" '
+            f'aria-label="Note {number}">{number}</a></sup>'
+        )
+
+    escaped = re.sub(r"\[\^([A-Za-z0-9_-]+)\]", replace_citation, escaped)
     return escaped
 
 
-def render_markdown(markdown: str) -> str:
+def render_markdown(markdown: str, citations: dict[str, int] | None = None) -> str:
     lines = markdown.splitlines()
     blocks: list[str] = []
     paragraph: list[str] = []
@@ -45,7 +63,7 @@ def render_markdown(markdown: str) -> str:
     def flush_paragraph() -> None:
         nonlocal paragraph
         if paragraph:
-            blocks.append(f"<p>{inline_markdown(' '.join(paragraph))}</p>")
+            blocks.append(f"<p>{inline_markdown(' '.join(paragraph), citations)}</p>")
             paragraph = []
 
     def close_list() -> None:
@@ -104,9 +122,9 @@ def render_markdown(markdown: str) -> str:
             while index < len(lines) and lines[index].startswith("|"):
                 rows.append(cells(lines[index]))
                 index += 1
-            head = "".join(f"<th>{inline_markdown(cell)}</th>" for cell in headers)
+            head = "".join(f"<th>{inline_markdown(cell, citations)}</th>" for cell in headers)
             body_rows = "".join(
-                "<tr>" + "".join(f"<td>{inline_markdown(cell)}</td>" for cell in row) + "</tr>"
+                "<tr>" + "".join(f"<td>{inline_markdown(cell, citations)}</td>" for cell in row) + "</tr>"
                 for row in rows
             )
             blocks.append(f'<div class="table-wrap"><table><thead><tr>{head}</tr></thead><tbody>{body_rows}</tbody></table></div>')
@@ -125,7 +143,7 @@ def render_markdown(markdown: str) -> str:
                 src = os.path.relpath(image_path, OUT.parent)
             blocks.append(
                 f'<figure><img src="{html.escape(src)}" alt="{html.escape(alt)}"/>'
-                f"<figcaption>{inline_markdown(alt)}</figcaption></figure>"
+                f"<figcaption>{inline_markdown(alt, citations)}</figcaption></figure>"
             )
             index += 1
             continue
@@ -136,7 +154,8 @@ def render_markdown(markdown: str) -> str:
             close_list()
             blocks.append(
                 f'<p class="footnote" id="fn-{footnote.group(1)}">'
-                f"<sup>{html.escape(footnote.group(1))}</sup> {inline_markdown(footnote.group(2))}</p>"
+                f"<sup>{(citations or {}).get(footnote.group(1), html.escape(footnote.group(1)))}</sup> "
+                f"{inline_markdown(footnote.group(2), citations)}</p>"
             )
             index += 1
             continue
@@ -146,7 +165,7 @@ def render_markdown(markdown: str) -> str:
             flush_paragraph()
             close_list()
             level = len(heading.group(1))
-            text = inline_markdown(heading.group(2))
+            text = inline_markdown(heading.group(2), citations)
             blocks.append(f"<h{level}>{text}</h{level}>")
             index += 1
             continue
@@ -155,7 +174,7 @@ def render_markdown(markdown: str) -> str:
         if quote:
             flush_paragraph()
             close_list()
-            blocks.append(f"<blockquote><p>{inline_markdown(quote.group(1))}</p></blockquote>")
+            blocks.append(f"<blockquote><p>{inline_markdown(quote.group(1), citations)}</p></blockquote>")
             index += 1
             continue
 
@@ -166,7 +185,7 @@ def render_markdown(markdown: str) -> str:
                 close_list()
                 blocks.append("<ul>")
                 list_kind = "ul"
-            blocks.append(f"<li>{inline_markdown(bullet.group(1))}</li>")
+            blocks.append(f"<li>{inline_markdown(bullet.group(1), citations)}</li>")
             index += 1
             continue
 
@@ -177,7 +196,7 @@ def render_markdown(markdown: str) -> str:
                 close_list()
                 blocks.append("<ol>")
                 list_kind = "ol"
-            blocks.append(f"<li>{inline_markdown(numbered.group(1))}</li>")
+            blocks.append(f"<li>{inline_markdown(numbered.group(1), citations)}</li>")
             index += 1
             continue
 
@@ -188,9 +207,16 @@ def render_markdown(markdown: str) -> str:
     flush_paragraph()
     close_list()
     rendered = "\n".join(blocks)
+    def keep_short_code_example(match: re.Match[str]) -> str:
+        block = match.group(1)
+        code = match.group(2)
+        if code.count("\n") <= 16 and len(code) <= 1_400:
+            return f'<div class="keep-with-next">{block}</div>'
+        return block
+
     rendered = re.sub(
-        r"(<p>(?:(?!</p>).){0,420}:</p>\n<pre><code>.*?</code></pre>)",
-        r'<div class="keep-with-next">\1</div>',
+        r"(<p>(?:(?!</p>).){0,420}:</p>\n<pre><code>(.*?)</code></pre>)",
+        keep_short_code_example,
         rendered,
         flags=re.DOTALL,
     )
@@ -244,7 +270,8 @@ def structure_book(body: str) -> str:
 
 def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    body = structure_book(render_markdown(MANUSCRIPT.read_text(encoding="utf-8")))
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+    body = structure_book(render_markdown(manuscript, citation_numbers(manuscript)))
     cover_rel = os.path.relpath(COVER, OUT.parent)
     html_doc = f"""<!doctype html>
 <html lang="en">
@@ -285,7 +312,10 @@ def main() -> None:
       margin: 0;
       background: #ebe6dc;
       color: var(--ink);
-      font-family: "New York", "Iowan Old Style", Charter, Georgia, serif;
+      font-family: Charter, Georgia, serif;
+      font-variant-ligatures: none;
+      font-feature-settings: "liga" 0, "clig" 0;
+      hyphens: none;
       line-height: 1.42;
     }}
     main {{
@@ -386,6 +416,7 @@ def main() -> None:
     }}
     p, li {{
       font-size: 10.75pt;
+      font-variant-ligatures: none;
       orphans: 3;
       widows: 3;
     }}
@@ -394,9 +425,6 @@ def main() -> None:
     }}
     li {{
       margin-bottom: 0.28em;
-    }}
-    p:has(+ pre) {{
-      break-after: avoid;
     }}
     p:has(+ blockquote) {{
       break-after: avoid;
@@ -423,6 +451,7 @@ def main() -> None:
     }}
     code {{
       font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      font-variant-ligatures: none;
     }}
     p code, li code {{
       background: #f0ece3;
@@ -464,6 +493,16 @@ def main() -> None:
     .footnote, .footnote a {{
       color: var(--muted);
       font-size: 14px;
+    }}
+    .footnote-ref {{
+      font-family: "SF Pro Text", "Avenir Next", "Helvetica Neue", sans-serif;
+      font-size: 0.72em;
+      line-height: 0;
+      vertical-align: super;
+    }}
+    .footnote-ref a {{
+      color: #087d9e;
+      text-decoration: none;
     }}
     figure {{
       margin: 38px 0;

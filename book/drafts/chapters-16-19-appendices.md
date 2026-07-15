@@ -454,7 +454,7 @@ This is the model-pipeline-data separation in practice:
 - The **pipeline** controls validation, routing, fallback, review, and final state.
 - The **data/configuration layer** defines schemas, labels, lookup values, thresholds, and product rules.
 
-A model upgrade does not fix a broken lookup table. A better prompt does not fix missing review policy. A passing extraction does not prove production readiness.
+Lookup, policy, and schema defects belong to the configuration bundle, not model tuning. The activation check must validate those relationships before the bundle can affect production behavior.
 
 ### Implementation pattern: validated, versioned bundles
 
@@ -1192,7 +1192,7 @@ Use one record per claim rather than judging a document as one blob.
   "field": "field_name",
   "raw_value": null,
   "normalized_value": null,
-  "status": "supported | normalized | inferred | not_present_in_document | unreadable | ambiguous | conflicting | requires_review",
+  "status": "supported | normalized | ... | requires_review",
   "evidence": [
     {
       "source_ref": "document/page/region",

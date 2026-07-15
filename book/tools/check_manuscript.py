@@ -43,6 +43,17 @@ def main() -> None:
     if unused:
         fail(f"unused citation definitions: {', '.join(unused)}")
 
+    in_code = False
+    long_code_lines: list[tuple[int, int]] = []
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if line.startswith("```"):
+            in_code = not in_code
+        elif in_code and len(line) > 120:
+            long_code_lines.append((line_number, len(line)))
+    if long_code_lines:
+        detail = ", ".join(f"line {line} ({length} chars)" for line, length in long_code_lines)
+        fail(f"code lines exceed 120 characters and may overflow print layout: {detail}")
+
     words = re.findall(r"[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)?", text)
     if len(words) < 22000:
         fail(f"manuscript is too short for this package: {len(words)} words")

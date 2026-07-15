@@ -24,6 +24,7 @@ PDF = DIST / "no-claim-without-evidence.pdf"
 SALES_PAGE = DIST / "sales-page.html"
 COVER = ROOT / "public" / "books" / "no-claim-without-evidence" / "cover.png"
 DIAGRAM_DIR = BOOK / "assets" / "diagrams"
+MANUSCRIPT = BOOK / "manuscript" / "no-claim-without-evidence.md"
 
 
 def fail(message: str) -> None:
@@ -93,6 +94,10 @@ def main() -> None:
         fail(f"HTML proof is not self-contained; local assets remain: {local_html_assets}")
     if html_text.count('src="data:image/') < 5:
         fail("HTML proof does not contain all embedded cover and diagram images")
+    if re.search(r">\[[A-Za-z0-9_-]+\]</a>", html_text):
+        fail("HTML exposes manuscript citation identifiers instead of numbered notes")
+    if not re.search(r'class="footnote-ref"><a[^>]+>1</a>', html_text):
+        fail("HTML is missing numbered note references")
 
     with zipfile.ZipFile(EPUB) as z:
         names = z.namelist()
@@ -134,6 +139,7 @@ def main() -> None:
             if expected not in package:
                 fail(f"EPUB package metadata missing: {expected}")
 
+        xhtml_roots: dict[str, ET.Element] = {}
         for name in names:
             if name.endswith((".xhtml", ".opf", ".xml")):
                 try:
@@ -142,18 +148,23 @@ def main() -> None:
                     fail(f"invalid EPUB XML in {name}: {error}")
                 if not name.endswith(".xhtml"):
                     continue
+                xhtml_roots[name] = root
+
+        for name, root in xhtml_roots.items():
                 base = PurePosixPath(name).parent
                 for element in root.iter():
                     for attribute in ("href", "src"):
                         value = element.attrib.get(attribute)
-                        if not value or value.startswith(("http://", "https://", "mailto:", "data:", "#")):
+                        if not value or value.startswith(("http://", "https://", "mailto:", "data:")):
                             continue
-                        target, _ = urldefrag(value)
-                        if not target:
-                            continue
-                        resolved = normalize_epub_target(base, target)
+                        target, fragment = urldefrag(value)
+                        resolved = name if not target else normalize_epub_target(base, target)
                         if resolved not in name_set:
                             fail(f"broken EPUB {attribute}: {name} -> {value} ({resolved})")
+                        if fragment and resolved in xhtml_roots:
+                            ids = {node.attrib["id"] for node in xhtml_roots[resolved].iter() if "id" in node.attrib}
+                            if fragment not in ids:
+                                fail(f"broken EPUB fragment: {name} -> {value}")
 
     file_output = subprocess.check_output(["file", str(PDF)], text=True)
     if "PDF document" not in file_output:
@@ -199,6 +210,23 @@ def main() -> None:
     for chapter in range(1, 20):
         if f"Chapter {chapter}:" not in all_text:
             fail(f"PDF missing Chapter {chapter}")
+    citation_ids = set(
+        re.findall(
+            r"^\[\^([A-Za-z0-9_-]+)\]:",
+            MANUSCRIPT.read_text(encoding="utf-8"),
+            flags=re.MULTILINE,
+        )
+    )
+    leaked_citations = sorted(citation_id for citation_id in citation_ids if f"[{citation_id}]" in all_text)
+    if leaked_citations:
+        fail(f"PDF exposes manuscript citation identifiers: {', '.join(leaked_citations)}")
+    forbidden_glyphs = {"\ufb01": "fi ligature", "\ufb02": "fl ligature", "\ufffe": "invalid separator"}
+    present = [label for glyph, label in forbidden_glyphs.items() if glyph in all_text]
+    if present:
+        fail(f"PDF text extraction contains copy-hostile glyphs: {', '.join(present)}")
+    for phrase in ["evidence-producing", "customer-facing", "do-not-infer"]:
+        if phrase not in all_text:
+            fail(f"PDF text extraction lost required hyphenation: {phrase}")
 
     print("OK: package verification passed")
     print(f"html: {HTML.stat().st_size} bytes")

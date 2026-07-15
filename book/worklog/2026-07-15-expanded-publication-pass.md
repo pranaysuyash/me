@@ -10,7 +10,7 @@ The earlier source project was found at `/Users/pranay/Projects/evidence-based-a
 
 ## Implementation
 
-- Expanded the manuscript to 28,712 tokenized words.
+- Expanded the manuscript to 28,696 tokenized words.
 - Preserved all 19 historical chapter titles.
 - Added four source modules, explicit front matter, and one canonical bibliography.
 - Added a deterministic manuscript assembler.
@@ -22,7 +22,7 @@ The earlier source project was found at `/Users/pranay/Projects/evidence-based-a
 
 ## Verification
 
-`npm run book:build` rebuilt all formats from source. `npm run book:validate` passed manuscript and package checks. The PDF is 184 pages at 432x648 points, has embedded fonts, tagged text, body page numbers, and no draft residue. EPUB ZIP integrity and every XML document passed. High-resolution rendered spot pages and contact sheets were manually reviewed.
+`npm run book:build` rebuilt all formats from source. `npm run book:validate` passed manuscript and package checks. The PDF is 181 pages at 432x648 points, has embedded fonts, tagged text, body page numbers, and no draft residue. EPUB ZIP integrity and every XML document passed. High-resolution rendered spot pages and contact sheets were manually reviewed.
 
 ## Commercial Boundary
 
@@ -36,3 +36,18 @@ too weak for durable history. The exact original toolchain is now preserved unde
 `book/archive/2026-07-07-original-production/` with provenance and SHA-256
 checksums. Superseded source-worthy scripts must be archived rather than deleted;
 only rebuildable caches remain disposable.
+
+## Final QA And Cleanup Contract
+
+The final pass converted internal citation keys to numbered notes, fixed the
+Chapter 12 JSON overflow and page flow, removed copy-hostile PDF ligatures,
+confirmed standalone HTML packaging, and removed the only verbatim repeated
+teaching paragraph. A full rendered-page sweep covered front matter, chapter
+openings, diagrams, tables, code, the corrected structured log, release gate,
+appendices, and sources.
+
+Publication preservation is now mechanical rather than advisory. The root
+cleanup contract protects book source, active tools, historical archives,
+covers, and customer files. Archive checksums and a source/output package hash
+manifest are validated in CI. `npm run clean:safe` is a dry run;
+`npm run clean:safe:apply` can delete only `.next/` and `out/`.

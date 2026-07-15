@@ -209,10 +209,49 @@ This separation prevents prompt thrashing: repeatedly editing model instructions
 
 ### A Structured Log Pattern
 
-Prefer an append-only structured record over free-form notes. JSON Lines works well because each case-run remains independently parseable:
+Use append-only JSON Lines so each case-run remains independently parseable.
 
 ```json
-{"run_id":"eval-2026-08-01-01","case_id":"AIR-001","document_type":"airline_ticket","versions":{"model":"extractor_v4","prompt":"ticket_prompt_v7","schema":"ticket_schema_v3","ground_truth":"ticket_gt_v4","routing":"route_ticket_v2","normalization":"iata_map_2026_07"},"expected":{"origin.normalized_value":"DEL","terminal.status":"not_present_in_document"},"actual":{"origin.raw_value":"Delhi","origin.normalized_value":"BSL","terminal.value":"Terminal 3"},"trace":{"fallback_used":true,"stop_decision":"continue"},"errors":[{"type":"normalization_error","owner":"normalization_data"},{"type":"unsupported_inference","owner":"routing_policy"}],"recommended_work_items":["correct Delhi mapping and add lookup regression","block fallback for absent do-not-infer fields"]}
+{
+  "run_id": "eval-2026-08-01-01",
+  "case_id": "AIR-001",
+  "document_type": "airline_ticket",
+  "versions": {
+    "model": "extractor_v4",
+    "prompt": "ticket_prompt_v7",
+    "schema": "ticket_schema_v3",
+    "ground_truth": "ticket_gt_v4",
+    "routing": "route_ticket_v2",
+    "normalization": "iata_map_2026_07"
+  },
+  "expected": {
+    "origin.normalized_value": "DEL",
+    "terminal.status": "not_present_in_document"
+  },
+  "actual": {
+    "origin.raw_value": "Delhi",
+    "origin.normalized_value": "BSL",
+    "terminal.value": "Terminal 3"
+  },
+  "trace": {
+    "fallback_used": true,
+    "stop_decision": "continue"
+  },
+  "errors": [
+    {
+      "type": "normalization_error",
+      "owner": "normalization_data"
+    },
+    {
+      "type": "unsupported_inference",
+      "owner": "routing_policy"
+    }
+  ],
+  "recommended_work_items": [
+    "correct Delhi mapping and add lookup regression",
+    "block fallback for absent do-not-infer fields"
+  ]
+}
 ```
 
 One case can contain more than one error. Forcing a single label may hide the sequence that produced the failure. At the same time, do not log every internal variable. Capture what supports diagnosis, audit, and reproduction.

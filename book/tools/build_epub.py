@@ -113,6 +113,8 @@ def main() -> None:
         th { background: #dcecef; } tr:nth-child(even) { background: #f4f7f5; }
         .cover { margin: 0; padding: 0; text-align: center; } .cover img { width: 100%; max-height: 100vh; object-fit: contain; }
         .footnote { font-size: .88rem; color: #5d6b70; }
+        .footnote-ref { font-size: .72em; line-height: 0; vertical-align: super; }
+        .footnote-ref a { text-decoration: none; }
         """
         (style_dir / "book.css").write_text(css, encoding="utf-8")
 
@@ -127,10 +129,16 @@ def main() -> None:
         nav_items: list[str] = []
         landmarks: list[str] = ['<li><a epub:type="cover" href="text/cover.xhtml">Cover</a></li>']
 
+        citations = build_html.citation_numbers(markdown)
+        notes_index = next(index for index, (title, _) in enumerate(sections) if title == "Notes And Sources")
+        notes_filename = f"{notes_index:02d}-{slug('Notes And Sources', f'section-{notes_index:02d}')}.xhtml"
+
         for index, (title, source) in enumerate(sections):
             section_id = slug(title, f"section-{index:02d}")
             filename = f"{index:02d}-{section_id}.xhtml"
-            rendered = build_html.render_markdown(source)
+            rendered = build_html.render_markdown(source, citations)
+            if title != "Notes And Sources":
+                rendered = rendered.replace('href="#fn-', f'href="{notes_filename}#fn-')
             rendered = rewrite_images(rendered, images)
             epub_type = "frontmatter" if index == 0 else "chapter"
             if title.startswith("Appendix"):

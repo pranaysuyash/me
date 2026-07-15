@@ -16,3 +16,14 @@ review artifacts that explain how the publication evolved.
 
 Generated caches such as `__pycache__/` and `.pyc` files are not historical
 source artifacts and remain excluded.
+
+## Mechanical Protection
+
+The repository root `cleanup-protection.json` declares this archive and the
+customer deliverables as protected. `npm run book:validate` verifies that every
+archive file is tracked, not ignored, and covered by the preservation boundary;
+it also validates the dated archive checksum manifest. CI runs the same check.
+
+Routine cleanup must preview with `npm run clean:safe` and apply only with
+`npm run clean:safe:apply`. Its allowlist does not include `dist/`,
+`book/archive/`, manuscripts, drafts, assets, or active book tools.
