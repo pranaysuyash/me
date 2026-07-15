@@ -19,3 +19,7 @@
 /spatial-portfolio/*
   Cache-Control: public, max-age=86400
   X-Frame-Options: SAMEORIGIN
+
+/product-lab/*
+  Cache-Control: public, max-age=86400
+  X-Frame-Options: SAMEORIGIN
