@@ -36,19 +36,21 @@ const initialFormData = {
 export default function ContactPage() {
   const [leadSource, setLeadSource] = useState("general");
   const [formData, setFormData] = useState(initialFormData);
-  const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle",
+  );
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const source = params.get("source") || "general";
     const type = params.get("type");
-    setLeadSource(source);
+    const resolvedSource = type ? `${source}:${type}` : source;
+
+    setLeadSource(resolvedSource);
     setFormData((previous) => ({
       ...previous,
-      source: type ? `${source}:${type}` : source,
+      source: resolvedSource,
     }));
   }, []);
 
@@ -253,16 +255,31 @@ export default function ContactPage() {
               <Send className="ml-2 h-4 w-4" />
             </Button>
 
-            {status === "success" && (
-              <p className="mt-4 text-center text-sm text-green-600 dark:text-green-400">
-                The brief was sent. I will reply within two business days.
-              </p>
-            )}
-            {status === "error" && (
-              <p className="mt-4 text-center text-sm text-destructive">
-                {errorMessage} Email me directly if the problem continues.
-              </p>
-            )}
+            <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
+              By sending this brief, you agree that the submitted information may be used
+              to assess and respond to your enquiry under the{" "}
+              <Link
+                href="/privacy"
+                className="font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              . Do not include passwords, payment details, medical records, or other
+              sensitive personal information.
+            </p>
+
+            <div aria-live="polite" aria-atomic="true">
+              {status === "success" && (
+                <p className="mt-4 text-center text-sm text-green-600 dark:text-green-400">
+                  The brief was sent. I will reply within two business days.
+                </p>
+              )}
+              {status === "error" && (
+                <p className="mt-4 text-center text-sm text-destructive">
+                  {errorMessage} Email me directly if the problem continues.
+                </p>
+              )}
+            </div>
           </form>
 
           <aside className="space-y-5">
@@ -270,7 +287,9 @@ export default function ContactPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
                 Prefer a call first?
               </p>
-              <h2 className="mt-2 text-xl font-semibold">Choose the smallest useful conversation.</h2>
+              <h2 className="mt-2 text-xl font-semibold">
+                Choose the smallest useful conversation.
+              </h2>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
                 Use 15 minutes for fit and direction. Use 30 minutes when you already
                 have a workflow, examples, constraints, or an existing product to review.
