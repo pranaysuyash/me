@@ -4,6 +4,15 @@ export type ProjectMaturity =
   | "Active platform build"
   | "Working prototype";
 
+export type VisualEvidenceKind = "workflow-map" | "product-screenshot";
+
+export interface ProjectVisualEvidence {
+  src: string;
+  alt: string;
+  caption: string;
+  kind: VisualEvidenceKind;
+}
+
 export interface AuditedProject {
   slug: string;
   title: string;
@@ -18,7 +27,7 @@ export interface AuditedProject {
   decisions: Array<{ decision: string; reason: string; tradeoff: string }>;
   constraints: string[];
   technologies: string[];
-  screenshots: string[];
+  visualEvidence: ProjectVisualEvidence[];
   links: { label: string; href: string }[];
 }
 
@@ -65,14 +74,18 @@ export const auditedProjects: AuditedProject[] = [
       "Desktop reliability for non-technical users",
     ],
     technologies: ["Python", "PySide6", "OpenCV", "PyMuPDF", "Qt"],
-    screenshots: [
-      "/assets/projects/signkit/hero.jpg",
-      "/assets/projects/signkit/detail1.jpg",
-      "/assets/projects/signkit/detail2.jpg",
+    visualEvidence: [
+      {
+        src: "/assets/projects/signkit/workflow.svg",
+        alt: "SignKit local workflow from source document through signature selection, cleanup, local storage, and PDF placement",
+        caption:
+          "Workflow map of the current local-first product boundary. It explains the operating path and is not presented as an application screenshot.",
+        kind: "workflow-map",
+      },
     ],
     links: [
       { label: "Open product site", href: "https://signkit.work" },
-      { label: "View repository", href: "https://github.com/pranaysuyash/sig_ext_fastapi_react" },
+      { label: "View repository", href: "https://github.com/pranaysuyash/signkit" },
     ],
   },
   {
@@ -117,7 +130,15 @@ export const auditedProjects: AuditedProject[] = [
       "Long-running extraction needs visible progress and failure states",
     ],
     technologies: ["Python", "TypeScript", "Document parsing", "Metadata", "Access control"],
-    screenshots: [],
+    visualEvidence: [
+      {
+        src: "/assets/projects/metaextract/workflow.svg",
+        alt: "MetaExtract workflow from mixed files through extraction, normalization, validation, provenance, and human review",
+        caption:
+          "Evidence-linked workflow map showing why field coverage, correctness, provenance, and reviewer attention are separate product concerns.",
+        kind: "workflow-map",
+      },
+    ],
     links: [
       { label: "View repository", href: "https://github.com/pranaysuyash/metaextract" },
     ],
@@ -164,10 +185,14 @@ export const auditedProjects: AuditedProject[] = [
       "Clear failure states when capture sources are unavailable",
     ],
     technologies: ["Swift", "AVFoundation", "CoreAudio", "Whisper", "SQLite"],
-    screenshots: [
-      "/assets/projects/echopanel/hero.jpg",
-      "/assets/projects/echopanel/detail1.jpg",
-      "/assets/projects/echopanel/detail2.jpg",
+    visualEvidence: [
+      {
+        src: "/assets/projects/echopanel/workflow.svg",
+        alt: "EchoPanel local audio workflow from native capture through local transcription, searchable timeline, and timestamp retrieval",
+        caption:
+          "Workflow map of the prototype direction. It separates the working capture and retrieval concept from system-audio setup and production packaging still in progress.",
+        kind: "workflow-map",
+      },
     ],
     links: [
       { label: "View repository", href: "https://github.com/pranaysuyash/EchoPanel" },
@@ -215,8 +240,14 @@ export const auditedProjects: AuditedProject[] = [
       "The product must distinguish simulated claims from verified real-world observations",
     ],
     technologies: ["React", "TypeScript", "Three.js", "React Three Fiber", "Zustand"],
-    screenshots: [
-      "https://raw.githubusercontent.com/pranaysuyash/SentinelTwin/main/shot-map.png",
+    visualEvidence: [
+      {
+        src: "/assets/projects/sentineltwin/workflow.svg",
+        alt: "SentinelTwin security decision map with editable floor plan, cameras, coverage cones, blind zone, incident path, and counterfactual comparison",
+        caption:
+          "Security decision workflow map. The geometry is illustrative; the case-study maturity and current implementation boundary remain the source of truth.",
+        kind: "workflow-map",
+      },
     ],
     links: [
       { label: "View repository", href: "https://github.com/pranaysuyash/SentinelTwin" },
