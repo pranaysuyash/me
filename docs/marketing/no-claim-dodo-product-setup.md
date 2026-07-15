@@ -1,10 +1,20 @@
 # No Claim Without Evidence - Dodo Product Setup
 
-Use these values when creating the product in Dodo Payments.
+Use these values for the live product in Dodo Payments.
 
 ## Status
 
-The site is wired for a live checkout URL. Until the Dodo product and delivery flow are tested, the page remains sample-first and shows checkout as coming soon rather than presenting a nonfunctional purchase button.
+The Dodo product is live and the production checkout is active on the website.
+
+Production checkout:
+
+```text
+https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1
+```
+
+The canonical URL is committed in `src/lib/ebook.ts`, so ordinary static builds render the `Buy now` action without requiring a local environment file. `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL` remains available as an optional build-time override.
+
+The publication files are complete and validated. A real paid purchase and delivery test remains an operational verification until its result is recorded.
 
 ## Basic Details
 
@@ -20,7 +30,7 @@ Brand:
 Pranay Suyash
 ```
 
-If the brand does not exist yet, create/select the brand attached to `pranaysuyash.com`.
+The brand should remain attached to `pranaysuyash.com`.
 
 Tax Category:
 
@@ -64,7 +74,7 @@ Image specs:
 1200 x 1200 JPG, 134KB
 ```
 
-Use the square checkout image above for Dodo checkout and invoices. Use the portrait cover for the website and social posts.
+Use the square checkout image for Dodo checkout and invoices. Use the portrait cover for the website and social posts.
 
 ## Pricing
 
@@ -94,7 +104,7 @@ Mode: By Country
 India override: IN / INR / ₹799
 ```
 
-Markets without an India rule use the $14.99 USD base price. Keep Adaptive Currency disabled initially if the public page must match the exact `$14.99 elsewhere` wording. If Adaptive Currency is enabled later, non-India customers may see the base price converted into a supported local currency.
+Markets without an India rule use the $14.99 USD base price. Keep Adaptive Currency disabled if the public page must match the exact `$14.99 elsewhere` wording. If Adaptive Currency is enabled later, non-India customers may see the base price converted into a supported local currency.
 
 Discount Applicable:
 
@@ -131,18 +141,18 @@ Automated Entitlement:
 File Downloads (or Files & Templates if that is the dashboard label)
 ```
 
-Files to attach:
+Files attached to the product:
 
 ```text
 no-claim-without-evidence.pdf
 no-claim-without-evidence.epub
 ```
 
-Source package:
+Canonical repository deliverables:
 
 ```text
-/Users/pranay/Projects/evidence-based-ai-engineering-ebook/dist/no-claim-without-evidence.pdf
-/Users/pranay/Projects/evidence-based-ai-engineering-ebook/dist/no-claim-without-evidence.epub
+dist/no-claim-without-evidence.pdf
+dist/no-claim-without-evidence.epub
 ```
 
 ## Metadata
@@ -162,22 +172,31 @@ version = 1.0
 author = Pranay Suyash
 ```
 
-## After Dodo Product Creation
+## Website Activation
 
-Copy the Dodo checkout/payment link and set it in the site deployment environment:
+The committed production link is:
 
-```bash
-NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=<dodo checkout url>
+```text
+https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1
 ```
 
-Set the variable in the Cloudflare Pages production environment, redeploy, and complete a real test purchase. After the checkout URL is present at build time, the page promotes `Buy now` as the primary action.
+Optional override:
 
-Before launch, verify:
+```bash
+NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=<replacement Dodo checkout URL>
+```
+
+The exported site contract now fails if the ebook page does not contain both the exact production checkout URL and the `Buy now` CTA.
+
+## Production Verification
+
+Confirm and record:
 
 1. India checkout resolves to ₹799.
 2. A non-India checkout uses the $14.99 base price or the expected Adaptive Currency equivalent.
 3. The displayed amount is tax inclusive and the invoice breaks out tax correctly.
-4. Both PDF and EPUB downloads are granted after payment.
+4. One real paid test purchase grants both PDF and EPUB downloads.
 5. Refund and support contact details are correct.
+6. The canonical book page opens the production checkout from every `Buy now` button.
 
-The sample route remains available at `/books/no-claim-without-evidence/sample`.
+The sample route remains available at `/books/no-claim-without-evidence/sample` as a secondary action.
