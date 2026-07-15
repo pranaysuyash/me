@@ -45,6 +45,7 @@ jobs:
             home: ["out/index.html"],
             notFound: ["out/404.html", "out/_not-found.html", "out/_not-found/index.html"],
             work: ["out/work.html", "out/work/index.html"],
+            systems: ["out/systems.html", "out/systems/index.html"],
             services: ["out/work-with-me.html", "out/work-with-me/index.html"],
             contact: ["out/contact.html", "out/contact/index.html"],
             sentinelTwin: [
@@ -55,8 +56,8 @@ jobs:
             terms: ["out/terms.html", "out/terms/index.html"],
             refunds: ["out/refund-policy.html", "out/refund-policy/index.html"],
             delivery: ["out/delivery-policy.html", "out/delivery-policy/index.html"],
-            spatialMap: ["out/spatial-portfolio/index.html"],
-            spatialScript: ["out/spatial-portfolio/scene.js"],
+            productLab: ["out/product-lab/index.html"],
+            productLabScript: ["out/product-lab/scene.js"],
             sitemap: ["out/sitemap.xml"],
             robots: ["out/robots.txt"],
           };
@@ -80,19 +81,35 @@ jobs:
           }
 
           const home = fs.readFileSync("out/index.html", "utf8");
-          if (!home.includes("/spatial-portfolio/")) {
-            failures.push("homepage does not embed the interactive spatial portfolio");
+          if (!home.includes("/product-lab/index.html")) {
+            failures.push("homepage does not embed the interactive product lab");
           }
 
-          const spatialScript = fs.readFileSync("out/spatial-portfolio/scene.js", "utf8");
-          for (const expected of ["CSS2DRenderer", "OrbitControls", "WebGLRenderer"]) {
-            if (!spatialScript.includes(expected)) {
-              failures.push(`spatial scene missing ${expected}`);
+          const systems = fs.readFileSync(
+            fs.existsSync("out/systems.html") ? "out/systems.html" : "out/systems/index.html",
+            "utf8",
+          );
+          if (!systems.includes("/product-lab/index.html")) {
+            failures.push("systems route does not embed the interactive product lab");
+          }
+
+          const productLabScript = fs.readFileSync("out/product-lab/scene.js", "utf8");
+          for (const expected of [
+            "CSS2DRenderer",
+            "OrbitControls",
+            "createSentinelTwin",
+            "createSignKit",
+            "createMetaExtract",
+            "createEchoPanel",
+          ]) {
+            if (!productLabScript.includes(expected)) {
+              failures.push(`product lab missing ${expected}`);
             }
           }
 
           const sitemap = fs.readFileSync("out/sitemap.xml", "utf8");
           for (const requiredUrl of [
+            "https://pranaysuyash.com/systems",
             "https://pranaysuyash.com/work/sentineltwin",
             "https://pranaysuyash.com/privacy",
             "https://pranaysuyash.com/terms",
