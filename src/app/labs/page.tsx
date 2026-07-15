@@ -32,7 +32,7 @@ export default function LabsPage() {
             Earlier repositories and technical experiments, without flagship inflation.
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/68 md:text-lg">
-            This archive preserves range and learning history. Entries are intentionally limited to repository-level facts and do not claim current production use, customer adoption, or commercial maturity unless a dedicated audited case study says so.
+            This archive preserves range and learning history. Each entry is intentionally limited to repository-level facts and does not claim current production use, customer adoption, or commercial maturity unless a dedicated audited case study says so.
           </p>
         </div>
       </section>
