@@ -34,11 +34,58 @@ const jetbrainsMono = JetBrains_Mono({
   ],
 });
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://pranaysuyash.com/#person",
+      name: "Pranay Suyash",
+      url: "https://pranaysuyash.com",
+      jobTitle: "Product Engineer and Systems Builder",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Bengaluru",
+        addressCountry: "IN",
+      },
+      sameAs: [
+        "https://github.com/pranaysuyash",
+        "https://www.linkedin.com/in/pranaysuyash",
+        "https://x.com/pranaysuyash",
+      ],
+      knowsAbout: [
+        "Product engineering",
+        "Document intelligence",
+        "Computer vision",
+        "Local-first AI",
+        "Operational workflow systems",
+        "Spatial simulation",
+        "AI evaluation and review systems",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://pranaysuyash.com/#website",
+      url: "https://pranaysuyash.com",
+      name: "Pranay Suyash",
+      description:
+        "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
+      inLanguage: "en",
+      publisher: {
+        "@id": "https://pranaysuyash.com/#person",
+      },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://pranaysuyash.com"),
   title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
   description:
     "Product engineering for document intelligence, local-first AI tools, operational workflows, and simulation-heavy systems.",
+  authors: [{ name: "Pranay Suyash", url: "https://pranaysuyash.com" }],
+  creator: "Pranay Suyash",
+  publisher: "Pranay Suyash",
   keywords: [
     "Pranay Suyash",
     "Product Engineer",
@@ -88,6 +135,12 @@ export default function RootLayout({
           name="theme-color"
           content="#f8fafc"
           media="(prefers-color-scheme: light)"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+          }}
         />
       </head>
       <body
