@@ -52,14 +52,12 @@
   }
 
   html {
-    scroll-behavior: smooth;
     min-height: 100%;
+    scroll-behavior: smooth;
     color-scheme: light;
-    /* Prevent font loading flash by using size-adjusted fallback */
     font-size-adjust: from-font;
   }
 
-  /* Ensure body has fixed line-height regardless of font */
   body {
     min-height: 100%;
     background-color: hsl(var(--background));
@@ -67,7 +65,6 @@
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
-    /* Reserve space for fonts to prevent CLS */
     line-height: 1.6;
     letter-spacing: normal;
     text-rendering: optimizeLegibility;
@@ -75,32 +72,71 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* .dark class - removes duplicate body styles */
   .dark {
     color-scheme: dark;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 0.75rem;
+    z-index: 100;
+    transform: translateY(-180%);
+    border-radius: 0.375rem;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.15s ease-out;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
   .gradient-text {
+    display: inline;
     background: linear-gradient(135deg, #0d746d 0%, #b45f2a 100%);
-    -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    display: inline;
+    -webkit-background-clip: text;
   }
 
   .gradient-border {
     position: relative;
-    border-radius: 9999px;
     overflow: hidden;
+    border-radius: 9999px;
     padding: 1.5px;
     background: linear-gradient(135deg, #0d746d 0%, #b45f2a 100%);
   }
 
   .gradient-border-inner {
-    border-radius: 9998px;
     height: 100%;
+    border-radius: 9998px;
   }
 
   .gradient-line {
@@ -142,9 +178,9 @@
   }
 
   .proof-angle {
+    color: hsl(var(--muted-foreground));
     font-size: 0.8rem;
     line-height: 1.45;
-    color: hsl(var(--muted-foreground));
   }
 
   .animate-fade-up {
