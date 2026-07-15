@@ -40,10 +40,13 @@ jobs:
       - name: Type-check application
         run: npm run typecheck
 
+      - name: Verify career and portfolio source boundaries
+        run: npm run portfolio:validate
+
       - name: Verify publication and cleanup protection
         run: npm run book:validate
 
-      - name: Build static site
+      - name: Build static site and generated resume
         run: npm run build
 
       - name: Validate product lab module syntax
@@ -51,7 +54,7 @@ jobs:
           node --input-type=module --check < out/product-lab/scene.js
           node --input-type=module --check < out/scene.js
 
-      - name: Verify exported site contract
+      - name: Verify exported career and product contract
         run: |
           node <<'NODE'
           const fs = require("node:fs");
@@ -61,21 +64,22 @@ jobs:
             home: ["out/index.html"],
             notFound: ["out/404.html", "out/_not-found.html", "out/_not-found/index.html"],
             work: ["out/work.html", "out/work/index.html"],
-            systems: ["out/systems.html", "out/systems/index.html"],
+            experience: ["out/hire-me.html", "out/hire-me/index.html"],
             services: ["out/work-with-me.html", "out/work-with-me/index.html"],
+            documentWorkflows: ["out/document-workflows.html", "out/document-workflows/index.html"],
+            labs: ["out/labs.html", "out/labs/index.html"],
+            systems: ["out/systems.html", "out/systems/index.html"],
+            about: ["out/about.html", "out/about/index.html"],
             contact: ["out/contact.html", "out/contact/index.html"],
-            sentinelTwin: [
-              "out/work/sentineltwin.html",
-              "out/work/sentineltwin/index.html",
-            ],
-            book: [
-              "out/books/no-claim-without-evidence.html",
-              "out/books/no-claim-without-evidence/index.html",
-            ],
-            bookSample: [
-              "out/books/no-claim-without-evidence/sample.html",
-              "out/books/no-claim-without-evidence/sample/index.html",
-            ],
+            medpiper: ["out/work/medpiper-workflow.html", "out/work/medpiper-workflow/index.html"],
+            signKit: ["out/work/sig-ext-fastapi.html", "out/work/sig-ext-fastapi/index.html"],
+            metaExtract: ["out/work/metaextract.html", "out/work/metaextract/index.html"],
+            echoPanel: ["out/work/echopanel.html", "out/work/echopanel/index.html"],
+            sentinelTwin: ["out/work/sentineltwin.html", "out/work/sentineltwin/index.html"],
+            book: ["out/books/no-claim-without-evidence.html", "out/books/no-claim-without-evidence/index.html"],
+            bookSample: ["out/books/no-claim-without-evidence/sample.html", "out/books/no-claim-without-evidence/sample/index.html"],
+            resumeWeb: ["out/pranay_resume.html"],
+            resumePdf: ["out/pranay-suyash-resume.pdf"],
             privacy: ["out/privacy.html", "out/privacy/index.html"],
             terms: ["out/terms.html", "out/terms/index.html"],
             refunds: ["out/refund-policy.html", "out/refund-policy/index.html"],
@@ -89,17 +93,16 @@ jobs:
           };
 
           const failures = [];
-          const resolvedRoutes = {};
+          const resolved = {};
           for (const [route, candidates] of Object.entries(routeCandidates)) {
             const exported = candidates.find(
               (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 10,
             );
             if (!exported) failures.push(`${route}: ${candidates.join(" or ")}`);
-            else resolvedRoutes[route] = exported;
+            else resolved[route] = exported;
           }
 
-          const forbiddenRoutes = ["out/admin.html", "out/admin/index.html"];
-          for (const forbidden of forbiddenRoutes) {
+          for (const forbidden of ["out/admin.html", "out/admin/index.html"]) {
             if (fs.existsSync(forbidden)) failures.push(`forbidden route exported: ${forbidden}`);
           }
 
@@ -108,72 +111,144 @@ jobs:
             process.exit(1);
           }
 
-          const home = fs.readFileSync("out/index.html", "utf8");
-          if (!home.includes("/product-lab/index.html")) {
-            failures.push("homepage does not embed the interactive product lab");
-          }
-
-          const systems = fs.readFileSync(resolvedRoutes.systems, "utf8");
-          if (!systems.includes("/product-lab/index.html")) {
-            failures.push("systems route does not embed the interactive product lab");
-          }
-
-          const checkoutUrl =
-            "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1";
-          const book = fs.readFileSync(resolvedRoutes.book, "utf8");
-          if (!book.includes(checkoutUrl)) {
-            failures.push("book route does not contain the production Dodo checkout URL");
-          }
-          if (!book.includes("Buy now")) {
-            failures.push("book route does not render the Buy now CTA");
-          }
-
-          const productLabScript = fs.readFileSync("out/product-lab/scene.js", "utf8");
-          for (const expected of [
-            "CSS2DRenderer",
-            "OrbitControls",
-            "createSentinelTwin",
-            "createSignKit",
-            "createMetaExtract",
-            "createEchoPanel",
-          ]) {
-            if (!productLabScript.includes(expected)) {
-              failures.push(`product lab missing ${expected}`);
+          const read = (name) => fs.readFileSync(resolved[name], "utf8");
+          const requireText = (name, values) => {
+            const content = read(name);
+            for (const value of values) {
+              if (!content.includes(value)) failures.push(`${name} missing required text: ${value}`);
             }
+            return content;
+          };
+
+          const home = requireText("home", [
+            "Product leader and hands-on systems builder",
+            "For hiring teams",
+            "MedPiper insurance workflow transformation",
+            "~4 weeks",
+          ]);
+          if (home.includes("<iframe")) {
+            failures.push("homepage must not embed the interactive lab in the career hero");
           }
 
-          const compatibilityLoader = fs.readFileSync("out/scene.js", "utf8");
+          requireText("experience", [
+            "Product leader and hands-on builder for AI, workflow, and internal systems",
+            "AI Product Lead",
+            "Download resume PDF",
+            "/pranay-suyash-resume.pdf",
+          ]);
+          requireText("work", [
+            "MedPiper insurance workflow transformation",
+            "Commercial product",
+            "Working product build",
+            "Active platform build",
+            "Working prototype",
+          ]);
+          requireText("medpiper", [
+            "~10-day turnaround",
+            "Sanitized operating evidence",
+            "approximately $1M ARR",
+          ]);
+          requireText("documentWorkflows", [
+            "The product is not OCR",
+            "Review exceptions",
+            "do-not-infer policy",
+          ]);
+          requireText("labs", [
+            "without flagship inflation",
+            "does not claim current production use",
+          ]);
+          requireText("systems", [
+            "/product-lab/",
+            "geometry is illustrative",
+            "case study is the source of truth",
+          ]);
+          requireText("resumeWeb", [
+            "Product Leader and Hands-on Systems Builder",
+            "Print / Save PDF",
+            "14+ years",
+          ]);
+
+          const resumePdf = fs.readFileSync(resolved.resumePdf);
+          if (!resumePdf.subarray(0, 5).equals(Buffer.from("%PDF-"))) {
+            failures.push("generated resume does not have a valid PDF signature");
+          }
+          if (resumePdf.length < 7000) {
+            failures.push(`generated resume PDF is unexpectedly small: ${resumePdf.length} bytes`);
+          }
+          const resumePdfText = resumePdf.toString("latin1");
+          const resumePageCount = (resumePdfText.match(/\/Type \/Page\b/g) || []).length;
+          if (resumePageCount !== 2) {
+            failures.push(`generated resume PDF must contain exactly 2 pages, found ${resumePageCount}`);
+          }
+          for (const expected of [
+            "Product Leader and Hands-on Systems Builder",
+            "MedPiper insurance workflow transformation",
+            "SignKit - Commercial product",
+          ]) {
+            if (!resumePdfText.includes(expected)) failures.push(`generated resume PDF missing: ${expected}`);
+          }
+
+          const signKit = requireText("signKit", [
+            "Commercial product",
+            "Treat signatures as visual assets, not certified e-signatures",
+            "PySide6",
+          ]);
+          for (const forbidden of [
+            "Stripe integration",
+            "PostgreSQL for user accounts",
+            "embedded certificate chains",
+            "14-day trial",
+            "FastAPI backend",
+          ]) {
+            if (signKit.includes(forbidden)) failures.push(`SignKit contains unsupported claim: ${forbidden}`);
+          }
+
+          requireText("metaExtract", [
+            "Working product build",
+            "High field coverage must not be confused with verified correctness",
+          ]);
+          requireText("echoPanel", [
+            "Working prototype",
+            "system-audio setup and production packaging remain active work",
+          ]);
+          requireText("sentinelTwin", ["Active platform build"]);
+
+          const checkoutUrl = "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1";
+          const book = read("book");
+          if (!book.includes(checkoutUrl)) failures.push("book route does not contain production Dodo checkout URL");
+          if (!book.includes("Buy now")) failures.push("book route does not render Buy now CTA");
+
+          const productLabScript = fs.readFileSync(resolved.productLabScript, "utf8");
+          for (const expected of ["CSS2DRenderer", "OrbitControls", "createSentinelTwin", "createSignKit", "createMetaExtract", "createEchoPanel"]) {
+            if (!productLabScript.includes(expected)) failures.push(`product lab missing ${expected}`);
+          }
+
+          const compatibilityLoader = fs.readFileSync(resolved.productLabCompatibilityLoader, "utf8");
           if (!compatibilityLoader.includes("/product-lab/scene.js")) {
             failures.push("root scene compatibility loader does not import product-lab scene");
           }
 
-          const redirects = fs.readFileSync("out/_redirects", "utf8");
-          for (const expected of [
-            "/product-lab /product-lab/ 301",
-            "/product-lab/index.html /product-lab/ 301",
-          ]) {
-            if (!redirects.includes(expected)) {
-              failures.push(`Cloudflare redirects missing: ${expected}`);
-            }
+          const redirects = fs.readFileSync(resolved.redirects, "utf8");
+          for (const expected of ["/product-lab /product-lab/ 301", "/product-lab/index.html /product-lab/ 301"]) {
+            if (!redirects.includes(expected)) failures.push(`Cloudflare redirects missing: ${expected}`);
           }
 
-          const sitemap = fs.readFileSync("out/sitemap.xml", "utf8");
+          const sitemap = fs.readFileSync(resolved.sitemap, "utf8");
           for (const requiredUrl of [
+            "https://pranaysuyash.com/hire-me",
+            "https://pranaysuyash.com/document-workflows",
+            "https://pranaysuyash.com/work/medpiper-workflow",
+            "https://pranaysuyash.com/labs",
             "https://pranaysuyash.com/systems",
-            "https://pranaysuyash.com/work/sentineltwin",
             "https://pranaysuyash.com/books/no-claim-without-evidence",
             "https://pranaysuyash.com/privacy",
             "https://pranaysuyash.com/terms",
-            "https://pranaysuyash.com/refund-policy",
-            "https://pranaysuyash.com/delivery-policy",
           ]) {
-            if (!sitemap.includes(requiredUrl)) {
-              failures.push(`sitemap missing ${requiredUrl}`);
-            }
+            if (!sitemap.includes(requiredUrl)) failures.push(`sitemap missing ${requiredUrl}`);
           }
 
           if (failures.length) {
-            console.error("Metadata and interaction contract failed:\n" + failures.join("\n"));
+            console.error("Career, claim, metadata, resume, or interaction contract failed:\n" + failures.join("\n"));
             process.exit(1);
           }
 
@@ -186,7 +261,5 @@ jobs:
             }
           };
           walk("out");
-          console.log(
-            `Verified ${Object.keys(routeCandidates).length} required outputs across ${files.length} exported files.`,
-          );
+          console.log(`Verified ${Object.keys(routeCandidates).length} required outputs across ${files.length} exported files.`);
           NODE

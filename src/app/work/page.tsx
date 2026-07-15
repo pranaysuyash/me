@@ -1,359 +1,191 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Archive, ExternalLink } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import projectsData from "@/content/projects.json";
+import { careerProfile, medpiperCaseStudy } from "@/lib/career";
+import { auditedProjects } from "@/lib/portfolio";
 
-const CATEGORY_ORDER = [
-  { key: "AI/ML", label: "AI and ML" },
-  { key: "Computer Vision", label: "Computer vision" },
-  { key: "macOS", label: "Native and local-first" },
-  { key: "Developer Tools", label: "Developer tools" },
-  { key: "Product", label: "Product systems" },
-  { key: "Data", label: "Data and analytics" },
-  { key: "Mobile", label: "Mobile" },
-];
-
-const FLAGSHIP_SLUGS = ["sig-ext-fastapi", "metaextract", "echopanel"];
-const TECHNICAL_DEPTH_SLUGS = ["model-lab", "agents"];
-
-type Project = (typeof projectsData.projects)[number] & {
-  proofRole?: string;
-  proofSummary?: string;
-  demonstrates?: string;
-  screenshots?: string[];
+export const metadata: Metadata = {
+  title: "Selected Work | Product Systems and Professional Outcomes",
+  description:
+    "Selected professional and independent product work, organised by ownership, maturity, decisions, and evidence rather than repository count.",
+  alternates: { canonical: "https://pranaysuyash.com/work" },
 };
-
-const sentinelTwin = {
-  title: "SentinelTwin",
-  category: "Spatial intelligence",
-  year: "2026",
-  stage: "Active product build",
-  tagline:
-    "Physical-security digital twin for coverage analysis, incident replay, comparison, governance, and evidence-backed hardening decisions.",
-  proofSummary:
-    "Shows complex product architecture across interactive editors, deterministic simulation, evidence surfaces, local persistence, and a broader platform spine.",
-  techStack: ["React", "TypeScript", "Three.js", "R3F", "Zustand"],
-  href: "/work/sentineltwin",
-  image: "https://raw.githubusercontent.com/pranaysuyash/SentinelTwin/main/shot-map.png",
-};
-
-function ProjectPreview({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="relative aspect-[16/9] overflow-hidden border-b bg-muted">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        unoptimized
-        sizes="(min-width: 768px) 50vw, 100vw"
-        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
-      />
-    </div>
-  );
-}
-
-function ArchiveProjectCard({ project }: { project: Project }) {
-  const preview = project.screenshots?.[0];
-
-  return (
-    <Link href={`/work/${project.slug}`} className="group block h-full">
-      <Card className="hover-lift h-full overflow-hidden border bg-card shadow-sm">
-        {preview && <ProjectPreview src={preview} alt={`${project.title} product interface`} />}
-        <CardContent className="flex h-full flex-col p-5">
-          <div className="mb-3 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="uppercase tracking-[0.12em]">{project.category}</span>
-            <span className="ml-auto font-mono">{project.year}</span>
-          </div>
-          <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
-            {project.title}
-          </h3>
-          <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
-            {project.tagline}
-          </p>
-          <p className="mt-4 text-xs leading-5 text-primary/80">{project.result}</p>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-}
-
-function ExistingFlagshipCard({ project }: { project: Project }) {
-  const preview = project.screenshots?.[0];
-
-  return (
-    <Link href={`/work/${project.slug}`} className="group block h-full">
-      <Card className="hover-lift h-full overflow-hidden border bg-card shadow-sm">
-        {preview && <ProjectPreview src={preview} alt={`${project.title} product interface`} />}
-        <CardContent className="flex h-full flex-col p-6">
-          <div className="mb-5 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                {project.category}
-              </p>
-              <p className="mt-1 text-xs text-primary">
-                {project.proofRole || "Flagship system"}
-              </p>
-            </div>
-            <span className="font-mono text-xs text-muted-foreground">{project.year}</span>
-          </div>
-          <h3 className="text-xl font-semibold transition-colors group-hover:text-primary">
-            {project.title}
-          </h3>
-          <p className="mt-3 text-sm leading-7 text-muted-foreground">{project.tagline}</p>
-          <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
-            <span className="font-semibold text-foreground">What it proves:</span>{" "}
-            {project.proofSummary || project.demonstrates || project.result}
-          </p>
-          <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1">
-            {project.techStack.slice(0, 4).map((tech) => (
-              <span key={tech} className="text-xs text-muted-foreground">
-                {tech}
-              </span>
-            ))}
-          </div>
-          <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-            Review case file <ArrowRight className="h-4 w-4" />
-          </span>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-}
 
 export default function WorkPage() {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-
-  const projects = projectsData.projects as Project[];
-  const flagshipProjects = FLAGSHIP_SLUGS.map((slug) =>
-    projects.find((project) => project.slug === slug),
-  ).filter((project): project is Project => Boolean(project));
-
-  const technicalDepthProjects = TECHNICAL_DEPTH_SLUGS.map((slug) =>
-    projects.find((project) => project.slug === slug),
-  ).filter((project): project is Project => Boolean(project));
-
-  const reservedSlugs = new Set([...FLAGSHIP_SLUGS, ...TECHNICAL_DEPTH_SLUGS]);
-  const archiveProjects = projects.filter((project) => !reservedSlugs.has(project.slug));
-
-  const groupedArchive = archiveProjects.reduce(
-    (acc, project) => {
-      if (!acc[project.category]) acc[project.category] = [];
-      acc[project.category].push(project);
-      return acc;
-    },
-    {} as Record<string, Project[]>,
-  );
-
-  const categories = CATEGORY_ORDER.filter((category) =>
-    Boolean(groupedArchive[category.key]),
-  );
-
-  const filteredGrouped = activeFilter
-    ? ({ [activeFilter]: groupedArchive[activeFilter] || [] } as Record<string, Project[]>)
-    : groupedArchive;
-
   return (
     <PageLayout>
-      <section className="border-b bg-[#10191a] py-20 text-white md:py-28">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="max-w-4xl animate-fade-up">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-teal-100/75">
-              Selected work
-            </p>
-            <h1 className="text-4xl font-bold tracking-tight text-white md:text-6xl">
-              Systems, not a repository wall.
-            </h1>
-            <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
-              The strongest work is grouped by what it proves: commercial product
-              ownership, document and media intelligence, local-first product design,
-              and complex simulation. Older experiments remain available below without
-              competing with the flagship evidence.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b py-8">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-4 px-4 md:grid-cols-3 md:px-6 lg:px-8">
-          <div className="evidence-rule py-2">
-            <p className="text-sm font-semibold">Commercial proof</p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Paid products, client systems, and workflows tied to a real operating result.
-            </p>
-          </div>
-          <div className="evidence-rule py-2">
-            <p className="text-sm font-semibold">System depth</p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Architecture, constraints, trade-offs, data flow, and reviewer or operator states.
-            </p>
-          </div>
-          <div className="evidence-rule py-2">
-            <p className="text-sm font-semibold">Exploration range</p>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Native apps, computer vision, audio, agents, mobile, maps, and developer tooling.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-10">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Flagship systems
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Four projects that explain the breadth without diluting the signal.
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <Link href={sentinelTwin.href} className="group block h-full">
-              <Card className="hover-lift h-full overflow-hidden border border-primary/30 bg-primary/[0.025] shadow-sm">
-                <ProjectPreview
-                  src={sentinelTwin.image}
-                  alt="SentinelTwin spatial-security map interface"
-                />
-                <CardContent className="flex h-full flex-col p-6">
-                  <div className="mb-5 flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                        {sentinelTwin.category}
-                      </p>
-                      <p className="mt-1 text-xs text-primary">{sentinelTwin.stage}</p>
-                    </div>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {sentinelTwin.year}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold transition-colors group-hover:text-primary">
-                    {sentinelTwin.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    {sentinelTwin.tagline}
-                  </p>
-                  <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
-                    <span className="font-semibold text-foreground">What it proves:</span>{" "}
-                    {sentinelTwin.proofSummary}
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1">
-                    {sentinelTwin.techStack.map((tech) => (
-                      <span key={tech} className="text-xs text-muted-foreground">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-                    Review SentinelTwin <ArrowRight className="h-4 w-4" />
-                  </span>
-                </CardContent>
-              </Card>
-            </Link>
-
-            {flagshipProjects.map((project) => (
-              <ExistingFlagshipCard key={project.slug} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {technicalDepthProjects.length > 0 && (
-        <section className="border-y bg-muted/35 py-16">
-          <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-            <div className="mb-8 max-w-3xl">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Technical depth
-              </p>
-              <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                Evaluation, model infrastructure, and orchestration work.
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              {technicalDepthProjects.map((project) => (
-                <ArchiveProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Project archive
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight">Earlier work and experiments</h2>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                Useful range and learning evidence, deliberately separated from the primary buying signal.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant={activeFilter === null ? "default" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter(null)}
-              >
-                All
-              </Button>
-              {categories.map((category) => (
-                <Button
-                  key={category.key}
-                  variant={activeFilter === category.key ? "default" : "outline"}
-                  size="sm"
-                  onClick={() =>
-                    setActiveFilter(activeFilter === category.key ? null : category.key)
-                  }
-                >
-                  {category.label}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-10">
-            {Object.entries(filteredGrouped)
-              .filter(([, projectsInCategory]) => projectsInCategory.length > 0)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([category, projectsInCategory]) => (
-                <div key={category}>
-                  <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                    {category}{" "}
-                    <span className="font-normal opacity-60">
-                      ({projectsInCategory.length})
-                    </span>
-                  </h3>
-                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-                    {projectsInCategory.map((project) => (
-                      <ArchiveProjectCard key={project.slug} project={project} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t py-16">
-        <div className="container mx-auto max-w-[1000px] px-4 text-center md:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Have a related workflow or product problem?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
-            Send the current process, sample inputs, constraints, and what a useful outcome would change.
+      <section className="border-b bg-[#0d1718] text-white">
+        <div className="container mx-auto max-w-[1280px] px-4 py-16 md:px-6 md:py-24 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-100/70">
+            Selected work
           </p>
-          <Button asChild size="lg" className="mt-8 rounded-md px-8">
-            <Link href="/contact?type=project&source=work">
-              Discuss a project <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="mt-5 grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <h1 className="max-w-4xl text-4xl font-bold tracking-[-0.045em] sm:text-5xl md:text-6xl">
+              Evidence of ownership, product judgment, and hands-on system building.
+            </h1>
+            <p className="max-w-3xl text-base leading-8 text-white/68 lg:justify-self-end md:text-lg">
+              The primary case studies separate production outcomes, commercial software,
+              working product builds, active platforms, and prototypes. Earlier experiments
+              remain available in the archive without diluting the main signal.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b bg-background">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 px-4 sm:grid-cols-2 md:px-6 lg:grid-cols-4 lg:px-8">
+          {careerProfile.proofPoints.map((point, index) => (
+            <div key={point.value} className={`py-7 sm:px-5 ${index > 0 ? "border-t sm:border-l sm:border-t-0" : ""}`}>
+              <p className="text-lg font-bold tracking-tight">{point.value}</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{point.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="grid overflow-hidden rounded-2xl border bg-card shadow-sm lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="bg-[#102123] p-8 text-white md:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/70">
+                {medpiperCaseStudy.status}
+              </p>
+              <h2 className="mt-5 text-3xl font-bold tracking-tight md:text-4xl">
+                {medpiperCaseStudy.title}
+              </h2>
+              <p className="mt-5 text-sm leading-7 text-white/68 md:text-base">
+                {medpiperCaseStudy.problem}
+              </p>
+              <div className="mt-8 border-y border-white/12 py-5">
+                <p className="text-3xl font-bold text-teal-100">~4 weeks → ~10 days</p>
+                <p className="mt-2 text-sm text-white/55">Insurance sales and operations turnaround</p>
+              </div>
+              <Link
+                href="/work/medpiper-workflow"
+                className="mt-7 inline-flex items-center text-sm font-semibold text-teal-100"
+              >
+                Review professional case study <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
+            <div className="p-8 md:p-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">What it proves</p>
+              <ul className="mt-6 divide-y border-y">
+                {medpiperCaseStudy.outcomes.map((outcome) => (
+                  <li key={outcome} className="py-5 text-sm leading-7 text-muted-foreground">
+                    {outcome}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 text-xs leading-6 text-muted-foreground">{medpiperCaseStudy.disclosure}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-muted/30 py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-12 max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Independent product systems
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
+              Four products, each labelled by what actually exists today.
+            </h2>
+            <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
+              Every case study includes the current maturity, primary user, ownership,
+              constraints, and decisions. Planned directions are not presented as shipped outcomes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {auditedProjects.map((project) => {
+              const screenshot = project.screenshots[0];
+              return (
+                <article key={project.slug} className="group overflow-hidden rounded-xl border bg-background shadow-sm">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-[#0d1718]">
+                    {screenshot ? (
+                      <Image
+                        src={screenshot}
+                        alt={`${project.title} product interface`}
+                        fill
+                        unoptimized
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center px-8 text-center text-sm text-white/45">
+                        Product build documented through architecture and workflow evidence
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+                        {project.category}
+                      </span>
+                      <span className="rounded-full border px-3 py-1 text-xs text-muted-foreground">
+                        {project.maturity}
+                      </span>
+                    </div>
+                    <h3 className="mt-5 text-2xl font-bold tracking-tight">{project.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-muted-foreground">{project.summary}</p>
+                    <p className="mt-5 border-l-2 border-primary pl-4 text-sm leading-7 text-foreground/82">
+                      <strong>Outcome:</strong> {project.outcome}
+                    </p>
+                    <Link
+                      href={`/work/${project.slug}`}
+                      className="mt-6 inline-flex items-center text-sm font-semibold text-primary"
+                    >
+                      Review case study <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2 lg:px-8">
+          <Link href="/systems" className="group border-y py-8 md:px-6">
+            <ExternalLink className="h-5 w-5 text-primary" />
+            <h2 className="mt-5 text-2xl font-bold tracking-tight">Interactive systems lab</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              Inspect simplified product loops for coverage, extraction, signatures, and local audio.
+            </p>
+            <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
+              Launch the lab <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
+          </Link>
+          <Link href="/labs" className="group border-y py-8 md:px-6">
+            <Archive className="h-5 w-5 text-primary" />
+            <h2 className="mt-5 text-2xl font-bold tracking-tight">Earlier projects and experiments</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              A separate archive preserves technical range without presenting every repository as flagship evidence.
+            </p>
+            <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
+              Browse archive <ArrowRight className="ml-2 h-4 w-4" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="border-t py-14">
+        <div className="container mx-auto flex max-w-[1280px] flex-col gap-5 px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
+          <div>
+            <p className="text-lg font-semibold">Evaluating fit for a role or a related build?</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              The experience page gives hiring context; the services page gives commercial scope and regional pricing.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="outline"><Link href="/hire-me">Review experience</Link></Button>
+            <Button asChild><Link href="/contact?type=project&source=work">Discuss a project <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+          </div>
         </div>
       </section>
     </PageLayout>

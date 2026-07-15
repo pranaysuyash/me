@@ -1,166 +1,62 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  AudioLines,
-  Boxes,
-  FileSearch,
+  BookOpen,
+  BriefcaseBusiness,
+  Building2,
+  CheckCircle2,
+  FileCheck2,
   Map,
-  ShieldCheck,
-  Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { HeroSystemPanel } from "@/components/hero-system-panel";
+import { careerProfile, medpiperCaseStudy } from "@/lib/career";
+import { auditedProjects } from "@/lib/portfolio";
 
 export const metadata: Metadata = {
-  title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
+  title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
   description:
-    "I design and build document intelligence, local-first AI tools, operational workflows, and simulation-heavy product systems.",
+    "Product leadership and hands-on system building across AI, operational workflows, internal tools, local-first products, and spatial simulation.",
+  alternates: { canonical: "https://pranaysuyash.com" },
   openGraph: {
-    title: "Pranay Suyash | Product Engineer for AI and Operational Systems",
+    title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
     description:
-      "From unclear operational problem to usable, reviewable product system.",
+      "From ambiguous operational problem to working, reviewable product system.",
     type: "website",
+    url: "https://pranaysuyash.com",
   },
 };
 
-const proofPoints = [
-  {
-    signal: "14 years",
-    result: "Across product, engineering, operations, and founder-level execution.",
-  },
-  {
-    signal: "~4 weeks → ~10 days",
-    result: "Insurance-processing turnaround after workflow redesign and tooling.",
-  },
-  {
-    signal: "Paid product shipped",
-    result: "SignKit moved from workflow pain to a commercial desktop application.",
-  },
-  {
-    signal: "Local-first + reviewable",
-    result: "Privacy, evidence, fallbacks, and human review are designed into the system.",
-  },
-] as const;
-
-const capabilityPillars = [
-  {
-    title: "Document and media intelligence",
-    body: "OCR, extraction, semantic structure, multimodal search, RAG, evaluation, and reviewer workflows for messy source material.",
-    icon: FileSearch,
-  },
-  {
-    title: "Operational product systems",
-    body: "Internal tools, approvals, case workflows, automation, and dashboards that replace fragmented manual work.",
-    icon: Workflow,
-  },
-  {
-    title: "Local-first AI products",
-    body: "Desktop and native software for private files, on-device models, low-latency interaction, and offline-capable workflows.",
-    icon: Boxes,
-  },
-  {
-    title: "Spatial and simulation products",
-    body: "Interactive editors, digital twins, coverage analysis, pathfinding, scene alignment, and evidence-backed spatial decisions.",
-    icon: Map,
-  },
-] as const;
-
-const selectedSystems = [
-  {
-    title: "SentinelTwin",
-    category: "Spatial intelligence",
-    stage: "Active product build",
-    summary:
-      "A physical-security digital twin for coverage analysis, incident replay, comparison, governance, and evidence-backed hardening decisions.",
-    proves:
-      "Complex product architecture, simulation, interactive editors, and long-horizon system design.",
-    href: "/work/sentineltwin",
-    external: false,
-    icon: Map,
-  },
-  {
-    title: "SignKit",
-    category: "Computer vision · desktop",
-    stage: "Paid product",
-    summary:
-      "Signature extraction and PDF signing combined into one local file-heavy workflow for people who should not need three separate tools.",
-    proves:
-      "Productization, cross-platform desktop delivery, computer vision, billing, packaging, and commercial validation.",
-    href: "/work/sig-ext-fastapi",
-    external: false,
-    icon: ShieldCheck,
-  },
-  {
-    title: "MetaExtract",
-    category: "Document intelligence",
-    stage: "Production workflow system",
-    summary:
-      "A modular extraction system for variable PDFs, scans, and document types with normalized output and confidence-led review.",
-    proves:
-      "Applied AI architecture that stays inspectable, operable, and extensible as document variability grows.",
-    href: "/work/metaextract",
-    external: false,
-    icon: FileSearch,
-  },
-  {
-    title: "EchoPanel",
-    category: "Local-first audio AI",
-    stage: "Native product system",
-    summary:
-      "A macOS meeting recorder that captures audio, transcribes locally, and makes conversations searchable when the user needs them later.",
-    proves:
-      "Native UX, audio pipelines, on-device inference, private storage, and retrieval in one coherent product flow.",
-    href: "/work/echopanel",
-    external: false,
-    icon: AudioLines,
-  },
-] as const;
-
-const engagementPaths = [
-  {
-    title: "Map the system",
-    body: "For a real problem whose product boundary, architecture, or riskiest assumptions are still unclear.",
-    note: "5 to 7 working days",
-  },
-  {
-    title: "Build the core product path",
-    body: "For an AI-assisted product, internal tool, or local-first workflow that needs to become usable by real people.",
-    note: "3 to 5 weeks",
-  },
-  {
-    title: "Own a production workstream",
-    body: "For larger systems that need integrations, evaluation, governance, deployment, and sustained senior execution.",
-    note: "6 to 12 weeks or monthly",
-  },
-] as const;
+const featuredProducts = auditedProjects.filter((project) =>
+  ["sig-ext-fastapi", "metaextract", "sentineltwin"].includes(project.slug),
+);
 
 export default function Home() {
   return (
     <PageLayout>
-      <section className="relative overflow-hidden border-b bg-[#10191a] text-white">
-        <div className="ledger-grid absolute inset-0 opacity-55" aria-hidden />
-        <div className="container relative mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-10 px-4 py-14 md:px-6 md:py-16 lg:grid-cols-[minmax(0,0.88fr)_minmax(520px,1.12fr)] lg:gap-12 lg:px-8 lg:py-20">
-          <div className="animate-fade-up lg:py-8">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.22em] text-teal-100/75">
-              Pranay Suyash · product engineer and systems builder
+      <section className="relative overflow-hidden border-b bg-[#0d1718] text-white">
+        <div className="ledger-grid absolute inset-0 opacity-45" aria-hidden />
+        <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-4 py-16 md:px-6 md:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center lg:px-8 lg:py-24">
+          <div className="animate-fade-up">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-100/75">
+              {careerProfile.title}
             </p>
-            <h1 className="max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-5xl md:text-6xl xl:text-7xl">
-              Product systems for work that is still manual, fragmented, or hard to trust.
+            <h1 className="mt-5 max-w-5xl text-4xl font-bold leading-[1.03] tracking-[-0.045em] sm:text-5xl md:text-6xl lg:text-7xl">
+              {careerProfile.headline}
             </h1>
             <p className="mt-7 max-w-3xl text-base leading-8 text-white/72 md:text-lg">
-              I design and build document intelligence, local-first AI tools,
-              operational workflows, and spatial simulations. The work starts with
-              the real process and ends with usable software, review states, evidence,
-              and a credible path beyond the first release.
+              {careerProfile.summary}
+            </p>
+            <p className="mt-4 text-sm leading-7 text-teal-50/62">
+              {careerProfile.currentContext} · {careerProfile.location}
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg" className="rounded-md px-7">
-                <Link href="/contact?type=project&source=home">
-                  Discuss a build <ArrowRight className="ml-2 h-4 w-4" />
+                <Link href="/hire-me">
+                  For hiring teams <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -169,42 +65,53 @@ export default function Home() {
                 variant="outline"
                 className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
               >
-                <Link href="/systems">Explore the systems lab</Link>
+                <Link href="/contact?type=project&source=home">Discuss a project</Link>
               </Button>
               <Link
                 href="/work"
-                className="text-sm font-medium text-white/62 underline-offset-4 transition-colors hover:text-white hover:underline"
+                className="inline-flex items-center px-2 text-sm font-medium text-white/65 transition-colors hover:text-white"
               >
-                Browse case studies
-              </Link>
-            </div>
-
-            <div className="mt-5 md:hidden">
-              <Link
-                href="/systems"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-100/75 transition-colors hover:text-white"
-              >
-                Open the interactive product lab <ArrowRight className="h-4 w-4" />
+                Selected work <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
             </div>
           </div>
 
-          <div className="hidden min-w-0 md:block">
-            <HeroSystemPanel />
-          </div>
+          <aside className="border-l border-white/12 pl-0 lg:pl-8" aria-label="Professional profile summary">
+            <div className="border-y border-white/12 py-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-100/65">
+                Best-fit roles
+              </p>
+              <ul className="mt-5 space-y-3">
+                {careerProfile.targetRoles.slice(0, 4).map((role) => (
+                  <li key={role} className="flex items-start gap-3 text-sm leading-6 text-white/78">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-300" />
+                    {role}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="py-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-100/65">
+                Operating range
+              </p>
+              <p className="mt-4 text-sm leading-7 text-white/68">
+                Product strategy, workflow design, architecture, interface decisions,
+                hands-on implementation, and cross-functional delivery stay connected.
+              </p>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section className="border-b bg-background py-8">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-3 px-4 sm:grid-cols-2 md:px-6 lg:grid-cols-4 lg:px-8">
-          {proofPoints.map((point) => (
-            <div key={point.signal} className="evidence-rule py-2">
-              <p className="text-sm font-semibold text-foreground">
-                {point.signal}
-              </p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                {point.result}
-              </p>
+      <section className="border-b bg-background">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 px-4 sm:grid-cols-2 md:px-6 lg:grid-cols-4 lg:px-8">
+          {careerProfile.proofPoints.map((point, index) => (
+            <div
+              key={point.value}
+              className={`py-7 sm:px-5 ${index > 0 ? "border-t sm:border-l sm:border-t-0" : ""}`}
+            >
+              <p className="text-xl font-bold tracking-tight text-foreground">{point.value}</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{point.label}</p>
             </div>
           ))}
         </div>
@@ -212,180 +119,227 @@ export default function Home() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-10 grid grid-cols-1 gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-            <div>
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Capability map
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div className="lg:sticky lg:top-24">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Professional case study
               </p>
-              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                The model is a component. The product is the system around it.
+              <h2 className="mt-4 text-3xl font-bold tracking-[-0.035em] md:text-5xl">
+                {medpiperCaseStudy.title}
+              </h2>
+              <p className="mt-5 text-base leading-8 text-muted-foreground">
+                {medpiperCaseStudy.problem}
+              </p>
+              <Button asChild variant="outline" className="mt-7 rounded-md">
+                <Link href="/work/medpiper-workflow">
+                  Review the full case <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="space-y-8">
+              <div className="grid grid-cols-[1fr_auto_1fr] items-stretch overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    Before
+                  </p>
+                  <ul className="mt-5 space-y-3">
+                    {medpiperCaseStudy.before.map((item) => (
+                      <li key={item} className="text-sm leading-6 text-muted-foreground">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex items-center border-x px-3 text-primary">
+                  <ArrowRight className="h-5 w-5" />
+                </div>
+                <div className="bg-primary/[0.045] p-6">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                    After
+                  </p>
+                  <ul className="mt-5 space-y-3">
+                    {medpiperCaseStudy.after.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm leading-6 text-foreground/82">
+                        <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border bg-border sm:grid-cols-2">
+                {medpiperCaseStudy.outcomes.map((outcome) => (
+                  <div key={outcome} className="bg-background p-5 text-sm leading-7 text-muted-foreground">
+                    {outcome}
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs leading-6 text-muted-foreground">
+                {medpiperCaseStudy.disclosure}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-muted/30 py-16 md:py-24">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-12 grid grid-cols-1 gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Independent product systems
+              </p>
+              <h2 className="mt-4 text-3xl font-bold tracking-[-0.035em] md:text-5xl">
+                Commercial proof, applied AI, and frontier system design.
               </h2>
             </div>
             <p className="max-w-3xl text-base leading-8 text-muted-foreground lg:justify-self-end">
-              I am most useful where product judgment, architecture, interface design,
-              data or model pipelines, and operational reality need to stay connected.
-              The technology changes by problem; the operating discipline does not.
+              Each project is labelled by its current maturity. Shipped capabilities,
+              active product work, and planned directions are not presented as the same thing.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {capabilityPillars.map((pillar) => {
-              const Icon = pillar.icon;
+          <div className="space-y-6">
+            {featuredProducts.map((project, index) => {
+              const screenshot = project.screenshots[0];
               return (
-                <Card key={pillar.title} className="h-full border bg-card shadow-sm">
-                  <CardContent className="p-6">
-                    <span className="mb-5 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <h3 className="text-xl font-semibold">{pillar.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                      {pillar.body}
-                    </p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y bg-muted/35 py-16 md:py-24">
-        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-3xl">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                Selected systems
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                A smaller set of projects, each proving something different.
-              </h2>
-            </div>
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-            >
-              Browse the full archive <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {selectedSystems.map((system) => {
-              const Icon = system.icon;
-              return (
-                <Link
-                  key={system.title}
-                  href={system.href}
-                  target={system.external ? "_blank" : undefined}
-                  rel={system.external ? "noopener noreferrer" : undefined}
-                  className="group"
+                <article
+                  key={project.slug}
+                  className="grid overflow-hidden rounded-xl border bg-background shadow-sm lg:grid-cols-[1.05fr_0.95fr]"
                 >
-                  <Card className="hover-lift h-full border bg-background shadow-sm">
-                    <CardContent className="flex h-full flex-col p-6">
-                      <div className="mb-5 flex items-start justify-between gap-4">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
-                          <Icon className="h-5 w-5" />
-                        </span>
-                        <div className="text-right">
-                          <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
-                            {system.category}
-                          </p>
-                          <p className="mt-1 text-xs text-primary">{system.stage}</p>
-                        </div>
+                  <div className={`relative min-h-[300px] bg-[#0d1718] ${index % 2 ? "lg:order-2" : ""}`}>
+                    {screenshot ? (
+                      <Image
+                        src={screenshot}
+                        alt={`${project.title} product interface`}
+                        fill
+                        unoptimized
+                        sizes="(min-width: 1024px) 55vw, 100vw"
+                        className="object-cover object-top"
+                      />
+                    ) : (
+                      <div className="flex h-full min-h-[300px] items-center justify-center p-10 text-center text-white/55">
+                        <FileCheck2 className="h-14 w-14" />
                       </div>
-                      <h3 className="text-xl font-semibold group-hover:text-primary">
-                        {system.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                        {system.summary}
-                      </p>
-                      <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
-                        <span className="font-semibold text-foreground">
-                          What it proves:
-                        </span>{" "}
-                        {system.proves}
-                      </p>
-                      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
-                        Review the system <ArrowRight className="h-4 w-4" />
+                    )}
+                  </div>
+                  <div className="flex flex-col justify-center p-7 md:p-9">
+                    <div className="flex flex-wrap items-center gap-3 text-xs">
+                      <span className="font-semibold uppercase tracking-[0.14em] text-primary">
+                        {project.category}
                       </span>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      <span className="rounded-full border px-3 py-1 text-muted-foreground">
+                        {project.maturity}
+                      </span>
+                    </div>
+                    <h3 className="mt-5 text-3xl font-bold tracking-tight">{project.title}</h3>
+                    <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                      {project.summary}
+                    </p>
+                    <p className="mt-5 border-l-2 border-primary pl-4 text-sm leading-7 text-foreground/82">
+                      <strong>Outcome:</strong> {project.outcome}
+                    </p>
+                    <Link
+                      href={`/work/${project.slug}`}
+                      className="mt-6 inline-flex items-center text-sm font-semibold text-primary"
+                    >
+                      Review product decisions <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </div>
+                </article>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+      <section className="bg-[#0d1718] py-16 text-white md:py-20">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-[1fr_auto] lg:items-center lg:px-8">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Ways to work together
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/70">
+              Systems playground
             </p>
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Start at the level of uncertainty you actually have.
+            <h2 className="mt-4 max-w-4xl text-3xl font-bold tracking-tight md:text-4xl">
+              Inspect the product loops behind coverage, extraction, signatures, and local audio.
             </h2>
-            <p className="mt-4 text-base leading-8 text-muted-foreground">
-              Do not buy a large build when the first problem is scope. Do not buy an
-              audit when the decision is already clear and execution is the bottleneck.
-            </p>
-            <Button asChild variant="outline" className="mt-6 rounded-md">
-              <Link href="/work-with-me">
-                See regional pricing and scopes <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {engagementPaths.map((path, index) => (
-              <div key={path.title} className="rounded-lg border bg-card p-5 shadow-sm">
-                <div className="mb-6 flex items-center justify-between">
-                  <span className="font-mono text-xs text-primary">0{index + 1}</span>
-                  <span className="text-xs text-muted-foreground">{path.note}</span>
-                </div>
-                <h3 className="font-semibold">{path.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {path.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y bg-[#10191a] py-16 text-white">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 items-center gap-7 px-4 md:grid-cols-[1fr_auto] md:px-6 lg:px-8">
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/75">
-              Writing and operating discipline
-            </p>
-            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-              No Claim Without Evidence
-            </h2>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/72 md:text-base">
-              A practical field guide to evidence links, evals, review rules, action
-              traces, and release gates for AI-assisted workflows.
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65 md:text-base">
+              The interactive lab is supporting evidence, not the source of truth. Each scene links back to a factual case study and an explicit maturity state.
             </p>
           </div>
-          <Button asChild variant="outline" className="border-white/30 bg-white/5 text-white hover:bg-white/10">
-            <Link href="/books/no-claim-without-evidence">
-              Read about the book <ArrowRight className="ml-2 h-4 w-4" />
+          <Button
+            asChild
+            variant="outline"
+            className="border-white/25 bg-white/[0.04] text-white hover:bg-white/[0.09]"
+          >
+            <Link href="/systems">
+              Launch systems lab <Map className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-[1000px] px-4 text-center md:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            The useful first message
-          </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">
+        <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Two professional paths
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+              The same operating discipline, evaluated for a role or a scoped engagement.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 border-y md:grid-cols-2">
+            {careerProfile.audiencePaths.map((path, index) => (
+              <Link
+                key={path.label}
+                href={path.href}
+                className={`group py-8 md:p-9 ${index ? "border-t md:border-l md:border-t-0" : ""}`}
+              >
+                <div className="flex items-center gap-3 text-primary">
+                  {index === 0 ? <BriefcaseBusiness className="h-5 w-5" /> : <Building2 className="h-5 w-5" />}
+                  <span className="text-xs font-semibold uppercase tracking-[0.16em]">{path.label}</span>
+                </div>
+                <h3 className="mt-5 text-2xl font-bold tracking-tight">{path.title}</h3>
+                <p className="mt-3 max-w-xl text-sm leading-7 text-muted-foreground">{path.body}</p>
+                <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
+                  {path.action} <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y bg-muted/30 py-14 md:py-18">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-7 px-4 md:grid-cols-[1fr_auto] md:items-center md:px-6 lg:px-8">
+          <div>
+            <div className="flex items-center gap-3 text-primary">
+              <BookOpen className="h-5 w-5" />
+              <p className="text-xs font-semibold uppercase tracking-[0.18em]">Writing and operating discipline</p>
+            </div>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight md:text-3xl">No Claim Without Evidence</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+              A 19-chapter field guide to evidence links, eval contracts, review rules, action traces, and release gates for AI-assisted workflows.
+            </p>
+          </div>
+          <Button asChild variant="outline">
+            <Link href="/books/no-claim-without-evidence">
+              Review the book <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto max-w-[980px] px-4 text-center md:px-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Start with the real workflow</p>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">
             Tell me who does the work today, where it breaks, and what a better system would change.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
-            A rough workflow, sample document, screen recording, or existing tool list
-            is more useful than a polished feature specification.
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground">
+            A workflow, sample document, screen recording, or existing tool list is more useful than a polished feature specification.
           </p>
           <Button asChild size="lg" className="mt-8 rounded-md px-8">
             <Link href="/contact?type=project&source=home-bottom">

@@ -9,10 +9,10 @@ import { brandTagline } from "@/lib/brand";
 
 const navigation = [
   { name: "Work", href: "/work" },
-  { name: "Systems", href: "/systems" },
+  { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
-  { name: "About", href: "/about" },
   { name: "Writing", href: "/books/no-claim-without-evidence" },
+  { name: "About", href: "/about" },
 ];
 
 export function Navbar() {
@@ -33,27 +33,21 @@ export function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? "border-border/60 shadow-sm" : "border-transparent"
+        scrolled ? "border-border/70 shadow-sm" : "border-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-[1280px] items-center justify-between p-4 lg:px-8">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-border bg-muted/80 transition-opacity group-hover:opacity-80">
-              <span className="text-[13px] font-bold tracking-tight text-foreground">
-                PS
-              </span>
-            </div>
-            <div className="hidden flex-col leading-none lg:flex">
-              <span className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                {brandTagline}
-              </span>
-              <span className="name-display mt-1 text-sm font-semibold text-foreground">
-                Pranay Suyash
-              </span>
-            </div>
-          </Link>
-        </div>
+      <nav className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3.5 lg:px-8">
+        <Link href="/" className="group flex min-w-0 items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-muted/70 text-[13px] font-bold tracking-tight transition-colors group-hover:border-primary/40 group-hover:text-primary">
+            PS
+          </span>
+          <span className="hidden min-w-0 flex-col leading-none xl:flex">
+            <span className="name-display text-sm font-semibold text-foreground">Pranay Suyash</span>
+            <span className="mt-1 max-w-[300px] truncate text-[10px] uppercase tracking-[0.11em] text-muted-foreground">
+              {brandTagline}
+            </span>
+          </span>
+        </Link>
 
         <div className="flex lg:hidden">
           <button
@@ -68,15 +62,15 @@ export function Navbar() {
           </button>
         </div>
 
-        <div className="hidden items-center gap-x-4 lg:flex">
+        <div className="hidden items-center gap-x-3 lg:flex">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              className={`relative rounded-md px-2.5 py-2 text-sm font-medium transition-colors ${
                 isActive(item.href)
-                  ? "font-semibold text-primary"
-                  : "text-muted-foreground hover:text-primary"
+                  ? "bg-primary/[0.07] font-semibold text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {item.name}
@@ -112,30 +106,24 @@ export function Navbar() {
         >
           <button
             type="button"
-            className="absolute inset-0 bg-black/30"
+            className="absolute inset-0 bg-black/40"
             aria-label="Close menu"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm">
+          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm">
             <div className="flex items-center justify-between">
               <Link
                 href="/"
                 className="flex items-center gap-3"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-muted">
-                  <span className="text-sm font-bold tracking-tight text-foreground">
-                    PS
+                <span className="flex h-9 w-9 items-center justify-center rounded-md border bg-muted text-sm font-bold">PS</span>
+                <span>
+                  <span className="name-display block text-sm font-semibold">Pranay Suyash</span>
+                  <span className="mt-1 block text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                    Product leader and systems builder
                   </span>
-                </div>
-                <div className="leading-none">
-                  <p className="text-xs uppercase tracking-[0.1em] text-muted-foreground">
-                    {brandTagline}
-                  </p>
-                  <p className="name-display mt-1 text-sm font-semibold text-foreground">
-                    Pranay Suyash
-                  </p>
-                </div>
+                </span>
               </Link>
               <button
                 type="button"
@@ -150,14 +138,18 @@ export function Navbar() {
             <div className="mt-8 border-b pb-6">
               <Link
                 href="/contact?type=project&source=mobile-nav"
-                className="flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Discuss a project <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-              <p className="mt-3 text-center text-xs leading-5 text-muted-foreground">
-                Start with the workflow, users, examples, and what a useful outcome would change.
-              </p>
+              <Link
+                href="/hire-me"
+                className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                For hiring teams
+              </Link>
             </div>
 
             <div className="space-y-1 py-6">
@@ -179,11 +171,18 @@ export function Navbar() {
                 </Link>
               ))}
               <Link
-                href="/hire-me"
-                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                href="/systems"
+                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Experience for hiring teams
+                Interactive systems lab
+              </Link>
+              <Link
+                href="/labs"
+                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Project archive
               </Link>
             </div>
           </div>

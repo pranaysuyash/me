@@ -13,6 +13,10 @@ node_modules/
 out/
 build/
 
+# Generated resume PDF. Source is public/pranay_resume.html and
+# scripts/generate_resume_pdf.py; npm run build regenerates the PDF.
+public/pranay-suyash-resume.pdf
+
 # The ebook dist/ directory is intentionally source-controlled because it
 # contains customer deliverables. Intermediate render files live under tmp/.
 tmp/
