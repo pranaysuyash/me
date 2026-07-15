@@ -8,8 +8,10 @@ import subprocess
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+from urllib.parse import urldefrag
 
+import build_pdf
 from pypdf import PdfReader
 
 
@@ -36,8 +38,27 @@ def require_file(path: Path, min_bytes: int = 1) -> None:
         fail(f"file too small: {path} ({path.stat().st_size} bytes)")
 
 
+def normalize_epub_target(base: PurePosixPath, target: str) -> str:
+    parts: list[str] = []
+    for part in (base / target).parts:
+        if part == "..":
+            if parts:
+                parts.pop()
+        elif part != ".":
+            parts.append(part)
+    return "/".join(parts)
+
+
+def flatten_outline(items: list[object]):
+    for item in items:
+        if isinstance(item, list):
+            yield from flatten_outline(item)
+        else:
+            yield item
+
+
 def main() -> None:
-    require_file(HTML, 10_000)
+    require_file(HTML, 1_000_000)
     require_file(EPUB, 100_000)
     require_file(PDF, 100_000)
     require_file(SALES_PAGE, 5_000)
@@ -63,8 +84,19 @@ def main() -> None:
         if expected not in sales_text:
             fail(f"sales page missing expected content: {expected}")
 
+    local_html_assets = [
+        source
+        for source in re.findall(r'src="([^"]+)"', html_text)
+        if not source.startswith(("data:", "http://", "https://"))
+    ]
+    if local_html_assets:
+        fail(f"HTML proof is not self-contained; local assets remain: {local_html_assets}")
+    if html_text.count('src="data:image/') < 5:
+        fail("HTML proof does not contain all embedded cover and diagram images")
+
     with zipfile.ZipFile(EPUB) as z:
         names = z.namelist()
+        name_set = set(names)
         required = [
             "mimetype",
             "META-INF/container.xml",
@@ -73,11 +105,15 @@ def main() -> None:
             "OEBPS/styles/book.css",
             "OEBPS/text/cover.xhtml",
         ]
-        missing = [item for item in required if item not in names]
+        missing = [item for item in required if item not in name_set]
         if missing:
             fail(f"EPUB missing required entries: {missing}")
         if names[0] != "mimetype":
             fail("EPUB mimetype entry must be first")
+        if z.getinfo("mimetype").compress_type != zipfile.ZIP_STORED:
+            fail("EPUB mimetype entry must be stored without compression")
+        if z.read("mimetype") != b"application/epub+zip":
+            fail("EPUB mimetype value is incorrect")
         if not any(name.endswith(COVER.name) for name in names):
             fail("EPUB missing cover image")
         if sum(name.endswith(".svg") for name in names) < 4:
@@ -87,18 +123,37 @@ def main() -> None:
             fail(f"EPUB must contain 19 chapter XHTML files, found {len(chapter_files)}")
         nav = z.read("OEBPS/nav.xhtml").decode("utf-8")
         package = z.read("OEBPS/package.opf").decode("utf-8")
-        for expected in ["Chapter 1:", "Chapter 19:", "epub:type=\"landmarks\""]:
+        for expected in ["Chapter 1:", "Chapter 19:", 'epub:type="landmarks"']:
             if expected not in nav:
                 fail(f"EPUB navigation missing: {expected}")
-        for expected in ["schema:accessibilitySummary", "cover-image", "67cbe0b4-283f-52b5-ac52-72d592f2a082"]:
+        for expected in [
+            "schema:accessibilitySummary",
+            "cover-image",
+            "67cbe0b4-283f-52b5-ac52-72d592f2a082",
+        ]:
             if expected not in package:
                 fail(f"EPUB package metadata missing: {expected}")
+
         for name in names:
             if name.endswith((".xhtml", ".opf", ".xml")):
                 try:
-                    ET.fromstring(z.read(name))
+                    root = ET.fromstring(z.read(name))
                 except ET.ParseError as error:
                     fail(f"invalid EPUB XML in {name}: {error}")
+                if not name.endswith(".xhtml"):
+                    continue
+                base = PurePosixPath(name).parent
+                for element in root.iter():
+                    for attribute in ("href", "src"):
+                        value = element.attrib.get(attribute)
+                        if not value or value.startswith(("http://", "https://", "mailto:", "data:", "#")):
+                            continue
+                        target, _ = urldefrag(value)
+                        if not target:
+                            continue
+                        resolved = normalize_epub_target(base, target)
+                        if resolved not in name_set:
+                            fail(f"broken EPUB {attribute}: {name} -> {value} ({resolved})")
 
     file_output = subprocess.check_output(["file", str(PDF)], text=True)
     if "PDF document" not in file_output:
@@ -111,8 +166,33 @@ def main() -> None:
     height = float(reader.pages[0].mediabox.height)
     if (round(width), round(height)) != (432, 648):
         fail(f"PDF trim size is not 6x9 inches: {width}x{height} points")
-    if len(reader.outline) < 22:
-        fail(f"PDF navigation outline unexpectedly short: {len(reader.outline)} entries")
+
+    expected_titles = build_pdf.chapter_titles()
+    expected_pages = build_pdf.locate_heading_pages(reader, expected_titles)
+    outline_items = [item for item in flatten_outline(reader.outline) if hasattr(item, "title")]
+    actual_titles = [item.title for item in outline_items]
+    if actual_titles != expected_titles:
+        fail(
+            "PDF outline titles do not exactly match manuscript order: "
+            f"expected {len(expected_titles)}, got {len(actual_titles)}"
+        )
+    actual_pages = [reader.get_destination_page_number(item) for item in outline_items]
+    for title, actual_page in zip(actual_titles, actual_pages, strict=True):
+        expected_page = expected_pages[title]
+        if actual_page != expected_page:
+            fail(
+                f"PDF bookmark points to wrong page for {title}: "
+                f"expected {expected_page + 1}, got {actual_page + 1}"
+            )
+    if actual_pages != sorted(actual_pages) or len(actual_pages) != len(set(actual_pages)):
+        fail(f"PDF bookmark destinations are not unique and ordered: {actual_pages}")
+
+    metadata = reader.metadata or {}
+    if metadata.get("/Title") != "No Claim Without Evidence":
+        fail("PDF title metadata is incorrect")
+    if metadata.get("/Author") != "Pranay Suyash":
+        fail("PDF author metadata is incorrect")
+
     all_text = "\n".join((page.extract_text() or "") for page in reader.pages)
     if re.search(r"\bDraft\b", all_text, flags=re.IGNORECASE):
         fail("PDF contains draft residue")
@@ -127,7 +207,7 @@ def main() -> None:
     print(f"sales_page: {SALES_PAGE.stat().st_size} bytes")
     print(f"diagrams: {len(diagrams)}")
     print(f"pdf_pages: {len(reader.pages)}")
-    print(f"pdf_outline_entries: {len(reader.outline)}")
+    print(f"pdf_outline_entries: {len(outline_items)}")
 
 
 if __name__ == "__main__":
