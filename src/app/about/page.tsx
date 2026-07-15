@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BriefcaseBusiness,
+  ExternalLink,
   Github,
   Linkedin,
   Mail,
@@ -10,7 +11,7 @@ import {
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
-import { careerProfile, experienceTimeline } from "@/lib/career";
+import { careerProfile, experienceTimeline, publicEvidence } from "@/lib/career";
 
 export const metadata: Metadata = {
   title: "About | Pranay Suyash",
@@ -116,7 +117,44 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-16 md:py-24">
+      <section className="border-y bg-[#102022] py-14 text-white md:py-18">
+        <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.68fr_1.32fr]">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/70">Independent public evidence</p>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight">
+                External records, not invented social proof.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                Public interviews and source repositories are linked directly. Testimonials and customer counts are not shown without permissioned evidence.
+              </p>
+            </div>
+            <div className="divide-y divide-white/12 border-y border-white/12">
+              {publicEvidence.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group grid gap-4 py-6 sm:grid-cols-[150px_1fr_auto] sm:items-center"
+                >
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-100/70">{item.publisher}</p>
+                    <p className="mt-2 text-xs text-white/42">{item.date}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white transition-colors group-hover:text-teal-100">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-white/58">{item.note}</p>
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-white/42 transition-colors group-hover:text-teal-100" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
