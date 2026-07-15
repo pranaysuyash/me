@@ -1,0 +1,3 @@
+Career platform verification trigger
+Source head: e432fff5aaa419b61a61c34d3aaf469a1d5dd759
+Purpose: run the complete Site build workflow against the current audited career, claim, resume, publication, route, and interaction contract.
