@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">EchoPanel local audio workflow map</title>
+  <desc id="desc">A native recording action creates local audio, transcription, a searchable timeline, and retrieval of the exact moment.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d1b24"/><stop offset="1" stop-color="#071014"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b6d9f6"/><stop offset="1" stop-color="#6ca4d1"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" fill="#80b6df"/></marker>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000" flood-opacity=".3"/></filter>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <text x="62" y="72" fill="#f4f9fc" font-family="Arial, sans-serif" font-size="28" font-weight="700">EchoPanel</text>
+  <text x="62" y="106" fill="#d8e8f2" fill-opacity=".58" font-family="Arial, sans-serif" font-size="15" letter-spacing="2">LOCAL CAPTURE → SEARCHABLE MEMORY</text>
+  <g transform="translate(64 168)" filter="url(#shadow)">
+    <rect width="256" height="366" rx="24" fill="#12252f" stroke="#fff" stroke-opacity=".12"/>
+    <rect x="26" y="26" width="204" height="42" rx="12" fill="#1a3441"/>
+    <circle cx="52" cy="47" r="8" fill="#ef7568"/>
+    <text x="72" y="52" fill="#f5fafc" font-family="Arial, sans-serif" font-size="14" font-weight="700">Recording</text>
+    <g transform="translate(24 104)">
+      <rect width="208" height="126" rx="16" fill="#0c1a21"/>
+      <path d="M10 65h8l5-19 8 37 8-52 8 66 8-42 8 17 8-8 8 21 8-48 8 55 8-27 8 13 8-9 8 22 8-43 8 50 8-30 8 17 8-11 8 14 8-32 8 38 8-19 8 7 8-5" fill="none" stroke="url(#blue)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <circle cx="128" cy="286" r="42" fill="#80b6df" fill-opacity=".15" stroke="#80b6df" stroke-width="2"/>
+    <path d="M128 262v36M112 279a16 16 0 0 0 32 0M103 302h50M128 298v20" fill="none" stroke="#b6d9f6" stroke-width="4" stroke-linecap="round"/>
+    <text x="80" y="350" fill="#dfeef7" font-family="Arial, sans-serif" font-size="13">Native capture action</text>
+  </g>
+  <path d="M340 351H410" stroke="#80b6df" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(424 156)">
+    <text x="0" y="10" fill="#b9ccd7" font-family="Arial, sans-serif" font-size="13" letter-spacing="1.5">LOCAL PROCESSING</text>
+    <rect y="42" width="332" height="390" rx="22" fill="#10242d" stroke="#fff" stroke-opacity=".11"/>
+    <g transform="translate(24 70)"><rect width="284" height="78" rx="14" fill="#193541"/><circle cx="38" cy="39" r="15" fill="#80b6df"/><path d="M31 39h14M38 32v14" stroke="#10242d" stroke-width="3" stroke-linecap="round"/><text x="68" y="32" fill="#f4f9fc" font-family="Arial, sans-serif" font-size="15" font-weight="700">Chunk audio</text><text x="68" y="54" fill="#bdd0dc" font-family="Arial, sans-serif" font-size="12">Visible session progress</text></g>
+    <path d="M166 152V174" stroke="#80b6df" stroke-width="2" marker-end="url(#arrow)"/>
+    <g transform="translate(24 182)"><rect width="284" height="78" rx="14" fill="#193541"/><circle cx="38" cy="39" r="15" fill="#80b6df"/><path d="M30 43l6 6 11-20" fill="none" stroke="#10242d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="68" y="32" fill="#f4f9fc" font-family="Arial, sans-serif" font-size="15" font-weight="700">Transcribe locally</text><text x="68" y="54" fill="#bdd0dc" font-family="Arial, sans-serif" font-size="12">Model choice follows hardware</text></g>
+    <path d="M166 264V286" stroke="#80b6df" stroke-width="2" marker-end="url(#arrow)"/>
+    <g transform="translate(24 294)"><rect width="284" height="104" rx="14" fill="#80b6df" fill-opacity=".1" stroke="#80b6df" stroke-opacity=".35"/><text x="20" y="31" fill="#dbeefb" font-family="Arial, sans-serif" font-size="14" font-weight="700">Store transcript + timestamp</text><text x="20" y="57" fill="#b8d0df" font-family="Arial, sans-serif" font-size="12">Local index · recording identity</text><text x="20" y="79" fill="#b8d0df" font-family="Arial, sans-serif" font-size="12">Export boundary · failure state</text></g>
+  </g>
+  <path d="M770 351H840" stroke="#80b6df" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(854 156)">
+    <text x="0" y="10" fill="#b9ccd7" font-family="Arial, sans-serif" font-size="13" letter-spacing="1.5">RETRIEVE THE MOMENT</text>
+    <rect y="42" width="286" height="390" rx="22" fill="#10242d" stroke="#fff" stroke-opacity=".11"/>
+    <g transform="translate(20 66)"><rect width="246" height="50" rx="25" fill="#0b1a21" stroke="#80b6df" stroke-opacity=".4"/><circle cx="27" cy="25" r="9" fill="none" stroke="#a6cce8" stroke-width="2"/><path d="M34 32l8 8" stroke="#a6cce8" stroke-width="2" stroke-linecap="round"/><text x="58" y="31" fill="#e6f2f8" font-family="Arial, sans-serif" font-size="12">“pricing decision”</text></g>
+    <g transform="translate(20 138)"><rect width="246" height="76" rx="13" fill="#193541"/><text x="16" y="25" fill="#9fc8e5" font-family="Arial, sans-serif" font-size="11">00:18:42</text><text x="16" y="49" fill="#f4f9fc" font-family="Arial, sans-serif" font-size="13" font-weight="700">“We agreed to keep the…”</text><rect x="184" y="18" width="44" height="24" rx="12" fill="#80b6df" fill-opacity=".15"/><text x="197" y="34" fill="#b8dcf4" font-family="Arial, sans-serif" font-size="10">hit</text></g>
+    <g transform="translate(20 228)"><rect width="246" height="76" rx="13" fill="#172e38"/><text x="16" y="25" fill="#8fb2c8" font-family="Arial, sans-serif" font-size="11">00:34:10</text><text x="16" y="49" fill="#dbe8ee" font-family="Arial, sans-serif" font-size="13">“Next quarter we can…”</text></g>
+    <g transform="translate(20 318)"><rect width="246" height="88" rx="13" fill="#80b6df" fill-opacity=".09" stroke="#80b6df" stroke-opacity=".35"/><text x="18" y="30" fill="#dbeefb" font-family="Arial, sans-serif" font-size="14" font-weight="700">Jump to exact time</text><text x="18" y="55" fill="#b8d0df" font-family="Arial, sans-serif" font-size="12">Search · playback · export</text><text x="18" y="74" fill="#b8d0df" font-family="Arial, sans-serif" font-size="12">without replaying the whole file</text></g>
+  </g>
+  <g transform="translate(380 596)"><rect width="440" height="62" rx="31" fill="url(#blue)" fill-opacity=".1" stroke="#80b6df" stroke-opacity=".42"/><path d="M30 29v-7a10 10 0 0 1 20 0v7M26 29h28v20H26z" fill="none" stroke="#b6d9f6" stroke-width="2.5"/><text x="72" y="27" fill="#dbeefb" font-family="Arial, sans-serif" font-size="14" font-weight="700">Local-first trust boundary</text><text x="72" y="48" fill="#dbeefb" fill-opacity=".64" font-family="Arial, sans-serif" font-size="12">Capture, transcript, and retrieval stay connected</text></g>
+</svg>
