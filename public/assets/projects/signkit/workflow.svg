@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">SignKit local document workflow map</title>
+  <desc id="desc">A source document moves through local signature selection, cleanup, storage, and placement into a PDF without cloud upload.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102022"/>
+      <stop offset="1" stop-color="#071012"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7ba78"/>
+      <stop offset="1" stop-color="#c98443"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000" flood-opacity=".32"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d9a15f"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <path d="M0 90H1200M0 630H1200" stroke="#fff" stroke-opacity=".06"/>
+  <text x="64" y="74" fill="#f8fbfa" font-family="Arial, sans-serif" font-size="28" font-weight="700">SignKit</text>
+  <text x="64" y="108" fill="#d7e6e2" fill-opacity=".58" font-family="Arial, sans-serif" font-size="15" letter-spacing="2">LOCAL DOCUMENT WORKFLOW</text>
+  <g transform="translate(70 168)" filter="url(#shadow)">
+    <rect width="252" height="370" rx="18" fill="#f2efe7"/>
+    <rect x="28" y="36" width="142" height="12" rx="6" fill="#52605e" fill-opacity=".34"/>
+    <rect x="28" y="68" width="194" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="28" y="91" width="177" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="28" y="114" width="188" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="28" y="156" width="196" height="92" rx="10" fill="#d7cbb9" fill-opacity=".42" stroke="#a06f3b" stroke-dasharray="7 7"/>
+    <path d="M44 217c28-50 41 39 71-17 19-35 25 38 49 6 18-23 27 8 42-11" fill="none" stroke="#343a39" stroke-width="5" stroke-linecap="round"/>
+    <text x="28" y="300" fill="#26302f" font-family="Arial, sans-serif" font-size="14" font-weight="700">Source file</text>
+    <text x="28" y="326" fill="#52605e" font-family="Arial, sans-serif" font-size="13">Scan, photo, or document</text>
+  </g>
+  <path d="M340 354H412" stroke="#d9a15f" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(426 174)">
+    <rect width="342" height="360" rx="22" fill="#142628" stroke="#fff" stroke-opacity=".12"/>
+    <text x="28" y="45" fill="#f8fbfa" font-family="Arial, sans-serif" font-size="18" font-weight="700">On-device processing</text>
+    <g transform="translate(28 75)">
+      <rect width="286" height="68" rx="12" fill="#1d3536" stroke="#d9a15f" stroke-opacity=".35"/>
+      <circle cx="34" cy="34" r="14" fill="#d9a15f"/>
+      <path d="M27 34h14M34 27v14" stroke="#142022" stroke-width="3" stroke-linecap="round"/>
+      <text x="60" y="29" fill="#f8fbfa" font-family="Arial, sans-serif" font-size="15" font-weight="700">Select</text>
+      <text x="60" y="50" fill="#d7e6e2" fill-opacity=".56" font-family="Arial, sans-serif" font-size="12">Crop the handwritten region</text>
+    </g>
+    <g transform="translate(28 155)">
+      <rect width="286" height="68" rx="12" fill="#1d3536" stroke="#d9a15f" stroke-opacity=".35"/>
+      <circle cx="34" cy="34" r="14" fill="#d9a15f"/>
+      <path d="M27 38l5 5 10-17" fill="none" stroke="#142022" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="60" y="29" fill="#f8fbfa" font-family="Arial, sans-serif" font-size="15" font-weight="700">Clean</text>
+      <text x="60" y="50" fill="#d7e6e2" fill-opacity=".56" font-family="Arial, sans-serif" font-size="12">Remove background and noise</text>
+    </g>
+    <g transform="translate(28 235)">
+      <rect width="286" height="68" rx="12" fill="#1d3536" stroke="#d9a15f" stroke-opacity=".35"/>
+      <circle cx="34" cy="34" r="14" fill="#d9a15f"/>
+      <path d="M28 28h12v12H28z" fill="none" stroke="#142022" stroke-width="3"/>
+      <text x="60" y="29" fill="#f8fbfa" font-family="Arial, sans-serif" font-size="15" font-weight="700">Reuse</text>
+      <text x="60" y="50" fill="#d7e6e2" fill-opacity=".56" font-family="Arial, sans-serif" font-size="12">Keep a local signature library</text>
+    </g>
+  </g>
+  <path d="M785 354H857" stroke="#d9a15f" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(872 168)" filter="url(#shadow)">
+    <rect width="258" height="370" rx="18" fill="#f2efe7"/>
+    <rect x="26" y="34" width="154" height="12" rx="6" fill="#52605e" fill-opacity=".34"/>
+    <rect x="26" y="68" width="202" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="26" y="91" width="186" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="26" y="114" width="197" height="8" rx="4" fill="#52605e" fill-opacity=".18"/>
+    <rect x="26" y="150" width="204" height="126" rx="10" fill="#fff" fill-opacity=".72"/>
+    <path d="M46 239c25-45 38 34 65-15 17-31 23 34 44 5 17-21 25 8 39-10" fill="none" stroke="url(#accent)" stroke-width="6" stroke-linecap="round"/>
+    <text x="26" y="316" fill="#26302f" font-family="Arial, sans-serif" font-size="14" font-weight="700">Finished PDF</text>
+    <text x="26" y="342" fill="#52605e" font-family="Arial, sans-serif" font-size="13">Placed and saved locally</text>
+  </g>
+  <g transform="translate(423 577)">
+    <rect width="354" height="66" rx="33" fill="#d9a15f" fill-opacity=".12" stroke="#d9a15f" stroke-opacity=".45"/>
+    <path d="M35 31v-8a11 11 0 0 1 22 0v8M30 31h32v22H30z" fill="none" stroke="#e7ba78" stroke-width="3"/>
+    <text x="82" y="31" fill="#f7e2c2" font-family="Arial, sans-serif" font-size="15" font-weight="700">Files stay on the device</text>
+    <text x="82" y="51" fill="#f7e2c2" fill-opacity=".62" font-family="Arial, sans-serif" font-size="12">Privacy is part of the product boundary</text>
+  </g>
+</svg>
