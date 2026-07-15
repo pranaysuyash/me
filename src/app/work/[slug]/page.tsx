@@ -12,6 +12,10 @@ interface WorkDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+type ArchiveProject = (typeof projectsData.projects)[number] & {
+  links: Record<string, string>;
+};
+
 const baseUrl = "https://pranaysuyash.com";
 
 export function generateStaticParams() {
@@ -52,13 +56,15 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
 export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
   const { slug } = await params;
   const project = auditedProjectBySlug[slug];
-  const archive = projectsData.projects.find((item) => item.slug === slug);
+  const archive = projectsData.projects.find((item) => item.slug === slug) as
+    | ArchiveProject
+    | undefined;
 
   if (!project && !archive) notFound();
 
   if (!project && archive) {
-    const repository = archive.links?.github;
-    const live = archive.links?.live;
+    const repository = archive.links.github;
+    const live = archive.links.live;
     return (
       <PageLayout>
         <article className="py-20 md:py-28">
