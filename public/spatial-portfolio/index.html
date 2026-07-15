@@ -50,8 +50,13 @@
         display: block;
       }
 
-      .label-layer {
+      canvas {
         pointer-events: none;
+      }
+
+      .label-layer {
+        pointer-events: auto;
+        touch-action: none;
       }
 
       .scene-kicker,
