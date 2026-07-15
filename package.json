@@ -6,6 +6,7 @@
     "dev": "next dev",
     "prebuild": "python3 scripts/generate_resume_pdf.py",
     "build": "next build",
+    "postbuild": "node scripts/verify_exported_visual_evidence.mjs",
     "resume:build": "python3 scripts/generate_resume_pdf.py",
     "portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs",
     "book:build": "python3 book/tools/assemble_manuscript.py && python3 book/tools/build_html.py && python3 book/tools/build_epub.py && python3 book/tools/build_pdf.py && python3 book/tools/build_sales_page.py && python3 book/tools/embed_html_assets.py && python3 book/tools/write_package_manifest.py",
