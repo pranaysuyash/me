@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -44,12 +45,14 @@ const sentinelTwin = {
 
 function ProjectPreview({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="aspect-[16/9] overflow-hidden border-b bg-muted">
-      <img
+    <div className="relative aspect-[16/9] overflow-hidden border-b bg-muted">
+      <Image
         src={src}
         alt={alt}
-        loading="lazy"
-        className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+        fill
+        unoptimized
+        sizes="(min-width: 768px) 50vw, 100vw"
+        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
       />
     </div>
   );
