@@ -68,6 +68,7 @@ const portfolio = requireTokens("src/lib/portfolio.ts", [
   "High field coverage must not be confused with verified correctness",
   "system-audio setup and production packaging remain active work",
   "Separate deterministic simulation from AI explanation",
+  "visualEvidence: ProjectVisualEvidence[]",
 ]);
 
 for (const unsupported of [
@@ -81,15 +82,20 @@ for (const unsupported of [
   }
 }
 
+if (portfolio.includes("screenshots:")) {
+  failures.push("audited portfolio still uses the ambiguous screenshots field");
+}
+
 const homepage = requireTokens("src/app/page.tsx", [
   "@/lib/career",
   "@/lib/portfolio",
   "For hiring teams",
   "/work/medpiper-workflow",
+  "project.visualEvidence",
 ]);
-for (const forbidden of ["HeroSystemPanel", "<iframe", "projectsData"]) {
+for (const forbidden of ["HeroSystemPanel", "<iframe", "projectsData", 'className="animate-fade-up"']) {
   if (homepage.includes(forbidden)) {
-    failures.push(`homepage bypasses career architecture: ${forbidden}`);
+    failures.push(`homepage bypasses career architecture or first-paint requirements: ${forbidden}`);
   }
 }
 
@@ -98,6 +104,7 @@ const work = requireTokens("src/app/work/page.tsx", [
   "@/lib/portfolio",
   "/work/medpiper-workflow",
   "/labs",
+  "project.visualEvidence",
 ]);
 if (work.includes("projectsData")) {
   failures.push("selected Work page must not render historical project marketing data");
@@ -109,6 +116,8 @@ const dynamicCase = requireTokens("src/app/work/[slug]/page.tsx", [
   "This archive page intentionally does not repeat historical claims",
   "Current implementation boundary",
   "Key product decisions",
+  "project.visualEvidence",
+  "Visual evidence",
 ]);
 if (dynamicCase.includes("proofSummary") || dynamicCase.includes("demonstrates")) {
   failures.push("dynamic case-study route consumes historical proof marketing fields");
@@ -174,8 +183,9 @@ requireTokens("scripts/generate_resume_pdf.py", [
 
 requireTokens("package.json", [
   '"prebuild": "python3 scripts/generate_resume_pdf.py"',
+  '"postbuild": "node scripts/verify_exported_visual_evidence.mjs"',
   '"resume:build": "python3 scripts/generate_resume_pdf.py"',
-  '"portfolio:validate": "node scripts/verify_portfolio_source.mjs"',
+  "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs",
 ]);
 
 const navbar = requireTokens("src/components/layout/navbar.tsx", [
@@ -195,6 +205,14 @@ requireTokens("src/app/layout.tsx", [
   'name: "MedPiper Technologies"',
 ]);
 
+requireTokens("public/product-lab/index.html", [
+  'display: grid',
+  '#lab[data-ready="true"] .fallback',
+  'MutationObserver',
+  '/product-lab/scene.js',
+  'Review audited case studies instead',
+]);
+
 if (normalize(career).includes("Founder, PSRS") || normalize(career).includes("Founder of PSRS")) {
   failures.push("personal career identity was replaced by a PSRS founder title");
 }
@@ -205,5 +223,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, audited maturity, canonical route ownership, resume generation, commercial hierarchy, archive boundary, and navigation are intact.",
+  "Portfolio source validation passed: career identity, audited maturity, typed visual evidence, canonical route ownership, resume generation, commercial hierarchy, archive boundary, lab fallback, and navigation are intact.",
 );
