@@ -1,5 +1,9 @@
+const productionEbookCheckoutUrl =
+  "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1";
+
 const ebookCheckoutUrl =
-  process.env.NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL?.trim() ?? "";
+  process.env.NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL?.trim() ||
+  productionEbookCheckoutUrl;
 
 export const noClaimEbook = {
   title: "No Claim Without Evidence",
@@ -18,10 +22,8 @@ export const noClaimEbook = {
   checkoutLabel: "Buy now",
   consultingUrl: "/contact?type=project&source=book",
   consultingLabel: "Ask about consulting",
-  fulfillmentLabel: ebookCheckoutUrl
-    ? "Secure checkout and PDF + EPUB delivery"
-    : "Checkout opens soon",
-  hasCheckout: Boolean(ebookCheckoutUrl),
+  fulfillmentLabel: "Secure checkout and PDF + EPUB delivery",
+  hasCheckout: true,
   description:
     "A practical field guide for building LLM workflows with evidence links, evals, review rules, action traces, and release gates.",
 } as const;
