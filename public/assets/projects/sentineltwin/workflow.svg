@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">SentinelTwin security decision workflow map</title>
+  <desc id="desc">An editable floor plan contains cameras, coverage cones, a blind zone, an incident path, and a counterfactual comparison grounded in deterministic simulation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0c1e1e"/><stop offset="1" stop-color="#061011"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9cefe6"/><stop offset="1" stop-color="#4ecfc2"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" fill="#66d8ce"/></marker>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000" flood-opacity=".3"/></filter>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <text x="62" y="72" fill="#f3fbfa" font-family="Arial, sans-serif" font-size="28" font-weight="700">SentinelTwin</text>
+  <text x="62" y="106" fill="#d7ebe8" fill-opacity=".58" font-family="Arial, sans-serif" font-size="15" letter-spacing="2">DETERMINISTIC SECURITY DECISION SYSTEM</text>
+  <g transform="translate(62 150)">
+    <text x="0" y="10" fill="#bad1cd" font-family="Arial, sans-serif" font-size="13" letter-spacing="1.5">EDITABLE SCENE</text>
+    <g transform="translate(0 40)" filter="url(#shadow)">
+      <rect width="612" height="414" rx="22" fill="#102626" stroke="#fff" stroke-opacity=".12"/>
+      <path d="M50 50H560V360H50z" fill="#132d2c" stroke="#55706d" stroke-width="4"/>
+      <path d="M50 150H250V50M360 50v140h200M250 360V245h155V360" fill="none" stroke="#55706d" stroke-width="9" stroke-linecap="square"/>
+      <rect x="100" y="95" width="108" height="36" rx="8" fill="#39504d"/>
+      <rect x="405" y="232" width="104" height="50" rx="8" fill="#39504d"/>
+      <rect x="270" y="85" width="54" height="112" rx="8" fill="#2d4441"/>
+      <g transform="translate(76 320)"><rect width="42" height="24" rx="6" fill="#233b39" stroke="#66d8ce"/><circle cx="38" cy="12" r="6" fill="#66d8ce"/><path d="M42 12L188-72 160 24z" fill="#66d8ce" fill-opacity=".16" stroke="#66d8ce" stroke-opacity=".45"/></g>
+      <g transform="translate(512 88) rotate(145)"><rect width="42" height="24" rx="6" fill="#233b39" stroke="#66d8ce"/><circle cx="38" cy="12" r="6" fill="#66d8ce"/><path d="M42 12L174-62 156 30z" fill="#66d8ce" fill-opacity=".14" stroke="#66d8ce" stroke-opacity=".4"/></g>
+      <ellipse cx="329" cy="252" rx="56" ry="39" fill="#eb7868" fill-opacity=".22" stroke="#eb7868" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="292" y="257" fill="#f2aea4" font-family="Arial, sans-serif" font-size="12" font-weight="700">BLIND ZONE</text>
+      <path d="M70 338C156 313 201 268 273 260S418 287 520 324" fill="none" stroke="#efbc6c" stroke-width="4" stroke-linecap="round" stroke-dasharray="10 9"/>
+      <circle cx="70" cy="338" r="8" fill="#efbc6c"/><circle cx="520" cy="324" r="8" fill="#efbc6c"/>
+      <text x="203" y="314" fill="#f4d5a4" font-family="Arial, sans-serif" font-size="12">incident path</text>
+      <g transform="translate(70 20)"><rect width="150" height="32" rx="16" fill="#66d8ce" fill-opacity=".12"/><text x="18" y="21" fill="#a9eee7" font-family="Arial, sans-serif" font-size="11">Coverage computed from scene</text></g>
+    </g>
+  </g>
+  <path d="M696 376H758" stroke="#66d8ce" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(772 150)">
+    <text x="0" y="10" fill="#bad1cd" font-family="Arial, sans-serif" font-size="13" letter-spacing="1.5">DECISION EVIDENCE</text>
+    <rect y="40" width="366" height="414" rx="22" fill="#102626" stroke="#fff" stroke-opacity=".12"/>
+    <g transform="translate(22 64)"><rect width="322" height="82" rx="14" fill="#183432"/><text x="18" y="27" fill="#f3fbfa" font-family="Arial, sans-serif" font-size="14" font-weight="700">Current plan</text><text x="18" y="54" fill="#bdd3cf" font-family="Arial, sans-serif" font-size="12">2 cameras · 1 blind zone</text><rect x="238" y="20" width="64" height="28" rx="14" fill="#eb7868" fill-opacity=".17"/><text x="254" y="38" fill="#f4aa9f" font-family="Arial, sans-serif" font-size="11">risk</text></g>
+    <g transform="translate(22 164)"><rect width="322" height="102" rx="14" fill="#183432"/><text x="18" y="27" fill="#f3fbfa" font-family="Arial, sans-serif" font-size="14" font-weight="700">Counterfactual</text><text x="18" y="54" fill="#bdd3cf" font-family="Arial, sans-serif" font-size="12">Move camera 1.4 m east</text><text x="18" y="77" fill="#9cefe6" font-family="Arial, sans-serif" font-size="12" font-weight="700">Coverage +18% · blind zone removed</text><rect x="238" y="20" width="64" height="28" rx="14" fill="#66d8ce" fill-opacity=".15"/><text x="252" y="38" fill="#aaf0e8" font-family="Arial, sans-serif" font-size="11">tested</text></g>
+    <g transform="translate(22 284)"><rect width="322" height="146" rx="14" fill="#66d8ce" fill-opacity=".08" stroke="#66d8ce" stroke-opacity=".35"/><text x="18" y="30" fill="#d7f6f2" font-family="Arial, sans-serif" font-size="14" font-weight="700">Evidence before explanation</text><path d="M20 58h16l7-12 12 28 12-20 14 6 17-18 19 29 20-13 18 6 22-22 24 28 22-17 22 8" fill="none" stroke="#7be1d7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="18" y="105" fill="#bad7d2" font-family="Arial, sans-serif" font-size="12">Scene state · coverage · path</text><text x="18" y="126" fill="#bad7d2" font-family="Arial, sans-serif" font-size="12">comparison · provenance · review</text></g>
+  </g>
+  <g transform="translate(330 614)"><rect width="540" height="58" rx="29" fill="url(#cyan)" fill-opacity=".09" stroke="#66d8ce" stroke-opacity=".42"/><text x="26" y="25" fill="#cdf5f0" font-family="Arial, sans-serif" font-size="14" font-weight="700">Simulation is the claim layer</text><text x="26" y="45" fill="#cdf5f0" fill-opacity=".64" font-family="Arial, sans-serif" font-size="12">AI can propose and explain, but cannot replace computed evidence</text></g>
+</svg>
