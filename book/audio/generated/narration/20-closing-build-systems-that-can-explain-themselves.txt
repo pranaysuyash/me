@@ -1,0 +1,15 @@
+Closing: Build Systems That Can Explain Themselves
+
+We began with one rule: no claim without evidence.
+
+Following that rule changed the whole system. An extracted value became a field record with provenance and status. Confidence became an action policy rather than a decorative score. A fallback became a route with a reason and a stop condition. Human review became a bounded product decision. An agent action became a state transition with permission, confirmation, and recovery. An eval became product memory. And the release gate became a written decision about whether the exact candidate is safe enough to ship.
+
+The model still matters, but it is only one layer. The pipeline decides how evidence moves, where validation occurs, and what happens on failure. Data and configuration decide how values are interpreted, normalized, routed, and judged. Reliability belongs to the whole path from input to consequence.
+
+The practical next step is small. Choose one customer-facing claim in your own product. Write down the evidence it requires, the states it can occupy, the action allowed in each state, and the test that would stop a bad change from returning. Then connect that record to the runtime path that produces the claim.
+
+Do not wait for a perfect evaluation platform. Start with a few cases that matter, preserve every useful failure, and refuse to average away the mistakes that violate your product contract.
+
+The accompanying ebook contains the complete airline-ticket case study, practical templates, code-shaped examples, diagrams, exercises, and sources. Use it when you are ready to turn the listening concepts into implementation artifacts.
+
+Thank you for listening to No Claim Without Evidence. Build systems that can show their work, learn from failure, and earn trust one supported claim at a time.

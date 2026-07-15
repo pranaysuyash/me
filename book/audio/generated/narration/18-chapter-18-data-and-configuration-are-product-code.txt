@@ -1,0 +1,21 @@
+Chapter 18: Data And Configuration Are Product Code
+
+AI systems do not fail only in the model or prompt. They also fail in the data and configuration layer.
+
+Schemas, prompts, review rules, model routes, fallbacks, lookup tables, normalization maps, and eval manifests all determine behavior. A one-line change can alter which model runs, what reaches review, and what users see.
+
+Code is any instruction that changes system behavior. A do-not-infer policy is executed by the router; an airport map changes output; a threshold changes review volume. Each artifact needs a canonical owner, version, validation, behavioral tests, monitoring, and rollback.
+
+The airline case reveals why this third layer matters. Suppose the model correctly extracts Delhi and Bengaluru, but a stale lookup maps Bengaluru to B S L instead of B L R. The extractor did not fail. The normalization data failed. Editing the prompt would target the wrong layer.
+
+If terminal changes from reviewable when missing to do not infer, the router, evaluation truth, review guidance, and release checks must change too. The model proposes. The pipeline validates and routes. Configuration defines schemas, mappings, thresholds, and rules.
+
+Package dependent artifacts into one versioned bundle: schema, field policy, airport lookup, routing, review policy, and eval manifest. Before activation, verify that every artifact exists, statuses agree, and each do-not-infer field has an evidence rule and an action when absent.
+
+Critical configuration should fail closed. A missing optional map may preserve the raw city and mark normalization unavailable, but that fallback must be visible. Silent defaults destroy reproducibility.
+
+Treat activation as a release. Run compatibility checks and targeted evals, compare candidate and baseline, activate an immutable bundle, retain the prior version, and record the active bundle in every trace.
+
+For reflection, Bengaluru is extracted correctly but becomes B S L, while fallback calls rise for absent terminals. The airport lookup owns the first error; field policy or routing owns the second. Regressions should preserve the raw city while requiring B L R, and require an absent do-not-infer terminal to stop.
+
+Once models, pipelines, and configuration are versioned and tested together, the eval can decide whether an exact bundle is safe enough to release.

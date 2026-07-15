@@ -1,0 +1,23 @@
+Chapter 15: Test The Pipeline, Not Just The Model
+
+When an artificial intelligence workflow fails, the model is only one suspect. The defect may live in upload, optical character recognition, layout, validation, evidence linking, normalization, routing, review, storage, or a downstream application programming interface, or A P I.
+
+The user does not experience a model in isolation. The user experiences the pipeline.
+
+The ticket moves through classification, optical character recognition, extraction, schema checks, evidence linking, normalization, routing, review when needed, and storage.
+
+Every transition can lose truth. Optical character recognition can change A I two-oh-two to A L two-oh-two. Chunking can separate passenger and flight. Repair can drop evidence. Normalization can map Delhi incorrectly. Routing can accept a conflict because the record is well formed. Valid structure does not imply valid meaning.
+
+Diagnose three layers. The model owns prompts, extraction, and evidence selection. The pipeline owns intake, validation, routing, review, storage, and audit. Data and configuration own schemas, maps, policies, and scoring. A model upgrade does not repair a lookup table.
+
+For A I R zero-zero-one, test that classification identifies a ticket; optical character recognition preserves booking reference and flight; extraction marks terminal absent; supported fields have evidence; normalization maps Delhi to D E L and Bengaluru to B L R; routing avoids terminal fallback; and storage invents nothing. In the ebook companion, See the pipeline-eval specification.
+
+Keep expected results independent from the lookup and model under test. Use the source, versioned contract, and reviewed expectations. For ambiguity, require an allowed set or review instead of inventing one answer.
+
+Test corrupt uploads, poor optical character recognition, invalid structure, timeouts, unsupported fallback, stale lookups, conflicts, duplicates, and failed writes. A retry must not create two itineraries. If storage fails after extraction, report the partial state and recovery action.
+
+Layer the tests. Check mappings and policies as components, downstream behavior with recorded outputs, several real stages through integration evals, and the complete path end to end. Match depth to the changed layer and cost of failure.
+
+For the final reflection, vary A I R zero-zero-one so optical character recognition changes the flight, the lookup maps Delhi to B S L, and fallback invents Terminal Three. Name each failing layer, expected action, visible evidence, and regression test. They belong to optical character recognition, data and configuration, and routing.
+
+Testing the pipeline closes the gap between a promising output and a trustworthy workflow. The next chapter moves from evaluation to operation: observability as the interface for understanding success, retries, failure, and recovery.

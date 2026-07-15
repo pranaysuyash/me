@@ -1,0 +1,19 @@
+Chapter 7: Ground Truth Is A Product Contract
+
+Ground truth is not merely the correct answer. It is the product's versioned agreement about what counts as correct.
+
+Documents rarely present values in the form a downstream system needs. A ticket may say Delhi while another service expects D E L. A terminal may be absent, which differs from unreadable, ambiguous, or irrelevant.
+
+An extraction result makes several claims: what appears in the source, what field it represents, how a raw value is normalized, what evidence supports it, and whether it is safe to accept, warn about, reject, or review. One string cannot express all of that.
+
+For AIR zero zero one, the origin's raw value is Delhi. Its normalized value is D E L. The status says normalized, the evidence points to the departure line, and the record names the airport-mapping version. For terminal, both values are empty, the status says not present in the document, and the action is accept with warning. No evidence is appropriate for a claim of absence. It would contradict a supported value.
+
+Field policy matters. Booking reference may be critical while baggage is optional. Both baggage and terminal can be do-not-infer fields. A missing booking may block acceptance; missing baggage need not; an absent terminal must not be fabricated.
+
+Validate relationships. Supported values need evidence; normalized values need versioned mappings; absent fields cannot contain raw values. Version ground truth, schema, review policy, and normalization data. After policy changes, create a new version and rerun the baseline, or score changes become ambiguous.
+
+Adjudication should be source-first: locate the span, transcribe the raw value, normalize it, assign evidence status, then apply policy. AIR zero zero one's terminal is not shown, so outside knowledge cannot supply it. Record reviewer disagreement; it may reveal an incomplete contract.
+
+For your reflection, choose one field your team corrects inconsistently. Separate transcription from normalization. Decide what happens when it is present, absent, unreadable, and ambiguous. State whether inference is allowed and what evidence is required. Could another reviewer apply the rule without asking what you meant?
+
+Ground truth makes judgment inspectable. A right-or-wrong label still cannot tell engineering what to fix. Chapter Eight separates an error's product risk from its technical cause.

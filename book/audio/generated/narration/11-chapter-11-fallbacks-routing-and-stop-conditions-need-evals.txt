@@ -1,0 +1,17 @@
+Chapter 11: Fallbacks, Routing, And Stop Conditions Need Evals
+
+Fallback may repair an output or produce a cleaner hallucination. Safety depends on whether the next step can recover evidence and whether the system knows when to stop.
+
+An artificial intelligence system turns document evidence into claims. Another step can recover missed text, but cannot make an absent fact appear. It therefore needs three decisions: accept a result that meets the contract, continue when a bounded step can recover evidence, or stop when automation cannot resolve uncertainty safely. Routing chooses the path; stop conditions prevent unsafe continuation. Both need evaluations, or evals.
+
+Return to Riya Mehta's ticket. It shows her passenger name record, or P N R, flight A I two-oh-two, Delhi, Bengaluru, and a departure time of nine forty. Terminal and baggage are absent and must not be inferred.
+
+If optical character recognition, or O C R, misses the visible flight number, a targeted crop can recover evidence. But fallback has no job when terminal is empty because the source contains none. Returning Terminal Three would violate the contract.
+
+Do not route on blankness. Ask why the field is empty. Evidence may be supported, likely present, absent, unreadable, ambiguous, conflicting, or not applicable. A likely-present critical field can justify a bounded retry. A conflict can justify narrow review. An absent do-not-infer field must stop.
+
+Policy order matters. A do-not-infer prohibition must win before a generic missing-field rule. Put prohibitions first, recovery second, review third, optional handling fourth, and an explicit default last. Record the matched rule and action. In the ebook companion, See the route-decision record for the full structure.
+
+Reflect on four states: a missed visible flight number, absent terminal, conflicting departure times, and unnecessary absent baggage. Choose each action, attempt limit, and acceptance proof. Then test against unnecessary fallback. The pattern is bounded recovery, stop, review, and accepted absence.
+
+A trustworthy system knows why it must stop. Once that decision is explicit, the next question is how to explain failures well enough to fix the right layer. That requires logs.

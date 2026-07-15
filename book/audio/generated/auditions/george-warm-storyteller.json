@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "script_sha256": "1bebfe86ff60ce7670517e15499cfdc7e38a05e30eeef54bc5f7524d2dae9e78",
+  "characters": 688,
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "voice_name": "George - Warm Storyteller",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_192",
+  "bytes": 981203,
+  "request_id": "RDbIf0AHsvzUJ55o15V6",
+  "character_cost": "378",
+  "content_type": "audio/mpeg",
+  "audio_sha256": "961db3fdae7dcbf7ac635d7519d912acc7690395ca4c5c8a8bccc4ec03841800"
+}

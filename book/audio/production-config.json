@@ -1,0 +1,34 @@
+{
+  "edition": "listening-first-v1",
+  "provider": "elevenlabs",
+  "model_id": "eleven_flash_v2_5",
+  "output_format": "mp3_44100_192",
+  "credit_multiplier": 0.5,
+  "minimum_credit_reserve": 3500,
+  "voice_settings": {
+    "stability": 0.72,
+    "similarity_boost": 0.78,
+    "style": 0.08,
+    "use_speaker_boost": true,
+    "speed": 1.02
+  },
+  "selected_voice": {
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "name": "Daniel - Steady Broadcaster"
+  },
+  "audition_voices": [
+    {
+      "voice_id": "onwK4e9ZLuTAKqWW03F9",
+      "name": "Daniel - Steady Broadcaster"
+    },
+    {
+      "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+      "name": "George - Warm Storyteller"
+    },
+    {
+      "voice_id": "cjVigY5qzO86Huf0OWal",
+      "name": "Eric - Smooth and Trustworthy"
+    }
+  ],
+  "environment_file": "/Users/pranay/Projects/media_experiments/.env.local"
+}

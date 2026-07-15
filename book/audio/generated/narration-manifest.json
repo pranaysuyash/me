@@ -1,0 +1,198 @@
+{
+  "version": 1,
+  "edition": "listening-first-v1",
+  "track_count": 21,
+  "characters": 51195,
+  "words": 7824,
+  "tracks": [
+    {
+      "title": "Introduction: The Evidence Habit",
+      "source": "book/audio/scripts/00-introduction.md",
+      "index": 0,
+      "file": "book/audio/generated/narration/00-introduction-the-evidence-habit.txt",
+      "characters": 2140,
+      "words": 346,
+      "sha256": "a98f7fe31fad5d360540627765d9754315f41e5327f4cd9bc467ddb196dd36d8"
+    },
+    {
+      "title": "Chapter 1: No Claim Without Evidence",
+      "source": "book/audio/scripts/chapters-01-05.md",
+      "index": 1,
+      "file": "book/audio/generated/narration/01-chapter-1-no-claim-without-evidence.txt",
+      "characters": 2378,
+      "words": 398,
+      "sha256": "542b070a7bfe833498ba01bc53eee685c39c293f3e52985f1c6733f12dc4d10c"
+    },
+    {
+      "title": "Chapter 2: Premature Confidence Is The Real Bug",
+      "source": "book/audio/scripts/chapters-01-05.md",
+      "index": 2,
+      "file": "book/audio/generated/narration/02-chapter-2-premature-confidence-is-the-real-bug.txt",
+      "characters": 2406,
+      "words": 381,
+      "sha256": "1792378b9cc09d1c775285e9be645da301d8510db843e9861b7612ef15f6e12d"
+    },
+    {
+      "title": "Chapter 3: Narrow Questions Beat Broad Prompts",
+      "source": "book/audio/scripts/chapters-01-05.md",
+      "index": 3,
+      "file": "book/audio/generated/narration/03-chapter-3-narrow-questions-beat-broad-prompts.txt",
+      "characters": 2592,
+      "words": 417,
+      "sha256": "91e555980eedb940cf4db6ff13e5c8a316c7294e0d1d0d426a36b9499665cbe9"
+    },
+    {
+      "title": "Chapter 4: The Pipeline Matters More Than The Model",
+      "source": "book/audio/scripts/chapters-01-05.md",
+      "index": 4,
+      "file": "book/audio/generated/narration/04-chapter-4-the-pipeline-matters-more-than-the-model.txt",
+      "characters": 2455,
+      "words": 379,
+      "sha256": "da1bf93ebad479c96fca9a3d9574cc09d3f042bf0704d0c8ecfe06f8fe1bd15d"
+    },
+    {
+      "title": "Chapter 5: Deterministic Gates Before Model Calls",
+      "source": "book/audio/scripts/chapters-01-05.md",
+      "index": 5,
+      "file": "book/audio/generated/narration/05-chapter-5-deterministic-gates-before-model-calls.txt",
+      "characters": 2646,
+      "words": 409,
+      "sha256": "cf493e1e28163d932977095dfefc9c988b81b3c032750984a229e253961a5e42"
+    },
+    {
+      "title": "Chapter 6: One Good Output Does Not Mean Your Prompt Works",
+      "source": "book/audio/scripts/chapters-06-10.md",
+      "index": 6,
+      "file": "book/audio/generated/narration/06-chapter-6-one-good-output-does-not-mean-your-prompt-works.txt",
+      "characters": 2208,
+      "words": 346,
+      "sha256": "314e467b9204fa3e9b3cf87ee6758905e89de62384a3451f7ecfa775e8128812"
+    },
+    {
+      "title": "Chapter 7: Ground Truth Is A Product Contract",
+      "source": "book/audio/scripts/chapters-06-10.md",
+      "index": 7,
+      "file": "book/audio/generated/narration/07-chapter-7-ground-truth-is-a-product-contract.txt",
+      "characters": 2415,
+      "words": 371,
+      "sha256": "cb1692aa099f6594e46fde7d4fe7a3f1a91d3ba652bdaf8570f9c3268dde305b"
+    },
+    {
+      "title": "Chapter 8: Not All Extraction Errors Are Equal",
+      "source": "book/audio/scripts/chapters-06-10.md",
+      "index": 8,
+      "file": "book/audio/generated/narration/08-chapter-8-not-all-extraction-errors-are-equal.txt",
+      "characters": 2547,
+      "words": 381,
+      "sha256": "ca14984f44c6158e7d0c855a147f4f5b60f5fdc29ad7b4d312dc48a9776c7e3a"
+    },
+    {
+      "title": "Chapter 9: Accuracy Alone Is Not An Eval Strategy",
+      "source": "book/audio/scripts/chapters-06-10.md",
+      "index": 9,
+      "file": "book/audio/generated/narration/09-chapter-9-accuracy-alone-is-not-an-eval-strategy.txt",
+      "characters": 2589,
+      "words": 364,
+      "sha256": "9e9c766b5bdad18a782614ae4bf5ff2d548c6e4c59676263e7683b6ed888d827"
+    },
+    {
+      "title": "Chapter 10: Cost, Latency, And Review Effort Belong In The Eval",
+      "source": "book/audio/scripts/chapters-06-10.md",
+      "index": 10,
+      "file": "book/audio/generated/narration/10-chapter-10-cost-latency-and-review-effort-belong-in-the-eval.txt",
+      "characters": 2715,
+      "words": 411,
+      "sha256": "d6ff505d4b7dd51139508b9835abc06bc77e3230d4267bf4875eddf865ce72f9"
+    },
+    {
+      "title": "Chapter 11: Fallbacks, Routing, And Stop Conditions Need Evals",
+      "source": "book/audio/scripts/chapters-11-15.md",
+      "index": 11,
+      "file": "book/audio/generated/narration/11-chapter-11-fallbacks-routing-and-stop-conditions-need-evals.txt",
+      "characters": 2240,
+      "words": 342,
+      "sha256": "ad72d50fec7664195ba8ebf106031620ff1fbf83462eb1c1ac48fbf475da9d8f"
+    },
+    {
+      "title": "Chapter 12: Eval Logs Matter More Than Scores",
+      "source": "book/audio/scripts/chapters-11-15.md",
+      "index": 12,
+      "file": "book/audio/generated/narration/12-chapter-12-eval-logs-matter-more-than-scores.txt",
+      "characters": 2221,
+      "words": 335,
+      "sha256": "b596ce3a1a536d5ebcf34aa0e4e13e7308a1651646bd92f1bee414bf7483adf1"
+    },
+    {
+      "title": "Chapter 13: Your Eval Set Is Product Memory",
+      "source": "book/audio/scripts/chapters-11-15.md",
+      "index": 13,
+      "file": "book/audio/generated/narration/13-chapter-13-your-eval-set-is-product-memory.txt",
+      "characters": 2424,
+      "words": 356,
+      "sha256": "0f43c89ebd3c7a07276cff723780c1350ca05376e843e477acf3d54b18f2257f"
+    },
+    {
+      "title": "Chapter 14: Confidence, Evidence, And Human Review Build Trust",
+      "source": "book/audio/scripts/chapters-11-15.md",
+      "index": 14,
+      "file": "book/audio/generated/narration/14-chapter-14-confidence-evidence-and-human-review-build-trust.txt",
+      "characters": 2657,
+      "words": 402,
+      "sha256": "a1e091f7168119260ec766a098742a6bdba0c47577b032db6749624295b14549"
+    },
+    {
+      "title": "Chapter 15: Test The Pipeline, Not Just The Model",
+      "source": "book/audio/scripts/chapters-11-15.md",
+      "index": 15,
+      "file": "book/audio/generated/narration/15-chapter-15-test-the-pipeline-not-just-the-model.txt",
+      "characters": 2905,
+      "words": 418,
+      "sha256": "dd7356471239ae80b39694bf068178486490efd8ea26dd5e4dd410f40b140e71"
+    },
+    {
+      "title": "Chapter 16: Observability Is The Product Interface",
+      "source": "book/audio/scripts/chapters-16-19.md",
+      "index": 16,
+      "file": "book/audio/generated/narration/16-chapter-16-observability-is-the-product-interface.txt",
+      "characters": 2148,
+      "words": 335,
+      "sha256": "1aeb0051e54c49f2abc80f050a81843f3bef2428b32180d51ced533cdec65b44"
+    },
+    {
+      "title": "Chapter 17: Agents Need Action Evals",
+      "source": "book/audio/scripts/chapters-16-19.md",
+      "index": 17,
+      "file": "book/audio/generated/narration/17-chapter-17-agents-need-action-evals.txt",
+      "characters": 2492,
+      "words": 373,
+      "sha256": "f34db840c12760aa701aa7bb5e94e020b35672c73dcc8eb12abd51a18566acbb"
+    },
+    {
+      "title": "Chapter 18: Data And Configuration Are Product Code",
+      "source": "book/audio/scripts/chapters-16-19.md",
+      "index": 18,
+      "file": "book/audio/generated/narration/18-chapter-18-data-and-configuration-are-product-code.txt",
+      "characters": 2369,
+      "words": 359,
+      "sha256": "16826f446aa613c688bb30dc06d9c92b7985ebbd9ab1f0ef70dcb8f852b3cd77"
+    },
+    {
+      "title": "Chapter 19: Your Eval Should Become A Release Gate",
+      "source": "book/audio/scripts/chapters-16-19.md",
+      "index": 19,
+      "file": "book/audio/generated/narration/19-chapter-19-your-eval-should-become-a-release-gate.txt",
+      "characters": 2823,
+      "words": 413,
+      "sha256": "578e8102edf08ed0cfc24095fab8edf50dc89518de0fb6004134ab6092f27328"
+    },
+    {
+      "title": "Closing: Build Systems That Can Explain Themselves",
+      "source": "book/audio/scripts/20-closing.md",
+      "index": 20,
+      "file": "book/audio/generated/narration/20-closing-build-systems-that-can-explain-themselves.txt",
+      "characters": 1825,
+      "words": 288,
+      "sha256": "3120faabdb63b2063958bdea89ea7825062c21fead844f18653f045e830628f3"
+    }
+  ]
+}

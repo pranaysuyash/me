@@ -1,0 +1,21 @@
+Chapter 10: Cost, Latency, And Review Effort Belong In The Eval
+
+An artificial-intelligence workflow can be accurate and still be wrong for the product. If it is too slow, expensive, or dependent on human review, it may not survive real use. Cost, latency, and review effort belong inside the product contract.
+
+The useful unit is the cost of one acceptable final decision, including parsing, optical character recognition, model use, retries, fallback, lookups, queueing, review, correction, and reprocessing.
+
+A cheap call can become expensive by escalating too many documents. Human review also varies: checking one highlighted field differs from reconstructing an itinerary from a poor scan.
+
+Compare a small model, a large model, and a small model with an evidence gate and targeted fallback. Aggregates are insufficient.
+
+For AIR zero zero one, the gate knows terminal and baggage are absent and must not be inferred. Fallback cannot create missing evidence. The correct route is to stop and accept with warning. Another model call adds cost, delay, and another chance to invent a value. For AIR zero zero two, weak OCR may hide a visible flight number. OCR repair or targeted fallback could recover evidence and avoid review. The real question is which evidence states justify the extra step.
+
+Keep a per-document ledger: stage latency and cost, retries, fallback, stop reason, review requirement, final decision, and quality. For reviewed cases, separate queue time from active work and record fields presented, highlighted evidence, corrections, and disagreement.
+
+Calculate expected cost per acceptable document by combining infrastructure cost with the probability and active cost of review and reprocessing. Do not invent a monetary cost for failures without business evidence. Mark it unknown and preserve severe escape counts as hard constraints.
+
+Connect review to volume. At ten thousand documents per week, a twelve percent review rate and forty-five seconds per review create fifteen hours of work before queue management and rework. State assumptions, examine peaks, and slice by case type because clean tickets, poor scans, group itineraries, and missing-field traps have different economics.
+
+For your reflection, compare two workflows on the same cases. Record cost, latency, fallback, retry, and review. Estimate active review from a stated sample. Define quality, latency, and review-capacity limits. Which workflow satisfies all three?
+
+We can now evaluate correctness, risk, cost, latency, and human effort. Chapter Eleven asks what the workflow should do when uncertainty appears: continue, repair, fall back, review, or stop. Those choices are policies, and they must earn evidence too.

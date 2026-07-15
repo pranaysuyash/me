@@ -1,0 +1,21 @@
+Chapter 2: Premature Confidence Is The Real Bug
+
+Many AI failures first look like model failures. The model hallucinated. The prompt was vague. The parser broke. Underneath them is often a transition error: uncertain output entered the workflow, but a trusted fact emerged without an evidence-producing step in between.
+
+That is premature confidence.
+
+Return to the ticket. The model proposes Terminal 3. A fragile system copies the string directly into the booking. Presence has silently become proof. A trustworthy system checks the candidate against the document, applies field policy, and then accepts, reviews, or rejects it.
+
+Confidence leaks through language too. “Your travel details are verified” is stronger than “We extracted six details and flagged two for review.” A schema can prove that terminal is text or empty. It cannot prove that Terminal 3 appears on the ticket.
+
+Treat confidence as an operational state, not a mysterious decimal. A candidate can become supported, normalized, not present, unreadable, ambiguous, conflicting, ready for review, or rejected.
+
+Keep knowledge and consequence separate. Status describes the relationship between a value and its source. Field policy describes the cost of being wrong. An ambiguous terminal and an ambiguous PNR share uncertainty, but they need not trigger the same action.
+
+For our ticket, terminal and baggage should be empty values marked not present. That looks less complete than the model response, but it is more correct. Evaluations, often shortened to evals, must reward this restraint. If populated fields earn points while honest blanks look like failure, the system is encouraged to guess.
+
+The governing boundary is simple: the model proposes values; policy grants permissions. A supported name may be displayed, a normalized airport code may be used while retaining its raw value, and an inferred PNR is blocked.
+
+For reflection, trace Terminal 3 from model response to stored booking. Find the first step where it becomes trusted. Replace that transition with an explicit state and decide what the user should see. A good answer omits the terminal or says it was not shown on the ticket. It never claims that every detail was verified.
+
+Once confidence is explicit, evaluation becomes possible. But judging the whole ticket as one object is still too broad. We now need claims that people and tests can verify one at a time.

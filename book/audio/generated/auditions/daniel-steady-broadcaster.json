@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "script_sha256": "1bebfe86ff60ce7670517e15499cfdc7e38a05e30eeef54bc5f7524d2dae9e78",
+  "characters": 688,
+  "voice_id": "onwK4e9ZLuTAKqWW03F9",
+  "voice_name": "Daniel - Steady Broadcaster",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_192",
+  "bytes": 1268968,
+  "request_id": "IL97cfAULcFMp0hptHLS",
+  "character_cost": "378",
+  "content_type": "audio/mpeg",
+  "audio_sha256": "049e3de45afe8e5d3ca1f2eefdcd017e899481dfbc8d468b4bca67313b01a1df"
+}

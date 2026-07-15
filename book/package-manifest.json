@@ -2,9 +2,9 @@
   "algorithm": "sha256",
   "outputs": {
     "book/manuscript/no-claim-without-evidence.md": "b2d95f3f927443582307c6a4aa5ac830dabd9f424e21b51bc44d72b5349d61f5",
-    "dist/no-claim-without-evidence.epub": "ae210004430db9b76a5e755828525ef53982a962b84ee50f19cf430e9f8a8bcc",
+    "dist/no-claim-without-evidence.epub": "5134085a6f603cd82c5a48af549a188682bc1f96552cfad7617e213c62680099",
     "dist/no-claim-without-evidence.html": "733f7775fcddd606405d11ebed9f49d46e90430ed82e14c0a6c9f8c0ebdd7176",
-    "dist/no-claim-without-evidence.pdf": "9b38a0e5659594f8346a69333d23842ba29871045fc1871eb8edb935f4777edf",
+    "dist/no-claim-without-evidence.pdf": "4eb62a10be2c118d70e5896e723617fef2ae20ef695bf67e5718cfdc931659fd",
     "dist/sales-page.html": "03b360d9417000583c33ee00eb9f139fc3831b67ceebc5507bd4273982ac5a15"
   },
   "sources": {
@@ -21,15 +21,19 @@
     "book/manuscript/sources.md": "dba5f542bae18b928c8395473e31201520b0c0787f83eb80cf8e8a0d3a2bdf3d",
     "book/metadata.json": "78163a7ed3cf624dd944d081b943a078a8c5429badb6ebfd67d237c29619f3a9",
     "book/tools/assemble_manuscript.py": "e3fc96bd79a4a1997e1be0e7b3d6e53399eb63bf9e7f6219ac348d989a64d95c",
+    "book/tools/build_audio_narration.py": "f0eb543f0b6e9592532bf402d93a756f917693b76d84b184dadcef73cd86134f",
     "book/tools/build_epub.py": "2d9775775d629c3bb3930aca450791ceeed78ded2036b71b22b0772b36c83837",
     "book/tools/build_html.py": "2db48fec571cb4e9f9d1b24b25c5243fcaee010f858ca8e0ff27c537009f5c36",
     "book/tools/build_pdf.py": "80a2be7120d92e2086ae050f492e8ecc14de6a5651cc70ee5e363916dd7dba0f",
     "book/tools/build_sales_page.py": "4dcfefd42033b5462a98acf65406b794f1ee38bb7f8429a84491218ecbf3f998",
+    "book/tools/check_audiobook.py": "17c6147382d0282f191f998ac38b5a0d8c666e92141cb120d17eacefc23f9bca",
     "book/tools/check_cleanup_protection.py": "cbd3dc6829f2b4977da688416b8db3dce59c4c7daeac9a3521ceabc4cc1e5721",
     "book/tools/check_manuscript.py": "186e58ebab208facc5f1274f9d0d99d3c64bceebec8877375a04aece9e007eb1",
     "book/tools/check_package.py": "c53521cbe446b97e30028b5b983c87f2538673eadeeda66454ae541552f5186e",
     "book/tools/cleanup_generated.py": "7bc7570a5de07f5de6b5229ea3a8d7e26d732c626d859fbc49a6bbb9255648d2",
     "book/tools/embed_html_assets.py": "b53b031aa19593f93249a3a3930f0dab09cae500bdca31483c4d6338185ad54e",
+    "book/tools/generate_audiobook.py": "a257fe80871010864e3efd57111771ee00f64f4581a9108fc24c8c4f35578df9",
+    "book/tools/master_audiobook.py": "c7cacbdb5c35fd743f24bf0162e7a5644a996373bdb058392f0fcf1f41918c9f",
     "book/tools/write_package_manifest.py": "fa23ac696a4f8be47f036bf9dd1aaf5b54c056f2ca0403f1f634579688329dfa",
     "public/books/no-claim-without-evidence/cover.png": "67c30b3221d7df9eec359696a0de5107e4a8918fde43af6e968af389c6e4e2b6"
   },

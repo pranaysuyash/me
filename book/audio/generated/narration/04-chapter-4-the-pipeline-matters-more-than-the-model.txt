@@ -1,0 +1,19 @@
+Chapter 4: The Pipeline Matters More Than The Model
+
+Teams often ask, “Which model should we use?” A better question is, “What pipeline turns uncertain output into a trustworthy product decision?”
+
+Reliability belongs to the full path from input to consequence. A model can read Delhi correctly while a stale lookup produces the wrong airport. A highly accurate model can still make the product too slow, expensive, or difficult to review.
+
+For document extraction, the workflow may receive a file, detect its type, extract native text or run OCR, interpret layout, propose fields, validate structure, link evidence, normalize values, assign states, route fallbacks, request review, make a final decision, log the run, and capture regression cases. A model may help at several stages. It does not own the entire result.
+
+In the ebook companion, See the three-layer system diagram for the relationship among model, pipeline, and data or configuration.
+
+Follow Riya’s ticket through that pipeline. The document arrives as a Portable Document Format file, or PDF. Text extraction recovers its contents. Classification identifies an airline ticket. The extractor creates raw field records. Evidence linking checks exact spans. A versioned lookup maps Delhi to D E L and Bengaluru to B L R. Policy marks terminal and baggage as not present and blocks fallback. The final decision accepts the itinerary with honest warnings.
+
+Store stage results rather than one opaque response. Record the model, prompt, lookup, blocked inferences, and final decision. Preserve partial success too: a ticket may have a supported name, normalized origin, unreadable time, and absent terminal. Carry those field states into an explainable document decision.
+
+Model choice now becomes system choice. A large model may have better raw accuracy but more unsupported inference and latency. A smaller model behind strong gates may make fewer dangerous claims. Choose against consequence, cost, speed, and review capacity.
+
+For reflection, sketch the path from ticket upload to display. Place empty text, a misread flight number, a wrong airport mapping, an accepted terminal guess, and a lost correction into their owning stages. Then choose one measure beyond accuracy and explain why it matters.
+
+When the pipeline is the product, each failure tells you which layer to improve. The next chapter strengthens those layers with the cheapest and clearest controls: deterministic gates.

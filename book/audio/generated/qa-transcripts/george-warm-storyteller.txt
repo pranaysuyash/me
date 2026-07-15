@@ -1,0 +1,2 @@
+ No claim without evidence. Consider an airline ticket that clearly shows the passenger, flight number, origin, destination and departure time. But does not show a terminal. A trustworthy system preserves that absence. It does not turn a blank field into Terminal 3 merely because the answer sounds plausible. The model may propose a value, but the pipeline must ask a harder question. What evidence supports this claim and what action is allowed when that evidence is missing?
+ The

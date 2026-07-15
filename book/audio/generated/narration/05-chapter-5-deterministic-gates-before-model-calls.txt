@@ -1,0 +1,23 @@
+Chapter 5: Deterministic Gates Before Model Calls
+
+Do not call a model merely because you can. Some decisions belong to deterministic gates: checks governed by stable rules rather than open-ended generation.
+
+A gate can check file type, empty text, ticket signals, response structure, date format, approved airport codes, or field evidence.
+
+Use probabilistic reasoning for language, layout, ambiguity, and context. Use ordinary code for rules that must remain true regardless of model behavior. A deterministic gate is inspectable, repeatable, and returns a precise failure reason.
+
+Before extraction, a pre-call gate checks the file type, confirms text exists, and looks for signals such as passenger, flight, or PNR. Supported files continue. Unsupported files are rejected. Empty text routes to OCR repair. Weak signals route to classification or review.
+
+After extraction, separate gates check structure, evidence, and normalization. A supported field without evidence goes to review. An inferred terminal, baggage allowance, or PNR is rejected. A field marked not present cannot still contain a value. A correctly missing terminal continues with a warning.
+
+Airport normalization gets its own gate. Raw cities need evidence, and their codes must exist in the versioned lookup. Unknown or conflicting mappings go to review. The model must not invent canonical data.
+
+Every failed gate needs a route. Empty text may justify repair. A probably visible critical field may justify targeted fallback. An optional field absent from readable text stops with a warning because another call cannot create evidence. Ambiguous critical evidence goes to a person. Forbidden inference is rejected.
+
+A warning that changes nothing is not a control, and a fallback that fills every blank becomes a second source of unsupported claims. Deterministic rules and lookups must still be versioned and tested.
+
+For a final reflection, define three gates before the model call and three after it. Test empty text, unsupported Terminal 3, supported Delhi normalized to D E L, and a city missing from the lookup. Give each failure a reason and a route.
+
+Empty text goes to OCR repair without a model call. Unsupported terminal becomes not present. Delhi retains its raw value and lookup version. An unknown airport is never guessed.
+
+Our ticket workflow now has evidence records, explicit confidence states, narrow claims, a visible pipeline, and deterministic controls. The next question is harder: do the model-backed stages work across varied documents, or only on this convincing example? One good output is not proof. It is the first case in an evaluation set.

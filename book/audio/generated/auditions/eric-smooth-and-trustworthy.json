@@ -1,0 +1,14 @@
+{
+  "status": "complete",
+  "script_sha256": "1bebfe86ff60ce7670517e15499cfdc7e38a05e30eeef54bc5f7524d2dae9e78",
+  "characters": 688,
+  "voice_id": "cjVigY5qzO86Huf0OWal",
+  "voice_name": "Eric - Smooth and Trustworthy",
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_192",
+  "bytes": 991234,
+  "request_id": "oepXSSFK5pTdbzkM87tD",
+  "character_cost": "378",
+  "content_type": "audio/mpeg",
+  "audio_sha256": "cb818c5c4e30f5b7ce849918edcd41f689492d750d10bcb3fc01ae3226e6f2ec"
+}

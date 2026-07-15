@@ -1,0 +1,19 @@
+Chapter 1: No Claim Without Evidence
+
+The first rule of trustworthy artificial intelligence is engineering honesty: do not call an extracted value correct unless you can trace it to its source. AI output looks finished. It is fluent and confident. But naturalness is not correctness.
+
+Consider the airline ticket we will follow through this book. It belongs to Riya Mehta. The booking reference, also called a Passenger Name Record or PNR, is H7K29Q. The flight is AI 202, from Delhi to Bengaluru on the twelfth of August, 2026, at nine forty in the morning. The ticket does not show a terminal or baggage allowance.
+
+Now imagine the system returns those details plus Terminal 3 and fifteen kilograms of baggage. The response is neat and plausible, but the last two values are not on the document. The system did not extract them. It inferred them.
+
+A product claim needs a value, provenance, interpretation, and a decision: what it says, where it came from, how it was produced, and what the product may do with it.
+
+Delhi becoming the airport code D E L is normalization: a supported value was transformed by a declared rule. Terminal 3 is inference because no terminal appears on the ticket. Inference can be useful, but it must never masquerade as extraction.
+
+The practical solution is an evidence record that travels with each important field. For origin, preserve the raw value Delhi, the normalized value D E L, and the supporting departure line. For terminal, store no value, label the field not present, and prohibit inference.
+
+Other useful states include supported, unreadable, ambiguous, conflicting, and requires review. Each must permit or block specific actions. Evidence should match consequence: an optional field may need an honest missing label, while a PNR used to retrieve a booking needs exact source evidence.
+
+Pause and examine four fields: PNR, origin, terminal, and baggage. For each, name the value, its evidence, and the action you would allow. Then explain why Terminal 3 must be rejected even if it happens to be true in the real world. This extraction product is claiming what the document says, not what outside knowledge suggests.
+
+The best AI systems are not the ones that always answer. They know what kind of answer they are giving. But evidence will not protect users if the product grants trust too early. That is the bug we examine next.

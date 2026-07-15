@@ -1,0 +1,17 @@
+Chapter 16: Observability Is The Product Interface
+
+A trustworthy artificial intelligence workflow must explain what happened, not only to an engineer who can read code, but to the user, reviewer, and operator affected by its result.
+
+Observability is often reduced to logs and metrics. For an AI product, it is part of the interface. A useful trace connects the input, processing path, evidence, decision, and outcome. Without that chain, you have events, but not an explanation.
+
+Return to Riya Mehta's ticket. The workflow extracts booking reference H7K29Q, flight AI 202, the date, route, and time. It normalizes Delhi to D E L and Bengaluru to B L R. Because the ticket shows no terminal or baggage, both remain empty and no fallback runs.
+
+The trace records the document, pipeline and model versions, gate results, and field evidence. For terminal, it records no value, not present in the document, do not infer, and a stop reason of no source evidence. An operator can distinguish a missed value from one the document never contained.
+
+Show each audience the right view of one canonical trace. A user needs the itinerary and honest warnings. A reviewer needs the proposal, evidence, and policy. An operator needs routing, fallbacks, reviews, versions, and final state. A builder may also need raw output, errors, and cost.
+
+Record each transition as an immutable decision event containing value, evidence, status, action, reason, and relevant versions. Stable reasons make failures searchable. Use redacted evidence when full text exposes personal information, and never collect secrets merely for possible future debugging.
+
+For reflection, imagine that the extractor found no terminal, a fallback proposed Terminal 3, and the workflow accepted it. Name the source state, routing rule, missing evidence, validation decision, and user message. The model guessed, but routing and evidence gating made the guess a claim. Your regression should require a do-not-infer field without evidence to stop.
+
+Observability makes extraction explainable. The next chapter raises the consequence: what changes when the system uses a field to take action?

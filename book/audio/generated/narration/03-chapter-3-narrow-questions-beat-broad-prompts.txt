@@ -1,0 +1,19 @@
+Chapter 3: Narrow Questions Beat Broad Prompts
+
+“Extract all useful information from this ticket” sounds capable, but it hides the definition of correct. What does useful mean? What counts as all? Did an omitted field not matter, or did the model miss it?
+
+Narrow questions are easier to inspect. What flight number is printed? Is a terminal printed? What exact text supports the booking reference? Narrowness does not magically make the model smarter. It gives the system a bounded claim and a way to judge it.
+
+An atomic claim has one subject, one value or state, and one evidence requirement. For example: the PNR is H7K29Q. The required evidence is an exact span labelled booking reference or PNR. The acceptance rule is an exact character match after harmless whitespace cleanup.
+
+Apply this pattern to Riya’s ticket. Preserve the passenger name and PNR as printed. Normalize the date only after extraction. Map Delhi and Bengaluru through the approved International Air Transport Association, or IATA, airport lookup. Treat an unclear departure time as reviewable. Ask whether terminal and baggage are present; do not ask the model to complete them.
+
+This separates observation, absence detection, transformation, and risk. Production may still batch fields into one call. Narrowness is about contracts and scoring, not necessarily more calls.
+
+For every field, return the raw value or no value, a source state, and the shortest supporting text. Normalize later. Then a wrong code can be traced either to extraction or to the lookup. For review, show one consequential claim at a time, so clean fields cannot distract from one dangerous guess.
+
+Failure ownership becomes clearer. No available text points to intake or optical character recognition, known as OCR. A wrong raw value points to extraction. A correct city with a wrong code points to normalization. An unsupported accepted value points to policy; a missed review points to routing.
+
+Now turn the broad ticket request into four questions: one each for PNR, origin, terminal, and baggage. Give each an evidence requirement and an allowed transformation. Then place three failures: a wrong raw origin belongs to extraction; a correct origin mapped to the wrong IATA code belongs to normalization; an unsupported terminal that flows through belongs to policy or routing.
+
+If you cannot state a claim narrowly, you cannot evaluate it precisely. Once claims are inspectable, the model becomes visible as only one place where they can fail. The next chapter expands our unit of design from the model call to the complete workflow.

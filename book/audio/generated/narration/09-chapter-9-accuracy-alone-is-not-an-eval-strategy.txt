@@ -1,0 +1,19 @@
+Chapter 9: Accuracy Alone Is Not An Eval Strategy
+
+Accuracy is a starting point, not an evaluation strategy. Strategy begins with a decision. Are you choosing a default model, deciding whether a prompt can ship, testing fallback, measuring an evidence gate, or detecting drift? Different decisions require different evidence.
+
+Compare two airline-ticket systems. System A has ninety-five percent field accuracy, eight percent unsupported inference, and seventy-six percent evidence coverage. System B has ninety-two percent field accuracy, one percent unsupported inference, and ninety-nine percent evidence coverage. The flat leaderboard chooses A. The product contract may correctly choose B.
+
+On AIR zero zero one, a completion-oriented scorer rewards System A for filling terminal and baggage. System B marks them absent, preserves raw route values, and links supported fields to their source. If those fields must not be inferred, the higher score has rewarded unsafe behavior.
+
+Keep critical correctness, unsupported inference, evidence coverage, normalization, review escalation, fallback effects, and routing visible. A weighted summary must not average away a release blocker.
+
+Separate metrics from hard constraints. You might maximize critical-field accuracy and evidence coverage while requiring zero unsupported inference on critical fields, zero wrong-entity assignments, valid structure above an agreed threshold, and passing regression cases. A release gate should return reasons. Blocked by one wrong-entity assignment is useful. Release score eighty-one is not.
+
+Define each metric by unit, eligible cases, numerator, denominator, missing-result treatment, and slices. Evidence coverage applies to supported fields, not fields correctly absent. Report both count and rate for unsupported inference, and retain case records beneath every chart.
+
+A lower review rate might mean better automation or hidden uncertainty. Pair it with corrections, critical escapes, and routing. Compare candidates with a real baseline, then inspect worst cases as well as averages.
+
+For your reflection, name the decision, baseline, and candidate. Choose no more than five metrics, define two hard constraints, and select slices that could expose regression. With higher accuracy but worse unsupported inference, does your scorecard produce a defensible adopt, continue-testing, or reject decision?
+
+The scorecard covers correctness and risk. A technically strong workflow can still fail if every document is slow, expensive, or labor-intensive. Chapter Ten adds the operating cost of trust.

@@ -1,0 +1,17 @@
+Chapter 6: One Good Output Does Not Mean Your Prompt Works
+
+You give a model one document. It returns clean, structured data, and the demo feels convincing. That proves the task can work on that input. It does not prove reliability across real inputs, where model, instructions, source quality, layout, and ambiguity can change. Reliability asks: what behavior must remain correct as those conditions change?
+
+Consider the airline-ticket case we will follow through the next five chapters. The ticket belongs to Riya Mehta. It shows booking reference H seven K two nine Q, flight AI two-oh-two, travel from Delhi to Bengaluru on the twelfth of August, twenty twenty-six, and departure at nine forty. It does not show a terminal or baggage allowance.
+
+The extraction gets visible fields right but supplies Terminal Three and fifteen kilograms of baggage. It is polished but unsafe.
+
+Turn that failure into a designed evaluation case called AIR zero zero one. Expect terminal and baggage to be empty and marked not present in the document. Preserve Delhi and Bengaluru as raw values, then normalize them to the airport codes D E L and B L R. Explicitly forbid invented terminal and baggage information.
+
+Build cases around clean documents and screenshots, single and multiple passengers, missing fields, rescheduled itineraries, and weak optical character recognition. Optical character recognition, or OCR, converts images into machine-readable text. Give each case expected and forbidden behavior and a route such as accept, warn, or review.
+
+Version each run and capture the existing workflow before improving it. Retain clean passes: a rule that blocks terminal guesses must still extract a visible terminal.
+
+For your reflection, take your best demo and name the assumptions that make it easy. Imagine four variants, each changing one assumption. Define the expected value, evidence status, route, and one forbidden behavior. Before editing the prompt, ask how the current workflow would fail.
+
+One good output answers, can this work once? A designed evaluation begins to answer, does it behave correctly where it matters? Chapter Seven turns that word, correctly, from intuition into a product contract.

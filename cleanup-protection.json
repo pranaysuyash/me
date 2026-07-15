@@ -4,12 +4,14 @@
   "protected_roots": [
     "book/archive",
     "book/assets",
+    "book/audio",
     "book/design",
     "book/drafts",
     "book/manuscript",
     "book/marketing",
     "book/tools",
     "book/worklog",
+    "dist/audio",
     "public/books/no-claim-without-evidence"
   ],
   "protected_exact": [

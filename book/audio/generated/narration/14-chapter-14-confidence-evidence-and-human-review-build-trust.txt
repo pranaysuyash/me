@@ -1,0 +1,21 @@
+Chapter 14: Confidence, Evidence, And Human Review Build Trust
+
+Confidence is not correctness. A model can be confidently wrong; a correct value can look uncertain on a blurry scan; and a field can be absent rather than unknown.
+
+Trust comes from making uncertainty inspectable and assigning each state an honest action.
+
+An extracted field contains four claims. The value claim says what it contains. The evidence claim says where the source supports it. The status claim says whether it is supported, normalized, absent, unreadable, ambiguous, or conflicting. The workflow claim records the resulting action. Keep them separate.
+
+On the airline ticket, for P N R H seven K two nine Q, preserve value, source line, location, status, and action. For terminal, keep value and evidence empty and mark it absent. For a blurry flight number, preserve the uncertain reading and request review. Ninety-nine percent confidence without evidence still fails a do-not-infer policy.
+
+Human review turns unresolved uncertainty into a controlled decision. Show the candidate, evidence in context, field policy, route reason, allowed decisions, and correction reasons. If two departure times appear, ask which belongs to flight A I two-oh-two on that date, allowing either candidate, unresolved, or not applicable. Never ask whether the whole document looks okay.
+
+Reviewer disagreement may reveal unclear ground truth, weak instructions, missing context, or genuine ambiguity. Calibrate on shared cases. Fix the rule or preserve unresolved. Solo builders should define rules first and shuffle old and new outputs to reduce bias.
+
+Track review time, evidence opened, correction reason, and whether a decision was possible. Use those signals to improve routing and presentation, not to pressure reviewers.
+
+A deterministic validator should reject contradictions before review. A supported value requires evidence. An absent field cannot contain a value. A normalized status requires a normalized value. Ambiguous, conflicting, or unreadable states must lead to review or stop. This is a contract guard, not a truth detector.
+
+For your reflection, classify a supported P N R, an absent terminal, conflicting departure times, and Delhi correctly extracted but normalized as B S L. The P N R should pass. Terminal remains absent unless downstream policy requires review. Conflicting times need narrow review. The airport error needs deterministic lookup correction, not re-extraction.
+
+Trust comes from inspectable behavior. Yet a perfect field record can emerge from a broken workflow. The next chapter widens the evaluated object from one output to the complete user path.

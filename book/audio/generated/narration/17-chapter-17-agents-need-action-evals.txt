@@ -1,0 +1,21 @@
+Chapter 17: Agents Need Action Evals
+
+An agent is not only an answer generator. It proposes or takes actions. That changes what an evaluation, or eval, must measure.
+
+When a model gives a wrong answer, the failure may remain in text. When an agent calls the wrong tool, changes the wrong record, or books the wrong itinerary, the failure changes the world. The unit of evaluation is now a sequence of state transitions.
+
+An action eval starts with state, policy, and allowed transitions. It asks whether a tool was needed, whether its arguments came from evidence and intent, whether permission existed, what changed, and whether a retry could duplicate the action. A final message can hide both imaginary success and an unauthorized booking.
+
+Riya now says, "Change my flight to tomorrow morning if it is under one hundred dollars extra." Her supported ticket fields include booking reference H7K29Q, flight AI 202, and the date. Terminal and baggage remain absent.
+
+A safe agent may read the ticket, search alternatives, and request a quote. It must ask Riya to confirm a qualifying quote unless she explicitly pre-authorized booking. The price limit is not blanket permission, and absent terminal or baggage details must not be invented.
+
+Before execution, a deterministic policy gate verifies the evidence-backed booking reference, price limit, current quote confirmation, quote validity, and idempotency key. The model proposes; policy decides whether state may change.
+
+Evaluate the proposed call, authorization result, and observed external state. A successful response code is not proof. Confirm the itinerary, charge, action identifier, and user summary.
+
+Test wrong tools, bad arguments, stale confirmation, rejection, partial success, and recovery. After a timeout, reconcile the original idempotency key or provider action identifier before retrying; the provider may already have completed the booking.
+
+For reflection, the agent finds an option costing eighty-two dollars extra, books without asking, and promises fifteen kilograms of baggage, though the ticket showed none. Classify booking as an action-policy failure and the baggage statement as an unsupported claim. Recovery needs both itineraries, the quote, price difference, provider action identifier, confirmation state, and required user contact.
+
+Trustworthy agents leave actions constrained and recoverable. Those constraints also live in schemas, policies, lookup tables, and thresholds. That is where we go next.

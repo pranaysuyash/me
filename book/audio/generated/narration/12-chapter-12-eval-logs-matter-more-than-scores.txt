@@ -1,0 +1,19 @@
+Chapter 12: Eval Logs Matter More Than Scores
+
+A score tells you that something happened. A log tells you what to do next.
+
+Eighty-four percent accuracy reveals imperfection, but not whether to change the prompt, optical character recognition, schema, lookup data, routing, or product contract. Scores compare; logs diagnose.
+
+An eval log preserves the input, versions, decisions, output, expected behavior, failure owner, and next action. Measurement observes; learning retains context for improvement.
+
+On our ticket, the extractor reads Delhi correctly, but normalization converts it to B S L instead of D E L. A final-value log makes this look like a model error, although the airport lookup owns it. In another failure, fallback invents Terminal Three. Routing owns that error because it should have stopped.
+
+Separate three layers. The model proposes values and evidence. The pipeline handles validation, routing, stopping, and review. Data and configuration own schemas, dictionaries, and policies. This prevents prompt edits for defects elsewhere.
+
+Store each run as an append-only record, perhaps one JavaScript Object Notation record per line, known as JSON Lines. Include identifiers, input family, component versions, expected and actual values, evidence state, retries, cost, errors, owners, and recommended work. Preserve observable events, not hidden reasoning.
+
+Derive summaries from case records so every count is traceable. Three wrong airport mappings should create one task requiring Delhi to map to D E L, Bengaluru to B L R, raw values to survive, unknown cities to remain unknown, and regressions to pass. Use sanitized cases and avoid needless copies of travel data.
+
+For your reflection, diagnose three failures: Delhi becomes B S L; fallback invents Terminal Three; and optical character recognition turns A I two-oh-two into A L two-oh-two. Name the error, owning layer, impact, work item, and two acceptance criteria. They belong to normalization data, routing policy, and optical character recognition or character repair.
+
+Scores help you compare. Logs help you learn. To retain that learning across releases, the cases need purpose and stewardship. The eval set must become product memory.

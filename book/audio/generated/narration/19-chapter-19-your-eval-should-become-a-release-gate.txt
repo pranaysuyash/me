@@ -1,0 +1,27 @@
+Chapter 19: Your Eval Should Become A Release Gate
+
+The mature end state is not an evaluation dashboard. It is release discipline.
+
+When a model, prompt, schema, lookup, routing rule, review policy, or stop condition changes, the relevant evals should run. The release gate asks one concrete question: is this version of the product workflow safe enough to ship for its users, consequences, and operating model?
+
+An eval score describes performance under defined conditions. A release gate combines evidence with policy. Because averages can hide severe failures, the gate needs quality thresholds, operational limits, and zero-tolerance blockers.
+
+In the ebook companion, See the release-gate diagram for how quality evidence, operational evidence, and blockers converge on a ship, hold, or reject decision.
+
+Quality thresholds cover accuracy, evidence, schema validity, and regressions. Operational limits cover review load, cost, and ninety-fifth-percentile latency. Blockers include unsupported claims, do-not-infer fields accepted without evidence, unauthorized bookings, and critical regression failures. Set these standards before seeing results.
+
+Our candidate requires evidence for terminal and baggage, maps Bengaluru to B L R, and requires quote-specific confirmation plus an idempotency key. Compare this exact bundle with its baseline on absent fields, normalization, stopping, confirmation, and retries.
+
+A pass supports release under the written contract; it does not prove universal correctness. Record every tested model, prompt, schema, policy, lookup, eval set, and truth version, plus rollback signals.
+
+Match suites to the changed surface: normalization for lookup changes, stopping for routing changes, and permission, idempotency, and recovery for booking changes. Missing evidence or a blocker event stops release.
+
+A bounded risk may be approved with a waiver, never relabelled as passed. Record its impact, owner, mitigation, monitoring, expiry, rollback trigger, and approver. Temporary latency may be waivable; unsupported claims and unauthorized bookings should not be.
+
+For the final reflection, a candidate passes every aggregate threshold, but one regression fills an absent baggage field with fifteen kilograms. Should it ship?
+
+No. A do-not-infer claim lacks evidence and a critical regression failed. Correct the gate or route, rerun every required suite for the exact bundle, and make a new decision. A routine waiver is inappropriate.
+
+This is where the book lands. No extraction without evidence. No confidence without an explicit state. No fallback without routing policy. No agent action without permission. No release without a gate.
+
+The purpose of an eval is not to prove that a model is good. It is to decide whether a product workflow is safe enough to trust, improve, or ship.

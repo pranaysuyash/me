@@ -1,0 +1,21 @@
+Chapter 13: Your Eval Set Is Product Memory
+
+An eval set is not a folder of examples. It is product memory. It remembers user formats, important fields, difficult layouts, values that must not be inferred, settled ambiguities, and failures that once escaped.
+
+Scale can mislead. A small set chosen for distinct risks may teach more than a thousand convenient files. Preserve obligations and known failure boundaries.
+
+Our airline case, A I R zero-zero-one, exists because terminal and baggage are missing while both airports need normalization. It protects three rules: do not infer terminal, do not infer baggage, and normalize Delhi and Bengaluru without losing their raw values. Without a manifest, someone may fill the blanks or delete the case as incomplete. The incompleteness is the point.
+
+Record each case's identifier, source, layout, risks, expected route, protected behavior, owner, and review date. Synthetic, licensed, and sanitized production cases need different handling. Never present a constructed ticket as production data. In the ebook companion, See the case manifest for full fields.
+
+Build a portfolio: clean cases, difficult scans, inference traps, routing and normalization cases, earlier regressions, and recent drift probes. Weight them by frequency, impact, and uncertainty.
+
+Use counterexamples: an absent terminal stops, a visible one passes, and a blurry but likely-present one goes to review. Together they protect the boundary. A coverage matrix exposes missing combinations of layout and risk.
+
+Version membership, ground truth, schema, scoring, routing, normalization, and review policy. When an expectation changes, record why and who authorized it. Silent edits make a moved goalpost look like progress.
+
+Add cases for new risks, recurring patterns, contract decisions, or escaped failures. Review for stale policy, duplicates, and missing layouts. Retire only with a preserved reason and replacement.
+
+Now design a twelve-case airline memory with ordinary cases, inference traps, routing and normalization cases, plus multi-passenger, poor-image, and regression coverage. Every case needs a reason. Define the manifest for A I R zero-zero-one, an addition trigger, a retirement criterion, and reproducible versions.
+
+Memory alone cannot decide what to trust at runtime. Every field needs an honest relationship among value, evidence, uncertainty, and action. That is the next chapter.

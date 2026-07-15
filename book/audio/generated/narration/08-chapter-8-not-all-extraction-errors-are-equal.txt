@@ -1,0 +1,19 @@
+Chapter 8: Not All Extraction Errors Are Equal
+
+Accuracy hides risk. If an airline-ticket extractor gets nine of ten fields right, ninety percent sounds reassuring. But one error could be an optional meal preference; another could attach an itinerary to the wrong booking. The arithmetic treats them equally. The product cannot.
+
+Classify failures on separate axes. Severity asks what happens if the failure reaches a user or workflow. Failure type asks what relationship among source, output, and policy was broken. Severity helps decide whether to block, warn, or tolerate. Failure type helps decide what to repair.
+
+AIR zero zero one contains at least three failures. Invented terminal and baggage values are unsupported inference with high severity, initially owned by the evidence gate and routing policy. Returning D E L while losing the raw value Delhi is traceability loss owned by the output schema. Calling all three wrong extraction would send every problem back to prompt editing, although the durable fixes belong in different layers.
+
+Use a compact taxonomy: unsupported inference, wrong extraction, entity merge, normalization error, evidence loss, policy mismatch, and routing error. Keep severity separate: critical for unsafe decisions or wrong entities; high for customer or operational damage; medium for recoverable degradation; low for presentation issues.
+
+Context changes severity. A missing departure time may be moderate in an archive and critical in an airport-transfer workflow.
+
+Treat the owning layer as a hypothesis. If an airport code is wrong but Delhi was extracted correctly, test the normalizer alone. For an invented terminal, ask whether parsing found evidence, validation rejected the guess, routing called fallback after absence was known, and the final decision let it through. One failure can reveal several broken defenses.
+
+Turn causes into behavioral work. Instead of improve hallucinations, require absent do-not-infer fields to remain empty, prevent fallback without evidence, and keep visible-terminal extraction working. Now the work has an owner and regression checks.
+
+For your reflection, classify ten failures by type, severity, owner, and consequence. Compare the most frequent group with the most dangerous one, choose a systemic fix, and add a regression case for the highest-severity failure.
+
+The taxonomy explains what broke and what it could cost. It does not say whether the whole workflow is better. Chapter Nine replaces the one-number leaderboard with a decision-oriented scorecard.
