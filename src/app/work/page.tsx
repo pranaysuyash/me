@@ -102,25 +102,27 @@ export default function WorkPage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {auditedProjects.map((project) => {
-              const screenshot = project.screenshots[0];
+              const visual = project.visualEvidence[0];
               return (
                 <article key={project.slug} className="group overflow-hidden rounded-xl border bg-background shadow-sm">
-                  <div className="relative aspect-[16/9] overflow-hidden bg-[#0d1718]">
-                    {screenshot ? (
+                  <figure className="bg-[#0d1718]">
+                    <div className="relative aspect-[16/9] overflow-hidden">
                       <Image
-                        src={screenshot}
-                        alt={`${project.title} product interface`}
+                        src={visual.src}
+                        alt={visual.alt}
                         fill
                         unoptimized
                         sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                        className={visual.kind === "product-screenshot" ? "object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]" : "object-contain p-2 transition-transform duration-500 group-hover:scale-[1.01]"}
                       />
-                    ) : (
-                      <div className="flex h-full items-center justify-center px-8 text-center text-sm text-white/45">
-                        Product build documented through architecture and workflow evidence
-                      </div>
-                    )}
-                  </div>
+                      <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.13em] text-white/70 backdrop-blur-sm">
+                        {visual.kind === "product-screenshot" ? "Product screenshot" : "Workflow map"}
+                      </span>
+                    </div>
+                    <figcaption className="border-t border-white/10 bg-[#102022] px-4 py-3 text-xs leading-5 text-white/50">
+                      {visual.caption}
+                    </figcaption>
+                  </figure>
                   <div className="p-6">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <span className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
