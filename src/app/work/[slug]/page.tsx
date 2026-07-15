@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
@@ -24,6 +25,8 @@ type Project = BaseProject & {
   whatChanged?: string[];
   artifacts?: string[];
 };
+
+const baseUrl = "https://pranaysuyash.com";
 
 const TECHNICAL_LABELS: Record<string, string> = {
   architecture: "Architecture",
@@ -56,7 +59,7 @@ function EvidenceList({ items }: { items: string[] }) {
       {items.map((item) => (
         <li
           key={item}
-          className="flex items-start gap-2 text-muted-foreground leading-relaxed"
+          className="flex items-start gap-2 leading-relaxed text-muted-foreground"
         >
           <span className="mt-1.5 text-primary">→</span>
           <span>{item}</span>
@@ -74,17 +77,40 @@ export async function generateMetadata({
   params,
 }: WorkDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = projectsData.projects.find((item) => item.slug === slug);
+  const project = projectsData.projects.find(
+    (item) => item.slug === slug,
+  ) as Project | undefined;
 
   if (!project) return {};
+
+  const canonicalUrl = `${baseUrl}/work/${project.slug}`;
+  const preview = project.screenshots?.[0];
 
   return {
     title: `${project.title} | Work | Pranay Suyash`,
     description: project.description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${project.title} | Pranay Suyash`,
       description: project.tagline,
       type: "article",
+      url: canonicalUrl,
+      images: preview
+        ? [
+            {
+              url: preview,
+              alt: `${project.title} product interface`,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: preview ? "summary_large_image" : "summary",
+      title: `${project.title} | Pranay Suyash`,
+      description: project.tagline,
+      images: preview ? [preview] : undefined,
     },
   };
 }
@@ -183,15 +209,18 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 {project.screenshots.map((screenshot, index) => (
                   <div
                     key={screenshot}
-                    className={`overflow-hidden rounded-xl border bg-muted/30 ${
+                    className={`relative aspect-[16/10] overflow-hidden rounded-xl border bg-muted/30 ${
                       index === 0 ? "sm:col-span-2" : ""
                     }`}
                   >
-                    <img
+                    <Image
                       src={screenshot}
                       alt={`${project.title} product surface ${index + 1}`}
-                      className="h-auto w-full object-cover"
-                      loading={index === 0 ? "eager" : "lazy"}
+                      fill
+                      unoptimized
+                      priority={index === 0}
+                      sizes={index === 0 ? "(min-width: 896px) 896px, 100vw" : "(min-width: 640px) 50vw, 100vw"}
+                      className="object-cover object-top"
                     />
                   </div>
                 ))}
@@ -205,9 +234,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
                   What it is
                 </p>
-                <p className="leading-8 text-muted-foreground">
-                  {project.description}
-                </p>
+                <p className="leading-8 text-muted-foreground">{project.description}</p>
               </div>
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
@@ -219,9 +246,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
 
             <section className="border-y py-10">
               <h2 className="text-2xl font-semibold">Workflow and build approach</h2>
-              <p className="mt-4 leading-8 text-muted-foreground">
-                {project.approach}
-              </p>
+              <p className="mt-4 leading-8 text-muted-foreground">{project.approach}</p>
             </section>
 
             {project.outcomes && project.outcomes.length > 0 && (
@@ -237,9 +262,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
                 <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
                   {technicalEntries.map(([key, value]) => (
                     <div key={key} className="rounded-lg border bg-card p-5 shadow-sm">
-                      <h3 className="text-sm font-semibold">
-                        {humanizeTechnicalKey(key)}
-                      </h3>
+                      <h3 className="text-sm font-semibold">{humanizeTechnicalKey(key)}</h3>
                       <p className="mt-2 text-sm leading-7 text-muted-foreground">
                         {value}
                       </p>

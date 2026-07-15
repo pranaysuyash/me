@@ -9,38 +9,49 @@ Portfolio and commercial site for product engineering work across document intel
 The site is client-first. It is designed to:
 
 - explain the kinds of systems Pranay can own end to end;
-- show a small set of flagship case studies before the broader project archive;
+- show flagship product surfaces before the broader project archive;
 - expose architecture, constraints, trade-offs, screenshots, and outcomes rather than technology badges alone;
 - offer separate India INR and Global USD engagement price books;
-- collect problem-first project briefs with regional scope guidance;
+- collect problem-first project briefs with regional scope guidance and explicit privacy notice;
+- support original digital publications and software products without mixing them with consulting delivery;
 - keep employment experience and writing available as secondary paths.
 
 ## Tech stack
 
 - **Framework:** Next.js 15, App Router, static export
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS v4 and shadcn/ui primitives
-- **Animations:** Framer Motion
+- **Styling:** Tailwind CSS v4 and repository-owned UI primitives
+- **Animations:** Framer Motion with reduced-motion support
 - **Icons:** Lucide React
 - **State:** React state and Zustand where needed
 
 ## Architecture
 
-The site exports static HTML and assets to `out/`. It has no application server, database, or API routes.
+The site exports static HTML and assets to `out/`. It has no application server, database, API routes, or public admin application.
 
-Most portfolio content lives in `src/content/projects.json`. High-signal commercial and product narratives can also use dedicated routes, such as `src/app/work/sentineltwin/page.tsx`, when a generic project record cannot communicate the system accurately.
+Most portfolio content lives in `src/content/projects.json`. The sitemap is generated from that canonical project data through `src/app/sitemap.ts`. High-signal product narratives can use dedicated routes, such as `src/app/work/sentineltwin/page.tsx`, when a generic project record cannot communicate the system accurately.
+
+The global shell provides:
+
+- Person and WebSite structured data;
+- generated sitemap and robots routes;
+- Cloudflare security and cache headers;
+- skip navigation, visible focus treatment, and reduced-motion behavior;
+- privacy, terms, refund, and digital-delivery policies;
+- a branded 404 route.
 
 ### Third-party and platform services
 
 | Service | Purpose |
 | --- | --- |
-| Cloudflare Pages | Static hosting and production domain |
+| Cloudflare Pages | Static hosting, production domain, and security layer |
 | Cloudflare `/cdn-cgi/trace` | Same-origin country hint for regional pricing |
 | FormBold | Contact-form submissions |
 | Cal.com | 15-minute and 30-minute booking links |
-| GitHub Actions | Static build and critical-route checks |
+| Dodo Payments | Merchant of Record for enabled digital-product checkout and fulfilment |
+| GitHub Actions | Typecheck, static build, and exported-route contract checks |
 
-Regional pricing always includes a manual India / Global switch. Country detection is a convenience, not a hard access rule.
+Regional service pricing always includes a manual India / Global switch. Country detection is a convenience, not a hard access rule.
 
 ## Getting started
 
@@ -48,6 +59,7 @@ Use Node.js 22.
 
 ```bash
 npm ci
+cp .env.example .env.local
 npm run dev
 ```
 
@@ -64,18 +76,27 @@ Preview the static export:
 npx serve out -l 3000
 ```
 
+## Environment configuration
+
+```text
+NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=
+```
+
+Keep this variable blank until the final PDF and EPUB have been uploaded to Dodo, regional pricing and tax are correct, and a real test payment delivers both files. When blank, the ebook page remains sample-first and does not render a purchase button.
+
 ## Project structure
 
 ```text
-├── .github/workflows/  # Static build and route verification
-├── public/             # Static assets, robots.txt, sitemap.xml
+├── .github/workflows/  # Typecheck, static build, and route verification
+├── public/             # Static assets and Cloudflare _headers
 ├── src/
-│   ├── app/            # Next.js routes and case studies
+│   ├── app/            # Routes, policies, metadata routes, and case studies
 │   ├── components/     # Shared React components
-│   │   ├── layout/     # Navbar, footer, page layout
-│   │   └── ui/         # UI primitives
+│   │   ├── layout/     # Navbar, footer, and page layout
+│   │   ├── legal/      # Shared policy-page presentation
+│   │   └── ui/         # Repository-owned UI primitives
 │   ├── content/        # Project and experience data
-│   └── lib/            # Shared positioning and utility values
+│   └── lib/            # Shared positioning and product configuration
 ├── docs/               # Current and historical product documentation
 └── tools/              # Helper utilities
 ```
@@ -98,7 +119,7 @@ The canonical manual deployment command is:
 npm run deploy:cloudflare
 ```
 
-See `DEPLOYMENT_GUIDE.md` for route checks, regional-pricing verification, form validation, and rollback steps.
+See `DEPLOYMENT_GUIDE.md` for route checks, regional-pricing verification, ebook publication gates, policy checks, form validation, security headers, and rollback steps.
 
 ## License
 

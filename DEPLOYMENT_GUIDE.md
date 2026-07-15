@@ -6,11 +6,11 @@
 **Build model:** Next.js static export to `out/`  
 **Default branch:** `main`
 
-This document is the current deployment contract for the portfolio. It replaces the earlier mixed Vercel and Cloudflare instructions.
+This document is the deployment contract for the portfolio and digital-product site.
 
 ## 1. Local verification
 
-Use Node.js 22 and install the locked dependencies.
+Use Node.js 22 and install the locked dependency tree.
 
 ```bash
 npm ci
@@ -20,17 +20,18 @@ npm run build
 
 A successful build must create a non-empty `out/` directory.
 
-The repository also contains `.github/workflows/site-build.yml`. On every push to `main`, it:
+`.github/workflows/site-build.yml` repeats the typecheck and static build on every push to `main`. It verifies:
 
-1. installs dependencies with `npm ci`;
-2. runs the static build;
-3. checks that the exported homepage, Work, Services, Contact, and SentinelTwin routes exist and are non-empty.
+- homepage, Work, Services, Contact, SentinelTwin, policy, and metadata routes;
+- the custom 404 output;
+- required policy URLs inside the generated sitemap;
+- that the removed `/admin` route has not reappeared.
 
-The CI build is a gate, not a production deployment.
+CI is a release gate, not a production deployment.
 
 ## 2. Production deployment
 
-The package script is the canonical manual deployment command:
+The canonical manual deployment command is:
 
 ```bash
 npm run deploy:cloudflare
@@ -43,39 +44,57 @@ npm run build
 wrangler pages deploy out --project-name pranay --branch main
 ```
 
-Wrangler must already be authenticated to the Cloudflare account that owns the `pranay` Pages project. Do not commit Cloudflare tokens, account identifiers, or generated credential files.
+Wrangler must be authenticated to the Cloudflare account that owns the `pranay` Pages project. Never commit Cloudflare tokens, account identifiers, or generated credential files.
 
-If Cloudflare Pages Git integration is enabled for this repository, a push to `main` may also create a production deployment automatically. Do not assume that happened. Verify the resulting deployment and the custom domain.
+If Cloudflare Pages Git integration is enabled, a push to `main` may create a deployment automatically. Do not assume it did. Verify the deployed commit, Pages URL, and custom domain.
 
-## 3. Critical route checks
+## 3. Required production routes
 
-Verify both the Cloudflare deployment URL and the custom domain.
+Verify both the generated Pages URL and the custom domain.
 
-Required routes:
+Core routes:
 
 - `/`
 - `/work`
 - `/work-with-me`
 - `/contact`
+- `/about`
+- `/hire-me`
 - `/work/sentineltwin`
 - `/work/sig-ext-fastapi`
 - `/work/metaextract`
 - `/work/echopanel`
+- `/books/no-claim-without-evidence`
+- `/books/no-claim-without-evidence/sample`
+
+Policy and metadata routes:
+
+- `/privacy`
+- `/terms`
+- `/refund-policy`
+- `/delivery-policy`
 - `/sitemap.xml`
 - `/robots.txt`
+- a branded 404 response for an unknown route
 
-Check for the current positioning, not merely a `200` response:
+`/admin` must return 404. The site has no public or simulated admin application.
+
+## 4. Content and conversion checks
+
+Check the actual product experience, not merely HTTP status codes:
 
 - homepage headline begins with “Product systems for work”;
 - desktop navigation includes Work, Services, About, and Writing;
+- Work separates flagship systems from the archive and renders product previews;
+- project case studies render screenshots, canonical metadata, and project-specific social previews;
 - Services shows an India INR / Global USD switch;
-- Contact shows regional engagement scopes;
-- Work separates flagship systems from the project archive;
-- SentinelTwin renders its case-study route and product images.
+- Contact shows regional engagement scopes and submits successfully;
+- SentinelTwin renders its case study and remote product images;
+- footer policy links resolve and merchant roles are described accurately.
 
-## 4. Regional-pricing checks
+## 5. Regional service-pricing checks
 
-Pricing uses two regional price books, not live currency conversion.
+Pricing uses two regional price books, not live exchange-rate conversion.
 
 ### India
 
@@ -93,26 +112,40 @@ Pricing uses two regional price books, not live currency conversion.
 
 Detection order:
 
-1. a visitor's explicit selection stored in `localStorage`;
-2. Cloudflare's same-origin `/cdn-cgi/trace` country value;
+1. explicit visitor selection stored in `localStorage`;
+2. Cloudflare same-origin `/cdn-cgi/trace` country value;
 3. browser timezone and language hints;
 4. Global USD as the safe initial render.
 
-Manual switching must always remain available. Test both price books and confirm that the Contact form uses the same regional choice.
+Manual switching must remain available. Confirm the Contact form uses the same stored region.
 
-## 5. Form and conversion checks
+## 6. Contact and scheduling checks
 
-The Contact page submits to the configured FormBold endpoint. Before declaring a release healthy:
+The Contact page submits to FormBold. Before declaring a release healthy:
 
-1. submit one test project brief;
+1. submit one real test project brief;
 2. confirm it reaches the expected inbox;
-3. verify the success and error states;
+3. verify success and error states;
 4. verify the 15-minute and 30-minute Cal.com links;
-5. verify source query parameters are preserved in the submitted form.
+5. verify source query parameters are included in the submitted form;
+6. confirm no private phone number is exposed unintentionally.
 
-Do not publish a phone number unless it is intentionally meant to be public.
+## 7. Ebook publication gate
 
-## 6. Visual and interaction checks
+Do not enable the purchase CTA until all of these are true:
+
+1. the final PDF and EPUB exist;
+2. both files are uploaded as Dodo entitlements;
+3. the India price resolves to ₹799;
+4. the global base price resolves to $14.99 or the explicitly accepted adaptive-currency equivalent;
+5. tax-inclusive display and the generated invoice are correct;
+6. a real test purchase delivers both files;
+7. refund, delivery, privacy, terms, and support links are visible;
+8. `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL` is set for the production build.
+
+Until then, the ebook page remains sample-first and must not present a nonfunctional purchase control.
+
+## 8. Visual and accessibility checks
 
 Test at minimum:
 
@@ -122,30 +155,32 @@ Test at minimum:
 - light and dark themes;
 - mobile menu open, close, and route selection;
 - Work archive filters;
-- project screenshots and external repository links;
+- local and remote project images;
 - no horizontal scrolling;
-- keyboard focus visibility on links, buttons, selects, and inputs.
+- keyboard focus visibility on links, buttons, selects, and inputs;
+- policy pages remain readable at narrow widths.
 
-## 7. Search and social checks
+## 9. Search, metadata, and headers
 
-After deployment, inspect the generated HTML for:
+After deployment, verify:
 
-- the page-specific `<title>`;
-- meta description;
-- canonical origin through `metadataBase`;
-- Open Graph title and description;
-- Twitter card metadata;
-- updated sitemap entries, especially `/work/sentineltwin`.
+- page-specific titles and descriptions;
+- canonical URLs on project pages;
+- Open Graph and Twitter metadata;
+- Person and WebSite JSON-LD on the site shell;
+- generated sitemap entries for projects and policies;
+- generated robots output points to the canonical sitemap;
+- Cloudflare serves the headers defined in `public/_headers`;
+- static Next assets receive immutable caching;
+- the global title does not append “Pranay Suyash” twice.
 
-The global title must not append “Pranay Suyash” twice.
+## 10. Rollback
 
-## 8. Rollback
+Cloudflare Pages keeps prior deployments. If production is broken:
 
-Cloudflare Pages keeps prior deployments. If the new production build is broken:
+1. promote the previous healthy Pages deployment;
+2. fix `main`;
+3. rerun `npm ci`, `npm run typecheck`, and `npm run build`;
+4. redeploy and repeat this checklist.
 
-1. promote the previous healthy Pages deployment in the Cloudflare dashboard;
-2. fix the repository on `main`;
-3. run the local typecheck and build again;
-4. redeploy and repeat the critical-route checks.
-
-Do not diagnose a production issue from repository state alone. Compare the deployed commit or build timestamp with the current `main` head.
+Do not diagnose production from repository state alone. Compare the deployed commit or build timestamp with the current `main` head.

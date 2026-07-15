@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -25,6 +26,7 @@ type Project = (typeof projectsData.projects)[number] & {
   proofRole?: string;
   proofSummary?: string;
   demonstrates?: string;
+  screenshots?: string[];
 };
 
 const sentinelTwin = {
@@ -38,24 +40,43 @@ const sentinelTwin = {
     "Shows complex product architecture across interactive editors, deterministic simulation, evidence surfaces, local persistence, and a broader platform spine.",
   techStack: ["React", "TypeScript", "Three.js", "R3F", "Zustand"],
   href: "/work/sentineltwin",
+  image: "https://raw.githubusercontent.com/pranaysuyash/SentinelTwin/main/shot-map.png",
 };
 
-function ArchiveProjectCard({ project }: { project: Project }) {
+function ProjectPreview({ src, alt }: { src: string; alt: string }) {
   return (
-    <Link href={`/work/${project.slug}`} className="block h-full">
-      <Card className="hover-lift h-full border bg-card shadow-sm">
+    <div className="relative aspect-[16/9] overflow-hidden border-b bg-muted">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        unoptimized
+        sizes="(min-width: 768px) 50vw, 100vw"
+        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.025]"
+      />
+    </div>
+  );
+}
+
+function ArchiveProjectCard({ project }: { project: Project }) {
+  const preview = project.screenshots?.[0];
+
+  return (
+    <Link href={`/work/${project.slug}`} className="group block h-full">
+      <Card className="hover-lift h-full overflow-hidden border bg-card shadow-sm">
+        {preview && <ProjectPreview src={preview} alt={`${project.title} product interface`} />}
         <CardContent className="flex h-full flex-col p-5">
           <div className="mb-3 flex items-center gap-3 text-xs text-muted-foreground">
             <span className="uppercase tracking-[0.12em]">{project.category}</span>
             <span className="ml-auto font-mono">{project.year}</span>
           </div>
-          <h3 className="text-lg font-semibold">{project.title}</h3>
+          <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
+            {project.title}
+          </h3>
           <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">
             {project.tagline}
           </p>
-          <p className="mt-4 text-xs leading-5 text-primary/80">
-            {project.result}
-          </p>
+          <p className="mt-4 text-xs leading-5 text-primary/80">{project.result}</p>
         </CardContent>
       </Card>
     </Link>
@@ -63,9 +84,12 @@ function ArchiveProjectCard({ project }: { project: Project }) {
 }
 
 function ExistingFlagshipCard({ project }: { project: Project }) {
+  const preview = project.screenshots?.[0];
+
   return (
     <Link href={`/work/${project.slug}`} className="group block h-full">
-      <Card className="hover-lift h-full border bg-card shadow-sm">
+      <Card className="hover-lift h-full overflow-hidden border bg-card shadow-sm">
+        {preview && <ProjectPreview src={preview} alt={`${project.title} product interface`} />}
         <CardContent className="flex h-full flex-col p-6">
           <div className="mb-5 flex items-start justify-between gap-4">
             <div>
@@ -76,16 +100,12 @@ function ExistingFlagshipCard({ project }: { project: Project }) {
                 {project.proofRole || "Flagship system"}
               </p>
             </div>
-            <span className="font-mono text-xs text-muted-foreground">
-              {project.year}
-            </span>
+            <span className="font-mono text-xs text-muted-foreground">{project.year}</span>
           </div>
-          <h3 className="text-xl font-semibold group-hover:text-primary">
+          <h3 className="text-xl font-semibold transition-colors group-hover:text-primary">
             {project.title}
           </h3>
-          <p className="mt-3 text-sm leading-7 text-muted-foreground">
-            {project.tagline}
-          </p>
+          <p className="mt-3 text-sm leading-7 text-muted-foreground">{project.tagline}</p>
           <p className="evidence-rule mt-5 text-sm leading-7 text-muted-foreground">
             <span className="font-semibold text-foreground">What it proves:</span>{" "}
             {project.proofSummary || project.demonstrates || project.result}
@@ -118,13 +138,8 @@ export default function WorkPage() {
     projects.find((project) => project.slug === slug),
   ).filter((project): project is Project => Boolean(project));
 
-  const reservedSlugs = new Set([
-    ...FLAGSHIP_SLUGS,
-    ...TECHNICAL_DEPTH_SLUGS,
-  ]);
-  const archiveProjects = projects.filter(
-    (project) => !reservedSlugs.has(project.slug),
-  );
+  const reservedSlugs = new Set([...FLAGSHIP_SLUGS, ...TECHNICAL_DEPTH_SLUGS]);
+  const archiveProjects = projects.filter((project) => !reservedSlugs.has(project.slug));
 
   const groupedArchive = archiveProjects.reduce(
     (acc, project) => {
@@ -140,10 +155,7 @@ export default function WorkPage() {
   );
 
   const filteredGrouped = activeFilter
-    ? ({ [activeFilter]: groupedArchive[activeFilter] || [] } as Record<
-        string,
-        Project[]
-      >)
+    ? ({ [activeFilter]: groupedArchive[activeFilter] || [] } as Record<string, Project[]>)
     : groupedArchive;
 
   return (
@@ -203,7 +215,11 @@ export default function WorkPage() {
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <Link href={sentinelTwin.href} className="group block h-full">
-              <Card className="hover-lift h-full border border-primary/30 bg-primary/[0.025] shadow-sm">
+              <Card className="hover-lift h-full overflow-hidden border border-primary/30 bg-primary/[0.025] shadow-sm">
+                <ProjectPreview
+                  src={sentinelTwin.image}
+                  alt="SentinelTwin spatial-security map interface"
+                />
                 <CardContent className="flex h-full flex-col p-6">
                   <div className="mb-5 flex items-start justify-between gap-4">
                     <div>
@@ -216,7 +232,7 @@ export default function WorkPage() {
                       {sentinelTwin.year}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold group-hover:text-primary">
+                  <h3 className="text-xl font-semibold transition-colors group-hover:text-primary">
                     {sentinelTwin.title}
                   </h3>
                   <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -293,9 +309,7 @@ export default function WorkPage() {
                   variant={activeFilter === category.key ? "default" : "outline"}
                   size="sm"
                   onClick={() =>
-                    setActiveFilter(
-                      activeFilter === category.key ? null : category.key,
-                    )
+                    setActiveFilter(activeFilter === category.key ? null : category.key)
                   }
                 >
                   {category.label}

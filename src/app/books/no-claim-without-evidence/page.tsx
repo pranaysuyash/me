@@ -7,8 +7,8 @@ import {
   CircleGauge,
   FileDown,
   FileText,
-  ShieldCheck,
   Mail,
+  ShieldCheck,
   Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -82,13 +82,13 @@ const previewPoints = [
 const deliveryNotes = noClaimEbook.hasCheckout
   ? [
       "PDF + EPUB editions",
-      "Dodo-powered checkout and file delivery",
+      "Dodo-powered checkout and secure file delivery",
       "Built for builders, operators, and teams",
     ]
   : [
-      "PDF + EPUB editions",
-      "Direct purchase link activates when checkout is connected",
-      "Built for builders, operators, and teams",
+      "PDF + EPUB editions in final production",
+      "Purchase opens only after checkout and delivery tests pass",
+      "Sample chapter available now",
     ];
 
 const consultingNotes = [
@@ -105,7 +105,9 @@ export default function NoClaimWithoutEvidencePage() {
         <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-20 md:px-6 lg:grid-cols-[1fr_420px] lg:px-8 lg:py-28">
           <div className="flex flex-col justify-center">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200">
-              New ebook for AI builders
+              {noClaimEbook.hasCheckout
+                ? "Ebook for AI builders"
+                : "Sample available · full ebook in final production"}
             </p>
             <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               {noClaimEbook.title}
@@ -201,7 +203,7 @@ export default function NoClaimWithoutEvidencePage() {
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
                 Clean AI output is not the same thing as a trustworthy system.
               </h2>
-              <p className="mt-5 text-muted-foreground leading-8">
+              <p className="mt-5 leading-8 text-muted-foreground">
                 The book starts from a small airline-ticket extraction failure:
                 the source document does not show a terminal, but the model
                 confidently returns one. From there, it builds the operating
@@ -232,7 +234,7 @@ export default function NoClaimWithoutEvidencePage() {
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               Read the part that makes the whole book click.
             </h2>
-            <p className="mt-5 max-w-2xl text-muted-foreground leading-8">
+            <p className="mt-5 max-w-2xl leading-8 text-muted-foreground">
               The sample shows the book in motion: an unsupported terminal
               field, the distinction between extraction and inference, and the
               evidence habit that turns a clean-looking answer into a
@@ -315,7 +317,7 @@ export default function NoClaimWithoutEvidencePage() {
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
               Builders who need AI systems to survive contact with real users.
             </h2>
-            <p className="mt-5 max-w-3xl text-muted-foreground leading-8">
+            <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">
               Written for solo founders, AI engineers, product-minded
               developers, PMs, and operators building extraction, review,
               automation, or agent workflows. It is deliberately practical:
@@ -330,8 +332,10 @@ export default function NoClaimWithoutEvidencePage() {
                 {noClaimEbook.indiaPrice} in India
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                {noClaimEbook.globalPrice} elsewhere. Includes PDF and EPUB
-                editions.
+                {noClaimEbook.globalPrice} elsewhere.{" "}
+                {noClaimEbook.hasCheckout
+                  ? "Includes PDF and EPUB editions."
+                  : "Planned PDF and EPUB editions; purchase is not open yet."}
               </p>
               {noClaimEbook.hasCheckout ? (
                 <Button asChild className="mt-6 w-full rounded-full">
@@ -357,9 +361,23 @@ export default function NoClaimWithoutEvidencePage() {
               </Button>
               <p className="mt-4 text-xs leading-6 text-muted-foreground">
                 {noClaimEbook.hasCheckout
-                  ? "Checkout handles payment, applicable tax, and secure file delivery. Consulting is scoped separately."
-                  : "Purchase opens after checkout, tax, and file-delivery tests pass. The sample chapter is available now."}
+                  ? "Dodo Payments handles payment, applicable tax, receipt, and secure file delivery. Consulting is scoped separately."
+                  : "Purchase opens only after the checkout, tax, invoice, and both file-delivery paths have been tested. The sample chapter is available now."}
               </p>
+              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-t pt-4 text-xs">
+                <Link href="/delivery-policy" className="text-primary hover:underline">
+                  Delivery
+                </Link>
+                <Link href="/refund-policy" className="text-primary hover:underline">
+                  Refunds
+                </Link>
+                <Link href="/terms" className="text-primary hover:underline">
+                  Terms
+                </Link>
+                <Link href="/privacy" className="text-primary hover:underline">
+                  Privacy
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -400,22 +418,35 @@ export default function NoClaimWithoutEvidencePage() {
             <Card className="bg-muted/35 shadow-sm">
               <CardContent className="p-7">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                  Why this page works
+                  Purchase and delivery
                 </p>
-                <ul className="space-y-4 text-sm leading-7 text-muted-foreground">
+                <h3 className="text-xl font-semibold">
+                  A standard digital product, separate from custom work.
+                </h3>
+                <ul className="mt-5 space-y-4 text-sm leading-7 text-muted-foreground">
+                  <li>One-time regional price with no recurring subscription.</li>
                   <li>
-                    The purchase path is explicit instead of hiding behind a
-                    placeholder CTA.
+                    {noClaimEbook.hasCheckout
+                      ? "Secure PDF and EPUB access is delivered after successful payment."
+                      : "Checkout remains disabled until both final files and delivery entitlements are verified."}
                   </li>
                   <li>
-                    File delivery stays with the payment layer, so the site does
-                    not need a second storage system just to sell one ebook.
+                    Payment, applicable tax, invoice, and refunds are handled through the
+                    checkout provider where enabled.
                   </li>
-                  <li>
-                    Consulting has its own enquiry path, which keeps custom work
-                    separate from the product sale.
-                  </li>
+                  <li>Consulting and implementation services require a separate written scope.</li>
                 </ul>
+                <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  <Link href="/delivery-policy" className="font-medium text-primary hover:underline">
+                    Delivery policy
+                  </Link>
+                  <Link href="/refund-policy" className="font-medium text-primary hover:underline">
+                    Refund policy
+                  </Link>
+                  <Link href="/terms" className="font-medium text-primary hover:underline">
+                    Terms
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           </div>

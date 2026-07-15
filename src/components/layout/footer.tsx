@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { brandTagline } from "@/lib/brand";
@@ -24,6 +22,13 @@ const footerNav = [
   { name: "Contact", href: "/contact" },
 ];
 
+const policyNav = [
+  { name: "Privacy", href: "/privacy" },
+  { name: "Terms", href: "/terms" },
+  { name: "Refunds", href: "/refund-policy" },
+  { name: "Delivery", href: "/delivery-policy" },
+];
+
 export function Footer() {
   return (
     <footer className="border-t bg-background">
@@ -36,7 +41,10 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">{brandTagline}.</p>
           </div>
 
-          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+          <nav
+            className="flex flex-wrap justify-center gap-x-6 gap-y-2"
+            aria-label="Footer navigation"
+          >
             {footerNav.map((item) => (
               <Link
                 key={item.name}
@@ -55,8 +63,8 @@ export function Footer() {
                 href={link.href}
                 aria-label={link.name}
                 className="text-muted-foreground transition-colors hover:text-primary"
-                target="_blank"
-                rel="noopener noreferrer"
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
               >
                 <link.icon className="h-4 w-4" />
               </Link>
@@ -64,13 +72,31 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t pt-6 sm:flex-row">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Pranay Suyash &middot; Bengaluru, India
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Available for selected global and India-based product engagements.
-          </p>
+        <div className="mt-6 grid gap-4 border-t pt-6 md:grid-cols-[1fr_auto] md:items-start">
+          <div>
+            <p className="text-xs text-muted-foreground">
+              &copy; {new Date().getFullYear()} Pranay Suyash &middot; Bengaluru, India
+            </p>
+            <p className="mt-1 max-w-2xl text-xs leading-5 text-muted-foreground">
+              Digital-product checkout, where enabled, is handled by Dodo Payments as
+              Merchant of Record. Project and advisory work uses separate written terms.
+            </p>
+          </div>
+
+          <nav
+            className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end"
+            aria-label="Policies"
+          >
+            {policyNav.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-xs text-muted-foreground transition-colors hover:text-primary"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>
