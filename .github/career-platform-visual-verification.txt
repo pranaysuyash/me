@@ -1,0 +1,3 @@
+Career platform visual verification trigger
+Source head: 25309fdb369102796530173dc7e13dac97dcfae7
+Purpose: run the complete build contract and upload the exact static export for multi-viewport visual QA.
