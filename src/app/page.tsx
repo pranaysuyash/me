@@ -7,7 +7,6 @@ import {
   BriefcaseBusiness,
   Building2,
   CheckCircle2,
-  FileCheck2,
   Map,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
@@ -39,7 +38,7 @@ export default function Home() {
       <section className="relative overflow-hidden border-b bg-[#0d1718] text-white">
         <div className="ledger-grid absolute inset-0 opacity-45" aria-hidden />
         <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-12 px-4 py-16 md:px-6 md:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center lg:px-8 lg:py-24">
-          <div className="animate-fade-up">
+          <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-100/75">
               {careerProfile.title}
             </p>
@@ -203,28 +202,30 @@ export default function Home() {
 
           <div className="space-y-6">
             {featuredProducts.map((project, index) => {
-              const screenshot = project.screenshots[0];
+              const visual = project.visualEvidence[0];
               return (
                 <article
                   key={project.slug}
                   className="grid overflow-hidden rounded-xl border bg-background shadow-sm lg:grid-cols-[1.05fr_0.95fr]"
                 >
-                  <div className={`relative min-h-[300px] bg-[#0d1718] ${index % 2 ? "lg:order-2" : ""}`}>
-                    {screenshot ? (
+                  <figure className={`bg-[#0d1718] ${index % 2 ? "lg:order-2" : ""}`}>
+                    <div className="relative min-h-[340px] overflow-hidden">
                       <Image
-                        src={screenshot}
-                        alt={`${project.title} product interface`}
+                        src={visual.src}
+                        alt={visual.alt}
                         fill
                         unoptimized
                         sizes="(min-width: 1024px) 55vw, 100vw"
-                        className="object-cover object-top"
+                        className={visual.kind === "product-screenshot" ? "object-cover object-top" : "object-contain p-3"}
                       />
-                    ) : (
-                      <div className="flex h-full min-h-[300px] items-center justify-center p-10 text-center text-white/55">
-                        <FileCheck2 className="h-14 w-14" />
-                      </div>
-                    )}
-                  </div>
+                      <span className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/72 backdrop-blur-sm">
+                        {visual.kind === "product-screenshot" ? "Product screenshot" : "Workflow map"}
+                      </span>
+                    </div>
+                    <figcaption className="border-t border-white/10 bg-[#102022] px-5 py-3 text-xs leading-5 text-white/52">
+                      {visual.caption}
+                    </figcaption>
+                  </figure>
                   <div className="flex flex-col justify-center p-7 md:p-9">
                     <div className="flex flex-wrap items-center gap-3 text-xs">
                       <span className="font-semibold uppercase tracking-[0.14em] text-primary">
