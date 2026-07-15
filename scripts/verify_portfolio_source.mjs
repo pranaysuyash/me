@@ -153,7 +153,7 @@ requireTokens("src/app/systems/page.tsx", [
 
 requireTokens("src/app/labs/page.tsx", [
   "without flagship inflation",
-  "do not claim current production use",
+  "does not claim current production use",
 ]);
 
 const experience = forbidTokens("src/app/hire-me/page.tsx", [
