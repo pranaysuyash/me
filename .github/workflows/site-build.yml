@@ -43,7 +43,7 @@ jobs:
       - name: Verify publication and cleanup protection
         run: npm run book:validate
 
-      - name: Build static site
+      - name: Build static site and generated resume
         run: npm run build
 
       - name: Validate product lab module syntax
@@ -75,7 +75,8 @@ jobs:
             sentinelTwin: ["out/work/sentineltwin.html", "out/work/sentineltwin/index.html"],
             book: ["out/books/no-claim-without-evidence.html", "out/books/no-claim-without-evidence/index.html"],
             bookSample: ["out/books/no-claim-without-evidence/sample.html", "out/books/no-claim-without-evidence/sample/index.html"],
-            resume: ["out/pranay_resume.html"],
+            resumeWeb: ["out/pranay_resume.html"],
+            resumePdf: ["out/pranay-suyash-resume.pdf"],
             privacy: ["out/privacy.html", "out/privacy/index.html"],
             terms: ["out/terms.html", "out/terms/index.html"],
             refunds: ["out/refund-policy.html", "out/refund-policy/index.html"],
@@ -122,14 +123,15 @@ jobs:
             "MedPiper insurance workflow transformation",
             "~4 weeks",
           ]);
-          if (home.includes('<iframe')) {
+          if (home.includes("<iframe")) {
             failures.push("homepage must not embed the interactive lab in the career hero");
           }
 
           requireText("experience", [
             "Product leader and hands-on builder for AI, workflow, and internal systems",
             "AI Product Lead",
-            "Open resume",
+            "Download resume PDF",
+            "/pranay-suyash-resume.pdf",
           ]);
           requireText("work", [
             "MedPiper insurance workflow transformation",
@@ -157,11 +159,31 @@ jobs:
             "geometry is illustrative",
             "case study is the source of truth",
           ]);
-          requireText("resume", [
+          requireText("resumeWeb", [
             "Product Leader and Hands-on Systems Builder",
             "Print / Save PDF",
             "14+ years",
           ]);
+
+          const resumePdf = fs.readFileSync(resolved.resumePdf);
+          if (!resumePdf.subarray(0, 5).equals(Buffer.from("%PDF-"))) {
+            failures.push("generated resume does not have a valid PDF signature");
+          }
+          if (resumePdf.length < 7000) {
+            failures.push(`generated resume PDF is unexpectedly small: ${resumePdf.length} bytes`);
+          }
+          const resumePdfText = resumePdf.toString("latin1");
+          const resumePageCount = (resumePdfText.match(/\/Type \/Page\b/g) || []).length;
+          if (resumePageCount !== 2) {
+            failures.push(`generated resume PDF must contain exactly 2 pages, found ${resumePageCount}`);
+          }
+          for (const expected of [
+            "Product Leader and Hands-on Systems Builder",
+            "MedPiper insurance workflow transformation",
+            "SignKit - Commercial product",
+          ]) {
+            if (!resumePdfText.includes(expected)) failures.push(`generated resume PDF missing: ${expected}`);
+          }
 
           const signKit = requireText("signKit", [
             "Commercial product",
@@ -178,9 +200,15 @@ jobs:
             if (signKit.includes(forbidden)) failures.push(`SignKit contains unsupported claim: ${forbidden}`);
           }
 
-          requireText("metaExtract", ["Working product build", "High field coverage must not be confused with verified correctness"]);
-          requireText("echoPanel", ["Working prototype", "system-audio setup and production packaging remain active work"]);
-          requireText("sentinelTwin", ["Active platform build", "geometry is illustrative"].slice(0, 1));
+          requireText("metaExtract", [
+            "Working product build",
+            "High field coverage must not be confused with verified correctness",
+          ]);
+          requireText("echoPanel", [
+            "Working prototype",
+            "system-audio setup and production packaging remain active work",
+          ]);
+          requireText("sentinelTwin", ["Active platform build"]);
 
           const checkoutUrl = "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1";
           const book = read("book");
@@ -217,7 +245,7 @@ jobs:
           }
 
           if (failures.length) {
-            console.error("Career, claim, metadata, or interaction contract failed:\n" + failures.join("\n"));
+            console.error("Career, claim, metadata, resume, or interaction contract failed:\n" + failures.join("\n"));
             process.exit(1);
           }
 
