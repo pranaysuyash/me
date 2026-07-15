@@ -1,0 +1,3 @@
+Site build verification marker
+Source: c5313343b8ec89ebfafb0f646b27674dac44045c
+Runs the complete automated verification workflow for the current main source.
