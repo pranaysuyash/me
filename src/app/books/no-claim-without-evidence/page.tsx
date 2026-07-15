@@ -119,17 +119,21 @@ export default function NoClaimWithoutEvidencePage() {
               reaches a user.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button asChild size="lg" className="rounded-full px-8">
-                <Link href={noClaimEbook.checkoutUrl}>
-                  {noClaimEbook.checkoutLabel}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              {noClaimEbook.hasCheckout ? (
+                <Button asChild size="lg" className="rounded-full px-8">
+                  <Link href={noClaimEbook.checkoutUrl}>
+                    {noClaimEbook.checkoutLabel}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              ) : null}
               <Button
                 asChild
-                variant="secondary"
+                variant={noClaimEbook.hasCheckout ? "secondary" : "default"}
                 size="lg"
-                className="rounded-full px-8 text-foreground"
+                className={`rounded-full px-8 ${
+                  noClaimEbook.hasCheckout ? "text-foreground" : ""
+                }`}
               >
                 <Link href={noClaimEbook.sampleUrl}>
                   {noClaimEbook.sampleLabel}
@@ -147,9 +151,11 @@ export default function NoClaimWithoutEvidencePage() {
               </Button>
             </div>
             <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
-              <span>{noClaimEbook.price}</span>
+              <span>{noClaimEbook.priceSummary}</span>
               <span className="text-white/30">/</span>
               <span>{noClaimEbook.format}</span>
+              <span className="text-white/30">/</span>
+              <span>{noClaimEbook.pricingNote}</span>
               <span className="text-white/30">/</span>
               <span>{noClaimEbook.fulfillmentLabel}</span>
             </div>
@@ -239,11 +245,7 @@ export default function NoClaimWithoutEvidencePage() {
                   <FileDown className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-full px-8"
-              >
+              <Button asChild variant="outline" className="rounded-full px-8">
                 <Link href={noClaimEbook.consultingUrl}>
                   Ask about consulting
                 </Link>
@@ -323,16 +325,27 @@ export default function NoClaimWithoutEvidencePage() {
 
           <Card className="border bg-card shadow-sm">
             <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Launch offer</p>
-              <p className="mt-2 text-3xl font-bold">{noClaimEbook.price}</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {noClaimEbook.standardPrice}. Includes PDF and EPUB editions.
+              <p className="text-sm text-muted-foreground">Price</p>
+              <p className="mt-2 text-3xl font-bold">
+                {noClaimEbook.indiaPrice} in India
               </p>
-              <Button asChild className="mt-6 w-full rounded-full">
-                <Link href={noClaimEbook.checkoutUrl}>
-                  {noClaimEbook.checkoutLabel}
-                </Link>
-              </Button>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {noClaimEbook.globalPrice} elsewhere. Includes PDF and EPUB
+                editions.
+              </p>
+              {noClaimEbook.hasCheckout ? (
+                <Button asChild className="mt-6 w-full rounded-full">
+                  <Link href={noClaimEbook.checkoutUrl}>
+                    {noClaimEbook.checkoutLabel}
+                  </Link>
+                </Button>
+              ) : (
+                <Button asChild className="mt-6 w-full rounded-full">
+                  <Link href={noClaimEbook.sampleUrl}>
+                    {noClaimEbook.sampleLabel}
+                  </Link>
+                </Button>
+              )}
               <Button
                 asChild
                 variant="outline"
@@ -343,20 +356,10 @@ export default function NoClaimWithoutEvidencePage() {
                 </Link>
               </Button>
               <p className="mt-4 text-xs leading-6 text-muted-foreground">
-                Once checkout is connected, Dodo Payments can handle the
-                purchase and digital file delivery for the ebook. For
-                consulting, use the enquiry form so the scope stays
-                productized and clear.
+                {noClaimEbook.hasCheckout
+                  ? "Checkout handles payment, applicable tax, and secure file delivery. Consulting is scoped separately."
+                  : "Purchase opens after checkout, tax, and file-delivery tests pass. The sample chapter is available now."}
               </p>
-              <Button
-                asChild
-                variant="ghost"
-                className="mt-2 w-full rounded-full"
-              >
-                <Link href={noClaimEbook.sampleUrl}>
-                  {noClaimEbook.sampleLabel}
-                </Link>
-              </Button>
             </CardContent>
           </Card>
         </div>
@@ -405,13 +408,12 @@ export default function NoClaimWithoutEvidencePage() {
                     placeholder CTA.
                   </li>
                   <li>
-                    File delivery stays with the payment layer, so the site
-                    does not need a second storage system just to sell one
-                    ebook.
+                    File delivery stays with the payment layer, so the site does
+                    not need a second storage system just to sell one ebook.
                   </li>
                   <li>
-                    Consulting has its own enquiry path, which keeps custom
-                    work separate from the product sale.
+                    Consulting has its own enquiry path, which keeps custom work
+                    separate from the product sale.
                   </li>
                 </ul>
               </CardContent>

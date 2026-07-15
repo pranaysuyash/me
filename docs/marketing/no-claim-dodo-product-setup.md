@@ -2,6 +2,10 @@
 
 Use these values when creating the product in Dodo Payments.
 
+## Status
+
+The site is wired for a live checkout URL. Until the Dodo product and delivery flow are tested, the page remains sample-first and shows checkout as coming soon rather than presenting a nonfunctional purchase button.
+
 ## Basic Details
 
 Product Name:
@@ -70,29 +74,27 @@ Pricing Type:
 One Time
 ```
 
-Launch Price:
+Base Price and Currency:
 
 ```text
-19 USD
+$14.99 USD
 ```
 
-India / WhatsApp local launch reference:
+Tax Inclusive Pricing:
 
 ```text
-₹1,499
+Enabled
 ```
 
-Standard Price After Launch:
+Localized Pricing:
 
 ```text
-29 USD
+Enabled
+Mode: By Country
+India override: IN / INR / ₹799
 ```
 
-India / WhatsApp local standard reference:
-
-```text
-₹2,499
-```
+Markets without an India rule use the $14.99 USD base price. Keep Adaptive Currency disabled initially if the public page must match the exact `$14.99 elsewhere` wording. If Adaptive Currency is enabled later, non-India customers may see the base price converted into a supported local currency.
 
 Discount Applicable:
 
@@ -100,7 +102,16 @@ Discount Applicable:
 0%
 ```
 
-Prefer setting the actual launch price directly instead of using a checkout discount. It keeps the offer simpler: launch price now, standard price later.
+This is a stable regional price book, not a temporary launch discount:
+
+- India: ₹799
+- Other markets: $14.99 base price
+
+Dodo configuration notes:
+
+- Localized Pricing sets a fixed price per country or currency.
+- Tax Inclusive Pricing keeps the displayed total stable while Dodo derives and itemizes the tax portion based on the customer location and product tax category.
+- Use the India override for PPP. Do not use live FX conversion to derive the ₹799 price.
 
 ## Credits
 
@@ -114,10 +125,10 @@ This is an ebook purchase, not usage-based software.
 
 ## Entitlements
 
-Access:
+Automated Entitlement:
 
 ```text
-Files & Templates
+File Downloads (or Files & Templates if that is the dashboard label)
 ```
 
 Files to attach:
@@ -142,10 +153,10 @@ Use these key-value pairs:
 product_slug = no-claim-without-evidence
 product_type = ebook
 formats = pdf,epub
-launch_price_usd = 19
-standard_price_usd = 29
-launch_price_inr = 1499
-standard_price_inr = 2499
+base_price_usd = 14.99
+india_price_inr = 799
+pricing_mode = by_country
+tax_inclusive = true
 site_url = https://pranaysuyash.com/books/no-claim-without-evidence
 version = 1.0
 author = Pranay Suyash
@@ -159,5 +170,14 @@ Copy the Dodo checkout/payment link and set it in the site deployment environmen
 NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL=<dodo checkout url>
 ```
 
-Then redeploy the site. The page CTA will automatically change from the enquiry fallback to `Buy with Dodo Payments`.
-The site also includes a dedicated sample route at `/books/no-claim-without-evidence/sample` so buyers can inspect a real excerpt before checkout.
+Set the variable in the Cloudflare Pages production environment, redeploy, and complete a real test purchase. After the checkout URL is present at build time, the page promotes `Buy now` as the primary action.
+
+Before launch, verify:
+
+1. India checkout resolves to ₹799.
+2. A non-India checkout uses the $14.99 base price or the expected Adaptive Currency equivalent.
+3. The displayed amount is tax inclusive and the invoice breaks out tax correctly.
+4. Both PDF and EPUB downloads are granted after payment.
+5. Refund and support contact details are correct.
+
+The sample route remains available at `/books/no-claim-without-evidence/sample`.

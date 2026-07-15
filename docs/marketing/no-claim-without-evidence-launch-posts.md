@@ -12,6 +12,10 @@ Sample chapter:
 
 `https://pranaysuyash.com/books/no-claim-without-evidence/sample`
 
+## Publication Gate
+
+Do not publish these as launch posts until a real checkout has been completed and both PDF and EPUB entitlements have been verified. Before that point, use sample-preview copy rather than saying the book has launched.
+
 ## LinkedIn
 
 I turned my recent notes on AI evals, extraction errors, review workflows, evidence, and release gates into a practical ebook:
@@ -37,7 +41,7 @@ The running example is an airline-ticket extraction workflow where the model inv
 
 That one small mistake is the whole problem in miniature.
 
-Launch price: **$19**  
+Price: **₹799 in India / $14.99 elsewhere**
 Includes PDF + EPUB.
 
 https://pranaysuyash.com/books/no-claim-without-evidence
@@ -52,7 +56,7 @@ A practical guide to building AI systems where every output can be traced, teste
 
 Covers evals, extraction errors, evidence records, review rules, action traces, and release gates.
 
-Launch price: $19  
+Price: ₹799 in India / $14.99 elsewhere
 PDF + EPUB
 
 https://pranaysuyash.com/books/no-claim-without-evidence
@@ -98,7 +102,7 @@ And if the product treats it as fact, the system has already failed.
 
 5/ This is written for builders making AI workflows that need to be trusted in real products.
 
-Launch price: $19  
+Price: ₹799 in India / $14.99 elsewhere
 Includes PDF + EPUB.
 
 https://pranaysuyash.com/books/no-claim-without-evidence
@@ -113,7 +117,7 @@ How to Build AI Systems You Can Verify
 For AI builders, founders, and engineers working on LLM workflows, evals, extraction, review systems, and release gates.
 
 PDF + EPUB  
-Launch price: ₹1,499
+Price: ₹799 in India / $14.99 elsewhere
 
 https://pranaysuyash.com/books/no-claim-without-evidence
 
@@ -126,7 +130,7 @@ I just launched an ebook from my AI evals series:
 A practical guide to building AI systems you can verify, not just demo.
 
 PDF + EPUB  
-₹1,499 launch price
+₹799 in India / $14.99 elsewhere
 
 https://pranaysuyash.com/books/no-claim-without-evidence
 
@@ -141,6 +145,6 @@ I turned them into a polished ebook:
 It is for builders working on LLM workflows, evals, extraction, review systems, and AI release gates.
 
 PDF + EPUB  
-Launch price: ₹1,499
+Price: ₹799 in India / $14.99 elsewhere
 
 https://pranaysuyash.com/books/no-claim-without-evidence

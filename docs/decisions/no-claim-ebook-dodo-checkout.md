@@ -2,6 +2,8 @@
 
 Date: 2026-07-07
 
+Amended: 2026-07-15
+
 ## Decision
 
 Host the ebook sales page on `pranaysuyash.com` and use Dodo Payments as the checkout and digital-delivery layer.
@@ -20,10 +22,25 @@ The checkout URL is controlled by:
 NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL
 ```
 
-When the variable is present at build time, the page CTA says `Buy with Dodo Payments` and links to that checkout URL.
+When the variable is present at build time, the page CTA says `Buy now` and links to that checkout URL.
 
-When the variable is absent, the page CTA falls back to the contact form so the site remains usable before the live Dodo product link is created.
-The main book page also links to a sample chapter at `/books/no-claim-without-evidence/sample` so readers can inspect the writing before purchase.
+When the variable is absent, the page stays sample-first and communicates that checkout is coming soon. It does not render a nonfunctional purchase button. The main book page links to `/books/no-claim-without-evidence/sample` so readers can inspect the writing before purchase.
+
+Current behavior:
+
+- sample-first while checkout and delivery are not live
+- buy-first after the checkout URL is present at build time
+- consulting stays separate
+
+## Pricing Configuration
+
+- Base price: $14.99 USD
+- Localized pricing mode: by country
+- India override: ₹799 INR
+- Tax-inclusive pricing: enabled
+- Discount: none
+
+The India amount is a fixed PPP price, not an exchange-rate conversion.
 
 ## Affected Files
 
@@ -45,6 +62,7 @@ The main book page also links to a sample chapter at `/books/no-claim-without-ev
 - Browser proof of `/books/no-claim-without-evidence` on desktop and mobile.
 - Confirm all route assets return 200 or cache-valid 304.
 - Set `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL` in the deployment environment before launch checkout goes live.
+- Manually create the Dodo product in the dashboard, copy the checkout URL, and wire it into the deployment environment.
 
 ## Product Setup Artifact
 
@@ -54,4 +72,4 @@ Paste-ready Dodo product fields live in:
 
 Use `public/books/no-claim-without-evidence/checkout-image.jpg` for the Dodo product image because it is square and below the 3MB upload limit.
 
-The ebook page itself should not suggest a waitlist. It should show a purchase CTA when the Dodo checkout URL is configured and an enquiry CTA otherwise.
+The ebook page should not suggest a waitlist or expose a disabled purchase control. It should show `Buy now` when checkout is configured, and sample plus consulting paths with honest checkout-status copy otherwise.
