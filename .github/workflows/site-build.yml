@@ -40,6 +40,9 @@ jobs:
       - name: Type-check application
         run: npm run typecheck
 
+      - name: Verify career and portfolio source boundaries
+        run: npm run portfolio:validate
+
       - name: Verify publication and cleanup protection
         run: npm run book:validate
 
