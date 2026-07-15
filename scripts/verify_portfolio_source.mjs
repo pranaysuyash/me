@@ -25,26 +25,22 @@ const read = (relativePath) => {
 const requireTokens = (relativePath, tokens) => {
   const content = read(relativePath);
   const normalized = normalize(content);
-
   for (const token of tokens) {
     if (!normalized.includes(normalize(token))) {
       failures.push(`${relativePath} missing semantic token: ${token}`);
     }
   }
-
   return content;
 };
 
 const forbidTokens = (relativePath, tokens) => {
   const content = read(relativePath);
   const normalized = normalize(content);
-
   for (const token of tokens) {
     if (normalized.includes(normalize(token))) {
       failures.push(`${relativePath} contains forbidden token: ${token}`);
     }
   }
-
   return content;
 };
 
@@ -57,6 +53,9 @@ const career = requireTokens("src/lib/career.ts", [
   "$1M ARR",
   "Sanitized operating evidence",
   "This case study is intentionally sanitized",
+  "MediCircle",
+  "Independent public interview",
+  "Public product and systems repositories",
 ]);
 
 const portfolio = requireTokens("src/lib/portfolio.ts", [
@@ -141,6 +140,13 @@ requireTokens("src/app/hire-me/page.tsx", [
   "Current context",
 ]);
 
+requireTokens("src/app/about/page.tsx", [
+  "publicEvidence",
+  "Independent public evidence",
+  "External records, not invented social proof",
+  "Testimonials and customer counts are not shown without permissioned evidence",
+]);
+
 requireTokens("src/app/work-with-me/page.tsx", [
   "Document workflow systems",
   "AI-assisted internal tools",
@@ -206,11 +212,11 @@ requireTokens("src/app/layout.tsx", [
 ]);
 
 requireTokens("public/product-lab/index.html", [
-  'display: grid',
+  "display: grid",
   '#lab[data-ready="true"] .fallback',
-  'MutationObserver',
-  '/product-lab/scene.js',
-  'Review audited case studies instead',
+  "MutationObserver",
+  "/product-lab/scene.js",
+  "Review audited case studies instead",
 ]);
 
 if (normalize(career).includes("Founder, PSRS") || normalize(career).includes("Founder of PSRS")) {
@@ -223,5 +229,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, audited maturity, typed visual evidence, canonical route ownership, resume generation, commercial hierarchy, archive boundary, lab fallback, and navigation are intact.",
+  "Portfolio source validation passed: career identity, external evidence, audited maturity, typed visual evidence, canonical route ownership, resume generation, commercial hierarchy, archive boundary, lab fallback, and navigation are intact.",
 );
