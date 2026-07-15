@@ -19,7 +19,12 @@ type ArchiveProject = (typeof projectsData.projects)[number] & {
 const baseUrl = "https://pranaysuyash.com";
 
 export function generateStaticParams() {
-  return projectsData.projects.map((project) => ({ slug: project.slug }));
+  const slugs = new Set([
+    ...projectsData.projects.map((project) => project.slug),
+    ...Object.keys(auditedProjectBySlug),
+  ]);
+
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: WorkDetailPageProps): Promise<Metadata> {
