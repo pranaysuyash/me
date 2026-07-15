@@ -22,9 +22,12 @@ A successful build must create a non-empty `out/` directory.
 
 `.github/workflows/site-build.yml` repeats the typecheck and static build on every push to `main`. It verifies:
 
-- homepage, Work, Services, Contact, SentinelTwin, policy, and metadata routes;
+- homepage, Work, Systems, Services, Contact, SentinelTwin, policy, and metadata routes;
 - the custom 404 output;
-- required policy URLs inside the generated sitemap;
+- the exported interactive product-lab shell and JavaScript module;
+- ES-module syntax for the product-lab scene;
+- presence of the four product-specific scene builders;
+- required policy and Systems URLs inside the generated sitemap;
 - that the removed `/admin` route has not reappeared.
 
 CI is a release gate, not a production deployment.
@@ -48,6 +51,22 @@ Wrangler must be authenticated to the Cloudflare account that owns the `pranay` 
 
 If Cloudflare Pages Git integration is enabled, a push to `main` may create a deployment automatically. Do not assume it did. Verify the deployed commit, Pages URL, and custom domain.
 
+### Custom-domain identity check
+
+The generated deployment URL and `pranaysuyash.com` must serve the same release.
+
+If the generated `*.pages.dev` URL shows the new site while `pranaysuyash.com` still shows an older site:
+
+1. open Cloudflare Dashboard → Workers & Pages;
+2. select the `pranay` Pages project used by Wrangler;
+3. open **Custom domains**;
+4. confirm `pranaysuyash.com` is attached and active on that exact project;
+5. check whether the domain is still attached to an older Pages project;
+6. verify the apex and any `www` hostname intentionally resolve to the same project;
+7. redeploy only after the project/domain mapping is unambiguous.
+
+Do not treat a successful upload to a preview URL as proof that the custom domain was updated.
+
 ## 3. Required production routes
 
 Verify both the generated Pages URL and the custom domain.
@@ -56,6 +75,7 @@ Core routes:
 
 - `/`
 - `/work`
+- `/systems`
 - `/work-with-me`
 - `/contact`
 - `/about`
@@ -66,6 +86,11 @@ Core routes:
 - `/work/echopanel`
 - `/books/no-claim-without-evidence`
 - `/books/no-claim-without-evidence/sample`
+
+Interactive static assets:
+
+- `/product-lab/index.html`
+- `/product-lab/scene.js`
 
 Policy and metadata routes:
 
@@ -84,7 +109,10 @@ Policy and metadata routes:
 Check the actual product experience, not merely HTTP status codes:
 
 - homepage headline begins with “Product systems for work”;
-- desktop navigation includes Work, Services, About, and Writing;
+- desktop navigation includes Work, Systems, Services, About, and Writing;
+- homepage product lab switches among SentinelTwin, SignKit, MetaExtract, and EchoPanel;
+- every product exposes three distinct operating views rather than decorative motion only;
+- `/systems` provides the same lab at a larger inspection size;
 - Work separates flagship systems from the archive and renders product previews;
 - project case studies render screenshots, canonical metadata, and project-specific social previews;
 - Services shows an India INR / Global USD switch;
@@ -145,7 +173,7 @@ Do not enable the purchase CTA until all of these are true:
 
 Until then, the ebook page remains sample-first and must not present a nonfunctional purchase control.
 
-## 8. Visual and accessibility checks
+## 8. Visual, interaction, and accessibility checks
 
 Test at minimum:
 
@@ -155,6 +183,10 @@ Test at minimum:
 - light and dark themes;
 - mobile menu open, close, and route selection;
 - Work archive filters;
+- product-lab project and mode controls with mouse, touch, and keyboard;
+- product-lab drag and zoom do not steal page scrolling unexpectedly;
+- reduced-motion mode does not continuously animate the product scenes;
+- WebGL failure leaves readable fallback and standard case-study links;
 - local and remote project images;
 - no horizontal scrolling;
 - keyboard focus visibility on links, buttons, selects, and inputs;
@@ -165,12 +197,13 @@ Test at minimum:
 After deployment, verify:
 
 - page-specific titles and descriptions;
-- canonical URLs on project pages;
+- canonical URLs on project and Systems pages;
 - Open Graph and Twitter metadata;
 - Person and WebSite JSON-LD on the site shell;
-- generated sitemap entries for projects and policies;
+- generated sitemap entries for projects, Systems, and policies;
 - generated robots output points to the canonical sitemap;
 - Cloudflare serves the headers defined in `public/_headers`;
+- the same-origin product-lab iframe is not blocked by frame headers;
 - static Next assets receive immutable caching;
 - the global title does not append “Pranay Suyash” twice.
 
