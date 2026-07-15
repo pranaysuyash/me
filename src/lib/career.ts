@@ -55,6 +55,23 @@ export const careerProfile = {
   ],
 } as const;
 
+export const publicEvidence = [
+  {
+    publisher: "MediCircle",
+    title: "Healthcare Startup Series: MedPiper Technologies",
+    date: "April 2022",
+    href: "https://medicircle.in/medpiper-building-pipeline-opportunities-healthcare-professionals",
+    note: "Independent public interview covering MedPiper's early products, market thesis, and operating context.",
+  },
+  {
+    publisher: "GitHub",
+    title: "Public product and systems repositories",
+    date: "Ongoing",
+    href: "https://github.com/pranaysuyash",
+    note: "Source, commit history, and technical artifacts for the independent product work represented on this site.",
+  },
+] as const;
+
 export const medpiperCaseStudy = {
   slug: "medpiper-workflow",
   title: "MedPiper insurance workflow transformation",
