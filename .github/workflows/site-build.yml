@@ -263,3 +263,12 @@ jobs:
           walk("out");
           console.log(`Verified ${Object.keys(routeCandidates).length} required outputs across ${files.length} exported files.`);
           NODE
+
+      - name: Upload verified static export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-static-site-${{ github.sha }}
+          path: out
+          if-no-files-found: warn
+          retention-days: 3
