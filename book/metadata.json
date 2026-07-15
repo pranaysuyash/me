@@ -1,0 +1,23 @@
+{
+  "title": "No Claim Without Evidence",
+  "subtitle": "How to Build AI Systems You Can Verify",
+  "author": "Pranay Suyash",
+  "language": "en",
+  "publisher": "Pranay Suyash",
+  "edition": "First edition",
+  "version": "1.0.0",
+  "publication_date": "2026-07-15",
+  "isbn": null,
+  "identifier": "urn:uuid:67cbe0b4-283f-52b5-ac52-72d592f2a082",
+  "subjects": [
+    "Artificial intelligence",
+    "AI engineering",
+    "Software testing",
+    "Large language model evaluation",
+    "Document extraction"
+  ],
+  "accessibility_summary": "This reflowable EPUB uses structural headings, navigation landmarks, text alternatives for diagrams, and no audio, flashing, or motion content. Automated and manual accessibility checks are documented separately; no formal conformance claim is made.",
+  "website": "https://pranaysuyash.com/books/no-claim-without-evidence",
+  "description": "A practical field guide to evidence-linked AI outputs, eval contracts, routing, stop conditions, human review, regression testing, and release gates.",
+  "rights": "Copyright 2026 Pranay Suyash. All rights reserved."
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">The three layers of verifiable AI systems</title>
+  <desc id="desc">A diagram separating model, pipeline, and data/configuration layers.</desc>
+  <rect width="1200" height="560" fill="#FFFDF8"/>
+  <text x="70" y="70" fill="#101820" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700">The Three Layers</text>
+  <text x="70" y="108" fill="#5F6872" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">A model upgrade does not fix a broken pipeline or stale data layer.</text>
+  <g font-family="Inter, Helvetica, Arial, sans-serif">
+    <rect x="90" y="170" width="1020" height="90" rx="10" fill="#EAF8FC" stroke="#21C4F3" stroke-width="2"/>
+    <text x="130" y="224" fill="#101820" font-size="26" font-weight="700">Model</text>
+    <text x="330" y="224" fill="#3C4650" font-size="19">reasoning, extraction candidates, tool-call proposals, language generation</text>
+    <rect x="90" y="285" width="1020" height="90" rx="10" fill="#F8F0DE" stroke="#D8A33A" stroke-width="2"/>
+    <text x="130" y="339" fill="#101820" font-size="26" font-weight="700">Pipeline</text>
+    <text x="330" y="339" fill="#3C4650" font-size="19">intake, OCR, prompts, validation, fallback, review, audit, release gates</text>
+    <rect x="90" y="400" width="1020" height="90" rx="10" fill="#EEF5EF" stroke="#4FD08A" stroke-width="2"/>
+    <text x="130" y="454" fill="#101820" font-size="26" font-weight="700">Data / Config</text>
+    <text x="330" y="454" fill="#3C4650" font-size="19">schemas, dictionaries, lookup tables, thresholds, labels, review rules</text>
+  </g>
+</svg>

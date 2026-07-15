@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Eval failures become product memory</title>
+  <desc id="desc">A loop showing eval run, failure log, work item, fix, regression, and release gate.</desc>
+  <rect width="1200" height="620" fill="#071017"/>
+  <text x="70" y="76" fill="#F7F2E8" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700">Eval Loop</text>
+  <text x="70" y="112" fill="#A8B4BE" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18">Scores compare. Logs improve. Regression protects what you learned.</text>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#21C4F3"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+    <rect x="115" y="235" width="160" height="86" rx="10" fill="#FFFDF8"/>
+    <text x="195" y="286" fill="#101820">Run Eval</text>
+    <rect x="340" y="155" width="170" height="86" rx="10" fill="#EFE7D8"/>
+    <text x="425" y="206" fill="#101820">Failure Log</text>
+    <rect x="585" y="155" width="170" height="86" rx="10" fill="#EFE7D8"/>
+    <text x="670" y="206" fill="#101820">Work Item</text>
+    <rect x="825" y="235" width="160" height="86" rx="10" fill="#FFFDF8"/>
+    <text x="905" y="286" fill="#101820">Fix Layer</text>
+    <rect x="585" y="385" width="170" height="86" rx="10" fill="#EAF8FC"/>
+    <text x="670" y="436" fill="#101820">Regression</text>
+    <rect x="340" y="385" width="170" height="86" rx="10" fill="#102331" stroke="#21C4F3" stroke-width="2"/>
+    <text x="425" y="436" fill="#F7F2E8">Release Gate</text>
+  </g>
+  <path d="M275 260 C310 220 312 210 336 202" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+  <path d="M512 198 H572" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+  <path d="M757 202 C796 214 802 232 821 260" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+  <path d="M905 323 C890 370 810 422 760 428" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+  <path d="M584 428 H514" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+  <path d="M340 428 C235 415 184 365 184 326" stroke="#21C4F3" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+</svg>

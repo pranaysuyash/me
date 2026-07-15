@@ -13,6 +13,12 @@ node_modules/
 out/
 build/
 
+# The ebook dist/ directory is intentionally source-controlled because it
+# contains customer deliverables. Intermediate render files live under tmp/.
+tmp/
+__pycache__/
+*.py[cod]
+
 # Env files
 .env
 .env.*
