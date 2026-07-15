@@ -1,3 +1,3 @@
-export const brandTagline = "Product systems for operational work";
+export const brandTagline = "Product leadership with hands-on system building";
 export const brandSystemLine =
-  "I design and build AI-assisted, local-first, and operational product systems.";
+  "I turn ambiguous operational workflows into working, reviewable product systems.";
