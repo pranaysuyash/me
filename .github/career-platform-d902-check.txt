@@ -1,0 +1,3 @@
+Canonical verification
+Source: d902eef942a3b99afdcb071c4eb7f1faf90c5ed4
+Command: npm run site:verify
