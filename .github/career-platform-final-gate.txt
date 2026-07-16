@@ -1,0 +1,3 @@
+Canonical release verification
+Source: 9c1185951263dd9c07e7126fb387e4b1f73e45d5
+Command: npm run site:verify
