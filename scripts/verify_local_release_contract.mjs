@@ -68,7 +68,7 @@ requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
   "npx wrangler whoami",
   "npm run deploy:cloudflare",
   "npm run live:verify",
-  "No claim without a real production path",
+  "Do not claim a live transaction or external integration works until the real production path has completed.",
 ]);
 
 requireTokens("docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md", [
