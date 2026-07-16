@@ -103,7 +103,7 @@ requireTokens("public/llms.txt", [
 ]);
 
 requireTokens("docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md", [
-  "One identity and two commitment models",
+  "one identity and two commitment models",
   "The capability is the same. The accountability horizon is different.",
   "What is still preventing 10/10",
   "Current copy verdict",
