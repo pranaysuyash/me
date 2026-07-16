@@ -43,12 +43,20 @@ jobs:
           set -o pipefail
           npm run site:verify 2>&1 | tee site-verify.log
 
-      - name: Upload diagnostic log
+      - name: Smoke-test the generated static export over HTTP
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run site:smoke 2>&1 | tee site-smoke.log
+
+      - name: Upload diagnostic logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: site-verify-log-${{ github.sha }}
-          path: site-verify.log
+          path: |
+            site-verify.log
+            site-smoke.log
           if-no-files-found: error
           retention-days: 3
 
