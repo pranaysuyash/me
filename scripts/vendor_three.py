@@ -2,9 +2,8 @@
 """Vendor the pinned Three.js runtime into the static site.
 
 The interactive systems lab must not depend on a third-party CDN at runtime.
-This script downloads the exact version used by the lab into a versioned
-public/vendor path, validates basic integrity, and reuses a previously
-validated copy when offline.
+This script downloads the exact version used by the lab into public/vendor,
+validates basic integrity, and reuses a previously validated copy when offline.
 """
 
 from __future__ import annotations
@@ -18,7 +17,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.179.1"
-VENDOR_ROOT = f"public/vendor/three/{VERSION}"
 USER_AGENT = "pranaysuyash-portfolio-build/1.0"
 
 
@@ -32,19 +30,19 @@ class VendorFile:
 
 FILES = (
     VendorFile(
-        relative_path=f"{VENDOR_ROOT}/three.module.js",
+        relative_path="public/vendor/three/three.module.js",
         url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/build/three.module.js",
         minimum_size=500_000,
         required_tokens=("REVISION", "WebGLRenderer", "PerspectiveCamera"),
     ),
     VendorFile(
-        relative_path=f"{VENDOR_ROOT}/addons/controls/OrbitControls.js",
+        relative_path="public/vendor/three/addons/controls/OrbitControls.js",
         url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/examples/jsm/controls/OrbitControls.js",
         minimum_size=20_000,
         required_tokens=("class OrbitControls", "from 'three'", "export { OrbitControls }"),
     ),
     VendorFile(
-        relative_path=f"{VENDOR_ROOT}/addons/renderers/CSS2DRenderer.js",
+        relative_path="public/vendor/three/addons/renderers/CSS2DRenderer.js",
         url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/examples/jsm/renderers/CSS2DRenderer.js",
         minimum_size=3_000,
         required_tokens=("class CSS2DObject", "class CSS2DRenderer", "from 'three'"),
@@ -133,10 +131,7 @@ def main() -> int:
             print(f"- {failure}", file=sys.stderr)
         return 1
 
-    print(
-        f"Three.js {VERSION} runtime is vendored at /vendor/three/{VERSION}/ "
-        "for same-origin delivery and immutable caching."
-    )
+    print(f"Three.js {VERSION} runtime is vendored for same-origin delivery.")
     return 0
 
 
