@@ -13,18 +13,14 @@ const footerNav = [
   { name: "Work", href: "/work" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
-  { name: "Document workflows", href: "/document-workflows" },
   { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
   { name: "Proof ledger", href: "/proof" },
-  { name: "Systems lab", href: "/systems" },
 ];
 
 const policyNav = [
   { name: "Privacy", href: "/privacy" },
   { name: "Terms", href: "/terms" },
-  { name: "Refunds", href: "/refund-policy" },
-  { name: "Delivery", href: "/delivery-policy" },
   { name: "Accessibility", href: "/accessibility" },
   { name: "JSON Resume", href: "/resume.json" },
   { name: "LLM guide", href: "/llms.txt" },
@@ -45,15 +41,12 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
-              Product leadership and hands-on system building across AI, workflow, internal tools, and local-first products.
-            </p>
-            <p className="mt-3 max-w-sm text-xs leading-5 text-muted-foreground">
-              Case studies link to inspectable implementation records, reviewed revisions, and explicit maturity boundaries.
+              Product leadership and hands-on systems for AI and operational workflows.
             </p>
             <p className="mt-3 text-xs text-muted-foreground">Portfolio evidence reviewed 16 July 2026.</p>
           </div>
 
-          <nav className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-4" aria-label="Footer navigation">
+          <nav className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-3" aria-label="Footer navigation">
             {footerNav.map((item) => (
               <Link key={item.name} href={item.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
                 {item.name}
@@ -83,7 +76,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()} Pranay Suyash · Bengaluru, India
             </p>
             <p className="mt-2 max-w-3xl text-xs leading-5 text-muted-foreground">
-              Dodo Payments handles digital-product checkout as Merchant of Record. Custom project and advisory engagements are contracted separately through PSRS Technologies Private Limited where applicable.
+              Dodo is Merchant of Record for ebooks. Custom engagements may contract through PSRS Technologies Private Limited.
             </p>
           </div>
 
