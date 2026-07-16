@@ -6,7 +6,7 @@
     "dev": "next dev",
     "prebuild": "python3 scripts/vendor_three.py && python3 scripts/generate_resume_pdf.py && python3 scripts/generate_build_manifest.py",
     "build": "next build",
-    "postbuild": "node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs && node scripts/verify_release_contract.mjs",
+    "postbuild": "python3 scripts/prune_web_export.py && node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs && node scripts/verify_release_contract.mjs",
     "resume:build": "python3 scripts/generate_resume_pdf.py",
     "three:vendor": "python3 scripts/vendor_three.py",
     "portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs",
