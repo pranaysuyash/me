@@ -29,10 +29,12 @@ const candidates = {
   sceneCompatibility: ["scene.js"],
   sitemap: ["sitemap.xml"],
   robots: ["robots.txt"],
+  redirects: ["_redirects"],
   resumeWeb: ["pranay_resume.html"],
   resumePdf: ["pranay-suyash-resume.pdf"],
   resumeJson: ["resume.json"],
   llms: ["llms.txt"],
+  buildInfo: ["build-info.json"],
 };
 
 const resolved = {};
@@ -86,13 +88,26 @@ requireText("services", [
   'data-cta-context="services"',
 ]);
 
-requireText("book", [
+const book = requireText("book", [
   "Buy now",
   "Buy the book",
   "/books/no-claim-without-evidence/cover.svg",
   'data-cta-context="book"',
-  "/books/no-claim-without-evidence/opengraph-image",
 ]);
+const redirects = read("redirects");
+const legacyBookCover = "/books/no-claim-without-evidence/cover.png";
+const generatedBookPreview = "/books/no-claim-without-evidence/opengraph-image";
+const legacyBookRedirect = `${legacyBookCover} ${generatedBookPreview} 301`;
+if (book.includes(legacyBookCover)) {
+  if (!redirects.includes(legacyBookRedirect)) {
+    failures.push("book metadata uses the legacy cover URL without a generated-preview redirect");
+  }
+} else if (!book.includes(generatedBookPreview)) {
+  failures.push("book metadata does not expose the generated social preview");
+}
+if (fs.existsSync(path.join(OUT, legacyBookCover.slice(1)))) {
+  failures.push("publication-only print cover remains in the deployable export");
+}
 
 requireText("proof", [
   "Public proof ledger",
@@ -172,6 +187,11 @@ requireText("llms", [
   "Evidence rules",
 ]);
 
+const buildInfo = JSON.parse(read("buildInfo"));
+if (buildInfo.repository !== "pranaysuyash/me") failures.push("build identity has the wrong repository");
+if (buildInfo.releaseContract !== "career-platform-v2") failures.push("build identity has the wrong release contract");
+if (buildInfo.evidenceReviewedAt !== "2026-07-16") failures.push("build identity evidence date is stale");
+
 const sitemap = requireText("sitemap", [
   "https://pranaysuyash.com/proof",
   "https://pranaysuyash.com/accessibility",
@@ -181,6 +201,14 @@ const sitemap = requireText("sitemap", [
 ]);
 if ((sitemap.match(/<loc>/g) || []).length < 20) {
   failures.push("sitemap unexpectedly contains fewer than 20 routes");
+}
+
+const redirectSources = new Set();
+for (const rawLine of redirects.split(/\r?\n/)) {
+  const line = rawLine.trim();
+  if (!line || line.startsWith("#")) continue;
+  const [source] = line.split(/\s+/);
+  if (source?.startsWith("/")) redirectSources.add(source);
 }
 
 const htmlFiles = [];
@@ -210,12 +238,14 @@ const resolveLocal = (sourceFile, raw) => {
 };
 
 const existsAsExport = (relative) => {
+  const normalized = relative.replace(/^\/+/, "");
+  if (redirectSources.has(`/${normalized}`)) return true;
   const options = [
-    relative,
-    `${relative}.html`,
-    path.posix.join(relative, "index.html"),
+    normalized,
+    `${normalized}.html`,
+    path.posix.join(normalized, "index.html"),
   ];
-  if (relative.endsWith("/")) options.push(path.posix.join(relative, "index.html"));
+  if (normalized.endsWith("/")) options.push(path.posix.join(normalized, "index.html"));
   return options.some((candidate) => {
     const full = path.join(OUT, candidate);
     return fs.existsSync(full) && fs.statSync(full).isFile();
@@ -253,5 +283,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Expanded release contract passed: ${Object.keys(candidates).length} required outputs, ${htmlFiles.length} HTML files, route-aware CTAs, pinned evidence, machine profiles, same-origin Three.js, sitemap, normalized React text, decoded Next asset URLs, and internal references verified.`,
+  `Expanded release contract passed: ${Object.keys(candidates).length} required outputs, ${htmlFiles.length} HTML files, route-aware CTAs, pinned evidence, machine profiles, redirected legacy assets, same-origin Three.js, sitemap, normalized React text, decoded Next asset URLs, and internal references verified.`,
 );
