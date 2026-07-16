@@ -94,7 +94,6 @@ const home = requireTokens("src/app/page.tsx", [
   "/work/medpiper-workflow",
   "/proof",
   "project.visualEvidence",
-  "project.implementationEvidence.length",
   "lg:grid-cols-3",
 ]);
 for (const forbidden of ["HeroSystemPanel", "<iframe", "projectsData", 'className="animate-fade-up"']) {
@@ -163,6 +162,7 @@ requireTokens("src/app/proof/page.tsx", [
   "What this site will and will not call proof",
   "project.evidenceReviewedAt",
   "project.sourceRevision",
+  "project.implementationEvidence.length",
   "Independent public records",
   "90-day maximum review window",
 ]);
