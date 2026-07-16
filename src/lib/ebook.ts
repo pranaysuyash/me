@@ -13,7 +13,7 @@ export const noClaimEbook = {
   priceSummary: "₹799 in India · $14.99 elsewhere",
   pricingNote: "Regional pricing",
   format: "PDF + EPUB",
-  cover: "/books/no-claim-without-evidence/cover.png",
+  cover: "/books/no-claim-without-evidence/cover.svg",
   checkoutImage: "/books/no-claim-without-evidence/checkout-image.jpg",
   path: "/books/no-claim-without-evidence",
   sampleUrl: "/books/no-claim-without-evidence/sample",
