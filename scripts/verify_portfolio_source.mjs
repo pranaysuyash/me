@@ -164,6 +164,7 @@ requireTokens("src/app/proof/page.tsx", [
   "project.evidenceReviewedAt",
   "project.sourceRevision",
   "Independent public records",
+  "90-day maximum review window",
 ]);
 requireTokens("src/app/accessibility/page.tsx", [
   "Accessibility statement",
@@ -253,9 +254,15 @@ requireTokens("scripts/generate_build_manifest.py", [
   "career-platform-v2",
 ]);
 requireTokens("scripts/verify_content_freshness.mjs", [
-  "maxAgeDays = 180",
+  "maxAgeDays = 90",
   "pinned implementation records",
   "source revision",
+]);
+requireTokens("scripts/verify_experience_quality.mjs", [
+  "Analytics, cookies, and local preferences",
+  "@media print",
+  "90-day maximum review window",
+  "unavailable local runtime",
 ]);
 requireTokens("scripts/verify_static_budget.mjs", [
   "htmlBudgets",
@@ -273,7 +280,7 @@ requireTokens("scripts/verify_release_contract.mjs", [
 requireTokens("package.json", [
   '"prebuild": "python3 scripts/vendor_three.py && python3 scripts/generate_resume_pdf.py && python3 scripts/generate_build_manifest.py"',
   '"postbuild": "node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs && node scripts/verify_release_contract.mjs"',
-  '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs"',
+  '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs"',
   '"site:verify": "npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build"',
   '"deploy:cloudflare": "npm run site:verify && wrangler pages deploy out --project-name pranay --branch main"',
 ]);
@@ -301,6 +308,7 @@ const productLab = requireTokens("public/product-lab/index.html", [
   "Review audited case studies instead",
   '"three": "/vendor/three/three.module.js"',
   '"three/addons/": "/vendor/three/addons/"',
+  "unavailable local runtime",
 ]);
 if (/https?:\/\/(?:cdn\.jsdelivr\.net|unpkg\.com)/.test(productLab)) {
   failures.push("interactive lab import map contains an external runtime URL");
@@ -316,5 +324,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, freshness, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, and deployment contract are intact.",
+  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, and deployment contract are intact.",
 );
