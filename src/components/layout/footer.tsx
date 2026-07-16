@@ -14,10 +14,10 @@ const footerNav = [
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
   { name: "Document workflows", href: "/document-workflows" },
-  { name: "Writing", href: "/books/no-claim-without-evidence" },
+  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
+  { name: "Proof ledger", href: "/proof" },
   { name: "Systems lab", href: "/systems" },
-  { name: "Project archive", href: "/labs" },
 ];
 
 const policyNav = [
@@ -25,6 +25,9 @@ const policyNav = [
   { name: "Terms", href: "/terms" },
   { name: "Refunds", href: "/refund-policy" },
   { name: "Delivery", href: "/delivery-policy" },
+  { name: "Accessibility", href: "/accessibility" },
+  { name: "JSON Resume", href: "/resume.json" },
+  { name: "LLM guide", href: "/llms.txt" },
 ];
 
 export function Footer() {
@@ -43,6 +46,7 @@ export function Footer() {
             <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
               Product leadership and hands-on system building across AI, workflow, internal tools, and local-first products.
             </p>
+            <p className="mt-3 text-xs text-muted-foreground">Portfolio evidence reviewed 16 July 2026.</p>
           </div>
 
           <nav className="grid grid-cols-2 gap-x-8 gap-y-3 sm:grid-cols-4" aria-label="Footer navigation">
@@ -75,11 +79,11 @@ export function Footer() {
               &copy; {new Date().getFullYear()} Pranay Suyash · Bengaluru, India
             </p>
             <p className="mt-2 max-w-3xl text-xs leading-5 text-muted-foreground">
-              Digital-product checkout is handled by Dodo Payments as Merchant of Record. Custom project and advisory engagements are contracted separately through PSRS Technologies Private Limited where applicable.
+              Dodo Payments handles digital-product checkout as Merchant of Record. Custom project and advisory engagements are contracted separately through PSRS Technologies Private Limited where applicable.
             </p>
           </div>
 
-          <nav className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end" aria-label="Policies">
+          <nav className="flex max-w-2xl flex-wrap gap-x-5 gap-y-2 md:justify-end" aria-label="Policies and machine-readable resources">
             {policyNav.map((item) => (
               <Link key={item.name} href={item.href} className="text-xs text-muted-foreground transition-colors hover:text-primary">
                 {item.name}
