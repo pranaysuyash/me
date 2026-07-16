@@ -1,23 +1,23 @@
 name: Site diagnostics
 
 on:
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: site-diagnostics-main
+  group: site-diagnostics-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   diagnose:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Check out main
+      - name: Check out verification ref
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
