@@ -3,36 +3,69 @@
 **Primary domain:** https://pranaysuyash.com  
 **Hosting:** Cloudflare Pages  
 **Cloudflare Pages project:** `pranay`  
-**Build model:** Next.js static export to `out/`  
-**Default branch:** `main`
+**Repository:** `pranaysuyash/me`  
+**Canonical branch:** `main`  
+**Build model:** Next.js static export to `out/`
 
-This document is the deployment contract for the portfolio and digital-product site.
+This guide defines the production handoff for the career platform, service surface, proof ledger, systems lab, and digital book. Repository health and public deployment health are separate claims and are verified separately.
 
-## 1. Local verification
+## 1. Canonical validation command
 
-Use Node.js 22 and install the locked dependency tree.
+Use Node.js 22 and the locked dependency tree.
 
 ```bash
 npm ci
-npm run typecheck
-npm run build
+npm run site:verify
 ```
 
-A successful build must create a non-empty `out/` directory.
+`npm run site:verify` is the single release-readiness command. It runs:
 
-`.github/workflows/site-build.yml` repeats the typecheck and static build on every push to `main`. It verifies:
+- ESLint with zero warnings;
+- strict TypeScript;
+- career, portfolio, evidence, freshness, contrast, privacy, print, and interaction contracts;
+- book source and package validation;
+- generated resume and build identity;
+- production static export;
+- exported route, metadata, internal-link, visual-evidence, and size-budget checks;
+- product-lab module syntax validation.
 
-- homepage, Work, Systems, Services, Contact, SentinelTwin, policy, and metadata routes;
-- the custom 404 output;
-- the exported interactive product-lab shell and JavaScript module;
-- ES-module syntax for the product-lab scene;
-- presence of the four product-specific scene builders;
-- required policy and Systems URLs inside the generated sitemap;
-- that the removed `/admin` route has not reappeared.
+Do not create a second release sequence in a workflow or deployment script. Automated and diagnostic workflows delegate to this command.
 
-CI is a release gate, not a production deployment.
+## 2. Repository release status
 
-## 2. Production deployment
+`.github/workflows/site-build.yml` runs on each push to `main` and on manual dispatch.
+
+It:
+
+1. checks out the exact triggering commit;
+2. runs `npm run site:verify`;
+3. uploads the complete log and verified static export;
+4. publishes the durable commit status `canonical-site-verify`.
+
+A green repository status proves the exact commit produced a valid static release package. It does not prove the custom domain serves that package.
+
+For manual diagnosis, run `.github/workflows/site-diagnostics.yml`. It checks out current `main`, calls the same canonical validation command, and retains the log and export.
+
+## 3. Build identity
+
+Every production build generates:
+
+```text
+/build-info.json
+```
+
+The file records:
+
+- repository;
+- branch;
+- full and short commit SHA;
+- build timestamp;
+- evidence-review date;
+- release contract identifier `career-platform-v2`.
+
+The deployed `commit` value must equal the intended `main` commit. A page that looks correct but reports the wrong build identity is stale.
+
+## 4. Production deployment
 
 The canonical manual deployment command is:
 
@@ -40,89 +73,133 @@ The canonical manual deployment command is:
 npm run deploy:cloudflare
 ```
 
-It runs:
+It performs:
 
 ```bash
-npm run build
+npm run site:verify
 wrangler pages deploy out --project-name pranay --branch main
 ```
 
-Wrangler must be authenticated to the Cloudflare account that owns the `pranay` Pages project. Never commit Cloudflare tokens, account identifiers, or generated credential files.
+Wrangler must be authenticated to the Cloudflare account that owns the `pranay` Pages project. Never commit tokens, account identifiers, or generated credential files.
 
-If Cloudflare Pages Git integration is enabled, a push to `main` may create a deployment automatically. Do not assume it did. Verify the deployed commit, Pages URL, and custom domain.
+Cloudflare Pages Git integration may also deploy a push to `main`. Do not assume it did. Verify the deployment commit, generated Pages URL, and custom domain.
 
-### Custom-domain identity check
+## 5. Live deployment audit
 
-The generated deployment URL and `pranaysuyash.com` must serve the same release.
+`.github/workflows/live-deployment-audit.yml` runs daily and by manual dispatch.
 
-If the generated `*.pages.dev` URL shows the new site while `pranaysuyash.com` still shows an older site:
+It:
+
+1. checks out current `main`;
+2. resolves the exact target SHA;
+3. runs `scripts/verify_live_deployment.mjs` against `https://pranaysuyash.com`;
+4. compares `/build-info.json` with the target SHA;
+5. verifies current release signatures on the homepage, Work, Experience, Services, Contact, proof ledger, and book routes;
+6. publishes the durable commit status `live-deployment`;
+7. fails when the custom domain is stale, incomplete, or mapped to the wrong project.
+
+A share-ready release requires both statuses:
+
+- `canonical-site-verify`: green;
+- `live-deployment`: green.
+
+The network check can also be run locally after setting the expected full SHA:
+
+```bash
+EXPECTED_SHA="$(git rev-parse HEAD)" npm run live:verify
+```
+
+Optional overrides:
+
+```bash
+LIVE_SITE_URL="https://example.pages.dev" \
+EXPECTED_SHA="$(git rev-parse HEAD)" \
+npm run live:verify
+```
+
+## 6. Custom-domain identity
+
+The generated `*.pages.dev` deployment and `pranaysuyash.com` must serve the same release.
+
+When the Pages URL is current but the custom domain is stale:
 
 1. open Cloudflare Dashboard → Workers & Pages;
 2. select the `pranay` Pages project used by Wrangler;
 3. open **Custom domains**;
-4. confirm `pranaysuyash.com` is attached and active on that exact project;
-5. check whether the domain is still attached to an older Pages project;
-6. verify the apex and any `www` hostname intentionally resolve to the same project;
-7. redeploy only after the project/domain mapping is unambiguous.
+4. confirm `pranaysuyash.com` is active on that exact project;
+5. check whether the domain remains attached to an older Pages project;
+6. verify the apex and intended `www` hostname resolve to the same project;
+7. promote or redeploy the correct production release;
+8. run the Live deployment audit until `live-deployment` is green.
 
-Do not treat a successful upload to a preview URL as proof that the custom domain was updated.
+A successful upload to a preview URL is not proof that the custom domain changed.
 
-## 3. Required production routes
+## 7. Required production routes
 
-Verify both the generated Pages URL and the custom domain.
+Verify the generated Pages URL and the custom domain.
 
-Core routes:
+### Professional and commercial routes
 
 - `/`
 - `/work`
-- `/systems`
-- `/work-with-me`
-- `/contact`
-- `/about`
 - `/hire-me`
-- `/work/sentineltwin`
+- `/work-with-me`
+- `/document-workflows`
+- `/proof`
+- `/about`
+- `/contact`
+- `/systems`
+- `/labs`
+
+### Audited case studies
+
+- `/work/medpiper-workflow`
 - `/work/sig-ext-fastapi`
 - `/work/metaextract`
 - `/work/echopanel`
+- `/work/sentineltwin`
+
+### Book routes
+
 - `/books/no-claim-without-evidence`
 - `/books/no-claim-without-evidence/sample`
 
-Interactive static assets:
+### Static and policy routes
 
-- `/product-lab/index.html`
+- `/product-lab/`
 - `/product-lab/scene.js`
-
-Policy and metadata routes:
-
+- `/pranay-suyash-resume.pdf`
+- `/resume.json`
+- `/llms.txt`
+- `/build-info.json`
 - `/privacy`
 - `/terms`
 - `/refund-policy`
 - `/delivery-policy`
+- `/accessibility`
 - `/sitemap.xml`
 - `/robots.txt`
-- a branded 404 response for an unknown route
+- a branded unknown-route response
 
-`/admin` must return 404. The site has no public or simulated admin application.
+`/admin` must return 404. The site has no public or simulated administration product.
 
-## 4. Content and conversion checks
+## 8. Current release signatures
 
-Check the actual product experience, not merely HTTP status codes:
+The live audit checks durable phrases rather than fragile visual selectors. The deployed release must include:
 
-- homepage headline begins with “Product systems for work”;
-- desktop navigation includes Work, Systems, Services, About, and Writing;
-- homepage product lab switches among SentinelTwin, SignKit, MetaExtract, and EchoPanel;
-- every product exposes three distinct operating views rather than decorative motion only;
-- `/systems` provides the same lab at a larger inspection size;
-- Work separates flagship systems from the archive and renders product previews;
-- project case studies render screenshots, canonical metadata, and project-specific social previews;
-- Services shows an India INR / Global USD switch;
-- Contact shows regional engagement scopes and submits successfully;
-- SentinelTwin renders its case study and remote product images;
-- footer policy links resolve and merchant roles are described accurately.
+- homepage: `I turn messy operational workflows into reviewable AI and product systems.`;
+- Work: `Four products, each labelled by what actually exists today.`;
+- Experience: `Product leader and hands-on builder for AI, workflow, and internal systems.`;
+- Services: `Buy a decision, a focused build, a production system, or sustained ownership.`;
+- Contact: `Enough context for a useful fit assessment`;
+- proof ledger: `90-day maximum review window`;
+- book: `Clean AI output is not the same thing as a trustworthy system.`
 
-## 5. Regional service-pricing checks
+Update the verifier deliberately when positioning changes. Never weaken it merely to make a stale production site pass.
 
-Pricing uses two regional price books, not live exchange-rate conversion.
+## 9. Regional service pricing
+
+Pricing uses separate regional price books, not live exchange-rate conversion.
 
 ### India
 
@@ -145,75 +222,73 @@ Detection order:
 3. browser timezone and language hints;
 4. Global USD as the safe initial render.
 
-Manual switching must remain available. Confirm the Contact form uses the same stored region.
+Manual switching must remain available, and the Contact budget selector must respect the stored choice.
 
-## 6. Contact and scheduling checks
+## 10. Production interaction checks
 
-The Contact page submits to FormBold. Before declaring a release healthy:
+Static validation cannot prove third-party services completed their work.
 
-1. submit one real test project brief;
-2. confirm it reaches the expected inbox;
-3. verify success and error states;
-4. verify the 15-minute and 30-minute Cal.com links;
-5. verify source query parameters are included in the submitted form;
-6. confirm no private phone number is exposed unintentionally.
+Before sharing the release broadly, verify:
 
-## 7. Ebook publication gate
+### Contact and scheduling
 
-Do not enable the purchase CTA until all of these are true:
+1. submit one project brief through FormBold;
+2. confirm inbox receipt and preserved source fields;
+3. submit one role-context enquiry;
+4. verify success, validation, failure, and no-JavaScript fallback states;
+5. verify the 15-minute and 30-minute Cal.com destinations;
+6. confirm email and social links are usable without unintended Cloudflare rewriting.
 
-1. the final PDF and EPUB exist;
-2. both files are uploaded as Dodo entitlements;
-3. the India price resolves to ₹799;
-4. the global base price resolves to $14.99 or the explicitly accepted adaptive-currency equivalent;
-5. tax-inclusive display and the generated invoice are correct;
-6. a real test purchase delivers both files;
-7. refund, delivery, privacy, terms, and support links are visible;
-8. `NEXT_PUBLIC_NO_CLAIM_EBOOK_CHECKOUT_URL` is set for the production build.
+### Ebook purchase and delivery
 
-Until then, the ebook page remains sample-first and must not present a nonfunctional purchase control.
+1. confirm the PDF and EPUB entitlements are attached;
+2. confirm India and global pricing;
+3. complete one real purchase;
+4. verify tax and invoice behaviour;
+5. verify delivery of both formats;
+6. verify refund, support, privacy, terms, and delivery links.
 
-## 8. Visual, interaction, and accessibility checks
+### Browser and accessibility
 
 Test at minimum:
 
-- mobile width around 375px;
-- tablet width around 768px;
-- desktop width around 1440px;
+- mobile around 375–390px;
+- tablet around 768px;
+- desktop around 1440px;
 - light and dark themes;
-- mobile menu open, close, and route selection;
-- Work archive filters;
-- product-lab project and mode controls with mouse, touch, and keyboard;
-- product-lab drag and zoom do not steal page scrolling unexpectedly;
-- reduced-motion mode does not continuously animate the product scenes;
-- WebGL failure leaves readable fallback and standard case-study links;
-- local and remote project images;
-- no horizontal scrolling;
-- keyboard focus visibility on links, buttons, selects, and inputs;
-- policy pages remain readable at narrow widths.
+- mobile menu focus trapping and restoration;
+- keyboard focus visibility;
+- reduced-motion handling;
+- regional pricing selection and persistence;
+- product-lab keyboard, pointer, scroll, and fallback behaviour;
+- no horizontal overflow;
+- readable policy and proof pages at narrow widths.
 
-## 9. Search, metadata, and headers
+## 11. Search, metadata, and headers
 
 After deployment, verify:
 
 - page-specific titles and descriptions;
-- canonical URLs on project and Systems pages;
-- Open Graph and Twitter metadata;
-- Person and WebSite JSON-LD on the site shell;
-- generated sitemap entries for projects, Systems, and policies;
-- generated robots output points to the canonical sitemap;
-- Cloudflare serves the headers defined in `public/_headers`;
-- the same-origin product-lab iframe is not blocked by frame headers;
+- canonical URLs;
+- Open Graph and Twitter images;
+- Person and WebSite JSON-LD;
+- JSON Resume and `llms.txt` discovery;
+- sitemap entries for audited projects, proof, accessibility, book, and policies;
+- robots output points to the canonical sitemap;
+- Cloudflare serves `public/_headers`;
+- same-origin product-lab framing remains allowed;
 - static Next assets receive immutable caching;
-- the global title does not append “Pranay Suyash” twice.
+- the global title does not duplicate the site name.
 
-## 10. Rollback
+## 12. Rollback
 
-Cloudflare Pages keeps prior deployments. If production is broken:
+Cloudflare Pages retains prior deployments. If production is broken:
 
-1. promote the previous healthy Pages deployment;
-2. fix `main`;
-3. rerun `npm ci`, `npm run typecheck`, and `npm run build`;
-4. redeploy and repeat this checklist.
+1. promote the last known healthy production deployment;
+2. verify its `/build-info.json` identity;
+3. fix `main`;
+4. rerun `npm ci` and `npm run site:verify`;
+5. deploy the corrected export;
+6. confirm both `canonical-site-verify` and `live-deployment` are green.
 
-Do not diagnose production from repository state alone. Compare the deployed commit or build timestamp with the current `main` head.
+Do not diagnose production from repository state alone. Compare the public build identity, route signatures, external transactions, and custom-domain mapping with the exact intended commit.
