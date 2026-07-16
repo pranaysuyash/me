@@ -27,6 +27,21 @@ const evidenceRules = [
   "Case studies state what exists now and keep future direction outside the current-outcome claim.",
 ] as const;
 
+const reviewCadence = [
+  {
+    title: "90-day maximum review window",
+    body: "Every audited product record must be rechecked against pinned source and implementation evidence at least once every 90 days. The production build fails when a review date becomes stale.",
+  },
+  {
+    title: "Immediate review after material change",
+    body: "Material product or maturity changes trigger an immediate review. A prototype becoming a commercial product, a capability shipping, or an implementation boundary changing cannot wait for the scheduled window.",
+  },
+  {
+    title: "Career claims follow the underlying fact",
+    body: "Career and commercial claims are reviewed when the underlying fact changes, including role, availability, pricing, product status, publication status, or externally verifiable evidence.",
+  },
+] as const;
+
 export default function ProofPage() {
   return (
     <PageLayout>
@@ -81,7 +96,34 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-16 md:py-24">
+      <section className="border-y bg-[#102022] py-14 text-white md:py-18">
+        <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
+            <div>
+              <div className="flex items-center gap-3 text-teal-100/70">
+                <CalendarCheck2 className="h-5 w-5" />
+                <p className="text-xs font-semibold uppercase tracking-[0.18em]">Review cadence</p>
+              </div>
+              <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+                Evidence freshness is a release condition, not a footer decoration.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                The same dates shown to visitors are parsed by the build. Stale or inconsistent evidence prevents deployment.
+              </p>
+            </div>
+            <div className="divide-y divide-white/12 border-y border-white/12">
+              {reviewCadence.map((item) => (
+                <article key={item.title} className="py-6">
+                  <h3 className="font-semibold text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/58">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="mb-10 max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Professional evidence</p>
