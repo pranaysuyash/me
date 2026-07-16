@@ -5,6 +5,12 @@ export type ProjectMaturity =
   | "Working prototype";
 
 export type VisualEvidenceKind = "workflow-map" | "product-screenshot";
+export type ImplementationEvidenceKind =
+  | "source"
+  | "test"
+  | "architecture"
+  | "runbook"
+  | "public-surface";
 
 export interface ProjectVisualEvidence {
   src: string;
@@ -13,12 +19,21 @@ export interface ProjectVisualEvidence {
   kind: VisualEvidenceKind;
 }
 
+export interface ImplementationEvidence {
+  label: string;
+  description: string;
+  href: string;
+  kind: ImplementationEvidenceKind;
+}
+
 export interface AuditedProject {
   slug: string;
   title: string;
   category: string;
   maturity: ProjectMaturity;
   year: string;
+  evidenceReviewedAt: string;
+  sourceRevision: string;
   summary: string;
   primaryUser: string;
   role: string;
@@ -28,6 +43,7 @@ export interface AuditedProject {
   constraints: string[];
   technologies: string[];
   visualEvidence: ProjectVisualEvidence[];
+  implementationEvidence: ImplementationEvidence[];
   links: { label: string; href: string }[];
 }
 
@@ -38,6 +54,8 @@ export const auditedProjects: AuditedProject[] = [
     category: "Local-first document workflow",
     maturity: "Commercial product",
     year: "2025",
+    evidenceReviewedAt: "2026-07-16",
+    sourceRevision: "0bbda3ddc32b8d482f074d2aa84807e2fd280e72",
     summary:
       "A desktop workflow for extracting handwritten signature images, cleaning them, and placing them into PDFs without requiring sensitive files to be uploaded to a server.",
     primaryUser:
@@ -83,6 +101,32 @@ export const auditedProjects: AuditedProject[] = [
         kind: "workflow-map",
       },
     ],
+    implementationEvidence: [
+      {
+        label: "Desktop application entry point",
+        description: "Qt application boot, startup state, and native desktop lifecycle.",
+        href: "https://github.com/pranaysuyash/signkit/blob/0bbda3ddc32b8d482f074d2aa84807e2fd280e72/desktop_app/main.py",
+        kind: "source",
+      },
+      {
+        label: "Extraction workflow implementation",
+        description: "Current extraction-facing desktop workflow and state handling.",
+        href: "https://github.com/pranaysuyash/signkit/blob/0bbda3ddc32b8d482f074d2aa84807e2fd280e72/desktop_app/views/main_window_parts/extraction.py",
+        kind: "source",
+      },
+      {
+        label: "PDF feature tests",
+        description: "Executable checks around the PDF workflow rather than a marketing-only claim.",
+        href: "https://github.com/pranaysuyash/signkit/blob/0bbda3ddc32b8d482f074d2aa84807e2fd280e72/desktop_app/tests/test_pdf_features.py",
+        kind: "test",
+      },
+      {
+        label: "Coordinate-mapping tests",
+        description: "Tests for mapping placement coordinates between the product surface and PDF space.",
+        href: "https://github.com/pranaysuyash/signkit/blob/0bbda3ddc32b8d482f074d2aa84807e2fd280e72/desktop_app/tests/test_coordinate_mapping.py",
+        kind: "test",
+      },
+    ],
     links: [
       { label: "Open product site", href: "https://signkit.work" },
       { label: "View repository", href: "https://github.com/pranaysuyash/signkit" },
@@ -94,6 +138,8 @@ export const auditedProjects: AuditedProject[] = [
     category: "Document and file intelligence",
     maturity: "Working product build",
     year: "2025",
+    evidenceReviewedAt: "2026-07-16",
+    sourceRevision: "23c1fdeee856af626176b3f878fd04e4e0a54b2a",
     summary:
       "A structured workspace for inspecting files and documents, extracting high-coverage metadata, and keeping outputs reviewable instead of hiding them behind one opaque model response.",
     primaryUser:
@@ -139,6 +185,32 @@ export const auditedProjects: AuditedProject[] = [
         kind: "workflow-map",
       },
     ],
+    implementationEvidence: [
+      {
+        label: "Architecture and operating model",
+        description: "Repository-level description of the React, Node and Python extraction architecture.",
+        href: "https://github.com/pranaysuyash/metaextract/blob/23c1fdeee856af626176b3f878fd04e4e0a54b2a/README.md",
+        kind: "architecture",
+      },
+      {
+        label: "Extraction and access route",
+        description: "Current server route containing extraction, access-mode and response behaviour.",
+        href: "https://github.com/pranaysuyash/metaextract/blob/23c1fdeee856af626176b3f878fd04e4e0a54b2a/server/routes/images-mvp.ts",
+        kind: "source",
+      },
+      {
+        label: "Integration tests",
+        description: "Route-level integration checks for the image extraction workflow.",
+        href: "https://github.com/pranaysuyash/metaextract/blob/23c1fdeee856af626176b3f878fd04e4e0a54b2a/server/routes/images-mvp.integration.test.ts",
+        kind: "test",
+      },
+      {
+        label: "Route behaviour tests",
+        description: "Focused tests for access and extraction behaviour.",
+        href: "https://github.com/pranaysuyash/metaextract/blob/23c1fdeee856af626176b3f878fd04e4e0a54b2a/server/routes/images-mvp.test.ts",
+        kind: "test",
+      },
+    ],
     links: [
       { label: "View repository", href: "https://github.com/pranaysuyash/metaextract" },
     ],
@@ -149,6 +221,8 @@ export const auditedProjects: AuditedProject[] = [
     category: "Local-first audio product",
     maturity: "Working prototype",
     year: "2026",
+    evidenceReviewedAt: "2026-07-16",
+    sourceRevision: "3845da5662d212ff5b70ecd603872e334c147dea",
     summary:
       "A macOS recording and transcript workflow designed around local capture, private processing, and finding the exact moment later.",
     primaryUser:
@@ -194,6 +268,32 @@ export const auditedProjects: AuditedProject[] = [
         kind: "workflow-map",
       },
     ],
+    implementationEvidence: [
+      {
+        label: "Development and distribution runbook",
+        description: "Build, permissions, backend health and local quality-gate instructions.",
+        href: "https://github.com/pranaysuyash/EchoPanel/blob/3845da5662d212ff5b70ecd603872e334c147dea/README.md",
+        kind: "runbook",
+      },
+      {
+        label: "Native application state",
+        description: "Swift application state for the recording and listener product surface.",
+        href: "https://github.com/pranaysuyash/EchoPanel/blob/3845da5662d212ff5b70ecd603872e334c147dea/macapp/MeetingListenerApp/Sources/AppState.swift",
+        kind: "source",
+      },
+      {
+        label: "Product decisions",
+        description: "Recorded architectural and product decisions behind the prototype boundary.",
+        href: "https://github.com/pranaysuyash/EchoPanel/blob/3845da5662d212ff5b70ecd603872e334c147dea/docs/DECISIONS.md",
+        kind: "architecture",
+      },
+      {
+        label: "Status and roadmap",
+        description: "Repository record separating working behaviour from remaining production work.",
+        href: "https://github.com/pranaysuyash/EchoPanel/blob/3845da5662d212ff5b70ecd603872e334c147dea/docs/STATUS_AND_ROADMAP.md",
+        kind: "runbook",
+      },
+    ],
     links: [
       { label: "View repository", href: "https://github.com/pranaysuyash/EchoPanel" },
     ],
@@ -204,6 +304,8 @@ export const auditedProjects: AuditedProject[] = [
     category: "Spatial intelligence and simulation",
     maturity: "Active platform build",
     year: "2026",
+    evidenceReviewedAt: "2026-07-16",
+    sourceRevision: "91b22049868b7a0369378ac7f2e82b769e36fe4b",
     summary:
       "A physical-security digital twin for camera planning, coverage analysis, incident paths, comparison, and evidence-backed hardening decisions.",
     primaryUser:
@@ -247,6 +349,32 @@ export const auditedProjects: AuditedProject[] = [
         caption:
           "Security decision workflow map. The geometry is illustrative; the case-study maturity and current implementation boundary remain the source of truth.",
         kind: "workflow-map",
+      },
+    ],
+    implementationEvidence: [
+      {
+        label: "Coverage simulation core",
+        description: "Deterministic coverage computation in the simulation package.",
+        href: "https://github.com/pranaysuyash/SentinelTwin/blob/91b22049868b7a0369378ac7f2e82b769e36fe4b/packages/simulation/src/coverage.ts",
+        kind: "source",
+      },
+      {
+        label: "Coverage provenance",
+        description: "Source-level support for explaining how coverage evidence was produced.",
+        href: "https://github.com/pranaysuyash/SentinelTwin/blob/91b22049868b7a0369378ac7f2e82b769e36fe4b/apps/studio/src/lib/coverage-provenance.ts",
+        kind: "source",
+      },
+      {
+        label: "Coverage regression checks",
+        description: "Regression-oriented comparison logic for spatial coverage changes.",
+        href: "https://github.com/pranaysuyash/SentinelTwin/blob/91b22049868b7a0369378ac7f2e82b769e36fe4b/apps/studio/src/lib/coverage-regression.ts",
+        kind: "test",
+      },
+      {
+        label: "Coverage architecture",
+        description: "Architecture record for the coverage engine and its product boundary.",
+        href: "https://github.com/pranaysuyash/SentinelTwin/blob/91b22049868b7a0369378ac7f2e82b769e36fe4b/Docs/architecture/03_COVERAGE_ENGINE.md",
+        kind: "architecture",
       },
     ],
     links: [
