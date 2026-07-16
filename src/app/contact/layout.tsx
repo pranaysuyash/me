@@ -1,14 +1,25 @@
 import type { Metadata } from "next";
 
+const title = "Start a Conversation | Pranay Suyash";
+const description =
+  "Share a senior product role or a workflow, internal-tool, document, desktop, or spatial-system project.";
+
 export const metadata: Metadata = {
-  title: "Discuss a Project | Pranay Suyash",
-  description:
-    "Send a project brief for an AI-assisted product, operational system, local-first tool, document workflow, or spatial simulation build.",
+  title,
+  description,
+  alternates: {
+    canonical: "https://pranaysuyash.com/contact",
+  },
   openGraph: {
-    title: "Discuss a Project | Pranay Suyash",
-    description:
-      "Start with the current workflow, its failure point, and what a useful system would change.",
+    title,
+    description,
+    url: "https://pranaysuyash.com/contact",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
   },
 };
 
