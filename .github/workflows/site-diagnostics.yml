@@ -1,0 +1,53 @@
+name: Site diagnostics
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python validation dependency
+        run: python -m pip install -r requirements-book.txt
+      - name: Install Node dependencies
+        run: npm ci
+      - name: Type-check
+        run: npm run typecheck
+      - name: Validate source contracts
+        run: npm run portfolio:validate
+      - name: Validate book package
+        run: npm run book:validate
+      - name: Vendor Three.js
+        run: python3 scripts/vendor_three.py
+      - name: Generate resume
+        run: python3 scripts/generate_resume_pdf.py
+      - name: Generate build identity
+        run: python3 scripts/generate_build_manifest.py
+      - name: Export Next.js site without lifecycle hooks
+        run: npx next build
+      - name: Verify exported visual evidence
+        run: node scripts/verify_exported_visual_evidence.mjs
+      - name: Verify static budgets
+        run: node scripts/verify_static_budget.mjs
+      - name: Verify expanded release contract
+        run: node scripts/verify_release_contract.mjs
+      - name: Upload diagnostic export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-static-site-${{ github.sha }}
+          path: out
+          if-no-files-found: warn
+          retention-days: 1
