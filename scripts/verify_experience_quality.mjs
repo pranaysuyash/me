@@ -59,6 +59,14 @@ requireTokens("scripts/verify_content_freshness.mjs", [
   "proof ledger freshness policy missing",
 ]);
 
+requireTokens("scripts/verify_color_contrast.mjs", [
+  "light body text",
+  "dark body text",
+  "light accent button",
+  "dark accent button",
+  "4.5",
+]);
+
 const lab = requireTokens("public/product-lab/index.html", [
   '"three": "/vendor/three/three.module.js"',
   "unavailable local runtime",
@@ -87,6 +95,8 @@ if (failures.length) {
   process.exit(1);
 }
 
+await import("./verify_color_contrast.mjs");
+
 console.log(
-  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, route-aware conversion, focus restoration, and self-hosted lab fallback are intact.",
+  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
 );
