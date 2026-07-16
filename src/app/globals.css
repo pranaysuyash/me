@@ -197,3 +197,85 @@
     }
   }
 }
+
+@media print {
+  :root,
+  .dark {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 28%;
+    --border: 0 0% 78%;
+    --primary: 176 78% 22%;
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 10pt;
+  }
+
+  header,
+  footer,
+  .skip-link,
+  iframe,
+  button,
+  [data-cta-context],
+  [aria-label="Interactive product lab for SentinelTwin, SignKit, MetaExtract, and EchoPanel"] {
+    display: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  section,
+  article,
+  figure,
+  table,
+  ul,
+  ol {
+    break-inside: avoid;
+  }
+
+  section {
+    padding-block: 1.25rem !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  .ledger-grid,
+  .gradient-text,
+  .gradient-line {
+    background: none !important;
+    color: black !important;
+  }
+
+  a {
+    color: black !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+  }
+
+  img,
+  svg {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+}
