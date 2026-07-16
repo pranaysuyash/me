@@ -121,141 +121,95 @@
         backdrop-filter: blur(18px);
       }
       .proof-card__eyebrow {
-        margin: 0;
-        font-size: 9px;
-        font-weight: 750;
-        letter-spacing: .18em;
+        margin: 0 0 7px;
+        font: 700 9px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .16em;
         text-transform: uppercase;
-        color: color-mix(in srgb, var(--accent) 76%, white 9%);
+        color: color-mix(in srgb, var(--accent) 82%, white 8%);
       }
-      .proof-card h1 {
-        margin: 7px 0 0;
-        font-size: clamp(22px, 4vw, 30px);
-        line-height: 1.05;
-        letter-spacing: -.035em;
-      }
-      .proof-card__summary {
-        margin: 9px 0 0;
-        max-width: 48ch;
-        font-size: 12px;
-        line-height: 1.55;
-        color: var(--muted);
-      }
-      .metrics {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 6px;
-        margin-top: 13px;
-      }
-      .metric {
-        min-width: 0;
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 8px;
-        background: rgba(255,255,255,.028);
-        padding: 8px;
-      }
-      .metric strong, .metric span { display: block; }
-      .metric strong { overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
-      .metric span { margin-top: 3px; overflow: hidden; font-size: 9px; color: rgba(225,241,237,.44); text-overflow: ellipsis; white-space: nowrap; }
-      .proof-card__footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 13px; }
-      .case-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        border-radius: 7px;
-        background: var(--accent);
-        padding: 8px 10px;
-        color: #061012;
-        font-size: 10px;
-        font-weight: 780;
-        letter-spacing: .08em;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
-      .case-link::after { content: "↗"; font-size: 12px; }
-      .drag-copy { font-size: 9px; line-height: 1.35; color: rgba(229,243,239,.38); text-align: right; }
+      .proof-card h1 { margin: 0; font-size: 25px; letter-spacing: -.035em; }
+      .proof-card__summary { margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+      .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 13px; }
+      .metric { min-width: 0; border: 1px solid var(--border); border-radius: 8px; padding: 7px; background: rgba(255,255,255,.025); }
+      .metric__label { display: block; overflow: hidden; color: rgba(228,244,240,.45); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+      .metric__value { display: block; margin-top: 4px; overflow: hidden; font-size: 11px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+      .proof-card__footer { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-top: 14px; }
+      .case-link { color: color-mix(in srgb, var(--accent) 86%, white 8%); font-size: 11px; font-weight: 700; text-decoration: none; }
+      .case-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+      .drag-copy { color: rgba(228,244,240,.34); font: 500 9px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; text-align: right; }
 
       .mode-tabs {
         position: absolute;
-        right: 14px;
-        bottom: 14px;
+        right: 18px;
+        bottom: 18px;
         display: flex;
-        max-width: calc(100% - 402px);
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 6px;
+        max-width: 420px;
+        padding: 6px;
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        background: rgba(3, 9, 11, 0.72);
+        backdrop-filter: blur(14px);
       }
       .mode-tab {
-        border: 1px solid rgba(255,255,255,.1);
-        border-radius: 999px;
-        background: rgba(4,11,13,.72);
+        border: 1px solid transparent;
+        border-radius: 7px;
+        background: transparent;
         padding: 8px 10px;
-        color: rgba(231,245,241,.48);
-        font-size: 9px;
-        font-weight: 690;
-        letter-spacing: .08em;
-        text-transform: uppercase;
+        color: rgba(235,247,244,.48);
+        font-size: 10px;
+        font-weight: 700;
         cursor: pointer;
-        backdrop-filter: blur(12px);
       }
-      .mode-tab:hover, .mode-tab[aria-pressed="true"] {
-        border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-        background: color-mix(in srgb, var(--accent) 12%, rgba(4,11,13,.72));
-        color: var(--ink);
-      }
-
-      .object-label {
-        display: block;
-        transform: translate(-50%, -50%);
-        border: 1px solid rgba(255,255,255,.12);
-        border-radius: 999px;
-        background: rgba(4,11,13,.8);
-        padding: 5px 7px;
-        color: rgba(238,249,246,.72);
-        font-size: 8px;
-        font-weight: 670;
-        letter-spacing: .06em;
-        white-space: nowrap;
-        backdrop-filter: blur(10px);
-      }
-      .object-label[data-tone="alert"] { border-color: rgba(238,117,98,.4); color: #ffb4a5; }
-      .object-label[data-tone="good"] { border-color: color-mix(in srgb, var(--accent) 48%, transparent); color: color-mix(in srgb, var(--accent) 72%, white 18%); }
+      .mode-tab:hover, .mode-tab:focus-visible { color: var(--ink); background: rgba(255,255,255,.045); }
+      .mode-tab[aria-pressed="true"] { color: var(--ink); border-color: color-mix(in srgb, var(--accent) 38%, transparent); background: color-mix(in srgb, var(--accent) 9%, rgba(255,255,255,.02)); }
 
       .scene-hint {
         position: absolute;
-        top: 78px;
-        right: 14px;
-        border: 1px solid rgba(255,255,255,.08);
-        border-radius: 999px;
-        background: rgba(4,11,13,.55);
-        padding: 6px 9px;
-        font-size: 8px;
-        letter-spacing: .09em;
+        right: 20px;
+        top: 92px;
+        color: rgba(228,244,240,.26);
+        font: 600 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .12em;
         text-transform: uppercase;
-        color: rgba(229,243,239,.34);
-        backdrop-filter: blur(10px);
       }
 
       .fallback {
         position: absolute;
-        inset: 84px 14px 14px;
-        z-index: 7;
+        inset: 0;
+        z-index: 3;
         display: grid;
         place-items: center;
-        border: 1px solid var(--border);
-        border-radius: 14px;
+        padding: 30px;
         background:
-          radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 46%),
-          #071013;
-        padding: 28px;
+          radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 40%),
+          linear-gradient(155deg, #101b1d, #071013 58%, #04090b);
         text-align: center;
-        color: var(--muted);
+        transition: opacity 180ms ease, visibility 180ms ease;
       }
-      #lab[data-ready="true"] .fallback { display: none; }
-      .fallback strong { display: block; margin-bottom: 8px; color: var(--ink); font-size: 18px; }
-      .fallback p { margin: 0 auto; max-width: 50ch; font-size: 13px; line-height: 1.65; }
-      .fallback a { display: inline-flex; margin-top: 18px; color: var(--accent); font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
-      .fallback__status { margin-bottom: 13px; font: 600 9px/1 ui-monospace, monospace; letter-spacing: .15em; text-transform: uppercase; color: color-mix(in srgb, var(--accent) 70%, white 8%); }
+      #lab[data-ready="true"] .fallback { visibility: hidden; opacity: 0; pointer-events: none; }
+      .fallback > div { max-width: 560px; }
+      .fallback__status { margin-bottom: 12px; color: color-mix(in srgb, var(--accent) 80%, white 8%); font: 700 9px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; text-transform: uppercase; }
+      .fallback strong { display: block; font-size: clamp(24px, 4vw, 42px); letter-spacing: -.04em; }
+      .fallback p { margin: 15px auto 0; max-width: 500px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+      .fallback a { display: inline-flex; margin-top: 20px; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 8px; padding: 9px 12px; color: color-mix(in srgb, var(--accent) 86%, white 8%); font-size: 12px; font-weight: 700; text-decoration: none; }
+
+      .label {
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 6px;
+        background: rgba(4,10,12,.78);
+        padding: 5px 7px;
+        color: rgba(239,248,246,.78);
+        font: 600 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        backdrop-filter: blur(8px);
+      }
+      .label--alert { color: #ffc8bf; border-color: rgba(239,118,99,.36); }
+      .label--accent { color: color-mix(in srgb, var(--accent) 75%, white 18%); border-color: color-mix(in srgb, var(--accent) 34%, transparent); }
 
       @media (max-width: 720px) {
         #lab { min-height: 520px; }
@@ -314,7 +268,7 @@
           <div class="fallback__status">Loading progressive enhancement</div>
           <strong>Case studies remain available without WebGL</strong>
           <p>
-            The spatial scene is supporting evidence. A blocked module, unavailable CDN, or unsupported graphics environment will never hide the factual product record.
+            The spatial scene is supporting evidence. A blocked module, unavailable local runtime, or unsupported graphics environment will never hide the factual product record.
           </p>
           <a href="/work" target="_parent">Review audited case studies instead</a>
         </div>
