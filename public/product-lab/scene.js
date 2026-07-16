@@ -84,7 +84,6 @@ scene.add(warmLight);
 const clock = new THREE.Clock();
 const cameraGoal = new THREE.Vector3();
 const targetGoal = new THREE.Vector3();
-const interactiveMeshes = [];
 const groups = [];
 let activeProject = 0;
 let activeMode = 0;
