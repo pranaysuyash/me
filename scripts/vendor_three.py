@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Vendor the pinned Three.js runtime into the static site.
-
-The interactive systems lab must not depend on a third-party CDN at runtime.
-This script downloads the exact version used by the lab into public/vendor,
-validates basic integrity, and reuses a previously validated copy when offline.
-"""
+"""Vendor the pinned Three.js runtime and its complete dependency chain."""
 
 from __future__ import annotations
 
@@ -17,6 +12,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "0.179.1"
+VENDOR_ROOT = f"public/vendor/three/{VERSION}"
+PACKAGE_ROOT = f"https://cdn.jsdelivr.net/npm/three@{VERSION}"
 USER_AGENT = "pranaysuyash-portfolio-build/1.0"
 
 
@@ -30,24 +27,40 @@ class VendorFile:
 
 FILES = (
     VendorFile(
-        relative_path="public/vendor/three/three.module.js",
-        url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/build/three.module.js",
+        relative_path=f"{VENDOR_ROOT}/three.module.js",
+        url=f"{PACKAGE_ROOT}/build/three.module.js",
         minimum_size=500_000,
-        required_tokens=("REVISION", "WebGLRenderer", "PerspectiveCamera"),
+        required_tokens=("./three.core.js", "WebGLRenderer", "PerspectiveCamera"),
     ),
     VendorFile(
-        relative_path="public/vendor/three/addons/controls/OrbitControls.js",
-        url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/examples/jsm/controls/OrbitControls.js",
+        relative_path=f"{VENDOR_ROOT}/three.core.js",
+        url=f"{PACKAGE_ROOT}/build/three.core.js",
+        minimum_size=900_000,
+        required_tokens=("REVISION", "class Matrix4", "class Object3D"),
+    ),
+    VendorFile(
+        relative_path=f"{VENDOR_ROOT}/addons/controls/OrbitControls.js",
+        url=f"{PACKAGE_ROOT}/examples/jsm/controls/OrbitControls.js",
         minimum_size=20_000,
         required_tokens=("class OrbitControls", "from 'three'", "export { OrbitControls }"),
     ),
     VendorFile(
-        relative_path="public/vendor/three/addons/renderers/CSS2DRenderer.js",
-        url=f"https://cdn.jsdelivr.net/npm/three@{VERSION}/examples/jsm/renderers/CSS2DRenderer.js",
+        relative_path=f"{VENDOR_ROOT}/addons/renderers/CSS2DRenderer.js",
+        url=f"{PACKAGE_ROOT}/examples/jsm/renderers/CSS2DRenderer.js",
         minimum_size=3_000,
         required_tokens=("class CSS2DObject", "class CSS2DRenderer", "from 'three'"),
     ),
 )
+
+WRAPPERS = {
+    "public/vendor/three/three.module.js": f'export * from "./{VERSION}/three.module.js";\n',
+    "public/vendor/three/addons/controls/OrbitControls.js": (
+        f'export * from "../../{VERSION}/addons/controls/OrbitControls.js";\n'
+    ),
+    "public/vendor/three/addons/renderers/CSS2DRenderer.js": (
+        f'export * from "../../{VERSION}/addons/renderers/CSS2DRenderer.js";\n'
+    ),
+}
 
 
 def validate(path: Path, specification: VendorFile) -> tuple[bool, str]:
@@ -66,17 +79,8 @@ def validate(path: Path, specification: VendorFile) -> tuple[bool, str]:
     return True, f"valid ({size} bytes)"
 
 
-def download(specification: VendorFile, destination: Path) -> None:
+def write_atomic(destination: Path, payload: bytes) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
-    request = urllib.request.Request(
-        specification.url,
-        headers={"User-Agent": USER_AGENT, "Accept": "text/javascript,*/*;q=0.1"},
-    )
-    with urllib.request.urlopen(request, timeout=45) as response:
-        if response.status != 200:
-            raise RuntimeError(f"unexpected HTTP status {response.status}")
-        payload = response.read()
-
     with tempfile.NamedTemporaryFile(
         mode="wb",
         prefix=f".{destination.name}.",
@@ -86,13 +90,28 @@ def download(specification: VendorFile, destination: Path) -> None:
     ) as temporary:
         temporary.write(payload)
         temporary_path = Path(temporary.name)
-
-    valid, reason = validate(temporary_path, specification)
-    if not valid:
-        temporary_path.unlink(missing_ok=True)
-        raise RuntimeError(f"downloaded file failed validation: {reason}")
-
     temporary_path.replace(destination)
+
+
+def download(specification: VendorFile, destination: Path) -> None:
+    request = urllib.request.Request(
+        specification.url,
+        headers={"User-Agent": USER_AGENT, "Accept": "text/javascript,*/*;q=0.1"},
+    )
+    with urllib.request.urlopen(request, timeout=45) as response:
+        if response.status != 200:
+            raise RuntimeError(f"unexpected HTTP status {response.status}")
+        payload = response.read()
+    write_atomic(destination, payload)
+
+
+def write_wrappers() -> None:
+    for relative_path, content in WRAPPERS.items():
+        destination = ROOT / relative_path
+        write_atomic(destination, content.encode("utf-8"))
+        if destination.read_text(encoding="utf-8") != content:
+            raise RuntimeError(f"wrapper verification failed: {relative_path}")
+        print(f"three vendor: wrote wrapper {relative_path}")
 
 
 def main() -> int:
@@ -111,8 +130,7 @@ def main() -> int:
             fallback_valid, fallback_reason = validate(destination, specification)
             if fallback_valid:
                 print(
-                    f"three vendor: network fetch failed, using validated local copy "
-                    f"({fallback_reason}): {error}",
+                    f"three vendor: using validated local copy ({fallback_reason}): {error}",
                     file=sys.stderr,
                 )
                 continue
@@ -121,6 +139,7 @@ def main() -> int:
 
         final_valid, final_reason = validate(destination, specification)
         if not final_valid:
+            destination.unlink(missing_ok=True)
             failures.append(f"{specification.relative_path}: {final_reason}")
         else:
             print(f"three vendor: wrote {specification.relative_path} ({final_reason})")
@@ -131,7 +150,15 @@ def main() -> int:
             print(f"- {failure}", file=sys.stderr)
         return 1
 
-    print(f"Three.js {VERSION} runtime is vendored for same-origin delivery.")
+    try:
+        write_wrappers()
+    except (OSError, RuntimeError) as error:
+        print(f"Three.js wrapper generation failed: {error}", file=sys.stderr)
+        return 1
+
+    print(
+        f"Three.js {VERSION} runtime and three.core.js are available through same-origin wrappers."
+    )
     return 0
 
 
