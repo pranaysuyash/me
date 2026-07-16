@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Archive, ExternalLink } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { Button } from "@/components/ui/button";
 import { careerProfile, medpiperCaseStudy } from "@/lib/career";
 import { auditedProjects } from "@/lib/portfolio";
@@ -13,6 +14,13 @@ export const metadata: Metadata = {
     "Selected professional and independent product work, organised by ownership, maturity, decisions, and evidence rather than repository count.",
   alternates: { canonical: "https://pranaysuyash.com/work" },
 };
+
+const workSections = [
+  { label: "Professional case", href: "#professional-case" as const, description: "MedPiper production workflow transformation" },
+  { label: "Product systems", href: "#product-systems" as const, description: "Four independently audited product case studies" },
+  { label: "Explore further", href: "#explore-further" as const, description: "Interactive systems lab and project archive" },
+  { label: "Evaluate fit", href: "#evaluate-fit" as const, description: "Choose role context or a bounded commercial engagement" },
+] as const;
 
 export default function WorkPage() {
   return (
@@ -46,7 +54,9 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <SectionIndex items={workSections} label="Selected work sections" />
+
+      <section id="professional-case" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="grid overflow-hidden rounded-2xl border bg-card shadow-sm lg:grid-cols-[0.95fr_1.05fr]">
             <div className="bg-[#102123] p-8 text-white md:p-10">
@@ -85,7 +95,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-16 md:py-24">
+      <section id="product-systems" className="scroll-mt-24 border-y bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="mb-12 max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
@@ -151,7 +161,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section id="explore-further" className="scroll-mt-24 py-16 md:py-20">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-2 lg:px-8">
           <Link href="/systems" className="group border-y py-8 md:px-6">
             <ExternalLink className="h-5 w-5 text-primary" />
@@ -176,17 +186,17 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <section className="border-t py-14">
+      <section id="evaluate-fit" className="scroll-mt-24 border-t py-14">
         <div className="container mx-auto flex max-w-[1280px] flex-col gap-5 px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
           <div>
-            <p className="text-lg font-semibold">Evaluating fit for a role or a related build?</p>
+            <p className="text-lg font-semibold">Evaluating fit for a role or a bounded commercial engagement?</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              The experience page gives hiring context; the services page gives commercial scope and regional pricing.
+              The Experience page gives hiring context; Commercial Engagements gives scope and regional pricing.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="outline"><Link href="/hire-me">Review experience</Link></Button>
-            <Button asChild><Link href="/contact?type=project&source=work">Discuss a project <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button asChild><Link href="/work-with-me">Review commercial engagements <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
         </div>
       </section>
