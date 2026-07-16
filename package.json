@@ -9,7 +9,7 @@
     "postbuild": "node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs && node scripts/verify_release_contract.mjs",
     "resume:build": "python3 scripts/generate_resume_pdf.py",
     "three:vendor": "python3 scripts/vendor_three.py",
-    "portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs",
+    "portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs",
     "site:verify": "npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build",
     "book:build": "python3 book/tools/assemble_manuscript.py && python3 book/tools/build_html.py && python3 book/tools/build_epub.py && python3 book/tools/build_pdf.py && python3 book/tools/build_sales_page.py && python3 book/tools/embed_html_assets.py && python3 book/tools/write_package_manifest.py",
     "book:validate": "python3 book/tools/check_cleanup_protection.py && python3 book/tools/check_manuscript.py && python3 book/tools/check_package.py",
