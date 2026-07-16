@@ -50,7 +50,6 @@ requireTokens("src/lib/engagements.ts", [
   'id: "embedded"',
   'display: "₹2.75L/mo+"',
   'display: "$7,500/mo+"',
-  "Separate regional price books",
 ]);
 
 requireTokens("src/hooks/use-pricing-region.ts", [
@@ -67,6 +66,7 @@ requireTokens("src/components/regional-pricing.tsx", [
   'import { engagements, pricingRegions, type PricingRegion } from "@/lib/engagements"',
   'import { usePricingRegion } from "@/hooks/use-pricing-region"',
   "engagement.prices[region].display",
+  "Separate regional price books, not a live exchange-rate conversion.",
   'role="group"',
   "aria-pressed",
 ]);
