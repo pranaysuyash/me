@@ -4,7 +4,8 @@
 **Canonical branch:** `main`  
 **Audit date:** 16 July 2026  
 **Comparison main:** `4ab214c5402b44941a653e2562118c512177270f`  
-**Status:** all surviving files reviewed in full; recovery and cleanup in progress
+**Validated recovery head:** `be40e817ebfa0340d4efda7da80bbfa1c14f1d49` (`canonical-site-verify`: success)  
+**Status:** complete — all surviving files reviewed in full, every useful item recovered or superseded on `main`, all actionable review threads resolved, all PRs closed, and all audited PR branches deleted
 
 ## Mandate
 
@@ -25,42 +26,44 @@ The verbatim surviving files are preserved at:
 
 ## Executive finding
 
-No PR branch contains application code that is both absent from and superior to current `main`.
+No PR branch contained application code that was both absent from and superior to current `main`.
 
-The complete recoverable set is:
+The complete recoverable set was:
 
 - eleven historical marker files, preserved verbatim in the raw archive;
 - historical diagnostic workflows, preserved verbatim but not executable;
-- a 15-minute diagnostic job timeout, accepted as the only workflow improvement not already present;
+- a 15-minute diagnostic job timeout, accepted and added to the main-only diagnostic workflow;
 - removal of `const interactiveMeshes = [];` from the product lab, already present on `main`;
 - review findings that support the main-only architecture and reject PR-triggered or branch-to-main mutation workflows.
 
+No pull-request branch was merged wholesale. Recovery happened intentionally on `main` after file-level and review-level decisions.
+
 ## Per-PR ledger
 
-| PR | Head branch | Current-main relation at audit | Full surviving files | Decision |
+| PR | Head branch | Current-main relation at audit | Full surviving files | Final decision |
 | ---: | --- | --- | --- | --- |
-| #1 | `career-platform-verification` | Behind by 165; ahead by 0 | None | No recovery needed. Preserve PR metadata in this ledger. Close state already correct; delete branch. |
-| #2 | `career-platform-verification` | Diverged; ahead by 1 marker commit, behind by 165 | `.github/career-platform-verification.txt` | Preserve marker verbatim in archive; no executable recovery. Delete shared stale branch after all PRs using it are closed. |
-| #3 | `career-platform-verification-3` | Diverged; ahead by 1 marker, behind by 161 | `.github/career-platform-verification-3.txt` | Preserve marker; delete branch. |
-| #4 | `career-platform-verification-4` | Diverged; ahead by 1 marker, behind by 160 | `.github/career-platform-verification-4.txt` | Preserve marker; delete branch. |
-| #5 | `career-platform-verification-5` | Diverged; ahead by 1 marker, behind by 158 | `.github/career-platform-verification-5.txt` | Preserve marker; delete branch. |
-| #6 | `career-platform-visual-verification` | Diverged; ahead by 1 marker, behind by 157 | `.github/career-platform-visual-verification.txt` | Preserve marker; delete branch. |
-| #7 | `career-platform-visual-fix-verification` | Diverged; ahead by 1 marker, behind by 143 | `.github/career-platform-visual-fix-verification.txt` | Preserve marker; delete branch. |
-| #8 | `career-platform-final-proof` | Diverged; ahead by 1 marker, behind by 140 | `.github/site-build-check.txt` | Preserve marker; delete branch. |
-| #9 | `career-platform-10-verification` | Diverged; ahead by 13, behind by 108; final surviving surface is 2 files | marker and diagnostic workflow | Existing `PR_9_RECOVERY_AUDIT.md` remains valid. Marker and workflow are archived. Current main contract and main-only diagnostics are superior. Delete branch. |
-| #10 | `career-platform-quality-verification` | Behind by 82; ahead by 0 | None | No recovery needed; delete branch after #11/#12 review because the branch was reused. |
-| #11 | `career-platform-quality-verification` | Behind by 81; ahead by 0 | None | No recovery needed; shared branch deletion handled once. |
-| #12 | `career-platform-quality-verification` | Behind by 77; ahead by 0 | None | No recovery needed; shared branch deletion handled once. |
-| #13 | `career-platform-10-final-verification` | Diverged; ahead by 4, behind by 72 | marker and duplicated diagnostic workflow | Preserve files. Reject duplicated release pipeline and removed Python pruner. Accept only the timeout concept. Delete branch. |
-| #14 | `career-platform-canonical-verification` | Diverged; ahead by 2, behind by 70 | marker and PR-triggered diagnostic workflow | Preserve files. Reject PR trigger and branch-selectable manual diagnostics. Accept timeout. Delete branch. |
-| #15 | `career-platform-d902-verification` | Diverged; ahead by 2, behind by 65 | marker and same PR-triggered diagnostic workflow as #14 | Preserve files. Reject unpinned/stale verification semantics and PR trigger. Accept timeout. Delete branch. |
-| #16 | `career-platform-final-gate` | Diverged; ahead by 4, behind by 62 | marker, branch diagnostic workflow, direct-main cleanup workflow | Preserve all files. Cleanup result already exists on main. Reject branch-triggered writer and duplicate status pipeline. Accept timeout. Close PR and delete branch. |
+| #1 | `career-platform-verification` | Behind by 165; ahead by 0 | None | No recovery needed. PR remained closed; shared branch deleted. |
+| #2 | `career-platform-verification` | Diverged; ahead by 1 marker commit, behind by 165 | `.github/career-platform-verification.txt` | Marker preserved verbatim in archive; shared branch deleted. |
+| #3 | `career-platform-verification-3` | Diverged; ahead by 1 marker, behind by 161 | `.github/career-platform-verification-3.txt` | Marker preserved; branch deleted. |
+| #4 | `career-platform-verification-4` | Diverged; ahead by 1 marker, behind by 160 | `.github/career-platform-verification-4.txt` | Marker preserved; branch deleted. |
+| #5 | `career-platform-verification-5` | Diverged; ahead by 1 marker, behind by 158 | `.github/career-platform-verification-5.txt` | Marker preserved; branch deleted. |
+| #6 | `career-platform-visual-verification` | Diverged; ahead by 1 marker, behind by 157 | `.github/career-platform-visual-verification.txt` | Marker preserved; branch deleted. |
+| #7 | `career-platform-visual-fix-verification` | Diverged; ahead by 1 marker, behind by 143 | `.github/career-platform-visual-fix-verification.txt` | Marker preserved; branch deleted. |
+| #8 | `career-platform-final-proof` | Diverged; ahead by 1 marker, behind by 140 | `.github/site-build-check.txt` | Marker preserved; branch deleted. |
+| #9 | `career-platform-10-verification` | Diverged; ahead by 13, behind by 108; final surviving surface was 2 files | marker and diagnostic workflow | Existing `PR_9_RECOVERY_AUDIT.md` remains valid. Marker and workflow archived; stronger main contract retained; branch deleted. |
+| #10 | `career-platform-quality-verification` | Behind by 82; ahead by 0 | None | No recovery needed; reused branch deleted after #10–#12 review. |
+| #11 | `career-platform-quality-verification` | Behind by 81; ahead by 0 | None | No recovery needed; shared branch deleted. |
+| #12 | `career-platform-quality-verification` | Behind by 77; ahead by 0 | None | No recovery needed; shared branch deleted. |
+| #13 | `career-platform-10-final-verification` | Diverged; ahead by 4, behind by 72 | marker and duplicated diagnostic workflow | Files archived. Duplicated release pipeline and removed Python pruner rejected. Timeout recovered. Review thread resolved. Branch deleted. |
+| #14 | `career-platform-canonical-verification` | Diverged; ahead by 2, behind by 70 | marker and PR-triggered diagnostic workflow | Files archived. PR trigger and branch-selectable diagnostics rejected. Timeout recovered. Three threads resolved. PR closed without merge; branch deleted. |
+| #15 | `career-platform-d902-verification` | Diverged; ahead by 2, behind by 65 | marker and same PR-triggered diagnostic workflow as #14 | Files archived. Unpinned marker semantics and PR trigger rejected. Timeout recovered. Two threads resolved. PR closed without merge; branch deleted. |
+| #16 | `career-platform-final-gate` | Diverged; ahead by 4, behind by 62 | marker, branch diagnostic workflow, direct-main cleanup workflow | All files archived. Scene cleanup already present. Direct-main writer and duplicate status pipeline rejected. Five threads resolved. PR closed without merge; branch deleted. |
 
 ## File-level decisions
 
 ### Historical markers
 
-All markers are documentation artifacts. Their SHA values are intentionally stale historical references and therefore must not be restored as active `.github` truth files. They are preserved verbatim in the raw archive.
+All markers are documentation artifacts. Their SHA values are intentionally stale historical references and therefore were not restored as active `.github` truth files. They are preserved verbatim in the raw archive.
 
 ### `site-diagnostics.yml`
 
@@ -73,22 +76,21 @@ Current `main` is superior because it:
 - retains the verification log and static export;
 - does not publish a duplicate canonical status;
 - does not reproduce the release pipeline;
-- does not call the removed `scripts/prune_web_export.py` path.
-
-The 15-minute job timeout from PRs #13–#16 is a valid bounded-runtime improvement and must be added to the main-only workflow.
+- does not call the removed `scripts/prune_web_export.py` path;
+- includes the recovered 15-minute timeout.
 
 ### `apply-scene-lint-cleanup.yml`
 
-The intended code change—removing one unused `interactiveMeshes` declaration—is already present on `main`; repository search and full file inspection show no remaining declaration.
+The intended code change—removing one unused `interactiveMeshes` declaration—is present on `main`; repository search and full file inspection show no remaining declaration.
 
-The workflow itself is rejected because it:
+The workflow itself was rejected because it:
 
-- grants `contents: write`;
-- runs from a verification branch;
-- writes directly to `main` through the Contents API;
-- separates the code mutation from the source being verified;
-- can race without concurrency protection;
-- bypasses the main-only integration rule.
+- granted `contents: write`;
+- ran from a verification branch;
+- wrote directly to `main` through the Contents API;
+- separated the code mutation from the source being verified;
+- could race without concurrency protection;
+- bypassed the main-only integration rule.
 
 It is preserved only as a fenced historical artifact.
 
@@ -96,51 +98,54 @@ It is preserved only as a fenced historical artifact.
 
 ### PRs without actionable inline threads
 
-#1–#12 except #9 have no actionable inline threads. Submitted reviews are absent or state that no issues were found. PR #9 has no review submissions or inline threads; its separate recovery audit covers its historical graph.
+#1–#12 except #9 had no actionable inline threads. Submitted reviews were absent or stated that no issues were found. PR #9 had no review submissions or inline threads; its separate recovery audit covers its historical graph.
 
 ### PR #13
 
-One unresolved thread identified that the duplicated workflow stopped at source validation because the source contract and package script had drifted. Disposition:
+One thread identified that the duplicated workflow stopped at source validation because the source contract and package script had drifted.
 
-- valid historical finding;
-- current main source contract is aligned;
-- current exact-commit canonical release is green;
-- duplicated workflow is rejected rather than repaired.
+**Final disposition:** valid historical finding. Current main source contracts are aligned, the canonical release is green, the duplicated workflow was rejected, and the thread was resolved.
 
 ### PR #14
 
-Three unresolved threads:
+Three threads:
 
 1. PR-triggered diagnostics would run a known-red contract.  
-   **Disposition:** valid; current main is green and PR triggers are prohibited.
+   **Final disposition:** valid; current main is green and PR triggers are prohibited.
 2. Manual diagnostics no longer pinned `main`.  
-   **Disposition:** valid; current main workflow explicitly checks out `main`.
+   **Final disposition:** valid; current main workflow explicitly checks out `main`.
 3. Marker SHA did not match the tree actually verified.  
-   **Disposition:** valid; stale marker archived; main uses generated build identity and exact-commit CI.
+   **Final disposition:** valid; stale marker archived; main uses generated build identity and exact-commit CI.
+
+All three threads were resolved after the green recovery build.
 
 ### PR #15
 
-Two unresolved threads:
+Two threads:
 
 1. Marker claimed `d902...` while checkout verified a merge or selected ref.  
-   **Disposition:** valid; marker archived and active verification uses exact commits.
+   **Final disposition:** valid; marker archived and active verification uses exact commits.
 2. PR diagnostic could not pass because the source contract was stale.  
-   **Disposition:** valid historically; fixed on main and current green release proves resolution.
+   **Final disposition:** valid historically; fixed on main and the green recovery build proves resolution.
+
+Both threads were resolved.
 
 ### PR #16
 
-Five unresolved threads:
+Five threads:
 
 1. Verification branch writes directly to `main`.  
-   **Disposition:** valid P1; writer workflow rejected entirely.
+   **Final disposition:** valid P1; writer workflow rejected entirely.
 2. Duplicate direct-main mutation concern from a second reviewer.  
-   **Disposition:** valid; same rejection.
+   **Final disposition:** valid; same rejection.
 3. Status publication could fail a successful verification.  
-   **Disposition:** valid for the branch workflow; current manual diagnostics do not publish duplicate status.
+   **Final disposition:** valid for the branch workflow; current manual diagnostics do not publish duplicate status.
 4. Unused `issues: write`.  
-   **Disposition:** valid; current workflow does not grant it.
+   **Final disposition:** valid; current workflow does not grant it.
 5. Writer has no concurrency protection.  
-   **Disposition:** valid but made moot by rejecting the writer rather than hardening an unnecessary mutation pipeline.
+   **Final disposition:** valid but made moot by rejecting the writer rather than hardening an unnecessary mutation pipeline.
+
+All five threads were resolved after the safer architecture passed canonical validation.
 
 ## Motto v3 review
 
@@ -149,8 +154,9 @@ Five unresolved threads:
 - Enumerated PRs #1–#16, open and closed.
 - Enumerated every surviving changed filename.
 - Read every surviving file in full.
-- Inspected review submissions and inline thread state.
+- Inspected every review submission and inline thread state.
 - Compared every PR head with current `main`.
+- Preserved every document, marker, and rejected workflow as an artifact.
 
 ### Pass 2 — long-term architecture
 
@@ -158,23 +164,26 @@ Five unresolved threads:
 - Kept one canonical release command.
 - Kept one main-only diagnostic workflow.
 - Rejected shadow CI, duplicate pipelines, stale SHA markers, and branch-triggered writers.
-- Accepted only the bounded timeout improvement.
+- Accepted the bounded timeout improvement.
+- Added an executable PR recovery contract to prevent regression.
 
-### Pass 3 — supervision and cleanup readiness
+### Pass 3 — supervision and cleanup completion
 
-Before cleanup is complete:
+Completed:
 
-- add the timeout to main diagnostics;
-- bind this audit and raw archive into the quality contract;
-- obtain a green canonical release on the final main head;
-- resolve the eleven actionable review threads with these dispositions;
-- close #14–#16 without merging stale branches;
-- delete all known PR head branches;
-- verify no open PR remains and no known PR head ref remains fetchable.
+- added the timeout to main diagnostics;
+- bound the audit and raw archive into the quality contract;
+- obtained a green canonical release on the recovery head;
+- resolved all eleven actionable review threads;
+- closed #14–#16 without merging stale branches;
+- verified zero open PRs;
+- deleted all thirteen known PR head branches;
+- verified every deleted branch by requesting `package.json` at the ref and receiving GitHub's `No commit found for the ref` response;
+- removed the one-time branch-cleanup workflow from `main`.
 
-## Known branch cleanup set
+## Deleted branch set
 
-Deduplicated branch refs:
+The following refs were deleted and directly verified absent:
 
 1. `career-platform-verification`
 2. `career-platform-verification-3`
@@ -190,4 +199,11 @@ Deduplicated branch refs:
 12. `career-platform-d902-verification`
 13. `career-platform-final-gate`
 
-`main` is not included and must never be deleted or force-moved during cleanup.
+`main` was never deleted or force-moved during cleanup.
+
+## Continuing operating rule
+
+- Work directly on `main`.
+- Do not create pull requests or verification branches for this repository.
+- Before any historical branch or PR is removed, preserve superior code and every document/artifact on `main`.
+- Keep active workflows least-privileged, main-only, and delegated to one canonical validation command.
