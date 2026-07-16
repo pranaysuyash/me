@@ -1,0 +1,67 @@
+name: Apply exact scene lint cleanup
+
+on:
+  push:
+    branches: [career-platform-final-gate]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove the one unused declaration on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          import urllib.request
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          path = "public/product-lab/scene.js"
+          expected_blob = "600aad6f26f7c924af8b34de6a7f09c3513f56d8"
+          needle = "const interactiveMeshes = [];\n"
+          api = f"https://api.github.com/repos/{repository}/contents/{path}"
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {token}",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "career-platform-verification",
+          }
+
+          request = urllib.request.Request(f"{api}?ref=main", headers=headers)
+          with urllib.request.urlopen(request, timeout=30) as response:
+              current = json.load(response)
+
+          if current.get("sha") != expected_blob:
+              raise SystemExit(
+                  f"refusing patch: expected blob {expected_blob}, found {current.get('sha')}"
+              )
+
+          source = base64.b64decode(current["content"]).decode("utf-8")
+          if source.count(needle) != 1:
+              raise SystemExit(
+                  f"refusing patch: expected one unused declaration, found {source.count(needle)}"
+              )
+
+          updated = source.replace(needle, "")
+          payload = json.dumps(
+              {
+                  "message": "Remove unused product-lab mesh declaration\n\nMotto-Reviewed: full\nEvidence-Tier: 4\nRisk-Class: low",
+                  "content": base64.b64encode(updated.encode("utf-8")).decode("ascii"),
+                  "sha": current["sha"],
+                  "branch": "main",
+              }
+          ).encode("utf-8")
+          put = urllib.request.Request(api, data=payload, headers=headers, method="PUT")
+          with urllib.request.urlopen(put, timeout=30) as response:
+              result = json.load(response)
+
+          print(result["commit"]["sha"])
+          PY
