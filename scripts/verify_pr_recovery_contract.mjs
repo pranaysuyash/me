@@ -36,11 +36,14 @@ function forbidTokens(relativePath, tokens) {
 
 requireTokens("docs/audits/PR_1_16_RECOVERY_AUDIT.md", [
   "Pull request #1–#16 recovery audit",
+  "Status:** complete",
   "all surviving files reviewed in full",
-  "No PR branch contains application code that is both absent from and superior to current `main`.",
+  "No PR branch contained application code that was both absent from and superior to current `main`.",
   "Review and thread audit",
-  "PR #16",
-  "Known branch cleanup set",
+  "all eleven actionable review threads",
+  "Deleted branch set",
+  "No commit found for the ref",
+  "removed the one-time branch-cleanup workflow from `main`",
 ]);
 
 requireTokens("docs/audits/pr-artifacts/PR_1_16_FILE_ARCHIVE.md", [
@@ -90,11 +93,12 @@ const forbiddenActiveFiles = [
   ".github/career-platform-d902-check.txt",
   ".github/career-platform-final-gate.txt",
   ".github/workflows/apply-scene-lint-cleanup.yml",
+  ".github/workflows/cleanup-stale-pr-branches.yml",
 ];
 
 for (const relativePath of forbiddenActiveFiles) {
   if (fs.existsSync(path.join(root, relativePath))) {
-    failures.push(`historical PR artifact is active instead of archived: ${relativePath}`);
+    failures.push(`historical or one-time PR artifact is active instead of archived or removed: ${relativePath}`);
   }
 }
 
@@ -109,5 +113,5 @@ if (failures.length) {
 }
 
 console.log(
-  "PR recovery contract validation passed: PRs 1-16 are fully inventoried, every surviving file is archived, accepted improvements are on main, rejected workflows are non-executable, main-only diagnostics are bounded and least-privileged, and the scene cleanup remains present.",
+  "PR recovery contract validation passed: PRs 1-16 are fully inventoried and closed, every surviving file is archived, all actionable threads are resolved, accepted improvements are on main, rejected workflows are non-executable, audited stale branches are deleted, one-time cleanup automation is removed, main-only diagnostics are bounded and least-privileged, and the scene cleanup remains present.",
 );
