@@ -89,7 +89,7 @@ def build_pages() -> list[Page]:
 
     page.section("Profile")
     page.wrapped(
-        "Product leader with 14+ years across software engineering, Big Four transformation, and a YC-backed healthcare company. Works across product strategy, workflow design, architecture, and hands-on implementation for AI-assisted systems, internal tools, document workflows, and local-first products.",
+        "Product leader with 14+ years across software engineering, Big Four transformation, and a YC-backed healthcare company. Strongest in sustained roles where operating reality, product judgment, platform decisions, and hands-on execution must stay connected across AI-assisted systems, internal tools, document workflows, and local-first products.",
         width=100,
         size=9.4,
     )
@@ -199,7 +199,7 @@ def build_pages() -> list[Page]:
     for item in [
         "AI Product Lead, Principal Product Manager, Product Systems Lead, or Head of Product for workflow-heavy products.",
         "Best fit where product judgment, operational reality, and visible implementation need to remain connected.",
-        "Open to selective senior product conversations and remote or distributed teams; current commitment and transition timing are discussed directly.",
+        "Open to selective senior product roles with a clear long-term mandate and remote or distributed teams; current commitment and transition timing are discussed directly.",
     ]:
         page.bullet(item)
 
