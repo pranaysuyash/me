@@ -4,7 +4,9 @@ Canonical branch: main
 Canonical validation entry point: npm run site:verify
 Automated release workflow: .github/workflows/site-build.yml
 Manual diagnostic workflow: .github/workflows/site-diagnostics.yml
-Historical recovery audit: docs/audits/PR_9_RECOVERY_AUDIT.md
+Historical PR 9 recovery audit: docs/audits/PR_9_RECOVERY_AUDIT.md
+Complete PR 1-16 recovery audit: docs/audits/PR_1_16_RECOVERY_AUDIT.md
+Verbatim PR file archive: docs/audits/pr-artifacts/PR_1_16_FILE_ARCHIVE.md
 Identity and work-mode audit: docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md
 Comprehensive closure matrix: docs/audits/CAREER_PLATFORM_10_OF_10_CLOSURE_MATRIX.md
 
@@ -20,13 +22,17 @@ The release contract covers:
 - generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
 - deployment-ready static export after publication-only assets are pruned
 - an exact-commit `canonical-site-verify` status with retained verification log and export artifact
+- a main-only diagnostic workflow with read-only permissions, retained artifacts, and a 15-minute timeout
 - explicit closure criteria across identity, hiring, commercial work, evidence, transactions, measurement, accessibility, discovery, legal trust, deployment, and production learning
+- full-file and review-thread recovery evidence for every pull request created before the main-only rule was enforced
 
 Operating rule:
 - all portfolio work is integrated directly on main
 - automated release checks run only for main pushes or explicit manual dispatch
 - the automated workflow validates the exact triggering SHA, not a later moving branch head
 - no pull request is treated as canonical work or as a required verification surface
-- before closing an existing pull request, compare it with current main and carry forward every missing or better file, contract, check, or document
+- before closing an existing pull request, compare it with current main and carry forward every missing or better file, contract, check, document, or review finding
 - documentation recovered from a pull request must be preserved on main without hard-coded source revisions that become stale immediately
+- rejected workflows are preserved only as non-executable audit artifacts
+- after recovery and validation, obsolete pull requests are closed and their branches are deleted
 - prefer one canonical validation path; automated and diagnostic workflows must call that path rather than reproduce a second validation pipeline
