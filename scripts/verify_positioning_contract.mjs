@@ -127,7 +127,8 @@ requireTokens("docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md", [
 
 requireTokens("package.json", [
   '"positioning:validate": "node scripts/verify_positioning_contract.mjs"',
-  '"preportfolio:validate": "npm run positioning:validate"',
+  '"pr-recovery:validate": "node scripts/verify_pr_recovery_contract.mjs"',
+  '"preportfolio:validate": "npm run positioning:validate && npm run pr-recovery:validate"',
 ]);
 
 if (failures.length) {
