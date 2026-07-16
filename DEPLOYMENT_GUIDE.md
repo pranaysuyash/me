@@ -7,7 +7,7 @@
 **Canonical branch:** `main`  
 **Build model:** Next.js static export to `out/`
 
-This guide defines the production handoff for the career platform, service surface, proof ledger, systems lab, and digital book. Repository health and public deployment health are separate claims and are verified separately.
+This guide defines the production handoff for the career platform, services, proof ledger, systems lab, and digital book. Repository health and public deployment health are separate claims.
 
 ## 1. Canonical validation command
 
@@ -18,8 +18,9 @@ npm ci
 npm run site:verify
 ```
 
-`npm run site:verify` is the single release-readiness command. It runs:
+`npm run site:verify` is the single release-readiness command. Its lifecycle runs:
 
+- structural live-release contract validation;
 - ESLint with zero warnings;
 - strict TypeScript;
 - career, portfolio, evidence, freshness, contrast, privacy, print, and interaction contracts;
@@ -29,7 +30,7 @@ npm run site:verify
 - exported route, metadata, internal-link, visual-evidence, and size-budget checks;
 - product-lab module syntax validation.
 
-Do not create a second release sequence in a workflow or deployment script. Automated and diagnostic workflows delegate to this command.
+Do not reproduce this sequence in another workflow or script. Automated and diagnostic workflows delegate to this command.
 
 ## 2. Repository release status
 
@@ -42,13 +43,13 @@ It:
 3. uploads the complete log and verified static export;
 4. publishes the durable commit status `canonical-site-verify`.
 
-A green repository status proves the exact commit produced a valid static release package. It does not prove the custom domain serves that package.
+A green `canonical-site-verify` proves that exact commit produced a valid release package. It does not prove the custom domain serves that package.
 
-For manual diagnosis, run `.github/workflows/site-diagnostics.yml`. It checks out current `main`, calls the same canonical validation command, and retains the log and export.
+For manual source diagnosis, `.github/workflows/site-diagnostics.yml` checks out current `main`, calls the same canonical command, and retains its log and export.
 
 ## 3. Build identity
 
-Every production build generates:
+Every build generates:
 
 ```text
 /build-info.json
@@ -63,7 +64,9 @@ The file records:
 - evidence-review date;
 - release contract identifier `career-platform-v2`.
 
-The deployed `commit` value must equal the intended `main` commit. A page that looks correct but reports the wrong build identity is stale.
+The deployed `commit` must equal the release being evaluated. A visually correct page with the wrong build identity is stale.
+
+The footer exposes **Build identity** so human reviewers can inspect the deployed release directly.
 
 ## 4. Production deployment
 
@@ -80,21 +83,27 @@ npm run site:verify
 wrangler pages deploy out --project-name pranay --branch main
 ```
 
-Wrangler must be authenticated to the Cloudflare account that owns the `pranay` Pages project. Never commit tokens, account identifiers, or generated credential files.
+Wrangler must be authenticated to the Cloudflare account that owns the `pranay` Pages project. Never commit Cloudflare tokens, account identifiers, or generated credential files.
 
 Cloudflare Pages Git integration may also deploy a push to `main`. Do not assume it did. Verify the deployment commit, generated Pages URL, and custom domain.
 
 ## 5. Live deployment audit
 
-`.github/workflows/live-deployment-audit.yml` runs daily and by manual dispatch.
+`.github/workflows/live-deployment-audit.yml` runs:
 
-It:
+- after every successful **Site build** workflow;
+- once per day;
+- by manual dispatch.
 
-1. checks out current `main`;
-2. resolves the exact target SHA;
-3. runs `scripts/verify_live_deployment.mjs` against `https://pranaysuyash.com`;
-4. compares `/build-info.json` with the target SHA;
-5. verifies current release signatures on the homepage, Work, Experience, Services, Contact, proof ledger, and book routes;
+Post-build runs evaluate the exact SHA that passed `canonical-site-verify`. Scheduled and manual runs evaluate current `main`.
+
+The workflow:
+
+1. resolves the deployment target SHA;
+2. runs `scripts/verify_live_deployment.mjs` against `https://pranaysuyash.com`;
+3. compares `/build-info.json` with the target SHA;
+4. verifies current release signatures on the homepage, Work, Experience, Services, Contact, proof ledger, and book routes;
+5. uploads a retained `live-verify.log` artifact;
 6. publishes the durable commit status `live-deployment`;
 7. fails when the custom domain is stale, incomplete, or mapped to the wrong project.
 
@@ -103,13 +112,13 @@ A share-ready release requires both statuses:
 - `canonical-site-verify`: green;
 - `live-deployment`: green.
 
-The network check can also be run locally after setting the expected full SHA:
+Run the same network check locally with a full expected SHA:
 
 ```bash
 EXPECTED_SHA="$(git rev-parse HEAD)" npm run live:verify
 ```
 
-Optional overrides:
+An alternate Pages URL can be checked without weakening the production contract:
 
 ```bash
 LIVE_SITE_URL="https://example.pages.dev" \
@@ -124,10 +133,10 @@ The generated `*.pages.dev` deployment and `pranaysuyash.com` must serve the sam
 When the Pages URL is current but the custom domain is stale:
 
 1. open Cloudflare Dashboard → Workers & Pages;
-2. select the `pranay` Pages project used by Wrangler;
+2. select the `pranay` project used by Wrangler;
 3. open **Custom domains**;
 4. confirm `pranaysuyash.com` is active on that exact project;
-5. check whether the domain remains attached to an older Pages project;
+5. check whether the domain remains attached to an older project;
 6. verify the apex and intended `www` hostname resolve to the same project;
 7. promote or redeploy the correct production release;
 8. run the Live deployment audit until `live-deployment` is green.
@@ -136,9 +145,7 @@ A successful upload to a preview URL is not proof that the custom domain changed
 
 ## 7. Required production routes
 
-Verify the generated Pages URL and the custom domain.
-
-### Professional and commercial routes
+### Professional and commercial
 
 - `/`
 - `/work`
@@ -159,12 +166,12 @@ Verify the generated Pages URL and the custom domain.
 - `/work/echopanel`
 - `/work/sentineltwin`
 
-### Book routes
+### Book
 
 - `/books/no-claim-without-evidence`
 - `/books/no-claim-without-evidence/sample`
 
-### Static and policy routes
+### Static, policy, and discovery
 
 - `/product-lab/`
 - `/product-lab/scene.js`
@@ -185,7 +192,7 @@ Verify the generated Pages URL and the custom domain.
 
 ## 8. Current release signatures
 
-The live audit checks durable phrases rather than fragile visual selectors. The deployed release must include:
+The live verifier uses durable copy signatures rather than fragile visual selectors:
 
 - homepage: `I turn messy operational workflows into reviewable AI and product systems.`;
 - Work: `Four products, each labelled by what actually exists today.`;
@@ -195,7 +202,7 @@ The live audit checks durable phrases rather than fragile visual selectors. The 
 - proof ledger: `90-day maximum review window`;
 - book: `Clean AI output is not the same thing as a trustworthy system.`
 
-Update the verifier deliberately when positioning changes. Never weaken it merely to make a stale production site pass.
+Update the verifier deliberately when positioning changes. Never weaken it merely to make a stale deployment pass.
 
 ## 9. Regional service pricing
 
@@ -222,31 +229,29 @@ Detection order:
 3. browser timezone and language hints;
 4. Global USD as the safe initial render.
 
-Manual switching must remain available, and the Contact budget selector must respect the stored choice.
+Manual switching must remain available, and Contact must respect the stored choice.
 
 ## 10. Production interaction checks
 
 Static validation cannot prove third-party services completed their work.
 
-Before sharing the release broadly, verify:
-
 ### Contact and scheduling
 
-1. submit one project brief through FormBold;
+1. submit a real project brief through FormBold;
 2. confirm inbox receipt and preserved source fields;
 3. submit one role-context enquiry;
 4. verify success, validation, failure, and no-JavaScript fallback states;
 5. verify the 15-minute and 30-minute Cal.com destinations;
-6. confirm email and social links are usable without unintended Cloudflare rewriting.
+6. confirm email and social links are not broken by Cloudflare rewriting.
 
 ### Ebook purchase and delivery
 
-1. confirm the PDF and EPUB entitlements are attached;
+1. confirm PDF and EPUB entitlements;
 2. confirm India and global pricing;
 3. complete one real purchase;
-4. verify tax and invoice behaviour;
-5. verify delivery of both formats;
-6. verify refund, support, privacy, terms, and delivery links.
+4. verify tax and invoice behavior;
+5. verify both files are delivered;
+6. verify refund, support, privacy, terms, and delivery paths.
 
 ### Browser and accessibility
 
@@ -259,8 +264,8 @@ Test at minimum:
 - mobile menu focus trapping and restoration;
 - keyboard focus visibility;
 - reduced-motion handling;
-- regional pricing selection and persistence;
-- product-lab keyboard, pointer, scroll, and fallback behaviour;
+- pricing selection and persistence;
+- product-lab keyboard, pointer, scrolling, and fallback behavior;
 - no horizontal overflow;
 - readable policy and proof pages at narrow widths.
 
@@ -273,7 +278,7 @@ After deployment, verify:
 - Open Graph and Twitter images;
 - Person and WebSite JSON-LD;
 - JSON Resume and `llms.txt` discovery;
-- sitemap entries for audited projects, proof, accessibility, book, and policies;
+- sitemap entries for projects, proof, accessibility, book, and policies;
 - robots output points to the canonical sitemap;
 - Cloudflare serves `public/_headers`;
 - same-origin product-lab framing remains allowed;
@@ -282,9 +287,9 @@ After deployment, verify:
 
 ## 12. Rollback
 
-Cloudflare Pages retains prior deployments. If production is broken:
+If production is broken:
 
-1. promote the last known healthy production deployment;
+1. promote the last known healthy Cloudflare Pages deployment;
 2. verify its `/build-info.json` identity;
 3. fix `main`;
 4. rerun `npm ci` and `npm run site:verify`;
