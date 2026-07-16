@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       eyebrow="Legal"
       title="Privacy Policy"
       summary="This policy explains what information is collected through pranaysuyash.com, why it is used, and which service providers may process it."
-      updated="July 15, 2026"
+      updated="July 16, 2026"
       sections={[
         {
           title: "Who operates this site",
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
             <>
               <p>The site may collect information that you provide directly, including:</p>
               <ul className="list-disc space-y-2 pl-6">
-                <li>Name, email address, company, website, project details, timeline, and budget range submitted through the contact form.</li>
+                <li>Name, email address, company, website, role or project details, timeline, and budget range submitted through the contact form.</li>
                 <li>Scheduling information you provide when booking a call.</li>
                 <li>Order, billing, tax, payment, and fulfilment information required to purchase a digital product.</li>
                 <li>Messages and support requests sent by email.</li>
@@ -57,10 +57,30 @@ export default function PrivacyPage() {
           ),
         },
         {
+          title: "Analytics, cookies, and local preferences",
+          content: (
+            <>
+              <p>
+                The site does not currently use advertising cookies, behavioural profiling,
+                third-party analytics, tracking pixels, or cross-site advertising technology.
+              </p>
+              <p>
+                Small preference values may be stored in your browser so the site can remember
+                light or dark appearance and an India or Global pricing selection. These values
+                remain on your device and are used only to preserve the interface choice you made.
+              </p>
+              <p>
+                Cloudflare and other infrastructure providers may maintain security and request
+                logs as part of hosting, abuse prevention, reliability, and incident response.
+              </p>
+            </>
+          ),
+        },
+        {
           title: "How information is used",
           content: (
             <ul className="list-disc space-y-2 pl-6">
-              <li>To respond to enquiries and assess whether a project is a fit.</li>
+              <li>To respond to hiring, advisory, project, support, and general enquiries.</li>
               <li>To schedule calls and communicate about requested work.</li>
               <li>To process digital-product purchases, deliver files or access, provide receipts, and handle support or refund requests.</li>
               <li>To protect the site, prevent abuse or fraud, and diagnose technical problems.</li>
@@ -116,6 +136,10 @@ export default function PrivacyPage() {
                 Requests should include enough information to identify the relevant
                 enquiry or transaction. Payment and scheduling providers may need to
                 handle requests relating to data held in their systems.
+              </p>
+              <p>
+                You can clear locally stored appearance or pricing preferences through your
+                browser&apos;s site-data controls at any time.
               </p>
             </>
           ),
