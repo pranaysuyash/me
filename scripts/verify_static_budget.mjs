@@ -105,10 +105,10 @@ const walkImages = (directory) => {
 walkImages(out);
 
 if (!generatedMetadataImages.some((candidate) => fs.statSync(candidate).size > 10_000)) {
-  failures.push("generated social metadata images are missing or unexpectedly small");
+  failures.push("generated Open Graph image and Twitter image assets are missing or unexpectedly small");
 }
 if (generatedMetadataImages.length < 3) {
-  failures.push(`expected root and book social metadata images, found ${generatedMetadataImages.length}`);
+  failures.push(`expected root and book Open Graph image or Twitter image assets, found ${generatedMetadataImages.length}`);
 }
 
 for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf", "build-info.json"]) {
@@ -140,5 +140,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, social images ${generatedMetadataImages.length}, total export ${totalExportBytes} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image and Twitter image assets ${generatedMetadataImages.length}, total export ${totalExportBytes} bytes.`,
 );
