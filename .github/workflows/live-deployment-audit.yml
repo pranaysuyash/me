@@ -22,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check out current main
+      - name: Check out deployment target
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || 'main' }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,7 +33,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Resolve current main commit
+      - name: Resolve deployment target commit
         id: target
         shell: bash
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
@@ -58,10 +58,10 @@ jobs:
         run: |
           if [ "$VERIFY_OUTCOME" = "success" ]; then
             STATE="success"
-            DESCRIPTION="Custom domain serves the current main release"
+            DESCRIPTION="Custom domain serves the verified release commit"
           else
             STATE="failure"
-            DESCRIPTION="Custom domain does not serve the current main release"
+            DESCRIPTION="Custom domain does not serve the verified release commit"
           fi
 
           jq -n \
