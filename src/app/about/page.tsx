@@ -10,34 +10,14 @@ import {
   Twitter,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
-import { Button } from "@/components/ui/button";
 import { careerProfile, experienceTimeline, publicEvidence } from "@/lib/career";
 
 export const metadata: Metadata = {
   title: "About | Pranay Suyash",
   description:
-    "The career path, operating principles, and professional context behind Pranay Suyash's product leadership and hands-on system building.",
+    "The career path, working style, operating principles, and professional context behind Pranay Suyash's product leadership and hands-on system building.",
   alternates: { canonical: "https://pranaysuyash.com/about" },
 };
-
-const principles = [
-  {
-    title: "Start from the operating reality",
-    body: "Users, documents, handoffs, constraints, and failure states define the product boundary before a framework or model does.",
-  },
-  {
-    title: "Keep product judgment close to implementation",
-    body: "Architecture and interface decisions improve when they are tested against working software rather than separated by long handoff chains.",
-  },
-  {
-    title: "Balance technical quality with usefulness",
-    body: "The system should remain maintainable, but it must also survive real users, regulated context, imperfect inputs, and day-to-day operations.",
-  },
-  {
-    title: "Make uncertainty visible",
-    body: "AI-assisted products need evidence, review states, fallbacks, and explicit release boundaries instead of confidence theatre.",
-  },
-] as const;
 
 export default function AboutPage() {
   return (
@@ -85,6 +65,9 @@ export default function AboutPage() {
               </p>
               <p>
                 I now stay close to execution through independent products in document intelligence, local-first desktop software, audio workflows, evaluation systems, and spatial simulation. The common thread is not a specific model. It is turning ambiguity into a system people can operate and verify.
+              </p>
+              <p>
+                I am curious by default, direct about trade-offs, and happiest when I can take a problem from a rough conversation through workflow, interface, implementation, and release. I do not need to own every line of code, but I want decisions to stay close enough to reality that the product can survive contact with users.
               </p>
             </div>
           </div>
@@ -158,16 +141,19 @@ export default function AboutPage() {
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Operating principles</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">What working with me feels like</p>
               <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
-                Useful systems need judgment, not just implementation speed.
+                Direct, cross-functional, and close to the real work.
               </h2>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                The common working style is the same whether the commitment is a senior internal role or a bounded commercial engagement.
+              </p>
             </div>
             <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border bg-border sm:grid-cols-2">
-              {principles.map((principle) => (
-                <div key={principle.title} className="bg-background p-6">
-                  <h3 className="font-semibold">{principle.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{principle.body}</p>
+              {careerProfile.workingStyle.map((item) => (
+                <div key={item.title} className="bg-background p-6">
+                  <h3 className="font-semibold">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -175,34 +161,38 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-20">
+      <section id="ways-to-work" className="scroll-mt-24 py-16 md:py-20">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
+          <div className="mb-10 max-w-4xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Two ways to work together</p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">
+              Same operating capability, different accountability horizon.
+            </h2>
+            <p className="mt-4 text-base leading-8 text-muted-foreground">
+              {careerProfile.workModePrinciple}
+            </p>
+          </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Link href="/hire-me" className="group border-y py-8 md:px-6">
               <BriefcaseBusiness className="h-5 w-5 text-primary" />
-              <h2 className="mt-5 text-2xl font-bold tracking-tight">For hiring teams</h2>
+              <h3 className="mt-5 text-2xl font-bold tracking-tight">Hire for sustained internal ownership</h3>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                Role fit, leadership scope, experience, and professional evidence.
+                Long-term product direction, platform choices, cross-functional leadership, and responsibility for what the team learns after launch.
               </p>
               <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
-                Review experience <ArrowRight className="ml-2 h-4 w-4" />
+                Review role fit and experience <ArrowRight className="ml-2 h-4 w-4" />
               </span>
             </Link>
             <Link href="/work-with-me" className="group border-y py-8 md:px-6">
               <ArrowRight className="h-5 w-5 text-primary" />
-              <h2 className="mt-5 text-2xl font-bold tracking-tight">For founders and operators</h2>
+              <h3 className="mt-5 text-2xl font-bold tracking-tight">Engage for a bounded system or workflow</h3>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                Engagement paths for document workflows, internal systems, and local-first products.
+                A defined decision, build, correction, or workstream with explicit scope, evidence, delivery terms, and a separate commercial contract.
               </p>
               <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
-                Review services <ArrowRight className="ml-2 h-4 w-4" />
+                Review commercial engagements <ArrowRight className="ml-2 h-4 w-4" />
               </span>
             </Link>
-          </div>
-          <div className="mt-10 text-center">
-            <Button asChild>
-              <Link href="/contact">Start a conversation <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
           </div>
         </div>
       </section>
