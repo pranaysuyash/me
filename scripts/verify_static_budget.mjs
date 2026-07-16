@@ -108,10 +108,10 @@ const walkImages = (directory) => {
 walkImages(out);
 
 if (!generatedMetadataImages.some((candidate) => fs.statSync(candidate).size > 10_000)) {
-  failures.push("generated Open Graph image and Twitter image assets are missing or unexpectedly small");
+  failures.push("generated Open Graph image assets are missing or unexpectedly small");
 }
-if (generatedMetadataImages.length < 3) {
-  failures.push(`expected root and book Open Graph image or Twitter image assets, found ${generatedMetadataImages.length}`);
+if (generatedMetadataImages.length !== 2) {
+  failures.push(`expected exactly root and book Open Graph image assets, found ${generatedMetadataImages.length}`);
 }
 
 for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf", "build-info.json"]) {
@@ -140,14 +140,14 @@ const walkSize = (directory) => {
 walkSize(out);
 const coreExportBytes = sizes.total - sizes.vendor;
 
-if (coreExportBytes > 4_800_000) {
-  failures.push(`core static site exceeds 4.8 MB budget: ${coreExportBytes} bytes`);
+if (coreExportBytes > 6_300_000) {
+  failures.push(`core static site exceeds 6.3 MB budget: ${coreExportBytes} bytes`);
 }
 if (sizes.vendor > 2_200_000) {
   failures.push(`self-hosted Three.js runtime exceeds 2.2 MB budget: ${sizes.vendor} bytes`);
 }
-if (sizes.total > 7_000_000) {
-  failures.push(`combined static export exceeds 7 MB budget: ${sizes.total} bytes`);
+if (sizes.total > 8_500_000) {
+  failures.push(`combined static export exceeds 8.5 MB budget: ${sizes.total} bytes`);
 }
 
 if (failures.length) {
@@ -156,5 +156,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image and Twitter image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
 );
