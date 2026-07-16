@@ -6,6 +6,7 @@ Automated release workflow: .github/workflows/site-build.yml
 Manual diagnostic workflow: .github/workflows/site-diagnostics.yml
 Historical recovery audit: docs/audits/PR_9_RECOVERY_AUDIT.md
 Identity and work-mode audit: docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md
+Comprehensive closure matrix: docs/audits/CAREER_PLATFORM_10_OF_10_CLOSURE_MATRIX.md
 
 The release contract covers:
 - zero-warning ESLint, strict TypeScript, and source-level career boundaries
@@ -19,6 +20,7 @@ The release contract covers:
 - generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
 - deployment-ready static export after publication-only assets are pruned
 - an exact-commit `canonical-site-verify` status with retained verification log and export artifact
+- explicit closure criteria across identity, hiring, commercial work, evidence, transactions, measurement, accessibility, discovery, legal trust, deployment, and production learning
 
 Operating rule:
 - all portfolio work is integrated directly on main
