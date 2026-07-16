@@ -22,6 +22,15 @@ Two independent graph comparisons were reviewed:
 
 Both resolve to the same surviving change surface: one verification marker and one diagnostic workflow. GitHub's synthetic merge commit against the then-current `main` also contains only those two file patches.
 
+## Interpreting the 13-commit history
+
+The first PR commit added the three-line verification marker. The 12 descendant commits ended with only two cumulative effects relative to that first commit:
+
+- the marker's source revision changed once in the surviving diff
+- the diagnostic workflow was added
+
+This does not mean the number 13 can be ignored. It means commit count is not a proxy for independent product scope. The correct recovery unit is the immutable graph relationship, the final merge patch, the run evidence, and the strongest surviving implementation on `main`.
+
 ## Complete surviving file inventory
 
 | Pull-request path | Pull-request intent | Decision on `main` |
@@ -55,8 +64,13 @@ The following `main` commits carried forward the useful intent while removing th
 - `eb65f3dcb16fb221ea2e3a1403e52dd0f4980c51` — removed the duplicate Python pruner.
 - `d902eef942a3b99afdcb071c4eb7f1faf90c5ed4` — made ESLint part of the canonical release gate.
 - `b83eb2c4597701af12c0e7d4b9457a94dc3ef362` — added portable product-lab syntax validation.
+- `a746914ced737e0a6538e29590fd94ddb0925d12` — created this durable recovery audit.
+- `2e92d962ddc3b3d67063f7b97729434fe1936ac2` — aligned the source validator with the current lint and lab-aware release command.
+- `d382559d3f636444175fcc06c57aca40d3f3c280` — removed the pull-request trigger from the canonical release workflow and pinned checkout to `main`.
+- `1cd2e3f6eed3c44e9e552f7ba0c737603c37fad2` — bound the recovery audit and main-only workflow rule into the quality contract.
+- `10743a677f94b0215b8810ba0deae945205ae556` — made the source validator reject PR-triggered release or diagnostic workflows.
 
-The canonical release command is now responsible for linting, TypeScript, portfolio contracts, publication validation, the production build, exported-site checks, and product-lab syntax.
+The canonical release command is now responsible for linting, TypeScript, portfolio contracts, publication validation, the production build, exported-site checks, and product-lab syntax. Both automated and manual workflows delegate to that command and operate on `main`.
 
 ## Historical-work conclusion
 
@@ -66,7 +80,7 @@ The correct disposition is:
 
 - do not merge pull request `#9`
 - retain the stronger quality contract on `main`
-- retain one manual diagnostic workflow on `main`
+- retain one automated and one manual main-only workflow
 - use one canonical release command
 - preserve this audit as the durable recovery record
 
