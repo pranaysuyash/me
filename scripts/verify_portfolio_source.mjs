@@ -276,13 +276,46 @@ requireTokens("scripts/verify_release_contract.mjs", [
   "same-origin Three.js",
   "internal references verified",
 ]);
+requireTokens("scripts/verify_lab_syntax.mjs", [
+  'const targets = ["out/product-lab/scene.js", "out/scene.js"]',
+  'process.execPath',
+  '"--input-type=module", "--check"',
+  "Product lab syntax validation passed",
+]);
 
 requireTokens("package.json", [
   '"prebuild": "python3 scripts/vendor_three.py && python3 scripts/generate_resume_pdf.py && python3 scripts/generate_build_manifest.py"',
   '"postbuild": "node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs && node scripts/verify_release_contract.mjs"',
+  '"lab:validate": "node scripts/verify_lab_syntax.mjs"',
   '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs"',
-  '"site:verify": "npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build"',
+  '"site:verify": "npm run lint && npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build && npm run lab:validate"',
+  '"lint": "eslint . --max-warnings=0"',
   '"deploy:cloudflare": "npm run site:verify && wrangler pages deploy out --project-name pranay --branch main"',
+]);
+
+requireTokens(".github/workflows/site-build.yml", [
+  "branches: [main]",
+  "Run canonical career-platform release contract",
+  "npm run site:verify 2>&1 | tee site-verify.log",
+  "verified-static-site-${{ github.sha }}",
+]);
+requireTokens(".github/workflows/site-diagnostics.yml", [
+  "workflow_dispatch:",
+  "ref: main",
+  "npm run site:verify 2>&1 | tee site-verify.log",
+  "diagnostic-static-site-${{ github.sha }}",
+]);
+requireTokens(".github/career-platform-10-check.txt", [
+  "Canonical branch: main",
+  "Canonical validation entry point: npm run site:verify",
+  "before closing an existing pull request",
+  "prefer one canonical validation path",
+]);
+requireTokens("docs/audits/PR_9_RECOVERY_AUDIT.md", [
+  "Status: recovered and superseded on `main`",
+  "Complete surviving file inventory",
+  "do not merge pull request `#9`",
+  "All portfolio work is performed directly on `main`",
 ]);
 
 requireTokens("src/lib/ebook.ts", [
@@ -324,5 +357,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, and deployment contract are intact.",
+  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, canonical lint and lab validation, PR recovery documentation, and deployment contract are intact.",
 );
