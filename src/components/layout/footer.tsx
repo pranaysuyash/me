@@ -28,6 +28,7 @@ const policyNav = [
   { name: "Accessibility", href: "/accessibility" },
   { name: "JSON Resume", href: "/resume.json" },
   { name: "LLM guide", href: "/llms.txt" },
+  { name: "Build identity", href: "/build-info.json" },
 ];
 
 export function Footer() {
