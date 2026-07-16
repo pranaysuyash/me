@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ArrowRight, BookOpen, BriefcaseBusiness, Github, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, BookOpen, BriefcaseBusiness, Github, Menu, Workflow, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { brandTagline } from "@/lib/brand";
+import { noClaimEbook } from "@/lib/ebook";
 
 const navigation = [
   { name: "Work", href: "/work" },
@@ -14,6 +15,15 @@ const navigation = [
   { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
 ];
+
+const focusableSelector = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])",
+].join(",");
 
 function primaryAction(pathname: string) {
   if (pathname.startsWith("/hire-me")) {
@@ -25,10 +35,19 @@ function primaryAction(pathname: string) {
     };
   }
 
+  if (pathname.startsWith("/work-with-me") || pathname.startsWith("/document-workflows")) {
+    return {
+      label: "Discuss a workflow",
+      href: "/contact?type=project&source=nav-services",
+      context: "services",
+      icon: Workflow,
+    };
+  }
+
   if (pathname.startsWith("/books/no-claim-without-evidence")) {
     return {
       label: "Buy the book",
-      href: "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1",
+      href: noClaimEbook.checkoutUrl,
       context: "book",
       icon: BookOpen,
     };
@@ -55,6 +74,8 @@ export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
   const action = primaryAction(pathname);
   const ActionIcon = action.icon;
   const actionIsExternal = action.href.startsWith("http");
@@ -62,13 +83,53 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const panel = mobilePanelRef.current;
+    const focusable = panel?.querySelectorAll<HTMLElement>(focusableSelector);
+    focusable?.[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !panel) return;
+      const items = Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector));
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      menuButtonRef.current?.focus();
+    };
+  }, [mobileMenuOpen]);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -79,7 +140,7 @@ export function Navbar() {
         scrolled ? "border-border/70 shadow-sm" : "border-transparent"
       }`}
     >
-      <nav className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3.5 lg:px-8">
+      <nav className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3.5 lg:px-8" aria-label="Primary navigation">
         <Link href="/" className="group flex min-w-0 items-center gap-3">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border bg-muted/70 text-[13px] font-bold tracking-tight transition-colors group-hover:border-primary/40 group-hover:text-primary">
             PS
@@ -94,6 +155,7 @@ export function Navbar() {
 
         <div className="flex lg:hidden">
           <button
+            ref={menuButtonRef}
             type="button"
             className="inline-flex items-center justify-center rounded-full p-2.5 text-foreground hover:bg-muted"
             onClick={() => setMobileMenuOpen(true)}
@@ -110,6 +172,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
               className={`relative rounded-md px-2.5 py-2 text-sm font-medium transition-colors ${
                 isActive(item.href)
                   ? "bg-primary/[0.07] font-semibold text-primary"
@@ -149,14 +212,22 @@ export function Navbar() {
               ? "visible pointer-events-auto opacity-100"
               : "invisible pointer-events-none opacity-0"
           }`}
+          aria-hidden={!mobileMenuOpen}
         >
           <button
             type="button"
+            tabIndex={-1}
             className="absolute inset-0 bg-black/40"
             aria-label="Close menu"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm">
+          <div
+            ref={mobilePanelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Main menu"
+            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm"
+          >
             <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-md border bg-muted text-sm font-bold">PS</span>
@@ -213,6 +284,7 @@ export function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   className={`block rounded-lg px-4 py-3 text-base font-medium transition-colors ${
                     isActive(item.href)
                       ? "bg-primary/10 text-primary"
