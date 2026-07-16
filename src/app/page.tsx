@@ -8,7 +8,6 @@ import {
   Building2,
   CheckCircle2,
   FileCheck2,
-  Map,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { SectionIndex } from "@/components/section-index";
@@ -37,9 +36,7 @@ const featuredProducts = auditedProjects.filter((project) =>
 const homeSections = [
   { label: "Professional case", href: "#professional-case" as const },
   { label: "Product systems", href: "#product-systems" as const },
-  { label: "Systems lab", href: "#systems-lab" as const },
   { label: "Ways to work", href: "#ways-to-work" as const },
-  { label: "Book", href: "#book" as const },
   { label: "Contact", href: "#contact" as const },
 ] as const;
 
@@ -165,11 +162,6 @@ export default function Home() {
                   </ul>
                 </div>
               </div>
-              <div className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-xl border bg-border sm:grid-cols-2">
-                {medpiperCaseStudy.outcomes.map((outcome) => (
-                  <div key={outcome} className="bg-background p-4 text-sm leading-7 text-muted-foreground">{outcome}</div>
-                ))}
-              </div>
               <p className="mt-4 text-xs leading-6 text-muted-foreground">{medpiperCaseStudy.disclosure}</p>
             </div>
           </div>
@@ -184,7 +176,7 @@ export default function Home() {
               <h2 className="mt-4 text-3xl font-bold tracking-[-0.035em] md:text-5xl">Commercial proof, applied AI, and frontier systems.</h2>
             </div>
             <p className="max-w-3xl text-sm leading-7 text-muted-foreground lg:justify-self-end md:text-base md:leading-8">
-              Maturity is explicit. Workflow maps are labelled as diagrams, and each case links to pinned source, tests, runbooks, or architecture records.
+              Flagship maturity is explicit here; full decisions, boundaries, captions, and implementation links remain on the case-study pages.
             </p>
           </div>
 
@@ -193,22 +185,19 @@ export default function Home() {
               const visual = project.visualEvidence[0];
               return (
                 <article key={project.slug} className="group overflow-hidden rounded-xl border bg-background shadow-sm">
-                  <figure className="bg-[#0d1718]">
-                    <div className="relative aspect-[16/9] overflow-hidden">
-                      <Image
-                        src={visual.src}
-                        alt={visual.alt}
-                        fill
-                        unoptimized
-                        sizes="(min-width: 1024px) 33vw, 100vw"
-                        className={visual.kind === "product-screenshot" ? "object-cover object-top" : "object-contain p-2"}
-                      />
-                      <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.13em] text-white/72 backdrop-blur-sm">
-                        {visual.kind === "product-screenshot" ? "Product screenshot" : "Workflow map"}
-                      </span>
-                    </div>
-                    <figcaption className="border-t border-white/10 px-4 py-2.5 text-[11px] leading-5 text-white/50">{visual.caption}</figcaption>
-                  </figure>
+                  <div className="relative aspect-[16/9] overflow-hidden bg-[#0d1718]">
+                    <Image
+                      src={visual.src}
+                      alt={visual.alt}
+                      fill
+                      unoptimized
+                      sizes="(min-width: 1024px) 33vw, 100vw"
+                      className={visual.kind === "product-screenshot" ? "object-cover object-top" : "object-contain p-2"}
+                    />
+                    <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.13em] text-white/72 backdrop-blur-sm">
+                      {visual.kind === "product-screenshot" ? "Product screenshot" : "Workflow map"}
+                    </span>
+                  </div>
                   <div className="p-5">
                     <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                       <span className="font-semibold uppercase tracking-[0.13em] text-primary">{project.category}</span>
@@ -216,7 +205,6 @@ export default function Home() {
                     </div>
                     <h3 className="mt-4 text-2xl font-bold tracking-tight">{project.title}</h3>
                     <p className="mt-3 text-sm leading-7 text-muted-foreground">{project.summary}</p>
-                    <p className="mt-4 text-xs text-muted-foreground">{project.implementationEvidence.length} inspectable implementation records</p>
                     <Link href={`/work/${project.slug}`} className="mt-5 inline-flex items-center text-sm font-semibold text-primary">
                       Inspect the case <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
@@ -226,24 +214,14 @@ export default function Home() {
             })}
           </div>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-wrap justify-center gap-6">
             <Link href="/work" className="inline-flex items-center text-sm font-semibold text-primary">
               Review all selected work <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
+            <Link href="/systems" className="inline-flex items-center text-sm font-semibold text-primary">
+              Open the systems lab <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </div>
-        </div>
-      </section>
-
-      <section id="systems-lab" className="scroll-mt-24 bg-[#0d1718] py-12 text-white md:py-16">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-7 px-4 md:px-6 lg:grid-cols-[1fr_auto] lg:items-center lg:px-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/70">Systems playground</p>
-            <h2 className="mt-4 max-w-4xl text-3xl font-bold tracking-tight md:text-4xl">Inspect simplified product loops without making the 3D scene the proof.</h2>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65 md:text-base">The lab is progressive enhancement. Each scene routes back to an audited HTML case study.</p>
-          </div>
-          <Button asChild variant="outline" className="border-white/25 bg-white/[0.04] text-white hover:bg-white/[0.09]">
-            <Link href="/systems">Launch systems lab <Map className="ml-2 h-4 w-4" /></Link>
-          </Button>
         </div>
       </section>
 
@@ -267,7 +245,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="book" className="scroll-mt-24 border-y bg-muted/30 py-12 md:py-16">
+      <section className="border-y bg-muted/30 py-12 md:py-16">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center md:px-6 lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-primary">
@@ -275,7 +253,7 @@ export default function Home() {
               <p className="text-xs font-semibold uppercase tracking-[0.18em]">Published operating thesis</p>
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight md:text-3xl">No Claim Without Evidence</h2>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">A 19-chapter field guide to evidence links, eval contracts, review rules, action traces, and release gates for AI-assisted workflows.</p>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">A field guide to evidence links, eval contracts, review rules, action traces, and release gates for AI-assisted workflows.</p>
           </div>
           <Button asChild variant="outline">
             <Link href="/books/no-claim-without-evidence">Review the book <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -287,7 +265,7 @@ export default function Home() {
         <div className="container mx-auto max-w-[920px] px-4 text-center md:px-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Start with the real workflow</p>
           <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">Tell me who does the work, where it breaks, and what a better system would change.</h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground">A workflow, representative file, screen recording, or existing tool list is more useful than a polished feature specification.</p>
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground">A representative file, screen recording, or existing tool list is more useful than a polished feature specification.</p>
           <Button asChild size="lg" className="mt-7 rounded-md px-8">
             <Link href="/contact?type=project&source=home-bottom">Send the problem <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
