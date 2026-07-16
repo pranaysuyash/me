@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import "./rewrite_social_metadata.mjs";
 
 const out = path.resolve("out");
 const publicationOnly = [
