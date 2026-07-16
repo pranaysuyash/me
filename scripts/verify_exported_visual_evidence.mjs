@@ -16,19 +16,39 @@ const visuals = [
 
 const vendoredRuntime = [
   {
-    relative: "vendor/three/three.module.js",
+    relative: "vendor/three/0.179.1/three.module.js",
     minimumSize: 500_000,
-    tokens: ["REVISION", "WebGLRenderer", "PerspectiveCamera"],
+    tokens: ["./three.core.js", "WebGLRenderer", "PerspectiveCamera"],
   },
   {
-    relative: "vendor/three/addons/controls/OrbitControls.js",
+    relative: "vendor/three/0.179.1/three.core.js",
+    minimumSize: 900_000,
+    tokens: ["REVISION", "class Matrix4", "class Object3D"],
+  },
+  {
+    relative: "vendor/three/0.179.1/addons/controls/OrbitControls.js",
     minimumSize: 20_000,
     tokens: ["class OrbitControls", "from 'three'"],
   },
   {
-    relative: "vendor/three/addons/renderers/CSS2DRenderer.js",
+    relative: "vendor/three/0.179.1/addons/renderers/CSS2DRenderer.js",
     minimumSize: 3_000,
     tokens: ["class CSS2DObject", "class CSS2DRenderer"],
+  },
+];
+
+const wrappers = [
+  {
+    relative: "vendor/three/three.module.js",
+    token: "0.179.1/three.module.js",
+  },
+  {
+    relative: "vendor/three/addons/controls/OrbitControls.js",
+    token: "0.179.1/addons/controls/OrbitControls.js",
+  },
+  {
+    relative: "vendor/three/addons/renderers/CSS2DRenderer.js",
+    token: "0.179.1/addons/renderers/CSS2DRenderer.js",
   },
 ];
 
@@ -51,7 +71,7 @@ for (const relative of visuals) {
 for (const specification of vendoredRuntime) {
   const absolute = path.join(out, specification.relative);
   if (!fs.existsSync(absolute)) {
-    failures.push(`export is missing same-origin Three.js runtime: ${specification.relative}`);
+    failures.push(`export is missing versioned Three.js runtime: ${specification.relative}`);
     continue;
   }
   const size = fs.statSync(absolute).size;
@@ -66,6 +86,18 @@ for (const specification of vendoredRuntime) {
     if (!content.includes(token)) {
       failures.push(`vendored Three.js file ${specification.relative} is missing ${token}`);
     }
+  }
+}
+
+for (const wrapper of wrappers) {
+  const absolute = path.join(out, wrapper.relative);
+  if (!fs.existsSync(absolute)) {
+    failures.push(`export is missing stable Three.js wrapper: ${wrapper.relative}`);
+    continue;
+  }
+  const content = fs.readFileSync(absolute, "utf8");
+  if (!content.includes("export * from") || !content.includes(wrapper.token)) {
+    failures.push(`Three.js wrapper does not resolve to the pinned runtime: ${wrapper.relative}`);
   }
 }
 
@@ -102,6 +134,21 @@ for (const [name, html, expected] of [
   }
   if (!html.includes("Workflow map")) {
     failures.push(`${name} export does not label workflow-map evidence`);
+  }
+}
+
+for (const [name, html] of [
+  ["SignKit", signKit],
+  ["MetaExtract", metaExtract],
+  ["EchoPanel", echoPanel],
+  ["SentinelTwin", sentinelTwin],
+]) {
+  if (!html.includes("Inspectable implementation evidence")) {
+    failures.push(`${name} export does not expose implementation evidence`);
+  }
+  const links = html.match(/https:\/\/github\.com\/[^"<]+\/blob\/[a-f0-9]{40}\//g) || [];
+  if (links.length < 4) {
+    failures.push(`${name} export exposes only ${links.length} revision-pinned evidence links`);
   }
 }
 
@@ -154,5 +201,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Exported visual validation passed: audited evidence maps are labelled, the Three.js runtime is same-origin and validated, obsolete remote assets are absent, CSP is present, and the lab fails open to case studies.",
+  "Exported visual validation passed: audited maps and revision-pinned implementation evidence are labelled, the complete Three.js runtime is versioned behind stable same-origin wrappers, obsolete remote assets are absent, CSP is present, and the lab fails open to case studies.",
 );
