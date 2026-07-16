@@ -4,6 +4,7 @@ Canonical branch: main
 Canonical validation entry point: npm run site:verify
 Complete local verification entry point: npm run site:local
 Local release runbook: docs/LOCAL_RELEASE_RUNBOOK.md
+Source completion record: docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md
 Automated release workflow: .github/workflows/site-build.yml
 Manual diagnostic workflow: .github/workflows/site-diagnostics.yml
 Historical PR 9 recovery audit: docs/audits/PR_9_RECOVERY_AUDIT.md
@@ -41,4 +42,5 @@ Operating rule:
 - rejected workflows are preserved only as non-executable audit artifacts
 - after recovery and validation, obsolete pull requests are closed and their branches are deleted
 - do not deploy an export that has not passed npm run site:local
+- do not reopen generic source redesign work without failed verification, production evidence, direct product evidence, or observed user behavior
 - prefer one canonical validation path; automated and diagnostic workflows must call that path rather than reproduce a second validation pipeline
