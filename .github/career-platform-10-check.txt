@@ -2,6 +2,8 @@ Career platform quality contract
 
 Canonical branch: main
 Canonical validation entry point: npm run site:verify
+Complete local verification entry point: npm run site:local
+Local release runbook: docs/LOCAL_RELEASE_RUNBOOK.md
 Automated release workflow: .github/workflows/site-build.yml
 Manual diagnostic workflow: .github/workflows/site-diagnostics.yml
 Historical PR 9 recovery audit: docs/audits/PR_9_RECOVERY_AUDIT.md
@@ -14,13 +16,16 @@ The release contract covers:
 - zero-warning ESLint, strict TypeScript, and source-level career boundaries
 - one coherent professional identity with explicit personal working style
 - sustained internal-role ownership versus bounded commercial engagements
-- visible contact self-routing and neutral generic navigation
+- visible contact self-routing, standard-form fallback, and neutral generic navigation
+- one canonical engagement catalogue and synchronized India/global pricing state
 - audited product maturity, evidence provenance, and freshness
 - accessibility, contrast, reduced motion, print, privacy, and machine-readable profiles
+- accessible section navigation across Home, About, Experience, Services, Work, Proof, and Book
 - route-aware hiring, services, and book conversion paths
 - same-origin Three.js runtime, resilient product-lab fallback, and portable module syntax validation
 - generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
 - deployment-ready static export after publication-only assets are pruned
+- local HTTP smoke testing of the generated static export and build identity
 - an exact-commit `canonical-site-verify` status with retained verification log and export artifact
 - a main-only diagnostic workflow with read-only permissions, retained artifacts, and a 15-minute timeout
 - explicit closure criteria across identity, hiring, commercial work, evidence, transactions, measurement, accessibility, discovery, legal trust, deployment, and production learning
@@ -35,4 +40,5 @@ Operating rule:
 - documentation recovered from a pull request must be preserved on main without hard-coded source revisions that become stale immediately
 - rejected workflows are preserved only as non-executable audit artifacts
 - after recovery and validation, obsolete pull requests are closed and their branches are deleted
+- do not deploy an export that has not passed npm run site:local
 - prefer one canonical validation path; automated and diagnostic workflows must call that path rather than reproduce a second validation pipeline
