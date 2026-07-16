@@ -14,6 +14,24 @@ const visuals = [
   "assets/projects/sentineltwin/workflow.svg",
 ];
 
+const vendoredRuntime = [
+  {
+    relative: "vendor/three/three.module.js",
+    minimumSize: 500_000,
+    tokens: ["REVISION", "WebGLRenderer", "PerspectiveCamera"],
+  },
+  {
+    relative: "vendor/three/addons/controls/OrbitControls.js",
+    minimumSize: 20_000,
+    tokens: ["class OrbitControls", "from 'three'"],
+  },
+  {
+    relative: "vendor/three/addons/renderers/CSS2DRenderer.js",
+    minimumSize: 3_000,
+    tokens: ["class CSS2DObject", "class CSS2DRenderer"],
+  },
+];
+
 if (!fs.existsSync(out)) {
   console.error("Exported visual validation failed: out/ does not exist");
   process.exit(1);
@@ -27,6 +45,27 @@ for (const relative of visuals) {
   }
   if (fs.statSync(absolute).size < 1500) {
     failures.push(`exported visual evidence is unexpectedly small: ${relative}`);
+  }
+}
+
+for (const specification of vendoredRuntime) {
+  const absolute = path.join(out, specification.relative);
+  if (!fs.existsSync(absolute)) {
+    failures.push(`export is missing same-origin Three.js runtime: ${specification.relative}`);
+    continue;
+  }
+  const size = fs.statSync(absolute).size;
+  if (size < specification.minimumSize) {
+    failures.push(
+      `vendored Three.js file is unexpectedly small: ${specification.relative} (${size} bytes)`,
+    );
+    continue;
+  }
+  const content = fs.readFileSync(absolute, "utf8");
+  for (const token of specification.tokens) {
+    if (!content.includes(token)) {
+      failures.push(`vendored Three.js file ${specification.relative} is missing ${token}`);
+    }
   }
 }
 
@@ -46,6 +85,7 @@ const metaExtract = resolveRoute("work/metaextract.html", "work/metaextract/inde
 const echoPanel = resolveRoute("work/echopanel.html", "work/echopanel/index.html");
 const sentinelTwin = resolveRoute("work/sentineltwin.html", "work/sentineltwin/index.html");
 const productLab = resolveRoute("product-lab/index.html");
+const headers = resolveRoute("_headers");
 
 for (const [name, html, expected] of [
   ["home", home, [visuals[0], visuals[1], visuals[3]]],
@@ -79,14 +119,32 @@ for (const forbidden of [
 }
 
 for (const required of [
-  'display: grid',
+  "display: grid",
   '#lab[data-ready="true"] .fallback',
-  'MutationObserver',
-  '/product-lab/scene.js',
-  'Review audited case studies instead',
+  "MutationObserver",
+  "/product-lab/scene.js",
+  "/vendor/three/three.module.js",
+  "/vendor/three/addons/",
+  "Review audited case studies instead",
 ]) {
   if (!productLab.includes(required)) {
-    failures.push(`product-lab export missing progressive fallback token: ${required}`);
+    failures.push(`product-lab export missing progressive or same-origin token: ${required}`);
+  }
+}
+
+if (productLab.includes("cdn.jsdelivr.net") || productLab.includes("unpkg.com")) {
+  failures.push("product-lab export still contains an external JavaScript runtime dependency");
+}
+
+for (const required of [
+  "Content-Security-Policy:",
+  "script-src 'self' 'unsafe-inline'",
+  "connect-src 'self' https://formbold.com",
+  "frame-src 'self'",
+  "/vendor/three/*",
+]) {
+  if (!headers.includes(required)) {
+    failures.push(`Cloudflare headers missing security or vendor policy: ${required}`);
   }
 }
 
@@ -96,5 +154,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Exported visual validation passed: all audited evidence maps are present and labelled, obsolete image paths are absent, and the lab fails open to case studies.",
+  "Exported visual validation passed: audited evidence maps are labelled, the Three.js runtime is same-origin and validated, obsolete remote assets are absent, CSP is present, and the lab fails open to case studies.",
 );
