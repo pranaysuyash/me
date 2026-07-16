@@ -72,13 +72,19 @@ if (home.includes("/books/no-claim-without-evidence/cover.png")) {
 }
 
 const book = read(routeFiles.book);
+const redirects = read("_redirects");
+const legacyBookCover = "/books/no-claim-without-evidence/cover.png";
+const generatedBookPreview = "/books/no-claim-without-evidence/opengraph-image";
+const legacyRedirect = `${legacyBookCover} ${generatedBookPreview} 301`;
+
 if (!book.includes("/books/no-claim-without-evidence/cover.svg")) {
   failures.push("book page does not use the lightweight vector cover");
 }
-if (book.includes("/books/no-claim-without-evidence/cover.png")) {
-  failures.push("book page still references the publication-only print cover");
-}
-if (!book.includes("/books/no-claim-without-evidence/opengraph-image")) {
+if (book.includes(legacyBookCover)) {
+  if (!redirects.includes(legacyRedirect)) {
+    failures.push("book metadata still uses the legacy cover URL without a redirect to the generated preview");
+  }
+} else if (!book.includes(generatedBookPreview)) {
   failures.push("book page does not point social metadata to the generated preview");
 }
 
