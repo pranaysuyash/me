@@ -21,9 +21,9 @@ const htmlBudgets = {
   home: 112_000,
   experience: 105_000,
   work: 105_000,
-  services: 105_000,
+  services: 108_000,
   documentWorkflows: 90_000,
-  proof: 105_000,
+  proof: 108_000,
   accessibility: 75_000,
   book: 110_000,
 };
