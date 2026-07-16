@@ -52,6 +52,8 @@ jobs:
         run: |
           tail -n 120 next-build.log
           exit 1
+      - name: Prune publication-only web assets
+        run: python3 scripts/prune_web_export.py
       - name: Verify exported visual evidence
         run: node scripts/verify_exported_visual_evidence.mjs
       - name: Verify static budgets
