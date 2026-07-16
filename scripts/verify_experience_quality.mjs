@@ -159,8 +159,9 @@ if (failures.length) {
 }
 
 await import("./verify_pricing_contract.mjs");
+await import("./verify_local_release_contract.mjs");
 await import("./verify_color_contrast.mjs");
 
 console.log(
-  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation on every long professional page, resilient contact fallback, canonical regional pricing, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
+  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation on every long professional page, resilient contact fallback, canonical regional pricing, one-command local release verification, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
 );
