@@ -9,6 +9,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { careerProfile, medpiperCaseStudy, publicEvidence } from "@/lib/career";
 import { auditedProjects } from "@/lib/portfolio";
 
@@ -40,6 +41,14 @@ const reviewCadence = [
     title: "Career claims follow the underlying fact",
     body: "Career and commercial claims are reviewed when the underlying fact changes, including role, availability, pricing, product status, publication status, or externally verifiable evidence.",
   },
+] as const;
+
+const proofSections = [
+  { label: "Evidence rules", href: "#evidence-rules" as const, description: "What the site will and will not call proof" },
+  { label: "Freshness", href: "#freshness" as const, description: "Review cadence and release conditions" },
+  { label: "Career evidence", href: "#career-evidence" as const, description: "Sanitized professional outcomes and boundaries" },
+  { label: "Product evidence", href: "#product-evidence" as const, description: "Maturity, reviewed revisions, and implementation records" },
+  { label: "Public records", href: "#public-records" as const, description: "External context without invented social proof" },
 ] as const;
 
 export default function ProofPage() {
@@ -74,7 +83,9 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <SectionIndex items={proofSections} label="Proof ledger sections" />
+
+      <section id="evidence-rules" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto grid max-w-[1180px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[0.72fr_1.28fr] lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-primary">
@@ -96,7 +107,7 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="border-y bg-[#102022] py-14 text-white md:py-18">
+      <section id="freshness" className="scroll-mt-24 border-y bg-[#102022] py-14 text-white md:py-18">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
@@ -123,7 +134,7 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="border-b bg-muted/30 py-16 md:py-24">
+      <section id="career-evidence" className="scroll-mt-24 border-b bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="mb-10 max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Professional evidence</p>
@@ -156,7 +167,7 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section id="product-evidence" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="mb-10 max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Audited product evidence</p>
@@ -192,7 +203,7 @@ export default function ProofPage() {
         </div>
       </section>
 
-      <section className="border-y bg-[#102022] py-14 text-white">
+      <section id="public-records" className="scroll-mt-24 border-y bg-[#102022] py-14 text-white">
         <div className="container mx-auto grid max-w-[1180px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-[0.72fr_1.28fr] lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-teal-100/70">
