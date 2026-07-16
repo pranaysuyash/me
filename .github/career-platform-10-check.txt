@@ -1,0 +1,21 @@
+Career platform quality contract
+
+Canonical branch: main
+Canonical validation entry point: npm run site:verify
+Manual diagnostic workflow: .github/workflows/site-diagnostics.yml
+
+The release contract covers:
+- strict TypeScript and source-level career boundaries
+- audited product maturity, evidence provenance, and freshness
+- accessibility, contrast, reduced motion, print, privacy, and machine-readable profiles
+- route-aware hiring, services, and book conversion paths
+- same-origin Three.js runtime and resilient product-lab fallback
+- generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
+- deployment-ready static export after publication-only assets are pruned
+
+Operating rule:
+- all portfolio work is integrated directly on main
+- no pull request is treated as canonical work
+- before closing an existing pull request, compare it with current main and carry forward every missing or better file, contract, check, or document
+- documentation recovered from a pull request must be preserved on main without hard-coded source revisions that become stale immediately
+- prefer one canonical validation path; diagnostic workflows must call that path rather than reproduce a second validation pipeline
