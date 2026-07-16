@@ -91,6 +91,7 @@ requireText("book", [
   "Buy the book",
   "/books/no-claim-without-evidence/cover.svg",
   'data-cta-context="book"',
+  "/books/no-claim-without-evidence/opengraph-image",
 ]);
 
 requireText("proof", [
@@ -110,7 +111,8 @@ requireText("accessibility", [
 for (const name of ["signKit", "metaExtract", "echoPanel", "sentinelTwin"]) {
   requireText(name, [
     "Inspectable implementation evidence",
-    "Evidence reviewed 2026-07-16",
+    "Evidence reviewed",
+    "2026-07-16",
     "Follow the claim into source, tests, or architecture",
   ]);
   const content = read(name);
@@ -177,7 +179,7 @@ const sitemap = requireText("sitemap", [
   "https://pranaysuyash.com/document-workflows",
   "https://pranaysuyash.com/work/medpiper-workflow",
 ]);
-if (sitemap.match(/<loc>/g)?.length < 20) {
+if ((sitemap.match(/<loc>/g) || []).length < 20) {
   failures.push("sitemap unexpectedly contains fewer than 20 routes");
 }
 
@@ -192,9 +194,15 @@ const walk = (directory) => {
 walk(OUT);
 
 const resolveLocal = (sourceFile, raw) => {
-  const clean = raw.split("#")[0].split("?")[0];
-  if (!clean || clean.startsWith(("#"))) return null;
+  let clean = raw.split("#")[0].split("?")[0];
+  if (!clean || clean.startsWith("#")) return null;
   if (/^(?:https?:|mailto:|tel:|data:|javascript:)/.test(clean)) return null;
+  try {
+    clean = decodeURIComponent(clean);
+  } catch {
+    failures.push(`${path.relative(OUT, sourceFile)} contains malformed URL encoding: ${raw}`);
+    return null;
+  }
   const relative = clean.startsWith("/")
     ? clean.slice(1)
     : path.normalize(path.join(path.dirname(path.relative(OUT, sourceFile)), clean));
@@ -245,5 +253,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Expanded release contract passed: ${Object.keys(candidates).length} required outputs, ${htmlFiles.length} HTML files, route-aware CTAs, pinned evidence, machine profiles, same-origin Three.js, sitemap, and internal references verified.`,
+  `Expanded release contract passed: ${Object.keys(candidates).length} required outputs, ${htmlFiles.length} HTML files, route-aware CTAs, pinned evidence, machine profiles, same-origin Three.js, sitemap, normalized React text, decoded Next asset URLs, and internal references verified.`,
 );
