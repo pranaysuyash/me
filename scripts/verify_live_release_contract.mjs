@@ -50,7 +50,9 @@ requireTokens(".github/workflows/live-deployment-audit.yml", [
   'workflows: ["Site build"]',
   "Check out deployment target",
   "github.event.workflow_run.head_sha",
-  "node scripts/verify_live_deployment.mjs",
+  "node scripts/verify_live_deployment.mjs 2>&1 | tee live-verify.log",
+  "Upload live verification log",
+  "live-verify-log-${{ steps.target.outputs.sha }}",
   'context "live-deployment"',
   "Fail when live deployment is stale",
 ]);
@@ -93,5 +95,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: deployment identity, route signatures, exact post-build and daily drift audit, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: deployment identity, route signatures, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
