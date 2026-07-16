@@ -68,6 +68,10 @@ const portfolio = requireTokens("src/lib/portfolio.ts", [
   "system-audio setup and production packaging remain active work",
   "Separate deterministic simulation from AI explanation",
   "visualEvidence: ProjectVisualEvidence[]",
+  "implementationEvidence: ImplementationEvidence[]",
+  "evidenceReviewedAt",
+  "sourceRevision",
+  "2026-07-16",
 ]);
 
 for (const unsupported of [
@@ -90,7 +94,10 @@ const homepage = requireTokens("src/app/page.tsx", [
   "@/lib/portfolio",
   "For hiring teams",
   "/work/medpiper-workflow",
+  "/proof",
   "project.visualEvidence",
+  "project.implementationEvidence.length",
+  "lg:grid-cols-3",
 ]);
 for (const forbidden of ["HeroSystemPanel", "<iframe", "projectsData", 'className="animate-fade-up"']) {
   if (homepage.includes(forbidden)) {
@@ -117,6 +124,10 @@ const dynamicCase = requireTokens("src/app/work/[slug]/page.tsx", [
   "Key product decisions",
   "project.visualEvidence",
   "Visual evidence",
+  "Inspectable implementation evidence",
+  "project.implementationEvidence",
+  "project.sourceRevision",
+  "Evidence reviewed",
 ]);
 if (dynamicCase.includes("proofSummary") || dynamicCase.includes("demonstrates")) {
   failures.push("dynamic case-study route consumes historical proof marketing fields");
@@ -160,6 +171,23 @@ requireTokens("src/app/document-workflows/page.tsx", [
   "do-not-infer policy",
 ]);
 
+requireTokens("src/app/proof/page.tsx", [
+  "Public proof ledger",
+  "What this site will and will not call proof",
+  "auditedProjects",
+  "project.evidenceReviewedAt",
+  "project.sourceRevision",
+  "publicEvidence",
+]);
+
+requireTokens("src/app/accessibility/page.tsx", [
+  "Accessibility statement",
+  "WCAG 2.2 AA",
+  "Reduced-motion handling",
+  "Report a barrier",
+  "Third-party checkout",
+]);
+
 requireTokens("src/app/systems/page.tsx", [
   'src="/product-lab/"',
   "geometry is illustrative",
@@ -187,11 +215,32 @@ requireTokens("scripts/generate_resume_pdf.py", [
   "SignKit - Commercial product",
 ]);
 
+requireTokens("scripts/vendor_three.py", [
+  'VERSION = "0.179.1"',
+  "three.core.js",
+  "WRAPPERS",
+  "same-origin wrappers",
+]);
+
+requireTokens("scripts/verify_content_freshness.mjs", [
+  "maxAgeDays = 180",
+  "pinned implementation records",
+  "source revision",
+]);
+
+requireTokens("scripts/verify_static_budget.mjs", [
+  "htmlBudgets",
+  "firstLoadJs",
+  "cover.svg",
+  "Open Graph image",
+]);
+
 requireTokens("package.json", [
-  '"prebuild": "python3 scripts/generate_resume_pdf.py"',
-  '"postbuild": "node scripts/verify_exported_visual_evidence.mjs"',
+  '"prebuild": "python3 scripts/vendor_three.py && python3 scripts/generate_resume_pdf.py"',
+  '"postbuild": "node scripts/verify_exported_visual_evidence.mjs && node scripts/verify_static_budget.mjs"',
   '"resume:build": "python3 scripts/generate_resume_pdf.py"',
-  "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs",
+  '"three:vendor": "python3 scripts/vendor_three.py"',
+  "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs",
 ]);
 
 const navbar = requireTokens("src/components/layout/navbar.tsx", [
@@ -201,23 +250,76 @@ const navbar = requireTokens("src/components/layout/navbar.tsx", [
   'href: "/hire-me"',
   'name: "Services"',
   'href: "/work-with-me"',
+  'name: "Book"',
+  "Start role conversation",
+  "Discuss a workflow",
+  "Buy the book",
+  "data-cta-context",
+  'href="/proof"',
+  'role="dialog"',
+  'aria-modal="true"',
+  "focusableSelector",
 ]);
 if (navbar.includes('{ name: "Systems", href: "/systems" }')) {
   failures.push("Systems competes with Experience in primary navigation");
 }
+if (navbar.includes('{ name: "Writing"')) {
+  failures.push("navigation labels a single book route as a writing index");
+}
+
+requireTokens("src/components/layout/footer.tsx", [
+  "Proof ledger",
+  "Accessibility",
+  "JSON Resume",
+  "LLM guide",
+  "Portfolio evidence reviewed 16 July 2026",
+]);
+
+requireTokens("public/resume.json", [
+  '"lastReviewed": "2026-07-16"',
+  '"label": "Product leader and hands-on systems builder"',
+  '"evidenceLedger": "https://pranaysuyash.com/proof"',
+]);
+
+requireTokens("public/llms.txt", [
+  "Last evidence review: 2026-07-16",
+  "Professional proof ledger",
+  "JSON Resume",
+  "Evidence rules",
+]);
+
+requireTokens("src/app/opengraph-image.tsx", [
+  "ImageResponse",
+  "1200",
+  "630",
+  "Product leader + hands-on systems builder",
+]);
+
+requireTokens("src/lib/ebook.ts", [
+  "/books/no-claim-without-evidence/cover.svg",
+  "productionEbookCheckoutUrl",
+]);
+forbidTokens("src/lib/ebook.ts", [
+  "/books/no-claim-without-evidence/cover.png",
+]);
 
 requireTokens("src/app/layout.tsx", [
   'jobTitle: "Product Leader and Hands-on Systems Builder"',
   'name: "MedPiper Technologies"',
 ]);
 
-requireTokens("public/product-lab/index.html", [
+const productLab = requireTokens("public/product-lab/index.html", [
   "display: grid",
   '#lab[data-ready="true"] .fallback',
   "MutationObserver",
   "/product-lab/scene.js",
   "Review audited case studies instead",
+  '"three": "/vendor/three/three.module.js"',
+  '"three/addons/": "/vendor/three/addons/"',
 ]);
+if (productLab.includes("https://cdn.jsdelivr.net")) {
+  failures.push("interactive lab import map contains an external runtime CDN");
+}
 
 if (normalize(career).includes("Founder, PSRS") || normalize(career).includes("Founder of PSRS")) {
   failures.push("personal career identity was replaced by a PSRS founder title");
@@ -229,5 +331,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, external evidence, audited maturity, typed visual evidence, canonical route ownership, resume generation, commercial hierarchy, archive boundary, lab fallback, and navigation are intact.",
+  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, content freshness, compact homepage, self-hosted Three.js dependency chain, lightweight book cover, social preview, archive boundary, and navigation are intact.",
 );
