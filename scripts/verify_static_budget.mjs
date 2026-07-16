@@ -68,7 +68,7 @@ if (firstLoadJs > 900_000) {
 }
 
 if (home.includes("/books/no-claim-without-evidence/cover.png")) {
-  failures.push("homepage references the print-master ebook cover");
+  failures.push("homepage references the publication-only print cover");
 }
 
 const book = read(routeFiles.book);
@@ -76,7 +76,7 @@ if (!book.includes("/books/no-claim-without-evidence/cover.svg")) {
   failures.push("book page does not use the lightweight vector cover");
 }
 if (book.includes("/books/no-claim-without-evidence/cover.png")) {
-  failures.push("book page still downloads the print-master PNG");
+  failures.push("book page still references the publication-only print cover");
 }
 
 const webCover = path.join(out, "books/no-claim-without-evidence/cover.svg");
@@ -86,23 +86,52 @@ if (!fs.existsSync(webCover)) {
   failures.push(`web cover exceeds 30 KB: ${fs.statSync(webCover).size} bytes`);
 }
 
-const ogCandidates = [
-  path.join(out, "opengraph-image.png"),
-  ...fs.existsSync(out)
-    ? fs.readdirSync(out)
-        .filter((name) => name.startsWith("opengraph-image") && name.endsWith(".png"))
-        .map((name) => path.join(out, name))
-    : [],
-];
-if (!ogCandidates.some((candidate) => fs.existsSync(candidate) && fs.statSync(candidate).size > 10_000)) {
-  failures.push("generated Open Graph image is missing or unexpectedly small");
+const printCover = path.join(out, "books/no-claim-without-evidence/cover.png");
+if (fs.existsSync(printCover)) {
+  failures.push(`publication-only print cover remains in web export: ${fs.statSync(printCover).size} bytes`);
 }
 
-for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf"]) {
+const generatedMetadataImages = [];
+const walkImages = (directory) => {
+  if (!fs.existsSync(directory)) return;
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const full = path.join(directory, entry.name);
+    if (entry.isDirectory()) walkImages(full);
+    else if (/^(?:opengraph-image|twitter-image)(?:\.[a-z0-9]+)?$/i.test(entry.name)) {
+      generatedMetadataImages.push(full);
+    }
+  }
+};
+walkImages(out);
+
+if (!generatedMetadataImages.some((candidate) => fs.statSync(candidate).size > 10_000)) {
+  failures.push("generated social metadata images are missing or unexpectedly small");
+}
+if (generatedMetadataImages.length < 3) {
+  failures.push(`expected root and book social metadata images, found ${generatedMetadataImages.length}`);
+}
+
+for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf", "build-info.json"]) {
   const file = path.join(out, required);
   if (!fs.existsSync(file) || fs.statSync(file).size < 100) {
     failures.push(`machine-readable or downloadable professional asset missing: ${required}`);
   }
+}
+
+const totalExportBytes = (() => {
+  let total = 0;
+  const walk = (directory) => {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const full = path.join(directory, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else total += fs.statSync(full).size;
+    }
+  };
+  walk(out);
+  return total;
+})();
+if (totalExportBytes > 6_000_000) {
+  failures.push(`static export exceeds 6 MB budget: ${totalExportBytes} bytes`);
 }
 
 if (failures.length) {
@@ -111,5 +140,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, social images ${generatedMetadataImages.length}, total export ${totalExportBytes} bytes.`,
 );
