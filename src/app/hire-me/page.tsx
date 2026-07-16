@@ -11,6 +11,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { Button } from "@/components/ui/button";
 import { careerProfile, education, experienceTimeline } from "@/lib/career";
 
@@ -27,6 +28,13 @@ export const metadata: Metadata = {
     type: "website",
   },
 };
+
+const experienceSections = [
+  { label: "Role fit", href: "#role-fit" as const, description: "Target roles, environments, ownership, and evidence" },
+  { label: "Experience", href: "#experience" as const, description: "Wipro, EY, and MedPiper career evidence" },
+  { label: "Credentials", href: "#credentials" as const, description: "Education and published operating thesis" },
+  { label: "Conversation", href: "#role-conversation" as const, description: "Start a sustained-role conversation" },
+] as const;
 
 export default function HireMePage() {
   return (
@@ -110,7 +118,9 @@ export default function HireMePage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <SectionIndex items={experienceSections} label="Experience sections" />
+
+      <section id="role-fit" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
@@ -149,7 +159,7 @@ export default function HireMePage() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-16 md:py-24">
+      <section id="experience" className="scroll-mt-24 border-y bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Experience</p>
@@ -191,7 +201,7 @@ export default function HireMePage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section id="credentials" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto grid max-w-[1180px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Education</p>
@@ -222,7 +232,7 @@ export default function HireMePage() {
         </div>
       </section>
 
-      <section className="border-y bg-[#0d1718] py-14 text-white">
+      <section id="role-conversation" className="scroll-mt-24 border-y bg-[#0d1718] py-14 text-white">
         <div className="container mx-auto grid max-w-[1180px] grid-cols-1 gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center md:px-6 lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-teal-100/70">
