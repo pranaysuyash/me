@@ -11,6 +11,7 @@ import {
   Map,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { Button } from "@/components/ui/button";
 import { careerProfile, medpiperCaseStudy } from "@/lib/career";
 import { auditedProjects } from "@/lib/portfolio";
@@ -32,6 +33,15 @@ export const metadata: Metadata = {
 const featuredProducts = auditedProjects.filter((project) =>
   ["sig-ext-fastapi", "metaextract", "sentineltwin"].includes(project.slug),
 );
+
+const homeSections = [
+  { label: "Professional case", href: "#professional-case" as const },
+  { label: "Product systems", href: "#product-systems" as const },
+  { label: "Systems lab", href: "#systems-lab" as const },
+  { label: "Ways to work", href: "#ways-to-work" as const },
+  { label: "Book", href: "#book" as const },
+  { label: "Contact", href: "#contact" as const },
+] as const;
 
 export default function Home() {
   return (
@@ -65,7 +75,7 @@ export default function Home() {
                 variant="outline"
                 className="rounded-md border-white/30 bg-white/5 px-7 text-white hover:bg-white/10"
               >
-                <Link href="/contact?type=project&source=home">Discuss a project</Link>
+                <Link href="/work-with-me">Commercial engagements</Link>
               </Button>
               <Link
                 href="/work"
@@ -109,7 +119,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-14 md:py-20">
+      <SectionIndex items={homeSections} label="Homepage sections" />
+
+      <section id="professional-case" className="scroll-mt-24 py-14 md:py-20">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
             <div className="lg:sticky lg:top-24">
@@ -164,7 +176,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-14 md:py-20">
+      <section id="product-systems" className="scroll-mt-24 border-y bg-muted/30 py-14 md:py-20">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="mb-9 grid grid-cols-1 gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
@@ -222,7 +234,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#0d1718] py-12 text-white md:py-16">
+      <section id="systems-lab" className="scroll-mt-24 bg-[#0d1718] py-12 text-white md:py-16">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-7 px-4 md:px-6 lg:grid-cols-[1fr_auto] lg:items-center lg:px-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-100/70">Systems playground</p>
@@ -235,7 +247,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-14 md:py-20">
+      <section id="ways-to-work" className="scroll-mt-24 py-14 md:py-20">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 border-y md:grid-cols-2">
             {careerProfile.audiencePaths.map((path, index) => (
@@ -255,7 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-12 md:py-16">
+      <section id="book" className="scroll-mt-24 border-y bg-muted/30 py-12 md:py-16">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center md:px-6 lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-primary">
@@ -271,7 +283,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-14 md:py-20">
+      <section id="contact" className="scroll-mt-24 py-14 md:py-20">
         <div className="container mx-auto max-w-[920px] px-4 text-center md:px-6">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Start with the real workflow</p>
           <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl">Tell me who does the work, where it breaks, and what a better system would change.</h2>
