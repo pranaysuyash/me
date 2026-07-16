@@ -51,6 +51,9 @@ requireTokens("src/app/proof/page.tsx", [
   "Material product or maturity changes trigger an immediate review",
   "Career and commercial claims are reviewed when the underlying fact changes",
   "Evidence freshness is a release condition",
+  "Proof ledger sections",
+  'id="evidence-rules"',
+  'id="product-evidence"',
 ]);
 
 requireTokens("scripts/verify_content_freshness.mjs", [
@@ -90,6 +93,41 @@ requireTokens("src/components/layout/navbar.tsx", [
   "trigger?.focus()",
 ]);
 
+requireTokens("src/components/section-index.tsx", [
+  'aria-label={label}',
+  "overflow-x-auto",
+  "focus-visible:ring-2",
+  "String(index + 1).padStart",
+]);
+
+requireTokens("src/app/about/page.tsx", [
+  "<SectionIndex items={aboutSections}",
+  'id="career-path"',
+  'id="working-style"',
+  'id="ways-to-work"',
+]);
+
+requireTokens("src/app/hire-me/page.tsx", [
+  "<SectionIndex items={experienceSections}",
+  'id="role-fit"',
+  'id="experience"',
+  'id="role-conversation"',
+]);
+
+requireTokens("src/app/work-with-me/page.tsx", [
+  "<SectionIndex items={serviceSections}",
+  'id="capabilities"',
+  'id="pricing"',
+  'id="questions"',
+]);
+
+requireTokens("src/app/work/page.tsx", [
+  "<SectionIndex items={workSections}",
+  'id="professional-case"',
+  'id="product-systems"',
+  'id="evaluate-fit"',
+]);
+
 if (failures.length) {
   console.error(`Experience quality validation failed:\n${failures.join("\n")}`);
   process.exit(1);
@@ -98,5 +136,5 @@ if (failures.length) {
 await import("./verify_color_contrast.mjs");
 
 console.log(
-  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
+  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
 );
