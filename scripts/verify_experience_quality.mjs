@@ -83,6 +83,12 @@ requireTokens("src/app/page.tsx", [
   "grid-cols-2",
   "md:grid-cols-4",
   "Proof ledger",
+  "<SectionIndex items={homeSections}",
+  'id="professional-case"',
+  'id="product-systems"',
+  'id="ways-to-work"',
+  'id="contact"',
+  "Commercial engagements",
 ]);
 
 requireTokens("src/components/layout/navbar.tsx", [
@@ -128,13 +134,33 @@ requireTokens("src/app/work/page.tsx", [
   'id="evaluate-fit"',
 ]);
 
+requireTokens("src/app/books/no-claim-without-evidence/page.tsx", [
+  "<SectionIndex items={bookSections}",
+  'id="inside"',
+  'id="sample"',
+  'id="method"',
+  'id="audience"',
+  'id="consulting-delivery"',
+  "Dodo Payments handles payment",
+]);
+
+requireTokens("src/app/contact/page.tsx", [
+  "action={FORMBOLD_ENDPOINT}",
+  'method="POST"',
+  "<noscript>",
+  "JavaScript is disabled",
+  "Senior%20product%20role%20conversation",
+  "Bounded%20commercial%20engagement",
+]);
+
 if (failures.length) {
   console.error(`Experience quality validation failed:\n${failures.join("\n")}`);
   process.exit(1);
 }
 
+await import("./verify_pricing_contract.mjs");
 await import("./verify_color_contrast.mjs");
 
 console.log(
-  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
+  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation on every long professional page, resilient contact fallback, canonical regional pricing, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
 );
