@@ -45,7 +45,7 @@ export default function BookOpenGraphImage() {
         </div>
 
         <div style={{ flex: 1, padding: "64px 64px 58px 22px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ fontSize: 25, color: "#9ee8e0", fontWeight: 700 }}>How to Build AI Systems You Can Verify</div>
             <div style={{ marginTop: 26, maxWidth: 650, fontSize: 42, lineHeight: 1.12, fontWeight: 780, letterSpacing: "-.03em" }}>
               Evidence links, eval contracts, review rules, action traces, and release gates.
@@ -53,7 +53,7 @@ export default function BookOpenGraphImage() {
           </div>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-            {["19 chapters", "PDF + EPUB", "₹799 India", "$14.99 global"].map((item) => (
+            {["19 chapters", "PDF + EPUB", "INR 799 India", "$14.99 global"].map((item) => (
               <span
                 key={item}
                 style={{
