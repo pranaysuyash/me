@@ -73,7 +73,8 @@ requireTokens("DEPLOYMENT_GUIDE.md", [
   "/build-info.json",
   "canonical-site-verify",
   "live-deployment",
-  "Cloudflare Pages project: `pranay`",
+  "Cloudflare Pages project",
+  "`pranay`",
 ]);
 
 requireTokens("src/components/layout/footer.tsx", [
