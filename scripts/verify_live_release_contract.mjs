@@ -73,9 +73,14 @@ requireTokens("DEPLOYMENT_GUIDE.md", [
   "Cloudflare Pages project: `pranay`",
 ]);
 
+requireTokens("src/components/layout/footer.tsx", [
+  '{ name: "Build identity", href: "/build-info.json" }',
+  "Portfolio evidence reviewed 16 July 2026.",
+]);
+
 requireTokens("package.json", [
   '"live:verify": "node scripts/verify_live_deployment.mjs"',
-  "node scripts/verify_live_release_contract.mjs",
+  '"presite:verify": "node scripts/verify_live_release_contract.mjs"',
 ]);
 
 if (failures.length) {
@@ -84,5 +89,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: deployment identity, route signatures, daily drift audit, durable status, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: deployment identity, route signatures, daily drift audit, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
