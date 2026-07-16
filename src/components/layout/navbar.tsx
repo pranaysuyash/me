@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowRight, Github, Menu, X } from "lucide-react";
+import { ArrowRight, BookOpen, BriefcaseBusiness, Github, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { brandTagline } from "@/lib/brand";
 
@@ -11,14 +11,53 @@ const navigation = [
   { name: "Work", href: "/work" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
-  { name: "Writing", href: "/books/no-claim-without-evidence" },
+  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
 ];
+
+function primaryAction(pathname: string) {
+  if (pathname.startsWith("/hire-me")) {
+    return {
+      label: "Start role conversation",
+      href: "/contact?type=call&source=nav",
+      context: "hiring",
+      icon: BriefcaseBusiness,
+    };
+  }
+
+  if (pathname.startsWith("/books/no-claim-without-evidence")) {
+    return {
+      label: "Buy the book",
+      href: "https://checkout.dodopayments.com/buy/pdt_0NjEOVHvnzb642S2qjsCg?quantity=1",
+      context: "book",
+      icon: BookOpen,
+    };
+  }
+
+  if (pathname.startsWith("/about")) {
+    return {
+      label: "Start a conversation",
+      href: "/contact?source=about-nav",
+      context: "general",
+      icon: ArrowRight,
+    };
+  }
+
+  return {
+    label: "Discuss a project",
+    href: "/contact?type=project&source=nav",
+    context: "project",
+    icon: ArrowRight,
+  };
+}
 
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const action = primaryAction(pathname);
+  const ActionIcon = action.icon;
+  const actionIsExternal = action.href.startsWith("http");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -26,6 +65,10 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -88,10 +131,13 @@ export function Navbar() {
               <Github className="h-5 w-5" />
             </Link>
             <Link
-              href="/contact?type=project&source=nav"
+              href={action.href}
+              target={actionIsExternal ? "_blank" : undefined}
+              rel={actionIsExternal ? "noopener noreferrer" : undefined}
+              data-cta-context={action.context}
               className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Discuss a project <ArrowRight className="ml-2 h-4 w-4" />
+              {action.label} <ActionIcon className="ml-2 h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -112,11 +158,7 @@ export function Navbar() {
           />
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm">
             <div className="flex items-center justify-between">
-              <Link
-                href="/"
-                className="flex items-center gap-3"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/" className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-md border bg-muted text-sm font-bold">PS</span>
                 <span>
                   <span className="name-display block text-sm font-semibold">Pranay Suyash</span>
@@ -137,19 +179,30 @@ export function Navbar() {
 
             <div className="mt-8 border-b pb-6">
               <Link
-                href="/contact?type=project&source=mobile-nav"
+                href={action.href}
+                target={actionIsExternal ? "_blank" : undefined}
+                rel={actionIsExternal ? "noopener noreferrer" : undefined}
+                data-cta-context={action.context}
                 className="flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground"
-                onClick={() => setMobileMenuOpen(false)}
               >
-                Discuss a project <ArrowRight className="ml-2 h-4 w-4" />
+                {action.label} <ActionIcon className="ml-2 h-4 w-4" />
               </Link>
-              <Link
-                href="/hire-me"
-                className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                For hiring teams
-              </Link>
+              {action.context !== "hiring" && (
+                <Link
+                  href="/hire-me"
+                  className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                >
+                  For hiring teams
+                </Link>
+              )}
+              {action.context === "hiring" && (
+                <Link
+                  href="/work"
+                  className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                >
+                  Review selected work
+                </Link>
+              )}
             </div>
 
             <div className="space-y-1 py-6">
@@ -165,22 +218,25 @@ export function Navbar() {
                       ? "bg-primary/10 text-primary"
                       : "text-foreground hover:bg-muted"
                   }`}
-                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               <Link
+                href="/proof"
+                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+              >
+                Proof ledger
+              </Link>
+              <Link
                 href="/systems"
                 className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Interactive systems lab
               </Link>
               <Link
                 href="/labs"
                 className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
               >
                 Project archive
               </Link>
