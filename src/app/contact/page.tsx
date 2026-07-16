@@ -22,6 +22,10 @@ import { careerProfile } from "@/lib/career";
 const FORMBOLD_ENDPOINT = "https://formbold.com/s/6QZJn";
 const CAL_15MIN = "https://cal.com/pranaysuyash/15min";
 const CAL_30MIN = "https://cal.com/pranaysuyash/30min";
+const ROLE_EMAIL =
+  "mailto:pranay.suyash@gmail.com?subject=Senior%20product%20role%20conversation";
+const PROJECT_EMAIL =
+  "mailto:pranay.suyash@gmail.com?subject=Bounded%20commercial%20engagement";
 
 type ContactMode = "project" | "role";
 
@@ -83,7 +87,7 @@ export default function ContactPage() {
     setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("loading");
     setErrorMessage("");
@@ -177,8 +181,23 @@ export default function ContactPage() {
             </div>
           </div>
 
+          <noscript>
+            <div className="mb-8 rounded-xl border border-primary/30 bg-primary/[0.04] p-5 text-sm leading-7">
+              JavaScript is disabled, so the role/project selector cannot update this page. The form below still submits as a standard commercial enquiry. For precise routing, email a
+              {" "}<a href={ROLE_EMAIL} className="font-semibold text-primary underline underline-offset-4">senior role enquiry</a>
+              {" "}or a
+              {" "}<a href={PROJECT_EMAIL} className="font-semibold text-primary underline underline-offset-4">bounded commercial enquiry</a>.
+            </div>
+          </noscript>
+
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.12fr_0.88fr]">
-            <form onSubmit={handleSubmit} className="border-y py-8 md:px-7">
+            <form
+              action={FORMBOLD_ENDPOINT}
+              method="POST"
+              acceptCharset="UTF-8"
+              onSubmit={handleSubmit}
+              className="border-y py-8 md:px-7"
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
                 {roleMode ? "Role context" : "Commercial project brief"}
               </p>
