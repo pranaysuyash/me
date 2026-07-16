@@ -78,6 +78,9 @@ if (!book.includes("/books/no-claim-without-evidence/cover.svg")) {
 if (book.includes("/books/no-claim-without-evidence/cover.png")) {
   failures.push("book page still references the publication-only print cover");
 }
+if (!book.includes("/books/no-claim-without-evidence/opengraph-image")) {
+  failures.push("book page does not point social metadata to the generated preview");
+}
 
 const webCover = path.join(out, "books/no-claim-without-evidence/cover.svg");
 if (!fs.existsSync(webCover)) {
@@ -118,20 +121,33 @@ for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf", "
   }
 }
 
-const totalExportBytes = (() => {
-  let total = 0;
-  const walk = (directory) => {
-    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-      const full = path.join(directory, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else total += fs.statSync(full).size;
+const sizes = { total: 0, vendor: 0 };
+const vendorRoot = path.resolve(out, "vendor/three");
+const walkSize = (directory) => {
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const full = path.join(directory, entry.name);
+    if (entry.isDirectory()) walkSize(full);
+    else {
+      const size = fs.statSync(full).size;
+      sizes.total += size;
+      const resolved = path.resolve(full);
+      if (resolved === vendorRoot || resolved.startsWith(`${vendorRoot}${path.sep}`)) {
+        sizes.vendor += size;
+      }
     }
-  };
-  walk(out);
-  return total;
-})();
-if (totalExportBytes > 6_000_000) {
-  failures.push(`static export exceeds 6 MB budget: ${totalExportBytes} bytes`);
+  }
+};
+walkSize(out);
+const coreExportBytes = sizes.total - sizes.vendor;
+
+if (coreExportBytes > 4_800_000) {
+  failures.push(`core static site exceeds 4.8 MB budget: ${coreExportBytes} bytes`);
+}
+if (sizes.vendor > 2_200_000) {
+  failures.push(`self-hosted Three.js runtime exceeds 2.2 MB budget: ${sizes.vendor} bytes`);
+}
+if (sizes.total > 7_000_000) {
+  failures.push(`combined static export exceeds 7 MB budget: ${sizes.total} bytes`);
 }
 
 if (failures.length) {
@@ -140,5 +156,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image and Twitter image assets ${generatedMetadataImages.length}, total export ${totalExportBytes} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image and Twitter image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
 );
