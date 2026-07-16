@@ -4,6 +4,8 @@ import fs from "node:fs";
 
 const failures = [];
 
+const normalize = (value) => value.replace(/\s+/g, " ").trim();
+
 const read = (path) => {
   if (!fs.existsSync(path)) {
     failures.push(`missing quality source: ${path}`);
@@ -14,8 +16,11 @@ const read = (path) => {
 
 const requireTokens = (path, tokens) => {
   const content = read(path);
+  const normalized = normalize(content);
   for (const token of tokens) {
-    if (!content.includes(token)) failures.push(`${path} missing quality token: ${token}`);
+    if (!normalized.includes(normalize(token))) {
+      failures.push(`${path} missing quality token: ${token}`);
+    }
   }
   return content;
 };
@@ -24,7 +29,8 @@ const privacy = requireTokens("src/app/privacy/page.tsx", [
   "Analytics, cookies, and local preferences",
   "does not currently use advertising cookies",
   "third-party analytics",
-  "theme and an India or Global pricing selection",
+  "light or dark appearance",
+  "India or Global pricing selection",
   "Personal information is not sold to advertisers or data brokers",
 ]);
 
@@ -72,7 +78,7 @@ requireTokens("src/components/layout/navbar.tsx", [
   "Start role conversation",
   "Discuss a workflow",
   "Buy the book",
-  "aria-modal=\"true\"",
+  'aria-modal="true"',
   "trigger?.focus()",
 ]);
 
