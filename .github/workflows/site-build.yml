@@ -3,14 +3,13 @@ name: Site build
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: site-build-${{ github.ref }}
+  group: site-build-main
   cancel-in-progress: true
 
 jobs:
@@ -20,6 +19,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
