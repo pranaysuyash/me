@@ -9,6 +9,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { Button } from "@/components/ui/button";
 import { RegionalPricing } from "@/components/regional-pricing";
 import { careerProfile } from "@/lib/career";
@@ -101,6 +102,14 @@ const faq = [
   },
 ] as const;
 
+const serviceSections = [
+  { label: "Capabilities", href: "#capabilities" as const, description: "Document workflows, internal tools, local-first products, and simulation systems" },
+  { label: "Delivery model", href: "#delivery-model" as const, description: "How decisions, implementation, evidence, and handoff stay connected" },
+  { label: "Pricing", href: "#pricing" as const, description: "Regional engagement scopes and starting prices" },
+  { label: "Evidence", href: "#evidence" as const, description: "Selected work and maturity evidence" },
+  { label: "Questions", href: "#questions" as const, description: "Fit, availability, contracting, and scope boundaries" },
+] as const;
+
 export default function WorkWithMePage() {
   return (
     <PageLayout>
@@ -156,7 +165,9 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <SectionIndex items={serviceSections} label="Commercial engagement sections" />
+
+      <section id="capabilities" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="mb-12 max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Service hierarchy</p>
@@ -188,7 +199,7 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      <section className="border-y bg-muted/30 py-16 md:py-24">
+      <section id="delivery-model" className="scroll-mt-24 border-y bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
@@ -230,7 +241,7 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      <section className="border-y bg-[#0d1718] py-14 text-white">
+      <section id="evidence" className="scroll-mt-24 border-y bg-[#0d1718] py-14 text-white">
         <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-4 md:grid-cols-[1fr_auto] md:items-center md:px-6 lg:px-8">
           <div>
             <div className="flex items-center gap-3 text-teal-100/70">
@@ -247,7 +258,7 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section id="questions" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-3xl px-4 md:px-6 lg:px-8">
           <h2 className="text-3xl font-bold tracking-tight">Questions about commercial engagements</h2>
           <div className="mt-8 divide-y border-y">
