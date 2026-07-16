@@ -48,19 +48,33 @@ jobs:
           set -o pipefail
           npm run site:verify 2>&1 | tee site-verify.log
 
+      - name: Smoke-test the generated static export over HTTP
+        id: smoke
+        if: steps.canonical.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run site:smoke 2>&1 | tee site-smoke.log
+
       - name: Publish canonical verification status
         if: always()
+        continue-on-error: true
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           VERIFY_OUTCOME: ${{ steps.canonical.outcome }}
+          SMOKE_OUTCOME: ${{ steps.smoke.outcome }}
         run: |
-          if [ "$VERIFY_OUTCOME" = "success" ]; then
+          if [ "$VERIFY_OUTCOME" = "success" ] && [ "$SMOKE_OUTCOME" = "success" ]; then
             STATE="success"
-            DESCRIPTION="Canonical npm run site:verify passed"
-          else
+            DESCRIPTION="Canonical verification and HTTP smoke test passed"
+          elif [ "$VERIFY_OUTCOME" != "success" ]; then
             STATE="failure"
             DESCRIPTION="Canonical npm run site:verify failed"
+          else
+            STATE="failure"
+            DESCRIPTION="Static export HTTP smoke test failed"
           fi
 
           jq -n \
@@ -79,12 +93,14 @@ jobs:
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
             --data-binary @status.json
 
-      - name: Upload verification log
+      - name: Upload verification logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: site-verify-log-${{ github.sha }}
-          path: site-verify.log
+          path: |
+            site-verify.log
+            site-smoke.log
           if-no-files-found: error
           retention-days: 3
 
@@ -97,6 +113,6 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
-      - name: Fail workflow when canonical verification failed
-        if: steps.canonical.outcome == 'failure'
+      - name: Fail workflow when canonical verification or smoke testing failed
+        if: steps.canonical.outcome == 'failure' || steps.smoke.outcome == 'failure'
         run: exit 1
