@@ -1,0 +1,59 @@
+# Pranay Suyash
+
+> Product leader and hands-on systems builder for AI, workflow, internal tools, local-first products, and spatial systems.
+
+Canonical site: https://pranaysuyash.com
+Last evidence review: 2026-07-16
+
+## Primary professional routes
+
+- Home: https://pranaysuyash.com/
+- Experience and role fit: https://pranaysuyash.com/hire-me
+- Selected work: https://pranaysuyash.com/work
+- Professional proof ledger: https://pranaysuyash.com/proof
+- About and public evidence: https://pranaysuyash.com/about
+- Commercial services: https://pranaysuyash.com/work-with-me
+- Document workflow offer: https://pranaysuyash.com/document-workflows
+- Contact: https://pranaysuyash.com/contact
+- Accessibility statement: https://pranaysuyash.com/accessibility
+
+## Professional case study
+
+- MedPiper insurance workflow transformation: https://pranaysuyash.com/work/medpiper-workflow
+  - Status: production workflow transformation
+  - Claim boundary: intentionally sanitized aggregate workflow and ownership evidence
+  - Recorded outcome: roughly four weeks to roughly ten days
+
+## Audited product case studies
+
+- SignKit: https://pranaysuyash.com/work/sig-ext-fastapi
+  - Maturity: commercial product
+  - Boundary: local signature-image extraction, cleanup, and PDF placement; not certified e-signature verification
+- MetaExtract: https://pranaysuyash.com/work/metaextract
+  - Maturity: working product build
+  - Boundary: metadata coverage, provenance, review and export; field count is not verified correctness
+- SentinelTwin: https://pranaysuyash.com/work/sentineltwin
+  - Maturity: active platform build
+  - Boundary: deterministic coverage and path reasoning before AI explanation
+- EchoPanel: https://pranaysuyash.com/work/echopanel
+  - Maturity: working prototype
+  - Boundary: local capture, transcription and retrieval direction; system-audio setup and production packaging remain active work
+
+## Publication
+
+- No Claim Without Evidence: https://pranaysuyash.com/books/no-claim-without-evidence
+- Sample chapter: https://pranaysuyash.com/books/no-claim-without-evidence/sample
+
+## Machine-readable profile
+
+- JSON Resume: https://pranaysuyash.com/resume.json
+- PDF resume: https://pranaysuyash.com/pranay-suyash-resume.pdf
+- Sitemap: https://pranaysuyash.com/sitemap.xml
+
+## Evidence rules
+
+- Production, commercial, active-build, and prototype states are not interchangeable.
+- Workflow diagrams are labelled as diagrams, not product screenshots.
+- Source, tests, runbooks, architecture records, and independent public records are linked where available.
+- Testimonials, customer counts, adoption metrics, and certification claims are omitted without permissioned evidence.
+- The interactive systems lab is illustrative progressive enhancement; standard HTML case studies are the source of truth.
