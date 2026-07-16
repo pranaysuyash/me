@@ -10,6 +10,7 @@ import {
   Twitter,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { SectionIndex } from "@/components/section-index";
 import { careerProfile, experienceTimeline, publicEvidence } from "@/lib/career";
 
 export const metadata: Metadata = {
@@ -18,6 +19,13 @@ export const metadata: Metadata = {
     "The career path, working style, operating principles, and professional context behind Pranay Suyash's product leadership and hands-on system building.",
   alternates: { canonical: "https://pranaysuyash.com/about" },
 };
+
+const aboutSections = [
+  { label: "Career path", href: "#career-path" as const, description: "How each career chapter added a different kind of ownership" },
+  { label: "Public evidence", href: "#public-evidence" as const, description: "Independent records and source repositories" },
+  { label: "Working style", href: "#working-style" as const, description: "What working with Pranay feels like" },
+  { label: "Ways to work", href: "#ways-to-work" as const, description: "Internal role versus bounded commercial engagement" },
+] as const;
 
 export default function AboutPage() {
   return (
@@ -74,7 +82,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <SectionIndex items={aboutSections} />
+
+      <section id="career-path" className="scroll-mt-24 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">How the career connects</p>
@@ -100,7 +110,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y bg-[#102022] py-14 text-white md:py-18">
+      <section id="public-evidence" className="scroll-mt-24 border-y bg-[#102022] py-14 text-white md:py-18">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.68fr_1.32fr]">
             <div>
@@ -137,7 +147,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-b bg-muted/30 py-16 md:py-24">
+      <section id="working-style" className="scroll-mt-24 border-b bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto max-w-[1180px] px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
