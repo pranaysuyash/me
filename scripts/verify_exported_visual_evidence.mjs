@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import "./prune_static_artifacts.mjs";
 
 const root = process.cwd();
 const out = path.join(root, "out");
@@ -201,5 +202,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Exported visual validation passed: audited maps and revision-pinned implementation evidence are labelled, the complete Three.js runtime is versioned behind stable same-origin wrappers, obsolete remote assets are absent, CSP is present, and the lab fails open to case studies.",
+  "Exported visual validation passed after safe pruning: audited maps and revision-pinned implementation evidence are labelled, the complete Three.js runtime is versioned behind stable same-origin wrappers, obsolete remote assets are absent, CSP is present, and the lab fails open to case studies.",
 );
