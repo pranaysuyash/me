@@ -4,12 +4,13 @@ import fs from "node:fs";
 
 const failures = [];
 const now = new Date();
-const maxAgeDays = 180;
+const maxAgeDays = 90;
 
 const portfolio = fs.readFileSync("src/lib/portfolio.ts", "utf8");
 const resume = JSON.parse(fs.readFileSync("public/resume.json", "utf8"));
 const llms = fs.readFileSync("public/llms.txt", "utf8");
 const footer = fs.readFileSync("src/components/layout/footer.tsx", "utf8");
+const proofPage = fs.readFileSync("src/app/proof/page.tsx", "utf8");
 
 const dates = [...portfolio.matchAll(/evidenceReviewedAt:\s*"(\d{4}-\d{2}-\d{2})"/g)].map(
   (match) => match[1],
@@ -25,7 +26,7 @@ for (const date of dates) {
   if (!Number.isFinite(ageDays) || ageDays < 0) {
     failures.push(`invalid or future evidence review date: ${date}`);
   } else if (ageDays > maxAgeDays) {
-    failures.push(`audited evidence is stale: ${date} is ${ageDays} days old`);
+    failures.push(`audited evidence is stale: ${date} is ${ageDays} days old; maximum is ${maxAgeDays}`);
   }
 }
 
@@ -42,7 +43,7 @@ for (const revision of revisions) {
   }
 }
 
-const evidenceLinks = [...portfolio.matchAll(/href:\s*"(https:\/\/github\.com\/[^\"]+\/blob\/[a-f0-9]{40}\/[^\"]+)"/g)].map(
+const evidenceLinks = [...portfolio.matchAll(/href:\s*"(https:\/\/github\.com\/[^"]+\/blob\/[a-f0-9]{40}\/[^"]+)"/g)].map(
   (match) => match[1],
 );
 if (evidenceLinks.length < 16) {
@@ -67,6 +68,14 @@ for (const token of [
 
 if (!footer.includes("Portfolio evidence reviewed 16 July 2026")) {
   failures.push("footer freshness statement is missing or inconsistent");
+}
+
+for (const token of [
+  "90-day maximum review window",
+  "Material product or maturity changes trigger an immediate review",
+  "Career and commercial claims are reviewed when the underlying fact changes",
+]) {
+  if (!proofPage.includes(token)) failures.push(`proof ledger freshness policy missing: ${token}`);
 }
 
 if (failures.length) {
