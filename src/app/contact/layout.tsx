@@ -26,5 +26,18 @@ export const metadata: Metadata = {
 export default function ContactLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return children;
+  return (
+    <>
+      <noscript>
+        <div className="border-b bg-amber-50 px-4 py-3 text-center text-sm text-amber-950">
+          The enquiry form needs JavaScript. Email{" "}
+          <a className="font-semibold underline underline-offset-4" href="mailto:pranay.suyash@gmail.com">
+            pranay.suyash@gmail.com
+          </a>{" "}
+          instead.
+        </div>
+      </noscript>
+      {children}
+    </>
+  );
 }
