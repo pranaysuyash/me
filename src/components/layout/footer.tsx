@@ -47,6 +47,9 @@ export function Footer() {
             <p className="mt-5 max-w-sm text-sm leading-7 text-muted-foreground">
               Product leadership and hands-on system building across AI, workflow, internal tools, and local-first products.
             </p>
+            <p className="mt-3 max-w-sm text-xs leading-5 text-muted-foreground">
+              Case studies link to inspectable implementation records, reviewed revisions, and explicit maturity boundaries.
+            </p>
             <p className="mt-3 text-xs text-muted-foreground">Portfolio evidence reviewed 16 July 2026.</p>
           </div>
 
