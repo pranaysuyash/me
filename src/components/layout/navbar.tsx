@@ -95,6 +95,7 @@ export function Navbar() {
     if (!mobileMenuOpen) return;
 
     const previousOverflow = document.body.style.overflow;
+    const trigger = menuButtonRef.current;
     document.body.style.overflow = "hidden";
 
     const panel = mobilePanelRef.current;
@@ -127,7 +128,7 @@ export function Navbar() {
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
-      menuButtonRef.current?.focus();
+      trigger?.focus();
     };
   }, [mobileMenuOpen]);
 
