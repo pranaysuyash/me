@@ -66,11 +66,13 @@ The following `main` commits carried forward the useful intent while removing th
 - `b83eb2c4597701af12c0e7d4b9457a94dc3ef362` — added portable product-lab syntax validation.
 - `a746914ced737e0a6538e29590fd94ddb0925d12` — created this durable recovery audit.
 - `2e92d962ddc3b3d67063f7b97729434fe1936ac2` — aligned the source validator with the current lint and lab-aware release command.
-- `d382559d3f636444175fcc06c57aca40d3f3c280` — removed the pull-request trigger from the canonical release workflow and pinned checkout to `main`.
+- `d382559d3f636444175fcc06c57aca40d3f3c280` — removed the pull-request trigger from the canonical release workflow.
 - `1cd2e3f6eed3c44e9e552f7ba0c737603c37fad2` — bound the recovery audit and main-only workflow rule into the quality contract.
 - `10743a677f94b0215b8810ba0deae945205ae556` — made the source validator reject PR-triggered release or diagnostic workflows.
+- `384af85c3de0cd6cbf5b0c25deeea24bd08bea54` — made automated CI validate the exact triggering commit instead of a potentially newer `main` ref.
+- `613b8b5314a15371fb9e28fce269b445b9889ace` — bound exact-commit checkout semantics into the source contract.
 
-The canonical release command is now responsible for linting, TypeScript, portfolio contracts, publication validation, the production build, exported-site checks, and product-lab syntax. Both automated and manual workflows delegate to that command and operate on `main`.
+The canonical release command is now responsible for linting, TypeScript, portfolio contracts, publication validation, the production build, exported-site checks, and product-lab syntax. Both automated and manual workflows delegate to that command. Automated CI is restricted to `main` and validates the event SHA; manual diagnostics explicitly check out current `main`.
 
 ## Historical-work conclusion
 
