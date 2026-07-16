@@ -17,7 +17,7 @@ import { careerProfile, education, experienceTimeline } from "@/lib/career";
 export const metadata: Metadata = {
   title: "Experience | Product Leadership and Hands-on System Building",
   description:
-    "Role fit, leadership scope, experience, outcomes, and selected evidence for senior product, AI product, and product-systems roles.",
+    "Role fit, leadership scope, experience, outcomes, and selected evidence for sustained senior product, AI product, and product-systems ownership.",
   alternates: { canonical: "https://pranaysuyash.com/hire-me" },
   openGraph: {
     title: "Experience | Pranay Suyash",
@@ -34,7 +34,7 @@ export default function HireMePage() {
       <section className="border-b bg-[#0d1718] text-white">
         <div className="container mx-auto max-w-[1280px] px-4 py-16 md:px-6 md:py-24 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-100/70">
-            For hiring teams
+            For hiring teams · sustained internal ownership
           </p>
           <div className="mt-5 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px] lg:items-start">
             <div>
@@ -46,9 +46,14 @@ export default function HireMePage() {
                 ambiguous operational problems, incomplete requirements, multiple stakeholders, and a
                 need to turn all of that into working software.
               </p>
+              <p className="mt-4 max-w-4xl text-sm leading-7 text-teal-50/58">
+                This page is for teams considering an ongoing internal mandate across product direction,
+                platform choices, cross-functional execution, and what the organisation learns after launch.
+                For a bounded workflow, subsystem, or advisory outcome, <Link href="/work-with-me" className="font-semibold text-teal-100 underline underline-offset-4">review commercial engagements instead</Link>.
+              </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <Button asChild size="lg" className="rounded-md px-7">
-                  <Link href="/contact?type=call&source=experience">
+                  <Link href="/contact?type=role&source=experience">
                     Start a role conversation <Calendar className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -225,12 +230,12 @@ export default function HireMePage() {
               <p className="text-xs font-semibold uppercase tracking-[0.18em]">Next conversation</p>
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight md:text-3xl">
-              Share the role, product problem, and where ownership currently breaks down.
+              Share the role, product problem, and where sustained ownership currently breaks down.
             </h2>
           </div>
           <Button asChild variant="outline" className="border-white/25 bg-white/[0.04] text-white hover:bg-white/[0.09]">
-            <Link href="/contact?type=call&source=experience-bottom">
-              Start a conversation <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href="/contact?type=role&source=experience-bottom">
+              Start a role conversation <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
