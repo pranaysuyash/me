@@ -93,11 +93,32 @@ requireTokens("src/components/layout/navbar.tsx", [
 ]);
 forbidTokens("src/components/layout/navbar.tsx", ['label: "Discuss a project"']);
 
+requireTokens("public/llms.txt", [
+  "## Professional identity",
+  "## Work modes",
+  "Senior internal role: sustained ownership",
+  "Bounded commercial engagement:",
+  "PSRS Technologies Private Limited",
+  "Contact and explicit work-mode selector",
+]);
+
+requireTokens("docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md", [
+  "One identity and two commitment models",
+  "The capability is the same. The accountability horizon is different.",
+  "What is still preventing 10/10",
+  "Current copy verdict",
+]);
+
+requireTokens("package.json", [
+  '"positioning:validate": "node scripts/verify_positioning_contract.mjs"',
+  '"preportfolio:validate": "npm run positioning:validate"',
+]);
+
 if (failures.length) {
   console.error(`Positioning contract validation failed:\n${failures.join("\n")}`);
   process.exit(1);
 }
 
 console.log(
-  "Positioning contract validation passed: personal working style, sustained-role ownership, bounded commercial engagements, explicit contact self-routing, and neutral generic navigation remain distinct and coherent.",
+  "Positioning contract validation passed: personal working style, sustained-role ownership, bounded commercial engagements, explicit contact self-routing, neutral generic navigation, and machine-readable identity remain distinct and coherent.",
 );
