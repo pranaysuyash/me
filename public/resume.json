@@ -1,0 +1,151 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "meta": {
+    "canonical": "https://pranaysuyash.com/resume.json",
+    "lastReviewed": "2026-07-16",
+    "evidenceLedger": "https://pranaysuyash.com/proof"
+  },
+  "basics": {
+    "name": "Pranay Suyash",
+    "label": "Product leader and hands-on systems builder",
+    "email": "pranay.suyash@gmail.com",
+    "url": "https://pranaysuyash.com",
+    "summary": "Product leader with 14+ years across software engineering, Big Four transformation, and a YC-backed healthcare company. Works across product strategy, workflow design, architecture, and hands-on implementation for AI-assisted systems, internal tools, document workflows, local-first products, and spatial systems.",
+    "location": {
+      "city": "Bengaluru",
+      "countryCode": "IN",
+      "region": "Karnataka"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "pranaysuyash",
+        "url": "https://linkedin.com/in/pranaysuyash"
+      },
+      {
+        "network": "GitHub",
+        "username": "pranaysuyash",
+        "url": "https://github.com/pranaysuyash"
+      },
+      {
+        "network": "X",
+        "username": "pranaysuyash",
+        "url": "https://x.com/pranaysuyash"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "MedPiper Technologies",
+      "position": "Co-Founder / Head of Product & Platforms",
+      "url": "https://www.ycombinator.com/companies/medpiper-technologies",
+      "startDate": "2020",
+      "summary": "Product strategy, platform architecture, workflow automation, new verticals, AI experimentation, growth initiatives, and regulated-context operating programmes at a YC S20 healthcare and insurance company.",
+      "highlights": [
+        "Helped build the platform from the ground up and scale the company to approximately $1M ARR.",
+        "Reduced insurance sales and operations turnaround from roughly four weeks to roughly ten days.",
+        "Owned three product lines and worked across product, engineering, operations, and later-stage AI experiments.",
+        "Helped grow the organisation from two co-founders to 45 people at peak.",
+        "Led or supported ISO 27001 recertification and SOC 2 programmes."
+      ]
+    },
+    {
+      "name": "EY India",
+      "position": "Senior Business Consultant — SAP Sales & Distribution",
+      "startDate": "2015",
+      "endDate": "2020",
+      "summary": "Requirements, process mapping, blueprinting, solution design, testing, rollout, and end-user enablement for retail and consumer businesses.",
+      "highlights": [
+        "Delivered SAP Sales & Distribution implementations for retail and consumer clients.",
+        "Contributed to more than $2M in savings through process re-engineering and workflow improvement initiatives.",
+        "Received multiple EY Excellence Awards for client delivery and team contributions."
+      ]
+    },
+    {
+      "name": "Wipro Technologies",
+      "position": "Software Engineer",
+      "startDate": "2010",
+      "endDate": "2013",
+      "summary": "Automation frameworks, document processing, data pipelines, and metadata layers for telecom systems.",
+      "highlights": [
+        "Built automation that reduced repetitive telecom document-processing work.",
+        "Implemented data pipelines and metadata layers for network inventory workflows."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "FORE School of Management",
+      "area": "Management",
+      "studyType": "PGDM",
+      "startDate": "2013",
+      "endDate": "2015"
+    },
+    {
+      "institution": "Amity School of Engineering & Technology",
+      "area": "Computer Science",
+      "studyType": "B.Tech",
+      "startDate": "2006",
+      "endDate": "2010"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Product leadership",
+      "keywords": ["Product strategy", "Discovery", "Prioritisation", "Workflow design", "Cross-functional ownership"]
+    },
+    {
+      "name": "Applied AI systems",
+      "keywords": ["Document intelligence", "RAG", "Evaluation", "Evidence links", "Human review", "Fallback design"]
+    },
+    {
+      "name": "Product systems",
+      "keywords": ["Internal tools", "Workflow automation", "Local-first products", "Spatial simulation"]
+    },
+    {
+      "name": "Technical",
+      "keywords": ["Python", "TypeScript", "React", "FastAPI", "Swift", "SQL", "Docker"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "MedPiper insurance workflow transformation",
+      "description": "Sanitized professional case study covering workflow redesign, ownership, automation, regulated context, and a turnaround reduction from roughly four weeks to roughly ten days.",
+      "url": "https://pranaysuyash.com/work/medpiper-workflow",
+      "roles": ["Product leadership", "Workflow design", "Platform ownership"]
+    },
+    {
+      "name": "SignKit",
+      "description": "Commercial local-first desktop product for signature-image extraction, cleanup, and PDF placement.",
+      "url": "https://pranaysuyash.com/work/sig-ext-fastapi",
+      "roles": ["Product owner", "Hands-on builder"]
+    },
+    {
+      "name": "MetaExtract",
+      "description": "Working product build for structured file metadata, provenance, review, and export.",
+      "url": "https://pranaysuyash.com/work/metaextract",
+      "roles": ["Product design", "System architecture"]
+    },
+    {
+      "name": "SentinelTwin",
+      "description": "Active spatial-security platform build for editable scenes, deterministic coverage reasoning, paths, and comparison.",
+      "url": "https://pranaysuyash.com/work/sentineltwin",
+      "roles": ["Product architecture", "Hands-on platform development"]
+    },
+    {
+      "name": "EchoPanel",
+      "description": "Working macOS prototype for local capture, transcription, transcript navigation, and retrieval.",
+      "url": "https://pranaysuyash.com/work/echopanel",
+      "roles": ["Product design", "Prototype implementation"]
+    }
+  ],
+  "publications": [
+    {
+      "name": "No Claim Without Evidence",
+      "publisher": "Pranay Suyash",
+      "releaseDate": "2026",
+      "url": "https://pranaysuyash.com/books/no-claim-without-evidence",
+      "summary": "A 19-chapter field guide to evidence links, evaluation contracts, review rules, action traces, and release gates for AI-assisted workflows."
+    }
+  ]
+}
