@@ -5,7 +5,8 @@ export const careerProfile = {
   location: "Bengaluru, India · Remote and distributed teams",
   currentContext: "Co-Founder / Head of Product & Platforms at MedPiper (YC S20)",
   headline: "I turn messy operational workflows into reviewable AI and product systems.",
-  summary: "I work across product strategy, workflow design, architecture, and implementation. My background spans software engineering, Big Four transformation, and product leadership inside a YC-backed healthcare company.",
+  summary:
+    "I move between the user workflow, business problem, interface, architecture, and code because separating those decisions too early is often where products become expensive or unusable. My background spans software engineering, Big Four transformation, and product leadership inside a YC-backed healthcare company.",
   targetRoles: [
     "AI Product Lead",
     "Principal Product Manager",
@@ -13,7 +14,28 @@ export const careerProfile = {
     "Head of Product for workflow-heavy products",
     "Founding product and engineering operator",
   ],
-  availability: "Open to selective senior product conversations and bounded build or advisory engagements. Current commitments and transition timing are discussed directly.",
+  availability:
+    "Open to selective senior product roles with a clear long-term mandate, meaningful ownership, and room to stay close to implementation. Transition timing is discussed directly.",
+  workModePrinciple:
+    "The capability is the same; the accountability horizon is different. Hire me for sustained internal ownership. Use a commercial engagement for a bounded workflow, system, or decision.",
+  workingStyle: [
+    {
+      title: "I ask for the real artefacts early",
+      body: "Files, screens, calls, data, support cases, constraints, and edge conditions are more useful than polished requirements created at a distance.",
+    },
+    {
+      title: "I move between layers",
+      body: "I am comfortable discussing the commercial goal, mapping the workflow, shaping the interface, reviewing architecture, and writing enough code to test the decision.",
+    },
+    {
+      title: "I am direct about uncertainty",
+      body: "I separate what is known, inferred, and still risky. I would rather narrow a claim or scope than decorate it with confidence theatre.",
+    },
+    {
+      title: "I like taking things end to end",
+      body: "The work includes the unglamorous parts: error states, packaging, documentation, release gates, handoff, and the follow-through required for people to use the product.",
+    },
+  ],
   proofPoints: [
     { value: "14+ years", label: "Software, consulting, product, and operating leadership" },
     { value: "~4 weeks → ~10 days", label: "Insurance workflow turnaround after redesign and automation" },
@@ -40,17 +62,17 @@ export const careerProfile = {
   audiencePaths: [
     {
       label: "For hiring teams",
-      title: "Senior product ownership with visible execution",
-      body: "Role fit, leadership scope, experience, and a resume for teams evaluating product-system leadership.",
+      title: "Sustained ownership inside the team",
+      body: "Hire me when the need is ongoing: product direction, platform decisions, cross-functional execution, and a team that must keep learning after launch.",
       href: "/hire-me",
-      action: "Review experience",
+      action: "Review role fit and experience",
     },
     {
-      label: "For founders and operators",
-      title: "A scoped system for a real workflow",
-      body: "Document workflows, internal tools, local-first products, and decision systems delivered through a separate commercial engagement.",
+      label: "For commercial engagements",
+      title: "A defined system, workflow, or difficult product boundary",
+      body: "Use a separate engagement when the outcome is bounded: map the operating workflow, build a focused system, or correct a difficult subsystem. Commercial terms are handled separately through PSRS Technologies Private Limited where applicable.",
       href: "/work-with-me",
-      action: "Review engagement paths",
+      action: "Review commercial engagements",
     },
   ],
 } as const;
