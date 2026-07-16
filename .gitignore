@@ -17,6 +17,10 @@ build/
 # scripts/generate_resume_pdf.py; npm run build regenerates the PDF.
 public/pranay-suyash-resume.pdf
 
+# Vendored Three.js runtime. scripts/vendor_three.py downloads and validates
+# the pinned version before every build; the generated runtime is not source.
+public/vendor/three/
+
 # The ebook dist/ directory is intentionally source-controlled because it
 # contains customer deliverables. Intermediate render files live under tmp/.
 tmp/
