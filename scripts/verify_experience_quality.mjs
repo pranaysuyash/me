@@ -96,8 +96,8 @@ requireTokens("src/components/layout/navbar.tsx", [
 requireTokens("src/components/section-index.tsx", [
   'aria-label={label}',
   "overflow-x-auto",
+  "shrink-0 rounded-full",
   "focus-visible:ring-2",
-  "String(index + 1).padStart",
 ]);
 
 requireTokens("src/app/about/page.tsx", [
