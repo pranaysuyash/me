@@ -176,7 +176,7 @@ export default function Home() {
               <h2 className="mt-4 text-3xl font-bold tracking-[-0.035em] md:text-5xl">Commercial proof, applied AI, and frontier systems.</h2>
             </div>
             <p className="max-w-3xl text-sm leading-7 text-muted-foreground lg:justify-self-end md:text-base md:leading-8">
-              Flagship maturity is explicit here; full decisions, boundaries, captions, and implementation links remain on the case-study pages.
+              Flagship maturity is explicit here; inspectable implementation records, decisions, and boundaries remain on the case-study pages.
             </p>
           </div>
 
@@ -194,7 +194,10 @@ export default function Home() {
                       sizes="(min-width: 1024px) 33vw, 100vw"
                       className={visual.kind === "product-screenshot" ? "object-cover object-top" : "object-contain p-2"}
                     />
-                    <span className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.13em] text-white/72 backdrop-blur-sm">
+                    <span
+                      aria-label={visual.caption}
+                      className="absolute right-3 top-3 rounded-full border border-white/15 bg-black/35 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.13em] text-white/72 backdrop-blur-sm"
+                    >
                       {visual.kind === "product-screenshot" ? "Product screenshot" : "Workflow map"}
                     </span>
                   </div>
