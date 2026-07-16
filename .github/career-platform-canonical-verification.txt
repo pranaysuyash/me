@@ -1,0 +1,3 @@
+Canonical career platform verification
+Source: 35e27d04a18002c8fb218bafa43d507f749d2564
+Command: npm run site:verify
