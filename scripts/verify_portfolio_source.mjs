@@ -297,12 +297,12 @@ requireTokens(".github/workflows/site-build.yml", [
   "push:",
   "branches: [main]",
   "workflow_dispatch:",
-  "ref: main",
+  "Check out triggering commit",
   "Run canonical career-platform release contract",
   "npm run site:verify 2>&1 | tee site-verify.log",
   "verified-static-site-${{ github.sha }}",
 ]);
-forbidTokens(".github/workflows/site-build.yml", ["pull_request:"]);
+forbidTokens(".github/workflows/site-build.yml", ["pull_request:", "ref: main"]);
 
 requireTokens(".github/workflows/site-diagnostics.yml", [
   "workflow_dispatch:",
@@ -365,5 +365,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, canonical lint and lab validation, main-only workflows, PR recovery documentation, and deployment contract are intact.",
+  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, canonical lint and lab validation, main-only workflows, exact-commit CI, PR recovery documentation, and deployment contract are intact.",
 );
