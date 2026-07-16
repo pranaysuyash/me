@@ -36,7 +36,22 @@ jobs:
       - name: Generate build identity
         run: python3 scripts/generate_build_manifest.py
       - name: Export Next.js site without lifecycle hooks
-        run: npx next build
+        id: nextbuild
+        continue-on-error: true
+        run: npx next build > next-build.log 2>&1
+      - name: Upload raw build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build-log-${{ github.sha }}
+          path: next-build.log
+          if-no-files-found: error
+          retention-days: 1
+      - name: Fail when Next build failed
+        if: steps.nextbuild.outcome == 'failure'
+        run: |
+          tail -n 120 next-build.log
+          exit 1
       - name: Verify exported visual evidence
         run: node scripts/verify_exported_visual_evidence.mjs
       - name: Verify static budgets
