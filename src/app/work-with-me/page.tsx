@@ -11,11 +11,12 @@ import {
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { RegionalPricing } from "@/components/regional-pricing";
+import { careerProfile } from "@/lib/career";
 
 export const metadata: Metadata = {
-  title: "Services | Document Workflows, Internal Tools, and Local-first Products",
+  title: "Commercial Engagements | Document Workflows, Internal Tools, and Local-first Products",
   description:
-    "Scoped product and system engagements for document-heavy workflows, AI-assisted internal tools, local-first desktop products, and advanced simulation systems.",
+    "Bounded commercial engagements for document-heavy workflows, AI-assisted internal tools, local-first desktop products, and advanced simulation systems.",
   alternates: { canonical: "https://pranaysuyash.com/work-with-me" },
 };
 
@@ -75,12 +76,20 @@ const workingModel = [
 
 const faq = [
   {
+    question: "Is this the same as hiring you into a role?",
+    answer: "No. This path is for a bounded commercial outcome with explicit scope, delivery evidence, and an end condition. If the real need is ongoing ownership across team, roadmap, platform, and repeated product decisions, review the Experience page instead.",
+  },
+  {
     question: "Do you only build AI products?",
     answer: "No. AI is one component when it improves the workflow. Deterministic software, rules, search, data pipelines, and operator tools are often equally important.",
   },
   {
     question: "Can you work inside an existing product and codebase?",
     answer: "Yes. A bounded workflow, subsystem, architecture correction, or difficult operator surface inside an existing stack is often a better engagement than starting from zero.",
+  },
+  {
+    question: "How do current commitments affect availability?",
+    answer: "I do not present immediate or unlimited availability. Capacity, confidentiality, conflicts, delivery timing, and transition constraints are discussed before scope is accepted.",
   },
   {
     question: "What makes a project a poor fit?",
@@ -100,7 +109,7 @@ export default function WorkWithMePage() {
         <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-[1fr_360px] lg:px-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-teal-100/70">
-              Scoped product and system engagements
+              Bounded commercial engagements
             </p>
             <h1 className="mt-5 max-w-5xl text-4xl font-bold tracking-[-0.045em] sm:text-5xl md:text-6xl">
               Build the system behind the workflow, not another disconnected feature.
@@ -110,10 +119,14 @@ export default function WorkWithMePage() {
               and the useful software boundary is not obvious yet. The engagement connects workflow
               discovery, product decisions, implementation, and operating evidence.
             </p>
+            <p className="mt-4 max-w-4xl text-sm leading-7 text-teal-50/58">
+              This page is for a defined commercial outcome. If the real need is sustained internal
+              ownership across team, roadmap, and platform, <Link href="/hire-me" className="font-semibold text-teal-100 underline underline-offset-4">review Experience instead</Link>.
+            </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg" className="rounded-md px-7">
                 <Link href="/contact?type=project&source=services">
-                  Discuss a workflow <ArrowRight className="ml-2 h-4 w-4" />
+                  Discuss a commercial engagement <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -135,6 +148,9 @@ export default function WorkWithMePage() {
             <p className="mt-4 text-sm leading-7 text-white/60">
               Start with users, source material, handoffs, failures, and what a useful outcome would change.
               A polished requirements document is not necessary.
+            </p>
+            <p className="mt-5 border-t border-white/12 pt-5 text-sm leading-7 text-white/55">
+              {careerProfile.workModePrinciple}
             </p>
           </aside>
         </div>
@@ -233,7 +249,7 @@ export default function WorkWithMePage() {
 
       <section className="py-16 md:py-24">
         <div className="container mx-auto max-w-3xl px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight">Questions buyers usually ask</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Questions about commercial engagements</h2>
           <div className="mt-8 divide-y border-y">
             {faq.map((item) => (
               <div key={item.question} className="py-6">
