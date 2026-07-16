@@ -29,7 +29,7 @@ function primaryAction(pathname: string) {
   if (pathname.startsWith("/hire-me")) {
     return {
       label: "Start role conversation",
-      href: "/contact?type=call&source=nav",
+      href: "/contact?type=role&source=nav",
       context: "hiring",
       icon: BriefcaseBusiness,
     };
@@ -53,19 +53,10 @@ function primaryAction(pathname: string) {
     };
   }
 
-  if (pathname.startsWith("/about")) {
-    return {
-      label: "Start a conversation",
-      href: "/contact?source=about-nav",
-      context: "general",
-      icon: ArrowRight,
-    };
-  }
-
   return {
-    label: "Discuss a project",
-    href: "/contact?type=project&source=nav",
-    context: "project",
+    label: "Choose how to work together",
+    href: "/about#ways-to-work",
+    context: "choice",
     icon: ArrowRight,
   };
 }
