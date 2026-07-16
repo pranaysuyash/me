@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ExternalLink, Github } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarCheck2,
+  ExternalLink,
+  Github,
+} from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import projectsData from "@/content/projects.json";
@@ -17,6 +23,14 @@ type ArchiveProject = (typeof projectsData.projects)[number] & {
 };
 
 const baseUrl = "https://pranaysuyash.com";
+
+const evidenceKindLabel = {
+  source: "Source",
+  test: "Executable test",
+  architecture: "Architecture",
+  runbook: "Runbook",
+  "public-surface": "Public surface",
+} as const;
 
 export function generateStaticParams() {
   const slugs = new Set([
@@ -143,6 +157,9 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
               <span className="rounded-full border border-white/16 px-3 py-1 text-xs text-white/65">
                 {project.maturity}
               </span>
+              <span className="inline-flex items-center rounded-full border border-white/16 px-3 py-1 text-xs text-white/55">
+                <CalendarCheck2 className="mr-1.5 h-3.5 w-3.5" /> Evidence reviewed {project.evidenceReviewedAt}
+              </span>
             </div>
             <h1 className="mt-5 text-4xl font-bold tracking-[-0.04em] sm:text-5xl md:text-6xl">{project.title}</h1>
             <p className="mt-6 max-w-4xl text-lg leading-8 text-white/70">{project.summary}</p>
@@ -203,7 +220,41 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
           </div>
         </section>
 
-        <section className="border-y bg-muted/30 py-16 md:py-24">
+        <section className="border-y bg-[#102022] py-14 text-white md:py-18">
+          <div className="container mx-auto max-w-[1120px] px-4 md:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.65fr_1.35fr]">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-teal-100/70">Inspectable implementation evidence</p>
+                <h2 className="mt-4 text-3xl font-bold tracking-tight">Follow the claim into source, tests, or architecture.</h2>
+                <p className="mt-4 text-sm leading-7 text-white/58">
+                  Links are pinned to the source revision reviewed for this case study: <span className="font-mono text-xs text-white/72">{project.sourceRevision.slice(0, 12)}</span>.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-white/12 bg-white/12 sm:grid-cols-2">
+                {project.implementationEvidence.map((evidence) => (
+                  <Link
+                    key={evidence.href}
+                    href={evidence.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group bg-[#0d1718] p-6 transition-colors hover:bg-[#13282a]"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-teal-100/65">
+                        {evidenceKindLabel[evidence.kind]}
+                      </span>
+                      <ExternalLink className="h-4 w-4 text-white/35 transition-colors group-hover:text-teal-100" />
+                    </div>
+                    <h3 className="mt-4 font-semibold text-white">{evidence.label}</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/55">{evidence.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b bg-muted/30 py-16 md:py-24">
           <div className="container mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[0.75fr_1.25fr] lg:px-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">What exists now</p>
