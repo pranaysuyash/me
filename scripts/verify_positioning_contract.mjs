@@ -102,6 +102,22 @@ requireTokens("public/llms.txt", [
   "Contact and explicit work-mode selector",
 ]);
 
+requireTokens("public/resume.json", [
+  '"label": "Product leader and hands-on systems builder"',
+  "Strongest in sustained roles where operating reality, product judgment, platform decisions, and hands-on execution must stay connected",
+]);
+
+requireTokens("public/pranay_resume.html", [
+  "Product Leader and Hands-on Systems Builder",
+  "Strongest in sustained roles where operating reality, product judgment, platform decisions, and hands-on execution must stay connected",
+]);
+
+requireTokens("scripts/generate_resume_pdf.py", [
+  "Product Leader and Hands-on Systems Builder",
+  "Strongest in sustained roles where operating reality, product judgment, platform decisions, and hands-on execution must stay connected",
+  "Open to selective senior product roles with a clear long-term mandate",
+]);
+
 requireTokens("docs/audits/COPY_IDENTITY_AND_WORK_MODES_AUDIT_2026-07-16.md", [
   "one identity and two commitment models",
   "The capability is the same. The accountability horizon is different.",
@@ -120,5 +136,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Positioning contract validation passed: personal working style, sustained-role ownership, bounded commercial engagements, explicit contact self-routing, neutral generic navigation, and machine-readable identity remain distinct and coherent.",
+  "Positioning contract validation passed: personal working style, sustained-role ownership, bounded commercial engagements, explicit contact self-routing, neutral generic navigation, machine-readable identity, and hiring artifacts remain distinct and coherent.",
 );
