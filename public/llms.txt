@@ -5,16 +5,28 @@
 Canonical site: https://pranaysuyash.com
 Last evidence review: 2026-07-16
 
+## Professional identity
+
+- Core value: keeps product judgment, operating context, interface decisions, architecture, and enough implementation skill close enough to produce useful systems.
+- Working style: asks for real artefacts and constraints early; moves between commercial goal, workflow, interface, architecture, and code; separates fact, inference, and unresolved risk; takes delivery through error states, documentation, release gates, and handoff.
+- Current context: Co-Founder / Head of Product & Platforms at MedPiper (YC S20), Bengaluru, India.
+
+## Work modes
+
+- Senior internal role: sustained ownership across product direction, platform choices, cross-functional execution, and what the organisation learns after launch.
+- Bounded commercial engagement: a defined workflow, system, subsystem, correction, or decision with explicit scope, delivery evidence, and an end condition.
+- Commercial contracting: separate project and advisory terms may be handled through PSRS Technologies Private Limited where applicable; the personal site remains the identity and proof-of-work surface.
+
 ## Primary professional routes
 
 - Home: https://pranaysuyash.com/
-- Experience and role fit: https://pranaysuyash.com/hire-me
+- Experience and sustained role fit: https://pranaysuyash.com/hire-me
 - Selected work: https://pranaysuyash.com/work
 - Professional proof ledger: https://pranaysuyash.com/proof
-- About and public evidence: https://pranaysuyash.com/about
-- Commercial services: https://pranaysuyash.com/work-with-me
+- About, working style, and public evidence: https://pranaysuyash.com/about
+- Bounded commercial engagements: https://pranaysuyash.com/work-with-me
 - Document workflow offer: https://pranaysuyash.com/document-workflows
-- Contact: https://pranaysuyash.com/contact
+- Contact and explicit work-mode selector: https://pranaysuyash.com/contact
 - Accessibility statement: https://pranaysuyash.com/accessibility
 
 ## Professional case study
