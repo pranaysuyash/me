@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const dynamic = "force-static";
-export const alt = "Pranay Suyash — Product leader and hands-on systems builder";
+export const alt = "Pranay Suyash — Product leader for document-heavy and operational AI systems";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -50,21 +50,21 @@ export default function OpenGraphImage() {
           <div style={{ fontSize: 17, color: "rgba(228,244,240,.52)" }}>Bengaluru · Remote</div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: 980 }}>
-          <div style={{ fontSize: 64, lineHeight: 1.05, letterSpacing: "-.045em", fontWeight: 800 }}>
-            I turn messy operational workflows into reviewable AI and product systems.
+        <div style={{ display: "flex", flexDirection: "column", maxWidth: 1020 }}>
+          <div style={{ fontSize: 59, lineHeight: 1.06, letterSpacing: "-.045em", fontWeight: 800 }}>
+            I turn document-heavy, exception-heavy workflows into AI systems people can review and run.
           </div>
-          <div style={{ marginTop: 28, fontSize: 23, lineHeight: 1.45, color: "rgba(244,251,249,.68)" }}>
-            14+ years across software engineering, Big Four transformation, YC-backed product leadership, and independent systems.
+          <div style={{ marginTop: 26, fontSize: 22, lineHeight: 1.45, color: "rgba(244,251,249,.68)" }}>
+            14+ years across software engineering, Big Four transformation, YC-backed product leadership, and hands-on product building.
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 14, alignItems: "center", color: "#9ee8e0", fontSize: 18 }}>
-          <span>AI product leadership</span>
+          <span>Operational AI</span>
           <span style={{ color: "rgba(255,255,255,.24)" }}>·</span>
-          <span>Workflow systems</span>
+          <span>Document workflows</span>
           <span style={{ color: "rgba(255,255,255,.24)" }}>·</span>
-          <span>Inspectable evidence</span>
+          <span>Reviewable systems</span>
           <span style={{ marginLeft: "auto", color: "rgba(255,255,255,.48)" }}>pranaysuyash.com</span>
         </div>
       </div>
