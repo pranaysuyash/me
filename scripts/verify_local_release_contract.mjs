@@ -29,7 +29,18 @@ requireTokens("package.json", [
   '"site:smoke": "node scripts/smoke_local_export.mjs"',
   '"site:local": "npm run site:verify && npm run site:smoke"',
   '"site:serve": "python3 -m http.server 4173 -d out"',
+  '"book:restore": "python3 scripts/restore_protected_publication.py"',
+  '"book:validate": "npm run book:restore && python3 book/tools/check_cleanup_protection.py && python3 book/tools/check_manuscript.py && python3 book/tools/check_package.py"',
   '"deploy:cloudflare": "npm run site:verify && wrangler pages deploy out --project-name pranay --branch main"',
+]);
+
+requireTokens("scripts/restore_protected_publication.py", [
+  "Restore missing tracked publication artifacts from the current Git HEAD",
+  "it restores only missing paths",
+  'run_git("ls-files", "-z", "--", *requested)',
+  'run_git("show", f"HEAD:{relative}")',
+  "target.write_bytes(blob)",
+  "all protected publication artifacts are already present",
 ]);
 
 requireTokens("scripts/smoke_local_export.mjs", [
@@ -64,6 +75,7 @@ requireTokens(".github/workflows/site-diagnostics.yml", [
 
 requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
   "npm run site:local",
+  "npm run book:restore",
   "npm run site:serve",
   "npx wrangler whoami",
   "npm run deploy:cloudflare",
@@ -76,6 +88,7 @@ requireTokens("docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md", [
   "Commercial pricing architecture",
   "Contact resilience",
   "Local release workflow",
+  "Protected publication recovery",
   "What cannot be completed from repository source alone",
   "No additional generic redesign",
 ]);
@@ -83,6 +96,7 @@ requireTokens("docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md", [
 requireTokens(".github/career-platform-10-check.txt", [
   "Complete local verification entry point: npm run site:local",
   "Local release runbook: docs/LOCAL_RELEASE_RUNBOOK.md",
+  "protected publication artifacts are restored from the current Git HEAD when missing",
   "one canonical engagement catalogue",
   "local HTTP smoke testing",
   "do not deploy an export that has not passed npm run site:local",
@@ -94,5 +108,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: one-command verification, HTTP smoke testing, main CI, manual diagnostics, Cloudflare commands, and the source-completion boundary remain aligned.",
+  "Local release contract validation passed: self-healing protected publication restoration, one-command verification, HTTP smoke testing, main CI, manual diagnostics, Cloudflare commands, and the source-completion boundary remain aligned.",
 );
