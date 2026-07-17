@@ -25,6 +25,17 @@ const requireTokens = (path, tokens) => {
   return content;
 };
 
+const forbidTokens = (path, tokens) => {
+  const content = read(path);
+  const normalized = normalize(content);
+  for (const token of tokens) {
+    if (normalized.includes(normalize(token))) {
+      failures.push(`${path} contains forbidden quality token: ${token}`);
+    }
+  }
+  return content;
+};
+
 const privacy = requireTokens("src/app/privacy/page.tsx", [
   "Analytics, cookies, and local preferences",
   "does not currently use advertising cookies",
@@ -134,14 +145,61 @@ requireTokens("src/app/work/page.tsx", [
   'id="evaluate-fit"',
 ]);
 
+requireTokens("src/components/book-regional-price.tsx", [
+  'import { usePricingRegion } from "@/hooks/use-pricing-region"',
+  "Choose ebook pricing region",
+  "One-time purchase · PDF + EPUB",
+  "price follows your selected region",
+  "noClaimEbook.indiaPrice",
+  "noClaimEbook.globalPrice",
+]);
+
 requireTokens("src/app/books/no-claim-without-evidence/page.tsx", [
   "<SectionIndex items={bookSections}",
+  "<BookRegionalPrice",
+  "Curated reading sample",
+  "Open the reading sample",
   'id="inside"',
   'id="sample"',
   'id="method"',
   'id="audience"',
   'id="consulting-delivery"',
   "Dodo Payments handles payment",
+]);
+
+requireTokens("src/app/books/no-claim-without-evidence/sample/page.tsx", [
+  "<SectionIndex items={sampleSections}",
+  "Most AI product mistakes do not start with a bad model.",
+  "A claim is a value plus a reason to trust it",
+  "Test the pipeline, not just the model",
+  "Your eval should become a release gate",
+  "The claim-evidence ledger",
+  "ticketSource",
+  "pipelineFailure",
+  "releaseGate",
+  "claimEvidenceLedger",
+  "Buy the full book",
+  'id="evidence-habit"',
+  'id="unsupported-claims"',
+  'id="pipeline"',
+  'id="release-gates"',
+  'id="ledger"',
+]);
+
+forbidTokens("src/lib/ebook.ts", [
+  "priceSummary",
+  "pricingNote",
+  "₹799 in India · $14.99 elsewhere",
+]);
+forbidTokens("src/app/books/no-claim-without-evidence/page.tsx", [
+  "₹799 in India · $14.99 elsewhere",
+  "{noClaimEbook.indiaPrice} in India",
+  "{noClaimEbook.globalPrice} elsewhere",
+]);
+forbidTokens("src/app/books/no-claim-without-evidence/sample/page.tsx", [
+  "See the full book page",
+  "A small excerpt, enough to show the method without giving away the whole book.",
+  "sampleCode",
 ]);
 
 requireTokens("src/app/contact/page.tsx", [
@@ -163,5 +221,5 @@ await import("./verify_local_release_contract.mjs");
 await import("./verify_color_contrast.mjs");
 
 console.log(
-  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation on every long professional page, resilient contact fallback, canonical regional pricing, one-command local release verification, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
+  "Experience quality validation passed: tracking transparency, clean print output, 90-day evidence freshness, compact mobile proof, accessible section navigation on every long professional page, resilient contact fallback, canonical regional pricing, one-region ebook pricing, substantive web-formatted reading excerpts, one-command local release verification, route-aware conversion, focus restoration, self-hosted lab fallback, and WCAG contrast are intact.",
 );
