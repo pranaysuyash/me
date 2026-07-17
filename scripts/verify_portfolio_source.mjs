@@ -290,7 +290,7 @@ requireTokens("package.json", [
   '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs"',
   '"site:verify": "npm run lint && npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build && npm run lab:validate"',
   '"lint": "eslint . --max-warnings=0"',
-  '"deploy:cloudflare": "npm run site:verify && wrangler pages deploy out --project-name pranay --branch main"',
+  '"deploy:cloudflare": "npm run site:local && npx wrangler pages deploy out --project-name pranay --branch main"',
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
