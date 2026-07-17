@@ -31,6 +31,33 @@ npm ci
 
 The Python environment is needed for book package validation, generated resume output, build identity, and vendoring the same-origin Three.js runtime.
 
+## Protected publication recovery
+
+The ebook PDF, EPUB, self-contained HTML, sales page, cover, and other protected publication files are tracked in Git and checksum-pinned. They are already backed up by the repository history; a second copy inside the same repository would only duplicate large binaries.
+
+If an external system cleanup removes tracked publication files, restore every missing protected file from the current checked-out commit with:
+
+```bash
+npm run book:restore
+```
+
+`book:validate` and therefore `site:local` run this restore automatically before validation. The recovery script:
+
+- restores only files covered by `cleanup-protection.json`;
+- restores only paths that are missing;
+- reads exact bytes from the current `HEAD`;
+- never overwrites an existing or modified file;
+- still runs checksum and package validation immediately afterwards.
+
+The repository's own cleanup command is allowlisted and removes only `.next/` and `out/`:
+
+```bash
+npm run clean:safe
+npm run clean:safe:apply
+```
+
+A system-wide cleanup tool should also exclude this repository's tracked `dist/`, `book/`, and `public/books/no-claim-without-evidence/` paths, but the restore command protects local verification even when that exclusion is missing.
+
 ## Normal local development
 
 ```bash
@@ -60,7 +87,7 @@ This runs:
 2. strict TypeScript;
 3. positioning and PR-recovery contracts;
 4. audited portfolio, freshness, experience, pricing, accessibility, and contrast checks;
-5. book package validation;
+5. restoration and validation of protected publication files;
 6. generated resume, build identity, and same-origin Three.js vendoring;
 7. the production Next.js static export;
 8. visual-evidence, page-budget, route, policy, checkout-copy, redirect, sitemap, and internal-link checks;
