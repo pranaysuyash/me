@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "policy": "Measure completed professional outcomes with provider records and explicit source fields. Do not collect page-view histories, cross-site identifiers, advertising profiles, keystrokes, cursor movement, or sensitive message content for analytics.",
+  "funnelStages": [
+    {
+      "id": "role-enquiry",
+      "definition": "A role-mode FormBold submission received in the intended inbox with source and mode preserved",
+      "sourceSystem": "FormBold and inbox",
+      "requiredFields": ["received_at", "source", "mode"],
+      "prohibitedFieldsInLedger": ["name", "email", "message_body", "company_confidential_detail"]
+    },
+    {
+      "id": "commercial-enquiry",
+      "definition": "A project-mode FormBold submission received with source, mode, timeline, and engagement scope preserved",
+      "sourceSystem": "FormBold and inbox",
+      "requiredFields": ["received_at", "source", "mode", "timeline", "budget_or_engagement_scope"],
+      "prohibitedFieldsInLedger": ["name", "email", "message_body", "uploaded_files", "company_confidential_detail"]
+    },
+    {
+      "id": "role-booking",
+      "definition": "A completed Cal.com booking whose stored UTM campaign identifies the portfolio role path",
+      "sourceSystem": "Cal.com booking details",
+      "requiredFields": ["booked_at", "event_type", "utm_source", "utm_medium", "utm_campaign", "utm_content"],
+      "prohibitedFieldsInLedger": ["attendee_name", "attendee_email", "meeting_notes", "calendar_description"]
+    },
+    {
+      "id": "commercial-booking",
+      "definition": "A completed Cal.com booking whose stored UTM campaign identifies the portfolio commercial path",
+      "sourceSystem": "Cal.com booking details",
+      "requiredFields": ["booked_at", "event_type", "utm_source", "utm_medium", "utm_campaign", "utm_content"],
+      "prohibitedFieldsInLedger": ["attendee_name", "attendee_email", "meeting_notes", "calendar_description"]
+    },
+    {
+      "id": "qualified-role-conversation",
+      "definition": "A role conversation where mandate, level, ownership, and timing are sufficiently aligned to continue",
+      "sourceSystem": "Manual weekly review",
+      "requiredFields": ["week", "count", "qualification_rule_version"],
+      "prohibitedFieldsInLedger": ["person_name", "company_name_unless_public_and_approved", "private_compensation_detail", "interview_notes"]
+    },
+    {
+      "id": "qualified-commercial-opportunity",
+      "definition": "A commercial conversation with a real workflow, decision owner, plausible budget, access to evidence/users, and a defined next step",
+      "sourceSystem": "Manual weekly review",
+      "requiredFields": ["week", "count", "qualification_rule_version"],
+      "prohibitedFieldsInLedger": ["person_name", "company_name_unless_public_and_approved", "proposal_content", "confidential_workflow_detail"]
+    },
+    {
+      "id": "book-order",
+      "definition": "A succeeded Dodo payment for No Claim Without Evidence",
+      "sourceSystem": "Dodo Payments dashboard or API",
+      "requiredFields": ["paid_at", "region_or_billing_currency", "product_id", "payment_status"],
+      "prohibitedFieldsInLedger": ["customer_name", "customer_email", "billing_address", "payment_method_detail", "license_key"]
+    },
+    {
+      "id": "book-refund",
+      "definition": "A Dodo refund completed for the ebook, recorded separately from gross orders",
+      "sourceSystem": "Dodo Payments dashboard or API",
+      "requiredFields": ["refunded_at", "region_or_billing_currency", "product_id", "refund_reason_category"],
+      "prohibitedFieldsInLedger": ["customer_name", "customer_email", "billing_address", "free_text_support_message"]
+    },
+    {
+      "id": "role-outcome",
+      "definition": "A role process reaches a material outcome: closed, offer, accepted, declined, or no-fit",
+      "sourceSystem": "Manual monthly review",
+      "requiredFields": ["month", "outcome_category", "count"],
+      "prohibitedFieldsInLedger": ["person_name", "company_name_unless_public_and_approved", "compensation_detail", "interview_feedback"]
+    },
+    {
+      "id": "commercial-outcome",
+      "definition": "A qualified commercial opportunity reaches proposal, won, lost, paused, or no-fit",
+      "sourceSystem": "Manual monthly review",
+      "requiredFields": ["month", "outcome_category", "count", "engagement_shape"],
+      "prohibitedFieldsInLedger": ["person_name", "company_name_unless_public_and_approved", "proposal_terms", "confidential_scope"]
+    }
+  ],
+  "standardAttribution": {
+    "utm_source": "pranaysuyash.com",
+    "utm_medium": "portfolio",
+    "allowedCampaigns": ["role-conversation", "commercial-engagement", "book"],
+    "allowedContent": [
+      "contact-role-15min",
+      "contact-role-30min",
+      "contact-project-15min",
+      "contact-project-30min",
+      "book-primary",
+      "book-sample"
+    ]
+  }
+}
