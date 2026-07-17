@@ -28,7 +28,8 @@
     "dist/sales-page.html",
     "public/books/no-claim-without-evidence/cover.png",
     "public/books/no-claim-without-evidence/checkout-image.jpg",
-    "requirements-book.txt"
+    "requirements-book.txt",
+    "scripts/restore_protected_publication.py"
   ],
   "safe_cleanup_roots": [
     ".next",
