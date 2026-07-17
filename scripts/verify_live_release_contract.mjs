@@ -38,9 +38,18 @@ requireTokens("scripts/verify_live_deployment.mjs", [
   "EXPECTED_SHA",
   "/build-info.json",
   "career-platform-v2",
-  "I turn messy operational workflows into reviewable AI and product systems.",
+  "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
+  "/books/no-claim-without-evidence/sample",
   "90-day maximum review window",
   "Live deployment verification failed",
+]);
+
+requireTokens("scripts/verify_deploy_source.mjs", [
+  'git("branch", "--show-current")',
+  'git("rev-parse", "origin/main")',
+  'git("status", "--porcelain=v1", "--untracked-files=all")',
+  "the working tree is dirty",
+  "Generated build identity can truthfully name this SHA",
 ]);
 
 requireTokens(".github/workflows/live-deployment-audit.yml", [
@@ -79,6 +88,13 @@ requireTokens("DEPLOYMENT_GUIDE.md", [
   "`pranay`",
 ]);
 
+requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
+  "Deployment provenance guard",
+  "npm run deploy:guard",
+  "Do not bypass this check with Wrangler's `--commit-dirty=true`.",
+  "local `HEAD` exactly equals `origin/main`",
+]);
+
 requireTokens("src/components/layout/footer.tsx", [
   '{ name: "Build identity", href: "/build-info.json" }',
   "Portfolio evidence reviewed 16 July 2026.",
@@ -87,6 +103,7 @@ requireTokens("src/components/layout/footer.tsx", [
 requireTokens("package.json", [
   '"live:verify": "node scripts/verify_live_deployment.mjs"',
   '"presite:verify": "node scripts/verify_live_release_contract.mjs"',
+  '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
 ]);
 
 if (failures.length) {
@@ -95,5 +112,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: deployment identity, route signatures, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: narrowed route signatures, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
