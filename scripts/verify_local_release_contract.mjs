@@ -42,19 +42,8 @@ requireTokens("scripts/lib/static_export_server.mjs", [
   "Static export server requires an existing out/ directory",
   '"cache-control": "no-store"',
   'request.method === "HEAD"',
-]);
-
-requireTokens("scripts/lib/chrome_cdp.mjs", [
-  "BROWSER_EXECUTABLE_PATH",
-  "findChromeExecutable",
-  "launchChromeCdp",
-  "--headless",
-  "--no-sandbox",
-  "--remote-debugging-address=127.0.0.1",
-  "--remote-debugging-port=${port}",
-  "/json/version",
-  "webSocketDebuggerUrl",
-  "Browser.close",
+  'url.pathname === "/cdn-cgi/trace"',
+  "LOCAL_TRACE_COUNTRY",
 ]);
 
 requireTokens("scripts/serve_static_export.mjs", [
@@ -107,11 +96,14 @@ requireTokens("scripts/browser_release_test.mjs", [
   "Runtime.exceptionThrown",
   "Page.captureScreenshot",
   "horizontalOverflow",
+  "primeLazyImages",
+  "loadedImages",
   "role contact route does not select role mode",
   "India pricing does not appear after selection",
   "reading sample does not lead directly to secure checkout",
   "mobile menu does not expose an accessible modal dialog",
-  "product lab lacks its resilient fallback path",
+  "expectedProductLabError",
+  "WebGL-unavailable product lab hides its fallback",
   'path.join(artifactsDir, "report.json")',
 ]);
 
@@ -177,5 +169,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, HTTP smoke testing, localhost-polled Chrome CDP interaction checks, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
+  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, Cloudflare-trace-aware HTTP testing, hydrated desktop/mobile browser interaction and visual-loading checks, expected WebGL fallback validation, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
 );
