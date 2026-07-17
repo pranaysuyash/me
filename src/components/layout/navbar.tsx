@@ -66,6 +66,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileCloseButtonRef = useRef<HTMLButtonElement>(null);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const action = primaryAction(pathname);
   const ActionIcon = action.icon;
@@ -91,8 +92,7 @@ export function Navbar() {
     document.body.style.overflow = "hidden";
 
     const focusFrame = window.requestAnimationFrame(() => {
-      const focusable = panel?.querySelectorAll<HTMLElement>(focusableSelector);
-      focusable?.[0]?.focus();
+      mobileCloseButtonRef.current?.focus();
     });
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -234,6 +234,7 @@ export function Navbar() {
                 </span>
               </Link>
               <button
+                ref={mobileCloseButtonRef}
                 type="button"
                 className="rounded-full p-2.5 text-foreground hover:bg-muted"
                 onClick={() => setMobileMenuOpen(false)}
