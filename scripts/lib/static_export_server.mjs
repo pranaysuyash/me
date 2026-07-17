@@ -42,6 +42,18 @@ export function resolveStaticExportPath(outDir, requestUrl, host = "127.0.0.1") 
   return null;
 }
 
+function sendCloudflareTrace(request, response) {
+  const country = String(process.env.LOCAL_TRACE_COUNTRY || "US")
+    .trim()
+    .toUpperCase();
+  const body = `fl=local\nh=127.0.0.1\nip=127.0.0.1\nts=${Date.now()}\nvisit_scheme=http\nuag=portfolio-release-test\ncolo=LOCAL\nsliver=none\nhttp=http/1.1\nloc=${country}\ntls=off\nsni=off\nwarp=off\ngateway=off\nrbi=off\nkex=none\n`;
+  response.writeHead(200, {
+    "content-type": "text/plain; charset=utf-8",
+    "cache-control": "no-store",
+  });
+  response.end(request.method === "HEAD" ? undefined : body);
+}
+
 export async function createStaticExportServer({
   outDir = path.join(process.cwd(), "out"),
   host = "127.0.0.1",
@@ -52,7 +64,14 @@ export async function createStaticExportServer({
   }
 
   const server = http.createServer((request, response) => {
-    const fullPath = resolveStaticExportPath(outDir, request.url || "/", host);
+    const requestUrl = request.url || "/";
+    const url = new URL(requestUrl, `http://${host}`);
+    if (url.pathname === "/cdn-cgi/trace") {
+      sendCloudflareTrace(request, response);
+      return;
+    }
+
+    const fullPath = resolveStaticExportPath(outDir, requestUrl, host);
     if (!fullPath) {
       response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
       response.end("Not found");
