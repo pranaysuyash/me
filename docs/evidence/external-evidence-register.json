@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "policy": "No testimonial, attributed outcome, customer identity, logo, or third-party endorsement is published without explicit permission for the exact public wording and attribution scope.",
+  "allowedStatuses": [
+    "not-requested",
+    "requested",
+    "received-unverified",
+    "fact-checking",
+    "permission-pending",
+    "approved",
+    "declined",
+    "withdrawn",
+    "expired"
+  ],
+  "records": [
+    {
+      "id": "medpiper-product-leadership",
+      "evidenceType": "stakeholder-confirmation",
+      "targetRelationship": "MedPiper co-founder, senior leader, or board-level stakeholder with direct knowledge of Pranay's product and platform ownership",
+      "purpose": "Confirm sustained product leadership, cross-functional ownership, and hands-on involvement without disclosing confidential operating detail",
+      "requestedClaims": [
+        "Scope of product/platform ownership",
+        "Ability to connect operating workflow, product decisions, and implementation",
+        "One concrete example of judgment or follow-through",
+        "Whether they would work with Pranay again in a comparable mandate"
+      ],
+      "status": "not-requested",
+      "proposedPublicWording": null,
+      "sourceWording": null,
+      "attribution": null,
+      "permissionScope": null,
+      "factCheckedBy": null,
+      "approvedAt": null,
+      "evidenceLocation": null,
+      "notes": "Do not ask for confidential revenue, customer, patient, insurer, security, or personnel details. Existing aggregate figures remain separately governed by the career evidence record."
+    },
+    {
+      "id": "medpiper-workflow-collaboration",
+      "evidenceType": "colleague-confirmation",
+      "targetRelationship": "Engineering, operations, insurance, implementation, or customer-facing colleague who worked directly on the MedPiper workflow transformation",
+      "purpose": "Corroborate how Pranay worked across teams and what changed operationally",
+      "requestedClaims": [
+        "The workflow problem before the change",
+        "Pranay's specific role in mapping, product decisions, implementation, or rollout",
+        "A concrete change in handoffs, visibility, exceptions, or turnaround",
+        "A balanced limitation or trade-off that remained"
+      ],
+      "status": "not-requested",
+      "proposedPublicWording": null,
+      "sourceWording": null,
+      "attribution": null,
+      "permissionScope": null,
+      "factCheckedBy": null,
+      "approvedAt": null,
+      "evidenceLocation": null,
+      "notes": "Use sanitized process language. Never request patient, customer, insurer, contract, security, or internal performance data that the source is not authorised to disclose."
+    },
+    {
+      "id": "ey-transformation-delivery",
+      "evidenceType": "colleague-or-client-confirmation",
+      "targetRelationship": "Former EY colleague or client-side stakeholder with direct knowledge of Pranay's SAP/process transformation delivery",
+      "purpose": "Confirm enterprise process-mapping, solution, rollout, and stakeholder delivery capability",
+      "requestedClaims": [
+        "Nature of the transformation problem",
+        "Pranay's role in requirements, blueprinting, testing, rollout, or adoption",
+        "A concrete delivery strength",
+        "A bounded outcome that can be stated without breaching client confidentiality"
+      ],
+      "status": "not-requested",
+      "proposedPublicWording": null,
+      "sourceWording": null,
+      "attribution": null,
+      "permissionScope": null,
+      "factCheckedBy": null,
+      "approvedAt": null,
+      "evidenceLocation": null,
+      "notes": "Respect EY and client confidentiality, non-disclosure, logo, and attribution policies. An attributed statement is optional; a private reference may remain private and must not be implied publicly."
+    },
+    {
+      "id": "signkit-paying-customer",
+      "evidenceType": "customer-case-and-quote",
+      "targetRelationship": "A paying SignKit customer who has used the product on a real recurring workflow and is able to approve public wording",
+      "purpose": "Provide independent commercial proof of the problem, product use, and practical value",
+      "requestedClaims": [
+        "What they did before SignKit",
+        "Which parts of the product they actually use",
+        "A concrete time, privacy, quality, or workflow benefit",
+        "What remains imperfect or what kind of user it is not for",
+        "Permission to state paid-customer status if approved"
+      ],
+      "status": "not-requested",
+      "proposedPublicWording": null,
+      "sourceWording": null,
+      "attribution": null,
+      "permissionScope": null,
+      "factCheckedBy": null,
+      "approvedAt": null,
+      "evidenceLocation": null,
+      "notes": "Do not request or retain their documents, signatures, identity data, or confidential workflow examples. A quote cannot imply certified e-signature, legal validity, or security certification."
+    },
+    {
+      "id": "named-commercial-system-case",
+      "evidenceType": "named-commercial-case-study",
+      "targetRelationship": "A future or existing client able to approve a named, redacted case study for a bounded workflow/system engagement",
+      "purpose": "Demonstrate repeatable commercial delivery at the level implied by published engagement pricing",
+      "requestedClaims": [
+        "Named organisation and approved public context",
+        "Original workflow and cost/risk of the problem",
+        "Exact agreed scope and Pranay's ownership",
+        "Direct product or system evidence",
+        "Measured or observable result",
+        "Customer-approved quote",
+        "Boundaries, exclusions, and remaining work"
+      ],
+      "status": "not-requested",
+      "proposedPublicWording": null,
+      "sourceWording": null,
+      "attribution": null,
+      "permissionScope": null,
+      "factCheckedBy": null,
+      "approvedAt": null,
+      "evidenceLocation": null,
+      "notes": "A named case is not created from a sales proposal, unpaid exploratory call, internal concept, or unapproved customer work. Publication requires the full case gate in NAMED_COMMERCIAL_CASE_INTAKE.md."
+    }
+  ]
+}
