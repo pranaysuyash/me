@@ -4,7 +4,7 @@
 
 This is the canonical local command sequence for `pranaysuyash/me`.
 
-The repository is main-only. Do not create a branch or pull request for verification. Local validation should reproduce the same release contract used by GitHub Actions, then exercise the generated static export through HTTP before deployment.
+The repository is main-only. Do not create a branch or pull request for verification. Local validation must reproduce the same release contract used by GitHub Actions, exercise the generated static export over HTTP and in a real browser, and prove that the deployed SHA identifies the exact source being published.
 
 ## Prerequisites
 
@@ -13,7 +13,10 @@ The repository is main-only. Do not create a branch or pull request for verifica
 - npm
 - Python 3.12
 - `uv` for the local Python environment
+- Google Chrome, Chromium, or Microsoft Edge for hydrated browser verification
 - Cloudflare Wrangler only when deploying
+
+When the browser is installed outside its normal system location, set `BROWSER_EXECUTABLE_PATH` to the executable.
 
 ## First-time setup
 
@@ -29,11 +32,11 @@ uv pip install -r requirements-book.txt
 npm ci
 ```
 
-The Python environment is needed for book package validation, generated resume output, build identity, and vendoring the same-origin Three.js runtime.
+The Python environment is needed for book validation, generated resume output, build identity, and vendoring the same-origin Three.js runtime. Browser verification uses the installed Chrome-family browser directly and adds no browser-testing dependency to the application bundle.
 
 ## Protected publication recovery
 
-The ebook PDF, EPUB, self-contained HTML, sales page, cover, and other protected publication files are tracked in Git and checksum-pinned. They are already backed up by the repository history; a second copy inside the same repository would only duplicate large binaries.
+The ebook PDF, EPUB, self-contained HTML, sales page, cover, and other protected publication files are tracked in Git and checksum-pinned. They are already backed up by repository history; a second copy inside the same repository would only duplicate large binaries.
 
 If an external system cleanup removes tracked publication files, restore every missing protected file from the current checked-out commit with:
 
@@ -69,11 +72,7 @@ npm ci
 npm run dev
 ```
 
-Open:
-
-```text
-http://localhost:3000
-```
+Open `http://localhost:3000`.
 
 ## Complete local release verification
 
@@ -83,7 +82,7 @@ npm run site:local
 
 This runs:
 
-1. zero-warning ESLint;
+1. zero-warning ESLint over authored source, excluding generated vendor/build surfaces;
 2. strict TypeScript;
 3. positioning and PR-recovery contracts;
 4. audited portfolio, freshness, experience, pricing, accessibility, and contrast checks;
@@ -92,12 +91,21 @@ This runs:
 7. the production Next.js static export;
 8. visual-evidence, page-budget, route, policy, checkout-copy, redirect, sitemap, and internal-link checks;
 9. product-lab module syntax validation;
-10. a local HTTP smoke test across Home, Experience, Commercial Engagements, Contact, Work, Proof, Book, Product Lab, and `build-info.json`.
+10. an HTTP smoke test across the professional, commercial, proof, book, sample, and product-lab routes;
+11. dependency-free headless Chrome verification of hydrated desktop and mobile pages, regional pricing interaction, contact-mode switching, mobile navigation, responsive overflow, accessibility basics, runtime errors, and direct book conversion.
 
-A successful run leaves the deployable export in:
+Browser screenshots and a machine-readable report are written to the ignored local directory:
 
 ```text
-out/
+browser-artifacts/
+```
+
+A successful run leaves the deployable export in `out/`.
+
+The individual browser command is:
+
+```bash
+npm run site:browser
 ```
 
 ## Inspect the generated site manually
@@ -117,11 +125,29 @@ open 'http://127.0.0.1:4173/contact?type=project&source=local-review'
 open http://127.0.0.1:4173/work
 open http://127.0.0.1:4173/proof
 open http://127.0.0.1:4173/books/no-claim-without-evidence
+open http://127.0.0.1:4173/books/no-claim-without-evidence/sample
 open http://127.0.0.1:4173/product-lab/
 open http://127.0.0.1:4173/build-info.json
 ```
 
 Stop the server with `Ctrl+C`.
+
+## Deployment provenance guard
+
+A release must come from clean, pushed `main`. Before deployment, the guard checks:
+
+- the current branch is `main`;
+- the working tree has no tracked or untracked changes;
+- local `HEAD` is a full SHA;
+- local `HEAD` exactly equals `origin/main`.
+
+Run it directly with:
+
+```bash
+npm run deploy:guard
+```
+
+Do not bypass this check with Wrangler's `--commit-dirty=true`. A dirty export could contain bytes that are not represented by `build-info.json`, which would invalidate the site's evidence and provenance claims.
 
 ## Cloudflare authentication check
 
@@ -140,19 +166,20 @@ Confirm that the authenticated account owns the intended Pages project named `pr
 
 ## Production deployment
 
-Run local verification first:
+Pull and confirm the pushed main commit:
 
 ```bash
-npm run site:local
+git pull --ff-only origin main
+git rev-parse HEAD
 ```
 
-Then deploy the exact generated export:
+Then run:
 
 ```bash
 npm run deploy:cloudflare
 ```
 
-The deployment script re-runs the canonical verification before calling:
+The command restores missing protected publication files, proves the source tree is clean and pushed, runs the full source/HTTP/browser release contract, proves the tree is still clean, and only then calls:
 
 ```bash
 wrangler pages deploy out --project-name pranay --branch main
@@ -170,7 +197,7 @@ Also inspect the deployed build identity:
 curl --fail --silent --show-error https://pranaysuyash.com/build-info.json | python3 -m json.tool
 ```
 
-The deployed `commit` must equal the commit that was just verified and deployed.
+The deployed `commit` must equal the clean pushed commit that was just verified and deployed.
 
 Check the important routes:
 
@@ -183,6 +210,7 @@ for route in \
   /work \
   /proof \
   /books/no-claim-without-evidence \
+  /books/no-claim-without-evidence/sample \
   /product-lab/ \
   /build-info.json
 do
@@ -194,7 +222,7 @@ done
 
 ## Manual production transactions
 
-Commands cannot prove third-party transactions. After deployment, complete these manually with real destinations and reversible test data:
+Commands and synthetic browser checks cannot prove third-party transactions. After deployment, complete these manually with real destinations and reversible test data:
 
 1. Submit the Role form and confirm inbox delivery with `mode=role` and the correct `source`.
 2. Submit the Commercial form and confirm inbox delivery with `mode=project`, timeline, and engagement ID.
@@ -207,4 +235,5 @@ Commands cannot prove third-party transactions. After deployment, complete these
 - Work directly on `main`.
 - Do not create verification branches or pull requests.
 - Do not deploy an export that did not pass `npm run site:local`.
+- Do not deploy from dirty or unpushed source.
 - Do not claim a live transaction or external integration works until the real production path has completed.
