@@ -87,11 +87,13 @@ export function Navbar() {
 
     const previousOverflow = document.body.style.overflow;
     const trigger = menuButtonRef.current;
+    const panel = mobilePanelRef.current;
     document.body.style.overflow = "hidden";
 
-    const panel = mobilePanelRef.current;
-    const focusable = panel?.querySelectorAll<HTMLElement>(focusableSelector);
-    focusable?.[0]?.focus();
+    const focusFrame = window.requestAnimationFrame(() => {
+      const focusable = panel?.querySelectorAll<HTMLElement>(focusableSelector);
+      focusable?.[0]?.focus();
+    });
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -117,6 +119,7 @@ export function Navbar() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
+      window.cancelAnimationFrame(focusFrame);
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       trigger?.focus();
