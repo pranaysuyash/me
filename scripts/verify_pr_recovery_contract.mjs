@@ -59,9 +59,10 @@ requireTokens(".github/workflows/site-diagnostics.yml", [
   "workflow_dispatch:",
   "contents: read",
   "group: site-diagnostics-main",
-  "timeout-minutes: 15",
+  "timeout-minutes: 18",
   "ref: main",
   "npm run site:verify 2>&1 | tee site-verify.log",
+  "npm run site:browser 2>&1 | tee site-browser.log",
   "diagnostic-static-site-${{ github.sha }}",
 ]);
 forbidTokens(".github/workflows/site-diagnostics.yml", [
@@ -75,7 +76,7 @@ forbidTokens(".github/workflows/site-diagnostics.yml", [
 requireTokens(".github/career-platform-10-check.txt", [
   "Complete PR 1-16 recovery audit",
   "Verbatim PR file archive",
-  "a 15-minute timeout",
+  "an 18-minute timeout",
   "rejected workflows are preserved only as non-executable audit artifacts",
   "obsolete pull requests are closed and their branches are deleted",
 ]);
@@ -113,5 +114,5 @@ if (failures.length) {
 }
 
 console.log(
-  "PR recovery contract validation passed: PRs 1-16 are fully inventoried and closed, every surviving file is archived, all actionable threads are resolved, accepted improvements are on main, rejected workflows are non-executable, audited stale branches are deleted, one-time cleanup automation is removed, main-only diagnostics are bounded and least-privileged, and the scene cleanup remains present.",
+  "PR recovery contract validation passed: PRs 1-16 are fully inventoried and closed, every surviving file is archived, all actionable threads are resolved, accepted improvements are on main, rejected workflows are non-executable, audited stale branches are deleted, one-time cleanup automation is removed, browser-enabled main-only diagnostics remain bounded and least-privileged, and the scene cleanup remains present.",
 );
