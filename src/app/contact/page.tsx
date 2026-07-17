@@ -13,21 +13,20 @@ import {
   Workflow,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/page-layout";
+import { RegionalBudgetSelect } from "@/components/regional-budget-select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { RegionalBudgetSelect } from "@/components/regional-budget-select";
 import { careerProfile } from "@/lib/career";
 
 const FORMBOLD_ENDPOINT = "https://formbold.com/s/6QZJn";
-const CAL_15MIN = "https://cal.com/pranaysuyash/15min";
-const CAL_30MIN = "https://cal.com/pranaysuyash/30min";
 const ROLE_EMAIL =
   "mailto:pranay.suyash@gmail.com?subject=Senior%20product%20role%20conversation";
 const PROJECT_EMAIL =
   "mailto:pranay.suyash@gmail.com?subject=Bounded%20commercial%20engagement";
 
 type ContactMode = "project" | "role";
+type CallDuration = "15min" | "30min";
 
 const initialFormData = {
   name: "",
@@ -42,18 +41,33 @@ const initialFormData = {
   honeypot: "",
 };
 
+function calendarUrl(duration: CallDuration, mode: ContactMode) {
+  const url = new URL(`https://cal.com/pranaysuyash/${duration}`);
+  url.searchParams.set("utm_source", "pranaysuyash.com");
+  url.searchParams.set("utm_medium", "portfolio");
+  url.searchParams.set(
+    "utm_campaign",
+    mode === "role" ? "role-conversation" : "commercial-engagement",
+  );
+  url.searchParams.set("utm_content", `contact-${mode}-${duration}`);
+  return url.toString();
+}
+
 export default function ContactPage() {
   const [mode, setMode] = useState<ContactMode>("project");
   const [sourceContext, setSourceContext] = useState("general");
   const [formData, setFormData] = useState(initialFormData);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const source = params.get("source") || "general";
     const type = params.get("type") || "project";
-    const resolvedMode: ContactMode = type === "call" || type === "role" ? "role" : "project";
+    const resolvedMode: ContactMode =
+      type === "call" || type === "role" ? "role" : "project";
 
     setMode(resolvedMode);
     setSourceContext(source);
@@ -77,11 +91,17 @@ export default function ContactPage() {
 
     const params = new URLSearchParams(window.location.search);
     params.set("type", nextMode);
-    window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
+    window.history.replaceState(
+      null,
+      "",
+      `${window.location.pathname}?${params.toString()}`,
+    );
   };
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = event.target;
     setFormData((previous) => ({ ...previous, [name]: value }));
@@ -109,21 +129,41 @@ export default function ContactPage() {
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong while sending the form.",
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while sending the form.",
       );
     }
   };
 
   const roleMode = mode === "role";
+  const calls = [
+    {
+      href: calendarUrl("15min", mode),
+      title: "15-minute fit call",
+      note: "Fit and next step",
+    },
+    {
+      href: calendarUrl("30min", mode),
+      title: "30-minute working call",
+      note: "Workflow, role, or constraints",
+    },
+  ] as const;
 
   return (
     <PageLayout>
       <section className="border-b bg-[#0d1718] text-white">
         <div className="container mx-auto max-w-[1280px] px-4 py-16 md:px-6 md:py-24 lg:px-8">
           <div className="flex items-center gap-3 text-teal-100/70">
-            {roleMode ? <BriefcaseBusiness className="h-5 w-5" /> : <Workflow className="h-5 w-5" />}
+            {roleMode ? (
+              <BriefcaseBusiness className="h-5 w-5" />
+            ) : (
+              <Workflow className="h-5 w-5" />
+            )}
             <p className="text-xs font-semibold uppercase tracking-[0.2em]">
-              {roleMode ? "Senior internal role" : "Bounded commercial engagement"}
+              {roleMode
+                ? "Senior internal role"
+                : "Bounded commercial engagement"}
             </p>
           </div>
           <h1 className="mt-5 max-w-5xl text-4xl font-bold tracking-[-0.045em] sm:text-5xl md:text-6xl">
@@ -143,24 +183,38 @@ export default function ContactPage() {
         <div className="container mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8">
           <div className="mb-10 grid gap-6 border-y py-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Choose the commitment model</p>
-              <h2 className="mt-3 text-2xl font-bold tracking-tight">Role or commercial engagement?</h2>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">{careerProfile.workModePrinciple}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Choose the commitment model
+              </p>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight">
+                Role or commercial engagement?
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                {careerProfile.workModePrinciple}
+              </p>
             </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="group" aria-label="Choose conversation type">
+            <div
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+              role="group"
+              aria-label="Choose conversation type"
+            >
               <button
                 type="button"
                 onClick={() => selectMode("role")}
                 aria-pressed={roleMode}
                 className={`rounded-xl border p-5 text-left transition-colors ${
-                  roleMode ? "border-primary bg-primary/[0.05]" : "hover:border-primary/40"
+                  roleMode
+                    ? "border-primary bg-primary/[0.05]"
+                    : "hover:border-primary/40"
                 }`}
               >
                 <span className="flex items-center gap-2 text-sm font-semibold">
-                  <BriefcaseBusiness className="h-4 w-4 text-primary" /> Senior internal role
+                  <BriefcaseBusiness className="h-4 w-4 text-primary" />
+                  Senior internal role
                 </span>
                 <span className="mt-2 block text-xs leading-5 text-muted-foreground">
-                  Ongoing ownership inside the team across product direction, platform, and execution.
+                  Ongoing ownership inside the team across product direction,
+                  platform, and execution.
                 </span>
               </button>
               <button
@@ -168,14 +222,18 @@ export default function ContactPage() {
                 onClick={() => selectMode("project")}
                 aria-pressed={!roleMode}
                 className={`rounded-xl border p-5 text-left transition-colors ${
-                  !roleMode ? "border-primary bg-primary/[0.05]" : "hover:border-primary/40"
+                  !roleMode
+                    ? "border-primary bg-primary/[0.05]"
+                    : "hover:border-primary/40"
                 }`}
               >
                 <span className="flex items-center gap-2 text-sm font-semibold">
-                  <Workflow className="h-4 w-4 text-primary" /> Bounded commercial engagement
+                  <Workflow className="h-4 w-4 text-primary" />
+                  Bounded commercial engagement
                 </span>
                 <span className="mt-2 block text-xs leading-5 text-muted-foreground">
-                  A defined workflow, system, decision, or subsystem with an explicit end condition.
+                  A defined workflow, system, decision, or subsystem with an
+                  explicit end condition.
                 </span>
               </button>
             </div>
@@ -183,10 +241,23 @@ export default function ContactPage() {
 
           <noscript>
             <div className="mb-8 rounded-xl border border-primary/30 bg-primary/[0.04] p-5 text-sm leading-7">
-              JavaScript is disabled, so the role/project selector cannot update this page. The form below still submits as a standard commercial enquiry. For precise routing, email a
-              {" "}<a href={ROLE_EMAIL} className="font-semibold text-primary underline underline-offset-4">senior role enquiry</a>
-              {" "}or a
-              {" "}<a href={PROJECT_EMAIL} className="font-semibold text-primary underline underline-offset-4">bounded commercial enquiry</a>.
+              JavaScript is disabled, so the role/project selector cannot update
+              this page. The form below still submits as a standard commercial
+              enquiry. For precise routing, email a{" "}
+              <a
+                href={ROLE_EMAIL}
+                className="font-semibold text-primary underline underline-offset-4"
+              >
+                senior role enquiry
+              </a>{" "}
+              or a{" "}
+              <a
+                href={PROJECT_EMAIL}
+                className="font-semibold text-primary underline underline-offset-4"
+              >
+                bounded commercial enquiry
+              </a>
+              .
             </div>
           </noscript>
 
@@ -202,7 +273,9 @@ export default function ContactPage() {
                 {roleMode ? "Role context" : "Commercial project brief"}
               </p>
               <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                {roleMode ? "Enough context for a serious response" : "Enough context for a useful fit assessment"}
+                {roleMode
+                  ? "Enough context for a serious response"
+                  : "Enough context for a useful fit assessment"}
               </h2>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
                 {roleMode
@@ -212,32 +285,83 @@ export default function ContactPage() {
 
               <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="name" className="mb-1.5 block text-sm font-medium">Name <span className="text-destructive">*</span></label>
-                  <Input id="name" name="name" value={formData.name} onChange={handleChange} autoComplete="name" required />
+                  <label
+                    htmlFor="name"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Name <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    autoComplete="name"
+                    required
+                  />
                 </div>
                 <div>
-                  <label htmlFor="email" className="mb-1.5 block text-sm font-medium">Work email <span className="text-destructive">*</span></label>
-                  <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} autoComplete="email" required />
+                  <label
+                    htmlFor="email"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Work email <span className="text-destructive">*</span>
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    autoComplete="email"
+                    required
+                  />
                 </div>
               </div>
 
               <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="company" className="mb-1.5 block text-sm font-medium">Company or team</label>
-                  <Input id="company" name="company" value={formData.company} onChange={handleChange} autoComplete="organization" />
+                  <label
+                    htmlFor="company"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
+                    Company or team
+                  </label>
+                  <Input
+                    id="company"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    autoComplete="organization"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="website" className="mb-1.5 block text-sm font-medium">
+                  <label
+                    htmlFor="website"
+                    className="mb-1.5 block text-sm font-medium"
+                  >
                     {roleMode ? "Role or company link" : "Website or product link"}
                   </label>
-                  <Input id="website" name="website" type="url" value={formData.website} onChange={handleChange} placeholder="https://" />
+                  <Input
+                    id="website"
+                    name="website"
+                    type="url"
+                    value={formData.website}
+                    onChange={handleChange}
+                    placeholder="https://"
+                  />
                 </div>
               </div>
 
               {!roleMode && (
                 <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="timeline" className="mb-1.5 block text-sm font-medium">Timeline</label>
+                    <label
+                      htmlFor="timeline"
+                      className="mb-1.5 block text-sm font-medium"
+                    >
+                      Timeline
+                    </label>
                     <select
                       id="timeline"
                       name="timeline"
@@ -253,15 +377,29 @@ export default function ContactPage() {
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="budget" className="mb-1.5 block text-sm font-medium">Rough engagement scope</label>
-                    <RegionalBudgetSelect value={formData.budget} onChange={handleChange} />
+                    <label
+                      htmlFor="budget"
+                      className="mb-1.5 block text-sm font-medium"
+                    >
+                      Rough engagement scope
+                    </label>
+                    <RegionalBudgetSelect
+                      value={formData.budget}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
               )}
 
               <div className="mt-5">
-                <label htmlFor="message" className="mb-1.5 block text-sm font-medium">
-                  {roleMode ? "Role, team context, and why this fit matters" : "Current workflow, failure point, and desired outcome"} <span className="text-destructive">*</span>
+                <label
+                  htmlFor="message"
+                  className="mb-1.5 block text-sm font-medium"
+                >
+                  {roleMode
+                    ? "Role, team context, and why this fit matters"
+                    : "Current workflow, failure point, and desired outcome"}{" "}
+                  <span className="text-destructive">*</span>
                 </label>
                 <Textarea
                   id="message"
@@ -282,10 +420,23 @@ export default function ContactPage() {
               <input type="hidden" name="mode" value={formData.mode} />
               <div className="hidden" aria-hidden="true">
                 <label htmlFor="company-site">Company site</label>
-                <input id="company-site" type="text" name="honeypot" value={formData.honeypot} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                <input
+                  id="company-site"
+                  type="text"
+                  name="honeypot"
+                  value={formData.honeypot}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
               </div>
 
-              <Button type="submit" disabled={status === "loading"} className="mt-6 w-full rounded-md" size="lg">
+              <Button
+                type="submit"
+                disabled={status === "loading"}
+                className="mt-6 w-full rounded-md"
+                size="lg"
+              >
                 {status === "loading"
                   ? "Sending..."
                   : roleMode
@@ -295,48 +446,114 @@ export default function ContactPage() {
               </Button>
 
               <p className="mt-4 text-center text-xs leading-5 text-muted-foreground">
-                Submitted information is used only to assess and respond to the enquiry under the <Link href="/privacy" className="font-medium text-primary hover:underline">Privacy Policy</Link>. Do not include passwords, payment details, medical records, or other sensitive personal information.
+                Submitted information is used only to assess and respond to the
+                enquiry under the{" "}
+                <Link
+                  href="/privacy"
+                  className="font-medium text-primary hover:underline"
+                >
+                  Privacy Policy
+                </Link>
+                . Do not include passwords, payment details, medical records, or
+                other sensitive personal information.
               </p>
 
               <div aria-live="polite" aria-atomic="true">
-                {status === "success" && <p className="mt-4 text-center text-sm text-green-600 dark:text-green-400">Sent successfully. I will reply within two business days.</p>}
-                {status === "error" && <p className="mt-4 text-center text-sm text-destructive">{errorMessage} Use email if the problem continues.</p>}
+                {status === "success" && (
+                  <p className="mt-4 text-center text-sm text-green-600 dark:text-green-400">
+                    Sent successfully. I will reply within two business days.
+                  </p>
+                )}
+                {status === "error" && (
+                  <p className="mt-4 text-center text-sm text-destructive">
+                    {errorMessage} Use email if the problem continues.
+                  </p>
+                )}
               </div>
             </form>
 
             <aside className="space-y-8">
               <div className="border-y py-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Prefer a call?</p>
-                <h2 className="mt-3 text-2xl font-bold tracking-tight">Choose the smallest useful conversation.</h2>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                  Prefer a call?
+                </p>
+                <h2 className="mt-3 text-2xl font-bold tracking-tight">
+                  Choose the smallest useful conversation.
+                </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  Use 15 minutes for fit and direction. Use 30 minutes when there is already a workflow, role brief, examples, or an existing product to review.
+                  Use 15 minutes for fit and direction. Use 30 minutes when there
+                  is already a workflow, role brief, examples, or an existing
+                  product to review.
                 </p>
                 <div className="mt-6 grid gap-3">
-                  {[{ href: CAL_15MIN, title: "15-minute fit call", note: "Fit and next step" }, { href: CAL_30MIN, title: "30-minute working call", note: "Workflow, role, or constraints" }].map((item) => (
-                    <Link key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between border-t py-4 hover:text-primary">
+                  {calls.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between border-t py-4 hover:text-primary"
+                    >
                       <div className="flex items-center gap-3">
                         <Calendar className="h-5 w-5 text-primary" />
-                        <div><p className="text-sm font-semibold">{item.title}</p><p className="text-xs text-muted-foreground">{item.note}</p></div>
+                        <div>
+                          <p className="text-sm font-semibold">{item.title}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {item.note}
+                          </p>
+                        </div>
                       </div>
                       <ExternalLink className="h-4 w-4 text-muted-foreground" />
                     </Link>
                   ))}
                 </div>
+                <p className="mt-4 text-xs leading-5 text-muted-foreground">
+                  Cal.com stores standard campaign parameters on the booking so
+                  role and commercial outcomes can be counted without adding
+                  page-view tracking to this site.
+                </p>
               </div>
 
               <div className="border-y py-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Direct channels</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Direct channels
+                </p>
                 <div className="mt-5 space-y-4">
-                  <Link href="mailto:pranay.suyash@gmail.com" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"><Mail className="h-4 w-4 text-primary" />Email</Link>
-                  <Link href="https://linkedin.com/in/pranaysuyash" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"><Linkedin className="h-4 w-4 text-primary" />LinkedIn</Link>
-                  <Link href="https://github.com/pranaysuyash" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"><Github className="h-4 w-4 text-primary" />GitHub</Link>
+                  <Link
+                    href="mailto:pranay.suyash@gmail.com"
+                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"
+                  >
+                    <Mail className="h-4 w-4 text-primary" />
+                    Email
+                  </Link>
+                  <Link
+                    href="https://linkedin.com/in/pranaysuyash"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"
+                  >
+                    <Linkedin className="h-4 w-4 text-primary" />
+                    LinkedIn
+                  </Link>
+                  <Link
+                    href="https://github.com/pranaysuyash"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary"
+                  >
+                    <Github className="h-4 w-4 text-primary" />
+                    GitHub
+                  </Link>
                 </div>
               </div>
 
               <div className="border-l-2 border-primary pl-5">
                 <p className="text-sm font-semibold">Commercial boundary</p>
                 <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                  Custom project and advisory terms are handled separately through PSRS Technologies Private Limited where applicable. This personal site remains the professional and proof-of-work surface.
+                  Custom project and advisory terms are handled separately
+                  through PSRS Technologies Private Limited where applicable.
+                  This personal site remains the professional and proof-of-work
+                  surface.
                 </p>
               </div>
             </aside>
