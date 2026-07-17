@@ -135,7 +135,7 @@ export async function launchChromeCdp(executablePath = findChromeExecutable()) {
     for (const listener of eventListeners) listener(message);
   };
 
-  function send(method, params = {}, sessionId) {
+  function rawSend(method, params = {}, sessionId) {
     const id = nextId;
     nextId += 1;
     return new Promise((resolve, reject) => {
@@ -149,6 +149,14 @@ export async function launchChromeCdp(executablePath = findChromeExecutable()) {
         }),
       );
     });
+  }
+
+  async function send(method, params = {}, sessionId) {
+    const result = await rawSend(method, params, sessionId);
+    if (method === "Target.attachToTarget" && params.targetId) {
+      await rawSend("Target.activateTarget", { targetId: params.targetId });
+    }
+    return result;
   }
 
   function waitForEvent(method, sessionId, timeout = 15_000) {
