@@ -27,11 +27,27 @@ function requireTokens(relativePath, tokens) {
 
 requireTokens("package.json", [
   '"site:smoke": "node scripts/smoke_local_export.mjs"',
-  '"site:local": "npm run site:verify && npm run site:smoke"',
-  '"site:serve": "python3 -m http.server 4173 -d out"',
+  '"site:browser": "node scripts/browser_release_test.mjs"',
+  '"site:local": "npm run site:verify && npm run site:smoke && npm run site:browser"',
+  '"site:serve": "node scripts/serve_static_export.mjs"',
   '"book:restore": "python3 scripts/restore_protected_publication.py"',
   '"book:validate": "npm run book:restore && python3 book/tools/check_cleanup_protection.py && python3 book/tools/check_manuscript.py && python3 book/tools/check_package.py"',
-  '"deploy:cloudflare": "npm run site:local && npx wrangler pages deploy out --project-name pranay --branch main"',
+  '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
+  '"deploy:cloudflare": "npm run book:restore && npm run deploy:guard && npm run site:local && npm run deploy:guard && npx wrangler pages deploy out --project-name pranay --branch main"',
+]);
+
+requireTokens("scripts/lib/static_export_server.mjs", [
+  "resolveStaticExportPath",
+  "createStaticExportServer",
+  "Static export server requires an existing out/ directory",
+  '"cache-control": "no-store"',
+  'request.method === "HEAD"',
+]);
+
+requireTokens("scripts/serve_static_export.mjs", [
+  'import { createStaticExportServer } from "./lib/static_export_server.mjs"',
+  "Serving the verified static export",
+  'process.on("SIGINT", shutdown)',
 ]);
 
 requireTokens("scripts/restore_protected_publication.py", [
@@ -43,6 +59,15 @@ requireTokens("scripts/restore_protected_publication.py", [
   "all protected publication artifacts are already present",
 ]);
 
+requireTokens("scripts/verify_deploy_source.mjs", [
+  'git("branch", "--show-current")',
+  'git("rev-parse", "origin/main")',
+  'git("status", "--porcelain=v1", "--untracked-files=all")',
+  "the working tree is dirty",
+  "does not match pushed origin/main",
+  "Generated build identity can truthfully name this SHA",
+]);
+
 requireTokens("scripts/verify_live_deployment.mjs", [
   "resolveExpectedSha",
   'execFileSync("git", ["rev-parse", "HEAD"]',
@@ -50,7 +75,7 @@ requireTokens("scripts/verify_live_deployment.mjs", [
 ]);
 
 requireTokens("scripts/smoke_local_export.mjs", [
-  "Local smoke test requires an existing out/ export",
+  'import { createStaticExportServer } from "./lib/static_export_server.mjs"',
   'route: "/"',
   'route: "/hire-me"',
   'route: "/work-with-me"',
@@ -58,34 +83,56 @@ requireTokens("scripts/smoke_local_export.mjs", [
   'route: "/work"',
   'route: "/proof"',
   'route: "/books/no-claim-without-evidence"',
+  'route: "/books/no-claim-without-evidence/sample"',
   'route: "/product-lab/"',
-  'fetch(`${baseUrl}/build-info.json`)',
-  "server.close",
+  '`${staticExport.baseUrl}/build-info.json`',
+  "await staticExport.close()",
+]);
+
+requireTokens("scripts/browser_release_test.mjs", [
+  "BROWSER_EXECUTABLE_PATH",
+  "remote-debugging-port=0",
+  "Runtime.exceptionThrown",
+  "Page.captureScreenshot",
+  "horizontalOverflow",
+  "role contact route does not select role mode",
+  "India pricing does not appear after selection",
+  "reading sample does not lead directly to secure checkout",
+  "mobile menu does not expose an accessible modal dialog",
+  "product lab lacks its resilient fallback path",
+  'path.join(artifactsDir, "report.json")',
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
   "npm run site:verify 2>&1 | tee site-verify.log",
   "npm run site:smoke 2>&1 | tee site-smoke.log",
-  "Canonical verification and HTTP smoke test passed",
+  "npm run site:browser 2>&1 | tee site-browser.log",
+  "Source, HTTP, and hydrated browser verification passed",
   "continue-on-error: true",
-  "site-smoke.log",
-  "Fail workflow when canonical verification or smoke testing failed",
+  "browser-artifacts",
+  "Fail workflow when any release verification failed",
 ]);
 
 requireTokens(".github/workflows/site-diagnostics.yml", [
   "ref: main",
   "npm run site:verify 2>&1 | tee site-verify.log",
   "npm run site:smoke 2>&1 | tee site-smoke.log",
-  "site-smoke.log",
+  "npm run site:browser 2>&1 | tee site-browser.log",
+  "browser-artifacts",
 ]);
 
 requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
   "npm run site:local",
+  "npm run site:browser",
   "npm run book:restore",
+  "npm run deploy:guard",
   "npm run site:serve",
+  "BROWSER_EXECUTABLE_PATH",
+  "browser-artifacts/",
   "npx wrangler whoami",
   "npm run deploy:cloudflare",
   "npm run live:verify",
+  "Do not bypass this check with Wrangler's `--commit-dirty=true`.",
   "Do not claim a live transaction or external integration works until the real production path has completed.",
 ]);
 
@@ -94,6 +141,8 @@ requireTokens("docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md", [
   "Commercial pricing architecture",
   "Contact resilience",
   "Local release workflow",
+  "Hydrated browser verification",
+  "Deployment provenance",
   "Protected publication recovery",
   "What cannot be completed from repository source alone",
   "No additional generic redesign",
@@ -103,6 +152,8 @@ requireTokens(".github/career-platform-10-check.txt", [
   "Complete local verification entry point: npm run site:local",
   "Local release runbook: docs/LOCAL_RELEASE_RUNBOOK.md",
   "protected publication artifacts are restored from the current Git HEAD when missing",
+  "hydrated desktop and mobile browser verification",
+  "clean pushed main deployment provenance",
   "one canonical engagement catalogue",
   "local HTTP smoke testing",
   "do not deploy an export that has not passed npm run site:local",
@@ -114,5 +165,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: self-healing protected publication restoration, automatic live-SHA resolution, one-command verification, HTTP smoke testing, main CI, manual diagnostics, Cloudflare commands, and the source-completion boundary remain aligned.",
+  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, HTTP smoke testing, hydrated desktop/mobile browser interaction checks, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
 );
