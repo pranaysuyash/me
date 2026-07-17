@@ -51,12 +51,21 @@ Content remains available as normal HTML; navigation does not hide evidence behi
 - The one-time digital product remains separate from consulting and implementation services.
 - Existing Dodo and social-preview claim boundaries are unchanged.
 
+### Protected publication recovery
+
+- The PDF, EPUB, self-contained HTML, sales page, cover, archive, and protected publication sources remain tracked in Git and checksum-pinned.
+- `scripts/restore_protected_publication.py` restores only missing protected files from the current `HEAD`.
+- Existing and locally modified files are never overwritten.
+- `npm run book:restore` is available for explicit recovery.
+- `book:validate` automatically restores missing protected files before cleanup, freshness, manuscript, and package checks.
+- The repository's own cleanup remains allowlisted to `.next/` and `out/`; restoration protects against unrelated system cleanup tools that delete tracked publication outputs.
+
 ### Local release workflow
 
 - `npm run site:local` runs the canonical release contract and a local HTTP smoke test.
 - `npm run site:serve` serves the generated `out/` directory on port 4173.
 - `scripts/smoke_local_export.mjs` checks actual HTTP resolution and required copy across Home, Experience, Services, Contact, Work, Proof, Book, Product Lab, and `build-info.json`.
-- `docs/LOCAL_RELEASE_RUNBOOK.md` contains setup, development, verification, preview, Cloudflare authentication, deployment, post-deployment checks, and manual transaction tests.
+- `docs/LOCAL_RELEASE_RUNBOOK.md` contains setup, protected-publication recovery, development, verification, preview, Cloudflare authentication, deployment, post-deployment checks, and manual transaction tests.
 
 ### Continuous verification
 
