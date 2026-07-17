@@ -200,117 +200,112 @@ export function Navbar() {
           </div>
         </div>
 
-        <div
-          id="mobile-menu"
-          className={`fixed inset-0 z-50 transition-all duration-300 lg:hidden ${
-            mobileMenuOpen
-              ? "visible pointer-events-auto opacity-100"
-              : "invisible pointer-events-none opacity-0"
-          }`}
-          aria-hidden={!mobileMenuOpen}
-        >
-          <button
-            type="button"
-            tabIndex={-1}
-            className="absolute inset-0 bg-black/40"
-            aria-label="Close menu"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div
-            ref={mobilePanelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Main menu"
-            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm"
-          >
-            <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-md border bg-muted text-sm font-bold">PS</span>
-                <span>
-                  <span className="name-display block text-sm font-semibold">Pranay Suyash</span>
-                  <span className="mt-1 block text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-                    Product leader and systems builder
+        {mobileMenuOpen && (
+          <div id="mobile-menu" className="fixed inset-0 z-50 lg:hidden">
+            <button
+              type="button"
+              tabIndex={-1}
+              className="absolute inset-0 bg-black/40"
+              aria-label="Close menu"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            <div
+              ref={mobilePanelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Main menu"
+              className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 sm:max-w-sm"
+            >
+              <div className="flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-md border bg-muted text-sm font-bold">PS</span>
+                  <span>
+                    <span className="name-display block text-sm font-semibold">Pranay Suyash</span>
+                    <span className="mt-1 block text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                      Product leader and systems builder
+                    </span>
                   </span>
-                </span>
-              </Link>
-              <button
-                ref={mobileCloseButtonRef}
-                type="button"
-                className="rounded-full p-2.5 text-foreground hover:bg-muted"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <X className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
+                </Link>
+                <button
+                  ref={mobileCloseButtonRef}
+                  autoFocus
+                  type="button"
+                  className="rounded-full p-2.5 text-foreground hover:bg-muted"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="sr-only">Close menu</span>
+                  <X className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
 
-            <div className="mt-8 border-b pb-6">
-              <Link
-                href={action.href}
-                target={actionIsExternal ? "_blank" : undefined}
-                rel={actionIsExternal ? "noopener noreferrer" : undefined}
-                data-cta-context={action.context}
-                className="flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground"
-              >
-                {action.label} <ActionIcon className="ml-2 h-4 w-4" />
-              </Link>
-              {action.context !== "hiring" && (
+              <div className="mt-8 border-b pb-6">
                 <Link
-                  href="/hire-me"
-                  className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                  href={action.href}
+                  target={actionIsExternal ? "_blank" : undefined}
+                  rel={actionIsExternal ? "noopener noreferrer" : undefined}
+                  data-cta-context={action.context}
+                  className="flex w-full items-center justify-center rounded-md bg-primary px-4 py-3 text-base font-medium text-primary-foreground"
                 >
-                  For hiring teams
+                  {action.label} <ActionIcon className="ml-2 h-4 w-4" />
                 </Link>
-              )}
-              {action.context === "hiring" && (
-                <Link
-                  href="/work"
-                  className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
-                >
-                  Review selected work
-                </Link>
-              )}
-            </div>
+                {action.context !== "hiring" && (
+                  <Link
+                    href="/hire-me"
+                    className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                  >
+                    For hiring teams
+                  </Link>
+                )}
+                {action.context === "hiring" && (
+                  <Link
+                    href="/work"
+                    className="mt-3 flex w-full items-center justify-center rounded-md border px-4 py-3 text-base font-medium"
+                  >
+                    Review selected work
+                  </Link>
+                )}
+              </div>
 
-            <div className="space-y-1 py-6">
-              <p className="mb-4 px-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Navigation
-              </p>
-              {navigation.map((item) => (
+              <div className="space-y-1 py-6">
+                <p className="mb-4 px-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Navigation
+                </p>
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    className={`block rounded-lg px-4 py-3 text-base font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:bg-muted"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
                 <Link
-                  key={item.name}
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`block rounded-lg px-4 py-3 text-base font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-primary/10 text-primary"
-                      : "text-foreground hover:bg-muted"
-                  }`}
+                  href="/proof"
+                  className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
-                  {item.name}
+                  Proof ledger
                 </Link>
-              ))}
-              <Link
-                href="/proof"
-                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                Proof ledger
-              </Link>
-              <Link
-                href="/systems"
-                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                Interactive systems lab
-              </Link>
-              <Link
-                href="/labs"
-                className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-              >
-                Project archive
-              </Link>
+                <Link
+                  href="/systems"
+                  className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  Interactive systems lab
+                </Link>
+                <Link
+                  href="/labs"
+                  className="block rounded-lg px-4 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  Project archive
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </nav>
     </header>
   );
