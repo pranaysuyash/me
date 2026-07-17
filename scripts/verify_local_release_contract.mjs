@@ -44,6 +44,19 @@ requireTokens("scripts/lib/static_export_server.mjs", [
   'request.method === "HEAD"',
 ]);
 
+requireTokens("scripts/lib/chrome_cdp.mjs", [
+  "BROWSER_EXECUTABLE_PATH",
+  "findChromeExecutable",
+  "launchChromeCdp",
+  "--headless",
+  "--no-sandbox",
+  "--remote-debugging-address=127.0.0.1",
+  "--remote-debugging-port=${port}",
+  "/json/version",
+  "webSocketDebuggerUrl",
+  "Browser.close",
+]);
+
 requireTokens("scripts/serve_static_export.mjs", [
   'import { createStaticExportServer } from "./lib/static_export_server.mjs"',
   "Serving the verified static export",
@@ -90,8 +103,7 @@ requireTokens("scripts/smoke_local_export.mjs", [
 ]);
 
 requireTokens("scripts/browser_release_test.mjs", [
-  "BROWSER_EXECUTABLE_PATH",
-  "remote-debugging-port=0",
+  'import { launchChromeCdp } from "./lib/chrome_cdp.mjs"',
   "Runtime.exceptionThrown",
   "Page.captureScreenshot",
   "horizontalOverflow",
@@ -165,5 +177,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, HTTP smoke testing, hydrated desktop/mobile browser interaction checks, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
+  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, HTTP smoke testing, localhost-polled Chrome CDP interaction checks, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
 );
