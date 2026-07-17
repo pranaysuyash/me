@@ -31,7 +31,7 @@ requireTokens("package.json", [
   '"site:serve": "python3 -m http.server 4173 -d out"',
   '"book:restore": "python3 scripts/restore_protected_publication.py"',
   '"book:validate": "npm run book:restore && python3 book/tools/check_cleanup_protection.py && python3 book/tools/check_manuscript.py && python3 book/tools/check_package.py"',
-  '"deploy:cloudflare": "npm run site:verify && wrangler pages deploy out --project-name pranay --branch main"',
+  '"deploy:cloudflare": "npm run site:local && npx wrangler pages deploy out --project-name pranay --branch main"',
 ]);
 
 requireTokens("scripts/restore_protected_publication.py", [
@@ -41,6 +41,12 @@ requireTokens("scripts/restore_protected_publication.py", [
   'run_git("show", f"HEAD:{relative}")',
   "target.write_bytes(blob)",
   "all protected publication artifacts are already present",
+]);
+
+requireTokens("scripts/verify_live_deployment.mjs", [
+  "resolveExpectedSha",
+  'execFileSync("git", ["rev-parse", "HEAD"]',
+  "Set EXPECTED_SHA or run it from a Git checkout with a valid HEAD.",
 ]);
 
 requireTokens("scripts/smoke_local_export.mjs", [
@@ -108,5 +114,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: self-healing protected publication restoration, one-command verification, HTTP smoke testing, main CI, manual diagnostics, Cloudflare commands, and the source-completion boundary remain aligned.",
+  "Local release contract validation passed: self-healing protected publication restoration, automatic live-SHA resolution, one-command verification, HTTP smoke testing, main CI, manual diagnostics, Cloudflare commands, and the source-completion boundary remain aligned.",
 );
