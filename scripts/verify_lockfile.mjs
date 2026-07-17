@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 const root = process.cwd();
@@ -14,35 +16,16 @@ if (!fs.existsSync(manifestPath) || !fs.existsSync(lockPath)) {
   process.exit(1);
 }
 
-const before = fs.readFileSync(lockPath, "utf8");
-execFileSync(
-  npmCommand,
-  [
-    "install",
-    "--package-lock-only",
-    "--ignore-scripts",
-    "--no-audit",
-    "--no-fund",
-  ],
-  { cwd: root, stdio: "inherit" },
-);
-const after = fs.readFileSync(lockPath, "utf8");
-
-if (before !== after) {
-  console.error(
-    "package-lock.json was stale and has been regenerated. Commit the updated lockfile before releasing.",
-  );
-  process.exit(1);
-}
-
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-const lock = JSON.parse(after);
+const lock = JSON.parse(fs.readFileSync(lockPath, "utf8"));
 const rootPackage = lock.packages?.[""] || {};
 
 for (const key of ["dependencies", "devDependencies"]) {
   const expected = manifest[key] || {};
   const actual = rootPackage[key] || {};
-  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+  try {
+    assert.deepStrictEqual(actual, expected);
+  } catch {
     console.error(`package-lock root ${key} does not exactly match package.json.`);
     process.exit(1);
   }
@@ -61,6 +44,42 @@ for (const dependency of [
   }
 }
 
+const temporaryRoot = fs.mkdtempSync(
+  path.join(os.tmpdir(), "portfolio-lock-verification-"),
+);
+try {
+  fs.copyFileSync(manifestPath, path.join(temporaryRoot, "package.json"));
+  fs.copyFileSync(lockPath, path.join(temporaryRoot, "package-lock.json"));
+
+  execFileSync(
+    npmCommand,
+    [
+      "install",
+      "--package-lock-only",
+      "--ignore-scripts",
+      "--no-audit",
+      "--no-fund",
+    ],
+    { cwd: temporaryRoot, stdio: "inherit" },
+  );
+
+  const reproduced = JSON.parse(
+    fs.readFileSync(path.join(temporaryRoot, "package-lock.json"), "utf8"),
+  );
+  try {
+    assert.deepStrictEqual(reproduced, lock);
+  } catch {
+    console.error(
+      "package-lock.json is stale: npm reproduced a different dependency graph. Run npm install --package-lock-only and commit the result.",
+    );
+    process.exitCode = 1;
+  }
+} finally {
+  fs.rmSync(temporaryRoot, { recursive: true, force: true });
+}
+
+if (process.exitCode) process.exit(process.exitCode);
+
 console.log(
-  `Lockfile validation passed: npm reproduced package-lock.json without changes and the root manifest contains ${Object.keys(manifest.dependencies || {}).length} runtime plus ${Object.keys(manifest.devDependencies || {}).length} development dependencies.`,
+  `Lockfile validation passed: npm reproduced the v${lock.lockfileVersion} dependency graph in an isolated directory and the root manifest contains ${Object.keys(manifest.dependencies || {}).length} runtime plus ${Object.keys(manifest.devDependencies || {}).length} development dependencies.`,
 );
