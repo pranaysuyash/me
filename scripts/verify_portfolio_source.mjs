@@ -151,6 +151,8 @@ requireTokens("src/app/contact/page.tsx", [
   "sourceContext",
   "mode",
   "RegionalBudgetSelect",
+  'url.searchParams.set("utm_source", "pranaysuyash.com")',
+  'mode === "role" ? "role-conversation" : "commercial-engagement"',
   "JavaScript is disabled",
 ]);
 requireTokens("src/app/books/no-claim-without-evidence/sample/page.tsx", [
@@ -234,14 +236,31 @@ requireTokens("scripts/verify_external_evidence.mjs", [
   "data-external-evidence-id",
   "approved external evidence",
 ]);
+requireTokens("scripts/verify_conversion_measurement.mjs", [
+  "Do not collect page-view histories",
+  "Cal.com role/commercial UTM attribution",
+  "no-behavioral-tracking policy",
+]);
+requireTokens("scripts/verify_dependency_surface.mjs", [
+  "forbiddenHistoricalDependencies",
+  "runtime dependency is declared but not imported",
+  "historical unused libraries are absent",
+]);
 
 requireTokens("package.json", [
   '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs"',
-  '"postportfolio:validate": "node scripts/verify_external_evidence.mjs"',
+  '"postportfolio:validate": "node scripts/verify_external_evidence.mjs && node scripts/verify_conversion_measurement.mjs && node scripts/verify_dependency_surface.mjs"',
   '"site:browser": "node scripts/browser_release_test.mjs"',
   '"site:local": "npm run site:verify && npm run site:smoke && npm run site:browser"',
   '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
   '"deploy:cloudflare": "npm run book:restore && npm run deploy:guard && npm run site:local && npm run deploy:guard && npx wrangler pages deploy out --project-name pranay --branch main"',
+]);
+forbidTokens("package.json", [
+  '"axios"',
+  '"framer-motion"',
+  '"react-hook-form"',
+  '"zustand"',
+  '"@shadcn/ui"',
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
@@ -282,5 +301,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: a concrete operational-AI identity, four typed and revision-pinned flagship records, shared case rendering, route-aware conversion, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
+  "Portfolio source validation passed: a concrete operational-AI identity, four typed and revision-pinned flagship records, shared case rendering, route-aware conversion, privacy-minimal outcome measurement, a pruned dependency surface, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
 );
