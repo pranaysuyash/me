@@ -9,7 +9,20 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
+const generatedArtifactIgnores = {
+  ignores: [
+    ".next/**",
+    "out/**",
+    "dist/**",
+    "coverage/**",
+    "tmp/**",
+    ".wrangler/**",
+    "public/vendor/three/**",
+  ],
+};
+
 const eslintConfig = [
+  generatedArtifactIgnores,
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
 
