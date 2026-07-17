@@ -1,18 +1,17 @@
 export const careerProfile = {
   name: "Pranay Suyash",
   title: "Product leader and hands-on systems builder",
-  roleLine: "AI, workflow, internal tools, and local-first products",
+  roleLine: "Document-heavy workflows, operational AI, and internal tools",
   location: "Bengaluru, India · Remote and distributed teams",
   currentContext: "Co-Founder / Head of Product & Platforms at MedPiper (YC S20)",
-  headline: "I turn messy operational workflows into reviewable AI and product systems.",
+  headline: "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
   summary:
-    "I move between the user workflow, business problem, interface, architecture, and code because separating those decisions too early is often where products become expensive or unusable. My background spans software engineering, Big Four transformation, and product leadership inside a YC-backed healthcare company.",
+    "I start with the files, handoffs, decisions, and failure states that make an operational workflow hard to run. Then I shape the product boundary, interface, architecture, and implementation needed to make it usable and reviewable. My background spans software engineering, Big Four transformation, and product leadership inside a YC-backed healthcare company.",
   targetRoles: [
     "AI Product Lead",
-    "Principal Product Manager",
+    "Principal Product Manager — operational AI",
     "Product Systems Lead",
     "Head of Product for workflow-heavy products",
-    "Founding product and engineering operator",
   ],
   availability:
     "Open to selective senior product roles with a clear long-term mandate, meaningful ownership, and room to stay close to implementation. Transition timing is discussed directly.",
@@ -44,19 +43,19 @@ export const careerProfile = {
   ],
   roleFit: [
     {
-      environment: "Ambiguous operational product",
-      ownership: "Map the real process, choose the useful system boundary, and ship the core workflow.",
-      evidence: "MedPiper insurance operations and product platform work.",
+      environment: "Document-heavy operational workflow",
+      ownership: "Map the real process, choose the useful system boundary, and ship the core workflow with exceptions visible.",
+      evidence: "MedPiper insurance operations, SignKit, and document-intelligence systems.",
     },
     {
       environment: "Applied AI with review risk",
-      ownership: "Design evidence, confidence, fallback, and human-review paths around model output.",
-      evidence: "Document intelligence, extraction, and evaluation systems.",
+      ownership: "Design evidence, status, fallback, and human-review paths around model output.",
+      evidence: "Extraction, evaluation, provenance, and release-gate work.",
     },
     {
-      environment: "Lean or founder-stage team",
-      ownership: "Keep product judgment and implementation close enough to move from ambiguity to working software.",
-      evidence: "SignKit and other independently shipped product systems.",
+      environment: "Lean team with an unclear product boundary",
+      ownership: "Keep product judgment and implementation close enough to move from real artefacts to working software.",
+      evidence: "Independently shipped local-first and spatial product systems.",
     },
   ],
   audiencePaths: [
@@ -69,7 +68,7 @@ export const careerProfile = {
     },
     {
       label: "For commercial engagements",
-      title: "A defined system, workflow, or difficult product boundary",
+      title: "A defined document, workflow, or operational AI system",
       body: "Use a separate engagement when the outcome is bounded: map the operating workflow, build a focused system, or correct a difficult subsystem. Commercial terms are handled separately through PSRS Technologies Private Limited where applicable.",
       href: "/work-with-me",
       action: "Review commercial engagements",
