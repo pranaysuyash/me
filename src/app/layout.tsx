@@ -28,6 +28,8 @@ const structuredData = {
       name: "Pranay Suyash",
       url: "https://pranaysuyash.com",
       jobTitle: "Product Leader and Hands-on Systems Builder",
+      description:
+        "Product leader and hands-on builder for document-heavy workflows, operational AI systems, and internal tools.",
       worksFor: {
         "@type": "Organization",
         name: "MedPiper Technologies",
@@ -44,13 +46,13 @@ const structuredData = {
       ],
       knowsAbout: [
         "Product leadership",
-        "Product engineering",
-        "Operational workflow systems",
+        "Operational AI systems",
+        "Document-heavy workflows",
         "Document intelligence",
-        "Local-first AI",
+        "Human review and AI evaluation",
         "Internal tools",
+        "Local-first products",
         "Spatial simulation",
-        "AI evaluation and review systems",
       ],
     },
     {
@@ -59,7 +61,7 @@ const structuredData = {
       url: "https://pranaysuyash.com",
       name: "Pranay Suyash",
       description:
-        "Product leadership and hands-on system building across AI, operational workflows, internal tools, local-first products, and spatial simulation.",
+        "Product leadership and hands-on system building for document-heavy workflows, operational AI, and internal tools.",
       inLanguage: "en",
       publisher: { "@id": "https://pranaysuyash.com/#person" },
     },
@@ -70,7 +72,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://pranaysuyash.com"),
   title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
   description:
-    "Product leadership and hands-on system building across AI, operational workflows, internal tools, local-first products, and spatial simulation.",
+    "Product leader and hands-on builder for document-heavy workflows, operational AI systems, and internal tools.",
   authors: [{ name: "Pranay Suyash", url: "https://pranaysuyash.com" }],
   creator: "Pranay Suyash",
   publisher: "Pranay Suyash",
@@ -79,10 +81,11 @@ export const metadata: Metadata = {
     "Product Leader",
     "AI Product Lead",
     "Principal Product Manager",
-    "Product Systems",
+    "Operational AI Systems",
     "Document Workflow Automation",
-    "Local-first AI",
+    "Document Intelligence",
     "Internal Tools",
+    "Local-first Products",
     "Spatial Simulation",
   ],
   openGraph: {
@@ -91,12 +94,14 @@ export const metadata: Metadata = {
     url: "https://pranaysuyash.com",
     siteName: "Pranay Suyash",
     title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
-    description: "From ambiguous operational problem to working, reviewable product system.",
+    description:
+      "Document-heavy, exception-heavy workflows turned into AI systems people can review and run.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Pranay Suyash | Product Leader and Hands-on Systems Builder",
-    description: "AI, workflow, internal tools, local-first products, and spatial systems.",
+    description:
+      "Document-heavy workflows, operational AI systems, internal tools, and evidence-led product delivery.",
     creator: "@pranaysuyash",
   },
   robots: { index: true, follow: true },
