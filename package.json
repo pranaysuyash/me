@@ -33,6 +33,7 @@
     "clean:safe:apply": "python3 book/tools/cleanup_generated.py --apply",
     "deploy:cloudflare": "npm run site:local && npx wrangler pages deploy out --project-name pranay --branch main",
     "start": "next start",
+    "prelint": "node scripts/verify_eslint_boundaries.mjs",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit"
