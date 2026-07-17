@@ -40,7 +40,7 @@ const routeChecks = [
   {
     path: "/",
     token:
-      "I turn messy operational workflows into reviewable AI and product systems.",
+      "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
   },
   {
     path: "/work",
@@ -67,6 +67,10 @@ const routeChecks = [
   {
     path: "/books/no-claim-without-evidence",
     token: "Clean AI output is not the same thing as a trustworthy system.",
+  },
+  {
+    path: "/books/no-claim-without-evidence/sample",
+    token: "Your eval should become a release gate",
   },
 ];
 
