@@ -86,7 +86,11 @@ export default function HireMePage() {
               </div>
               <p className="mt-4 text-xs leading-5 text-white/45">
                 The PDF is generated from a version-controlled career record during every production build.
-                A browser-printable version remains available at <Link href="/pranay_resume.html" className="underline underline-offset-4 hover:text-white">/pranay_resume.html</Link>.
+                A browser-printable version remains available at{" "}
+                <a href="/pranay_resume.html" className="underline underline-offset-4 hover:text-white">
+                  /pranay_resume.html
+                </a>
+                .
               </p>
             </div>
 
