@@ -104,7 +104,24 @@ const checks = [
   },
   {
     route: "/books/no-claim-without-evidence",
-    tokens: ["Book sections", "Buy now", "Dodo Payments handles payment"],
+    tokens: [
+      "Book sections",
+      "Choose ebook pricing region",
+      "Read a real excerpt",
+      "Dodo Payments handles payment",
+    ],
+  },
+  {
+    route: "/books/no-claim-without-evidence/sample",
+    tokens: [
+      "Reading sample sections",
+      "Most AI product mistakes do not start with a bad model.",
+      "A claim is a value plus a reason to trust it",
+      "Test the pipeline, not just the model",
+      "Your eval should become a release gate",
+      "The claim-evidence ledger",
+      "Buy the full book",
+    ],
   },
   {
     route: "/product-lab/",
@@ -136,6 +153,15 @@ async function main() {
       }
     }
 
+    const bookResponse = await fetch(`${baseUrl}/books/no-claim-without-evidence`);
+    const bookBody = await bookResponse.text();
+    if (bookBody.includes("₹799 in India · $14.99 elsewhere")) {
+      failures.push("book export exposes both regional prices in one sales line");
+    }
+    if (bookBody.includes("See the full book page")) {
+      failures.push("book or sample export retains circular sample navigation copy");
+    }
+
     const buildResponse = await fetch(`${baseUrl}/build-info.json`);
     if (!buildResponse.ok) {
       failures.push(`/build-info.json returned ${buildResponse.status}`);
@@ -155,7 +181,7 @@ async function main() {
   }
 
   console.log(
-    `Local HTTP smoke test passed at ${baseUrl}: identity, role and commercial routes, canonical prices, resilient contact fallback, selected work, proof, book checkout copy, product lab, and build identity are reachable from the static export.`,
+    `Local HTTP smoke test passed at ${baseUrl}: identity, role and commercial routes, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, proof, product lab, and build identity are reachable from the static export.`,
   );
 }
 
