@@ -3,6 +3,8 @@ Career platform quality contract
 Canonical branch: main
 Canonical validation entry point: npm run site:verify
 Complete local verification entry point: npm run site:local
+Hydrated browser verification entry point: npm run site:browser
+Deployment provenance guard: npm run deploy:guard
 Local release runbook: docs/LOCAL_RELEASE_RUNBOOK.md
 Source completion record: docs/audits/SITE_SOURCE_COMPLETION_2026-07-16.md
 Automated release workflow: .github/workflows/site-build.yml
@@ -21,15 +23,18 @@ The release contract covers:
 - one canonical engagement catalogue and synchronized India/global pricing state
 - audited product maturity, evidence provenance, and freshness
 - accessibility, contrast, reduced motion, print, privacy, and machine-readable profiles
-- accessible section navigation across Home, About, Experience, Services, Work, Proof, and Book
+- accessible section navigation across Home, About, Experience, Services, Work, Proof, Book, and the reading sample
 - route-aware hiring, services, and book conversion paths
 - same-origin Three.js runtime, resilient product-lab fallback, and portable module syntax validation
 - generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
 - protected publication artifacts are restored from the current Git HEAD when missing, without overwriting existing files
 - deployment-ready static export after publication-only assets are pruned
 - local HTTP smoke testing of the generated static export and build identity
-- an exact-commit `canonical-site-verify` status with retained verification log and export artifact
-- a main-only diagnostic workflow with read-only permissions, retained artifacts, and a 15-minute timeout
+- hydrated desktop and mobile browser verification of interaction, pricing, contact routing, mobile navigation, responsive overflow, accessibility basics, and runtime health
+- retained browser screenshots and a machine-readable browser verification report
+- clean pushed main deployment provenance: branch, working tree, HEAD, and origin/main must agree before and after verification
+- an exact-commit canonical-site-verify status with retained source, HTTP, browser, and export artifacts
+- a main-only diagnostic workflow with read-only permissions and retained browser evidence
 - explicit closure criteria across identity, hiring, commercial work, evidence, transactions, measurement, accessibility, discovery, legal trust, deployment, and production learning
 - full-file and review-thread recovery evidence for every pull request created before the main-only rule was enforced
 
@@ -43,5 +48,7 @@ Operating rule:
 - rejected workflows are preserved only as non-executable audit artifacts
 - after recovery and validation, obsolete pull requests are closed and their branches are deleted
 - do not deploy an export that has not passed npm run site:local
+- do not deploy from dirty source, detached HEAD, another branch, or a local commit that does not equal origin/main
+- do not use Wrangler commit-dirty overrides because the public build identity must identify the actual deployed source
 - do not reopen generic source redesign work without failed verification, production evidence, direct product evidence, or observed user behavior
 - prefer one canonical validation path; automated and diagnostic workflows must call that path rather than reproduce a second validation pipeline
