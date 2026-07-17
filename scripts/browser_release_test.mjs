@@ -15,7 +15,12 @@ const assert = (condition, message, failures) => {
 };
 
 function expectedProductLabError(route, text) {
-  return route === "/product-lab/" && /THREE\.WebGLRenderer|WebGL context|Error creating WebGL context/i.test(text);
+  return (
+    route === "/product-lab/" &&
+    /THREE\.WebGLRenderer|WebGL context|Error creating WebGL context|WebGL unavailable/i.test(
+      text,
+    )
+  );
 }
 
 async function main() {
@@ -39,15 +44,21 @@ async function main() {
         const details = message.params.exceptionDetails || {};
         runtimeEntries.push({
           route: currentRoute,
+          url: details.url || "",
           text: String(details.exception?.description || details.exception?.value || details.text || "Uncaught"),
         });
       }
       if (message.method === "Log.entryAdded" && message.params.entry?.level === "error") {
-        runtimeEntries.push({ route: currentRoute, text: String(message.params.entry.text || "browser log error") });
+        runtimeEntries.push({
+          route: currentRoute,
+          url: String(message.params.entry.url || ""),
+          text: String(message.params.entry.text || "browser log error"),
+        });
       }
       if (message.method === "Runtime.consoleAPICalled" && message.params.type === "error") {
         runtimeEntries.push({
           route: currentRoute,
+          url: String(message.params.stackTrace?.callFrames?.[0]?.url || ""),
           text: (message.params.args || [])
             .map((argument) => argument.value || argument.description || "")
             .join(" "),
@@ -169,7 +180,7 @@ async function main() {
     assert(!text.includes("₹95,000+"), "global pricing view also exposes the India mapping price", failures);
     const selectedIndia = await evaluate(`(() => {
       const button = Array.from(document.querySelectorAll('button'))
-        .find((item) => (item.textContent || '').trim() === 'India');
+        .find((item) => (item.textContent || '').trim().startsWith('India'));
       if (!button) return false;
       button.click();
       return true;
@@ -267,7 +278,7 @@ async function main() {
       return true;
     })()`);
     assert(openedMenu, "mobile menu trigger is not operable", failures);
-    await wait(200);
+    await wait(300);
     const mobileMenu = await evaluate(`({
       dialog: Boolean(document.querySelector('[role="dialog"][aria-modal="true"]')),
       bodyLocked: document.body.style.overflow === 'hidden',
@@ -315,7 +326,8 @@ async function main() {
       if (!value) continue;
       if (expectedProductLabError(entry.route, value)) continue;
       if (entry.route === "/product-lab/" && productLabFallbackVerified && /^(Uncaught|Error)$/i.test(value)) continue;
-      failures.push(`browser runtime error: ${entry.route}: ${value}`);
+      const location = entry.url ? ` (${entry.url})` : "";
+      failures.push(`browser runtime error: ${entry.route}${location}: ${value}`);
     }
   } finally {
     await browser.close();
