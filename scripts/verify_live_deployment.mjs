@@ -1,9 +1,27 @@
 #!/usr/bin/env node
 
+import { execFileSync } from "node:child_process";
+
 const baseUrl = new URL(
   process.env.LIVE_SITE_URL || "https://pranaysuyash.com",
 );
-const expectedSha = (process.env.EXPECTED_SHA || "").trim();
+
+function resolveExpectedSha() {
+  const supplied = (process.env.EXPECTED_SHA || "").trim();
+  if (supplied) return supplied;
+
+  try {
+    return execFileSync("git", ["rev-parse", "HEAD"], {
+      cwd: process.cwd(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    }).trim();
+  } catch {
+    return "";
+  }
+}
+
+const expectedSha = resolveExpectedSha();
 const attempts = Number.parseInt(process.env.LIVE_VERIFY_ATTEMPTS || "3", 10);
 const delayMs = Number.parseInt(process.env.LIVE_VERIFY_DELAY_MS || "15000", 10);
 const requestTimeoutMs = Number.parseInt(
@@ -13,7 +31,7 @@ const requestTimeoutMs = Number.parseInt(
 
 if (!/^[0-9a-f]{40}$/i.test(expectedSha)) {
   console.error(
-    "Live deployment verification requires EXPECTED_SHA as a full 40-character commit SHA.",
+    "Live deployment verification needs a full commit SHA. Set EXPECTED_SHA or run it from a Git checkout with a valid HEAD.",
   );
   process.exit(1);
 }
