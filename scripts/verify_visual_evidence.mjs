@@ -106,6 +106,8 @@ if (failures.length) {
   process.exit(1);
 }
 
+await import("./verify_product_evidence_capture.mjs");
+
 console.log(
-  "Visual evidence validation passed: all audited products use self-hosted, accessible, typed, captioned workflow maps with no broken or remote image dependencies.",
+  "Visual evidence validation passed: all audited products retain self-hosted, accessible, typed, captioned workflow maps; direct product screenshots and recordings are governed by revision-pinned capture, redaction, file, and approval rules before public promotion.",
 );
