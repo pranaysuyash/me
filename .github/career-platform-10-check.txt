@@ -34,7 +34,7 @@ The release contract covers:
 - retained browser screenshots and a machine-readable browser verification report
 - clean pushed main deployment provenance: branch, working tree, HEAD, and origin/main must agree before and after verification
 - an exact-commit canonical-site-verify status with retained source, HTTP, browser, and export artifacts
-- a main-only diagnostic workflow with read-only permissions and retained browser evidence
+- a main-only diagnostic workflow with read-only permissions, retained browser evidence, and an 18-minute timeout
 - explicit closure criteria across identity, hiring, commercial work, evidence, transactions, measurement, accessibility, discovery, legal trust, deployment, and production learning
 - full-file and review-thread recovery evidence for every pull request created before the main-only rule was enforced
 
