@@ -282,6 +282,20 @@ requireTokens("scripts/verify_lab_syntax.mjs", [
   '"--input-type=module", "--check"',
   "Product lab syntax validation passed",
 ]);
+requireTokens("scripts/browser_release_test.mjs", [
+  "remote-debugging-port=0",
+  "Runtime.exceptionThrown",
+  "horizontalOverflow",
+  "Page.captureScreenshot",
+  "mobile menu does not expose an accessible modal dialog",
+  "reading sample does not lead directly to secure checkout",
+]);
+requireTokens("scripts/verify_deploy_source.mjs", [
+  'git("branch", "--show-current")',
+  'git("rev-parse", "origin/main")',
+  'git("status", "--porcelain=v1", "--untracked-files=all")',
+  "the working tree is dirty",
+]);
 
 requireTokens("package.json", [
   '"prebuild": "python3 scripts/vendor_three.py && python3 scripts/generate_resume_pdf.py && python3 scripts/generate_build_manifest.py"',
@@ -289,8 +303,11 @@ requireTokens("package.json", [
   '"lab:validate": "node scripts/verify_lab_syntax.mjs"',
   '"portfolio:validate": "node scripts/verify_portfolio_source.mjs && node scripts/verify_visual_evidence.mjs && node scripts/verify_content_freshness.mjs && node scripts/verify_experience_quality.mjs"',
   '"site:verify": "npm run lint && npm run typecheck && npm run portfolio:validate && npm run book:validate && npm run build && npm run lab:validate"',
+  '"site:browser": "node scripts/browser_release_test.mjs"',
+  '"site:local": "npm run site:verify && npm run site:smoke && npm run site:browser"',
+  '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
   '"lint": "eslint . --max-warnings=0"',
-  '"deploy:cloudflare": "npm run site:local && npx wrangler pages deploy out --project-name pranay --branch main"',
+  '"deploy:cloudflare": "npm run book:restore && npm run deploy:guard && npm run site:local && npm run deploy:guard && npx wrangler pages deploy out --project-name pranay --branch main"',
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
@@ -300,6 +317,10 @@ requireTokens(".github/workflows/site-build.yml", [
   "Check out triggering commit",
   "Run canonical career-platform release contract",
   "npm run site:verify 2>&1 | tee site-verify.log",
+  "npm run site:smoke 2>&1 | tee site-smoke.log",
+  "npm run site:browser 2>&1 | tee site-browser.log",
+  "Source, HTTP, and hydrated browser verification passed",
+  "browser-artifacts",
   "verified-static-site-${{ github.sha }}",
 ]);
 forbidTokens(".github/workflows/site-build.yml", ["pull_request:", "ref: main"]);
@@ -308,6 +329,9 @@ requireTokens(".github/workflows/site-diagnostics.yml", [
   "workflow_dispatch:",
   "ref: main",
   "npm run site:verify 2>&1 | tee site-verify.log",
+  "npm run site:smoke 2>&1 | tee site-smoke.log",
+  "npm run site:browser 2>&1 | tee site-browser.log",
+  "browser-artifacts",
   "diagnostic-static-site-${{ github.sha }}",
 ]);
 forbidTokens(".github/workflows/site-diagnostics.yml", ["pull_request:", "push:"]);
@@ -315,6 +339,8 @@ forbidTokens(".github/workflows/site-diagnostics.yml", ["pull_request:", "push:"
 requireTokens(".github/career-platform-10-check.txt", [
   "Canonical branch: main",
   "Canonical validation entry point: npm run site:verify",
+  "hydrated desktop and mobile browser verification",
+  "clean pushed main deployment provenance",
   "automated release checks run only for main pushes or explicit manual dispatch",
   "before closing an existing pull request",
   "prefer one canonical validation path",
@@ -365,5 +391,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, social preview, build identity, archive boundary, canonical lint and lab validation, main-only workflows, exact-commit CI, PR recovery documentation, and deployment contract are intact.",
+  "Portfolio source validation passed: career identity, route-aware conversion, public proof, accessibility, machine-readable profiles, audited maturity, pinned implementation evidence, 90-day freshness, print and privacy quality, compact homepage, complete same-origin Three.js runtime, lightweight book cover, substantive reading sample, social preview, build identity, archive boundary, canonical lint and lab validation, hydrated desktop/mobile browser evidence, clean pushed-main deployment provenance, main-only workflows, exact-commit CI, PR recovery documentation, and deployment contract are intact.",
 );
