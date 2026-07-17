@@ -25,6 +25,7 @@ The release contract covers:
 - route-aware hiring, services, and book conversion paths
 - same-origin Three.js runtime, resilient product-lab fallback, and portable module syntax validation
 - generated resume, publication package, social previews, static budgets, redirects, sitemap, and internal links
+- protected publication artifacts are restored from the current Git HEAD when missing, without overwriting existing files
 - deployment-ready static export after publication-only assets are pruned
 - local HTTP smoke testing of the generated static export and build identity
 - an exact-commit `canonical-site-verify` status with retained verification log and export artifact
