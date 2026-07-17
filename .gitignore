@@ -59,5 +59,6 @@ next-env.d.ts
 .agent/
 .claude/
 
-# Testing
+# Testing and generated release evidence
 coverage/
+browser-artifacts/
