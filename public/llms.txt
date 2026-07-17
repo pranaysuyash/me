@@ -1,20 +1,22 @@
 # Pranay Suyash
 
-> Product leader and hands-on systems builder for AI, workflow, internal tools, local-first products, and spatial systems.
+> Product leader and hands-on systems builder for document-heavy workflows, operational AI systems, and internal tools.
 
 Canonical site: https://pranaysuyash.com
 Last evidence review: 2026-07-16
 
 ## Professional identity
 
-- Core value: keeps product judgment, operating context, interface decisions, architecture, and enough implementation skill close enough to produce useful systems.
-- Working style: asks for real artefacts and constraints early; moves between commercial goal, workflow, interface, architecture, and code; separates fact, inference, and unresolved risk; takes delivery through error states, documentation, release gates, and handoff.
+- Primary promise: turns document-heavy, exception-heavy workflows into AI systems people can review and run.
+- Core value: starts with files, handoffs, decisions, failure states, and operator consequences; keeps product judgment, interface, architecture, and implementation close enough to produce a usable system.
+- Working style: asks for real artefacts and constraints early; separates fact, inference, and unresolved risk; takes delivery through error states, documentation, release gates, and handoff.
 - Current context: Co-Founder / Head of Product & Platforms at MedPiper (YC S20), Bengaluru, India.
+- Range beyond the primary wedge: local-first desktop products and spatial simulation systems remain audited evidence of broader product and engineering range.
 
 ## Work modes
 
 - Senior internal role: sustained ownership across product direction, platform choices, cross-functional execution, and what the organisation learns after launch.
-- Bounded commercial engagement: a defined workflow, system, subsystem, correction, or decision with explicit scope, delivery evidence, and an end condition.
+- Bounded commercial engagement: a defined document workflow, operational AI system, subsystem, correction, or decision with explicit scope, delivery evidence, and an end condition.
 - Commercial contracting: separate project and advisory terms may be handled through PSRS Technologies Private Limited where applicable; the personal site remains the identity and proof-of-work surface.
 
 ## Primary professional routes
@@ -54,7 +56,7 @@ Last evidence review: 2026-07-16
 ## Publication
 
 - No Claim Without Evidence: https://pranaysuyash.com/books/no-claim-without-evidence
-- Sample chapter: https://pranaysuyash.com/books/no-claim-without-evidence/sample
+- Curated reading sample: https://pranaysuyash.com/books/no-claim-without-evidence/sample
 
 ## Machine-readable profile
 
@@ -66,6 +68,7 @@ Last evidence review: 2026-07-16
 
 - Production, commercial, active-build, and prototype states are not interchangeable.
 - Workflow diagrams are labelled as diagrams, not product screenshots.
+- Direct product screenshots and recordings require local files, revision binding, redaction review, and explicit approval.
 - Source, tests, runbooks, architecture records, and independent public records are linked where available.
-- Testimonials, customer counts, adoption metrics, and certification claims are omitted without permissioned evidence.
+- Testimonials, customer identities, logos, adoption metrics, and certification claims are omitted without exact-wording permission and evidence registration.
 - The interactive systems lab is illustrative progressive enhancement; standard HTML case studies are the source of truth.
