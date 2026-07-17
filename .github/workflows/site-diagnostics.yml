@@ -13,7 +13,7 @@ concurrency:
 jobs:
   diagnose:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     steps:
       - name: Check out main
         uses: actions/checkout@v4
@@ -49,7 +49,13 @@ jobs:
           set -o pipefail
           npm run site:smoke 2>&1 | tee site-smoke.log
 
-      - name: Upload diagnostic logs
+      - name: Exercise hydrated desktop and mobile flows in Chrome
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run site:browser 2>&1 | tee site-browser.log
+
+      - name: Upload diagnostic logs and browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -57,8 +63,10 @@ jobs:
           path: |
             site-verify.log
             site-smoke.log
-          if-no-files-found: error
-          retention-days: 3
+            site-browser.log
+            browser-artifacts
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload diagnostic static export
         if: always()
