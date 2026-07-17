@@ -155,6 +155,9 @@ export async function launchChromeCdp(executablePath = findChromeExecutable()) {
     const result = await rawSend(method, params, sessionId);
     if (method === "Target.attachToTarget" && params.targetId) {
       await rawSend("Target.activateTarget", { targetId: params.targetId });
+      if (result?.sessionId) {
+        await rawSend("Page.bringToFront", {}, result.sessionId);
+      }
     }
     return result;
   }
