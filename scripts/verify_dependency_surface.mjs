@@ -38,7 +38,7 @@ const productLabImportMap = fs.existsSync(productLabImportMapPath)
 const browserImportMapPackages = new Set(["three"]);
 for (const token of [
   '"three": "/vendor/three/three.module.js"',
-  '"three/addons/": "/vendor/three/examples/jsm/"',
+  '"three/addons/": "/vendor/three/addons/"',
 ]) {
   if (!productLabImportMap.includes(token)) {
     failures.push(`product-lab self-hosted import map is missing: ${token}`);
