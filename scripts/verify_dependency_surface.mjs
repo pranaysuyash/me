@@ -28,6 +28,28 @@ for (const dependency of forbiddenHistoricalDependencies) {
   }
 }
 
+const productLabImportMapPath = path.join(
+  root,
+  "public/product-lab/index.html",
+);
+const productLabImportMap = fs.existsSync(productLabImportMapPath)
+  ? fs.readFileSync(productLabImportMapPath, "utf8")
+  : "";
+const browserImportMapPackages = new Set(["three"]);
+for (const token of [
+  '"three": "/vendor/three/three.module.js"',
+  '"three/addons/": "/vendor/three/examples/jsm/"',
+]) {
+  if (!productLabImportMap.includes(token)) {
+    failures.push(`product-lab self-hosted import map is missing: ${token}`);
+  }
+}
+if ("three" in dependencies || "three" in devDependencies) {
+  failures.push(
+    "Three.js must remain a self-hosted product-lab import-map runtime, not an application npm dependency",
+  );
+}
+
 function walk(directory) {
   if (!fs.existsSync(directory)) return [];
   const files = [];
@@ -103,6 +125,7 @@ for (const dependency of Object.keys(dependencies)) {
 }
 
 for (const imported of importedPackages) {
+  if (browserImportMapPackages.has(imported)) continue;
   if (
     !(imported in dependencies) &&
     !(imported in devDependencies) &&
@@ -169,5 +192,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Dependency surface validation passed: ${Object.keys(dependencies).length} runtime and ${Object.keys(devDependencies).length} development packages remain; historical unused libraries are absent, Node built-ins are excluded, and authored package imports are declared.`,
+  `Dependency surface validation passed: ${Object.keys(dependencies).length} runtime and ${Object.keys(devDependencies).length} development packages remain; historical unused libraries are absent, Node built-ins and the self-hosted Three.js browser import map are excluded from npm accounting, and authored package imports are declared.`,
 );
