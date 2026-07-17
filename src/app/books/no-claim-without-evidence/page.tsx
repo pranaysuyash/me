@@ -5,12 +5,12 @@ import {
   ArrowRight,
   CheckCircle2,
   CircleGauge,
-  FileDown,
   FileText,
   Mail,
   ShieldCheck,
   Workflow,
 } from "lucide-react";
+import { BookRegionalPrice } from "@/components/book-regional-price";
 import { PageLayout } from "@/components/layout/page-layout";
 import { SectionIndex } from "@/components/section-index";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,14 @@ const chapters = [
   "Agent action evals and pipeline tests",
 ] as const;
 
+const sampleContents = [
+  "Introduction: the evidence habit",
+  "Chapter 1: the unsupported airline-ticket fields",
+  "Chapter 15: testing the pipeline instead of blaming the model",
+  "Chapter 19: turning evals into a release gate",
+  "A reusable claim-evidence ledger",
+] as const;
+
 const principles = [
   {
     icon: ShieldCheck,
@@ -74,23 +82,11 @@ const principles = [
   },
 ] as const;
 
-const previewPoints = [
-  "A clean JSON field can still be unsupported.",
-  "The airline-ticket example shows how extraction, inference, and review diverge.",
-  "The sample chapter gives you the operating pattern before the full book.",
+const deliveryNotes = [
+  "PDF and EPUB editions",
+  "Secure Dodo checkout and file delivery",
+  "One-time purchase with no subscription",
 ] as const;
-
-const deliveryNotes = noClaimEbook.hasCheckout
-  ? [
-      "PDF + EPUB editions",
-      "Dodo-powered checkout and secure file delivery",
-      "Built for builders, operators, and teams",
-    ]
-  : [
-      "PDF + EPUB editions in final production",
-      "Purchase opens only after checkout and delivery tests pass",
-      "Sample chapter available now",
-    ];
 
 const consultingNotes = [
   "Workflow review and scoping",
@@ -100,7 +96,7 @@ const consultingNotes = [
 
 const bookSections = [
   { label: "Inside", href: "#inside" as const },
-  { label: "Sample", href: "#sample" as const },
+  { label: "Reading sample", href: "#sample" as const },
   { label: "Method", href: "#method" as const },
   { label: "Audience & price", href: "#audience" as const },
   { label: "Consulting & delivery", href: "#consulting-delivery" as const },
@@ -114,9 +110,7 @@ export default function NoClaimWithoutEvidencePage() {
         <div className="container relative mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 py-16 md:px-6 md:py-20 lg:grid-cols-[1fr_380px] lg:px-8 lg:py-24">
           <div className="flex flex-col justify-center">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200">
-              {noClaimEbook.hasCheckout
-                ? "Ebook for AI builders"
-                : "Sample available · full ebook in final production"}
+              Ebook for AI builders
             </p>
             <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
               {noClaimEbook.title}
@@ -128,22 +122,13 @@ export default function NoClaimWithoutEvidencePage() {
               A field guide for building LLM workflows where every important output can be traced, tested, reviewed, or blocked before it reaches a user.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              {noClaimEbook.hasCheckout ? (
-                <Button asChild size="lg" className="rounded-full px-8">
-                  <Link href={noClaimEbook.checkoutUrl}>
-                    {noClaimEbook.checkoutLabel}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              ) : null}
-              <Button
-                asChild
-                variant={noClaimEbook.hasCheckout ? "secondary" : "default"}
-                size="lg"
-                className={`rounded-full px-8 ${
-                  noClaimEbook.hasCheckout ? "text-foreground" : ""
-                }`}
-              >
+              <Button asChild size="lg" className="rounded-full px-8">
+                <Link href={noClaimEbook.checkoutUrl}>
+                  {noClaimEbook.checkoutLabel}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="secondary" size="lg" className="rounded-full px-8 text-foreground">
                 <Link href={noClaimEbook.sampleUrl}>{noClaimEbook.sampleLabel}</Link>
               </Button>
               <Button
@@ -155,15 +140,7 @@ export default function NoClaimWithoutEvidencePage() {
                 <Link href={noClaimEbook.consultingUrl}>{noClaimEbook.consultingLabel}</Link>
               </Button>
             </div>
-            <div className="mt-6 flex flex-wrap gap-3 text-sm text-white/70">
-              <span>{noClaimEbook.priceSummary}</span>
-              <span className="text-white/30">/</span>
-              <span>{noClaimEbook.format}</span>
-              <span className="text-white/30">/</span>
-              <span>{noClaimEbook.pricingNote}</span>
-              <span className="text-white/30">/</span>
-              <span>{noClaimEbook.fulfillmentLabel}</span>
-            </div>
+            <BookRegionalPrice tone="dark" compact className="mt-6" />
           </div>
 
           <div className="space-y-4">
@@ -223,25 +200,25 @@ export default function NoClaimWithoutEvidencePage() {
       </section>
 
       <section id="sample" className="scroll-mt-24 border-y bg-muted/30 py-16 md:py-20">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-8 px-4 md:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-              Sample chapter
+              Curated reading sample
             </p>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Read the part that makes the whole book click.
+              Judge the writing, examples, and operating method before you buy.
             </h2>
             <p className="mt-5 max-w-2xl leading-8 text-muted-foreground">
-              The sample shows the book in motion: an unsupported terminal field, the distinction between extraction and inference, and the evidence habit that turns a clean-looking answer into a trustworthy workflow.
+              This is a real web-formatted reading sample, not a synopsis. It brings together selected excerpts from the introduction, three chapters, and a reusable template so you can evaluate the book across field-level evidence, pipeline diagnosis, and release decisions.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild className="rounded-full px-8">
                 <Link href={noClaimEbook.sampleUrl}>
-                  Open the sample <FileDown className="ml-2 h-4 w-4" />
+                  Open the reading sample <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button asChild variant="outline" className="rounded-full px-8">
-                <Link href={noClaimEbook.consultingUrl}>Ask about consulting</Link>
+                <Link href={noClaimEbook.checkoutUrl}>Buy the full book</Link>
               </Button>
             </div>
           </div>
@@ -253,27 +230,18 @@ export default function NoClaimWithoutEvidencePage() {
                   <CircleGauge className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold">Preview inside</p>
-                  <p className="text-sm text-muted-foreground">Enough to feel the method before you buy.</p>
+                  <p className="text-sm font-semibold">Inside the sample</p>
+                  <p className="text-sm text-muted-foreground">Five substantial selections, properly formatted for reading.</p>
                 </div>
               </div>
-              <ul className="mt-5 space-y-3 text-sm leading-7 text-muted-foreground">
-                {previewPoints.map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <span>{point}</span>
+              <ol className="mt-5 space-y-3 text-sm leading-7 text-muted-foreground">
+                {sampleContents.map((item, index) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="font-mono text-xs font-semibold text-primary">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{item}</span>
                   </li>
                 ))}
-              </ul>
-              <div className="mt-6 overflow-hidden rounded-xl border bg-background">
-                <Image
-                  src={noClaimEbook.checkoutImage}
-                  alt={`${noClaimEbook.title} preview image`}
-                  width={1200}
-                  height={1200}
-                  className="h-auto w-full"
-                />
-              </div>
+              </ol>
             </CardContent>
           </Card>
         </div>
@@ -302,7 +270,7 @@ export default function NoClaimWithoutEvidencePage() {
       </section>
 
       <section id="audience" className="scroll-mt-24 py-16 md:py-20">
-        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[1fr_360px] lg:px-8">
+        <div className="container mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-4 md:px-6 lg:grid-cols-[1fr_380px] lg:px-8">
           <div>
             <p className="mb-3 text-xs font-mono uppercase tracking-widest text-muted-foreground">
               Who it is for
@@ -317,30 +285,13 @@ export default function NoClaimWithoutEvidencePage() {
 
           <Card className="border bg-card shadow-sm">
             <CardContent className="p-6">
-              <p className="text-sm text-muted-foreground">Price</p>
-              <p className="mt-2 text-3xl font-bold">{noClaimEbook.indiaPrice} in India</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {noClaimEbook.globalPrice} elsewhere. {noClaimEbook.hasCheckout
-                  ? "Includes PDF and EPUB editions."
-                  : "Planned PDF and EPUB editions; purchase is not open yet."}
-              </p>
-              {noClaimEbook.hasCheckout ? (
-                <Button asChild className="mt-6 w-full rounded-full">
-                  <Link href={noClaimEbook.checkoutUrl}>{noClaimEbook.checkoutLabel}</Link>
-                </Button>
-              ) : (
-                <Button asChild className="mt-6 w-full rounded-full">
-                  <Link href={noClaimEbook.sampleUrl}>{noClaimEbook.sampleLabel}</Link>
-                </Button>
-              )}
-              <Button asChild variant="outline" className="mt-3 w-full rounded-full">
-                <Link href={noClaimEbook.consultingUrl}>{noClaimEbook.consultingLabel}</Link>
+              <BookRegionalPrice />
+              <Button asChild className="mt-6 w-full rounded-full">
+                <Link href={noClaimEbook.checkoutUrl}>{noClaimEbook.checkoutLabel}</Link>
               </Button>
-              <p className="mt-4 text-xs leading-6 text-muted-foreground">
-                {noClaimEbook.hasCheckout
-                  ? "Dodo Payments handles payment, applicable tax, receipt, and secure file delivery. Consulting is scoped separately."
-                  : "Purchase opens only after the checkout, tax, invoice, and both file-delivery paths have been tested. The sample chapter is available now."}
-              </p>
+              <Button asChild variant="outline" className="mt-3 w-full rounded-full">
+                <Link href={noClaimEbook.sampleUrl}>{noClaimEbook.sampleLabel}</Link>
+              </Button>
               <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-t pt-4 text-xs">
                 <Link href="/delivery-policy" className="text-primary hover:underline">Delivery</Link>
                 <Link href="/refund-policy" className="text-primary hover:underline">Refunds</Link>
@@ -384,10 +335,8 @@ export default function NoClaimWithoutEvidencePage() {
                 <h3 className="text-xl font-semibold">A standard digital product, separate from custom work.</h3>
                 <ul className="mt-5 space-y-4 text-sm leading-7 text-muted-foreground">
                   <li>One-time regional price with no recurring subscription.</li>
-                  <li>{noClaimEbook.hasCheckout
-                    ? "Secure PDF and EPUB access is delivered after successful payment."
-                    : "Checkout remains disabled until both final files and delivery entitlements are verified."}</li>
-                  <li>Payment, applicable tax, invoice, and refunds are handled through the checkout provider where enabled.</li>
+                  <li>Secure PDF and EPUB access is delivered after successful payment.</li>
+                  <li>Dodo Payments handles payment, applicable tax, receipt, and secure file delivery.</li>
                   <li>Consulting and implementation services require a separate written scope.</li>
                 </ul>
                 <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
