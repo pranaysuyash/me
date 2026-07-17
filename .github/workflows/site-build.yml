@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 18
     steps:
       - name: Check out triggering commit
         uses: actions/checkout@v4
@@ -57,6 +57,15 @@ jobs:
           set -o pipefail
           npm run site:smoke 2>&1 | tee site-smoke.log
 
+      - name: Exercise hydrated desktop and mobile flows in Chrome
+        id: browser
+        if: steps.smoke.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run site:browser 2>&1 | tee site-browser.log
+
       - name: Publish canonical verification status
         if: always()
         continue-on-error: true
@@ -65,16 +74,20 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERIFY_OUTCOME: ${{ steps.canonical.outcome }}
           SMOKE_OUTCOME: ${{ steps.smoke.outcome }}
+          BROWSER_OUTCOME: ${{ steps.browser.outcome }}
         run: |
-          if [ "$VERIFY_OUTCOME" = "success" ] && [ "$SMOKE_OUTCOME" = "success" ]; then
+          if [ "$VERIFY_OUTCOME" = "success" ] && [ "$SMOKE_OUTCOME" = "success" ] && [ "$BROWSER_OUTCOME" = "success" ]; then
             STATE="success"
-            DESCRIPTION="Canonical verification and HTTP smoke test passed"
+            DESCRIPTION="Source, HTTP, and hydrated browser verification passed"
           elif [ "$VERIFY_OUTCOME" != "success" ]; then
             STATE="failure"
             DESCRIPTION="Canonical npm run site:verify failed"
-          else
+          elif [ "$SMOKE_OUTCOME" != "success" ]; then
             STATE="failure"
             DESCRIPTION="Static export HTTP smoke test failed"
+          else
+            STATE="failure"
+            DESCRIPTION="Hydrated browser release verification failed"
           fi
 
           jq -n \
@@ -93,7 +106,7 @@ jobs:
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}" \
             --data-binary @status.json
 
-      - name: Upload verification logs
+      - name: Upload verification logs and browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -101,8 +114,10 @@ jobs:
           path: |
             site-verify.log
             site-smoke.log
-          if-no-files-found: error
-          retention-days: 3
+            site-browser.log
+            browser-artifacts
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload verified static export
         if: always()
@@ -113,6 +128,6 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
-      - name: Fail workflow when canonical verification or smoke testing failed
-        if: steps.canonical.outcome == 'failure' || steps.smoke.outcome == 'failure'
+      - name: Fail workflow when any release verification failed
+        if: steps.canonical.outcome == 'failure' || steps.smoke.outcome == 'failure' || steps.browser.outcome == 'failure'
         run: exit 1
