@@ -81,11 +81,19 @@ export function Footer() {
           </div>
 
           <nav className="flex max-w-2xl flex-wrap gap-x-5 gap-y-2 md:justify-end" aria-label="Policies and machine-readable resources">
-            {policyNav.map((item) => (
-              <Link key={item.name} href={item.href} className="text-xs text-muted-foreground transition-colors hover:text-primary">
-                {item.name}
-              </Link>
-            ))}
+            {policyNav.map((item) => {
+              const staticAsset = /\.(?:json|txt)$/.test(item.href);
+              const className = "text-xs text-muted-foreground transition-colors hover:text-primary";
+              return staticAsset ? (
+                <a key={item.name} href={item.href} className={className}>
+                  {item.name}
+                </a>
+              ) : (
+                <Link key={item.name} href={item.href} className={className}>
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
         </div>
       </div>
