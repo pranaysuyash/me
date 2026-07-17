@@ -57,7 +57,9 @@ async function launchBrowser(executablePath) {
     `--user-data-dir=${userDataDir}`,
     "about:blank",
   ];
-  if (typeof process.getuid === "function" && process.getuid() === 0) args.unshift("--no-sandbox");
+  if (typeof process.getuid === "function" && process.getuid() === 0) {
+    args.unshift("--no-sandbox");
+  }
 
   const processHandle = spawn(executablePath, args, {
     stdio: ["ignore", "ignore", "pipe"],
@@ -68,7 +70,7 @@ async function launchBrowser(executablePath) {
   let startupOutput = "";
   processHandle.stderr.on("data", (chunk) => {
     startupOutput += chunk;
-    const match = chunk.match(/DevTools listening on (ws:\/\/[^\s]+)/);
+    const match = startupOutput.match(/DevTools listening on (ws:\/\/[^\s]+)/);
     if (match) websocketUrl = match[1];
   });
 
@@ -262,13 +264,26 @@ async function main() {
         { format: "png", captureBeyondViewport: true, fromSurface: true },
         sessionId,
       );
-      fs.writeFileSync(path.join(artifactsDir, `${name}.png`), Buffer.from(result.data, "base64"));
+      fs.writeFileSync(
+        path.join(artifactsDir, `${name}.png`),
+        Buffer.from(result.data, "base64"),
+      );
     }
 
     await navigate("/");
     let text = await visibleText();
-    assert(text.includes("I turn messy operational workflows into reviewable AI and product systems."), "homepage positioning headline is missing after hydration", failures);
-    assert(text.includes("For hiring teams") && text.includes("Commercial engagements"), "homepage audience routing is missing", failures);
+    assert(
+      text.includes(
+        "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
+      ),
+      "homepage operational AI positioning headline is missing after hydration",
+      failures,
+    );
+    assert(
+      text.includes("For hiring teams") && text.includes("Commercial engagements"),
+      "homepage audience routing is missing",
+      failures,
+    );
     await pageHealth("desktop homepage");
     await screenshot("01-home-desktop");
 
@@ -278,9 +293,17 @@ async function main() {
       workflowMaps: Array.from(document.querySelectorAll('figure')).filter((figure) => figure.innerText.includes('Workflow map')).length,
       text: document.body.innerText,
     })`);
-    assert(work.text.includes("Four products, each labelled by what actually exists today."), "selected work does not explain maturity boundaries", failures);
+    assert(
+      work.text.includes("Four products, each labelled by what actually exists today."),
+      "selected work does not explain maturity boundaries",
+      failures,
+    );
     assert(work.cases >= 4, `selected work exposes only ${work.cases} case-study links`, failures);
-    assert(work.workflowMaps >= 4, `selected work labels only ${work.workflowMaps} workflow-map figures`, failures);
+    assert(
+      work.workflowMaps >= 4,
+      `selected work labels only ${work.workflowMaps} workflow-map figures`,
+      failures,
+    );
     await pageHealth("selected work");
     await screenshot("02-work-desktop");
 
@@ -289,7 +312,11 @@ async function main() {
     await navigate("/work-with-me");
     text = await visibleText();
     assert(text.includes("$2,500+"), "global engagement price is not rendered", failures);
-    assert(!text.includes("₹95,000+"), "global pricing view also exposes the India mapping price", failures);
+    assert(
+      !text.includes("₹95,000+"),
+      "global pricing view also exposes the India mapping price",
+      failures,
+    );
     const selectedIndia = await evaluate(`(() => {
       const button = Array.from(document.querySelectorAll('button')).find((item) => (item.textContent || '').includes('India'));
       if (!button) return false;
@@ -300,7 +327,11 @@ async function main() {
     await wait(250);
     text = await visibleText();
     assert(text.includes("₹95,000+"), "India pricing does not appear after selection", failures);
-    assert(!text.includes("$2,500+"), "India pricing view also exposes the global mapping price", failures);
+    assert(
+      !text.includes("$2,500+"),
+      "India pricing view also exposes the global mapping price",
+      failures,
+    );
     await pageHealth("commercial engagements");
     await screenshot("03-services-india");
 
@@ -311,8 +342,16 @@ async function main() {
       action: document.querySelector('form')?.getAttribute('action'),
     })`);
     assert(contact.rolePressed === "true", "role contact route does not select role mode", failures);
-    assert(contact.budgetVisible === false, "role contact mode exposes the commercial budget control", failures);
-    assert(contact.action === "https://formbold.com/s/6QZJn", "contact form lost its standard HTML fallback action", failures);
+    assert(
+      contact.budgetVisible === false,
+      "role contact mode exposes the commercial budget control",
+      failures,
+    );
+    assert(
+      contact.action === "https://formbold.com/s/6QZJn",
+      "contact form lost its standard HTML fallback action",
+      failures,
+    );
     const selectedProject = await evaluate(`(() => {
       const button = Array.from(document.querySelectorAll('button')).find((item) => (item.textContent || '').includes('Bounded commercial engagement'));
       if (!button) return false;
@@ -325,15 +364,35 @@ async function main() {
       projectPressed: Array.from(document.querySelectorAll('button')).find((item) => (item.textContent || '').includes('Bounded commercial engagement'))?.getAttribute('aria-pressed'),
       budgetVisible: Boolean(document.querySelector('#budget')),
     })`);
-    assert(contact.projectPressed === "true", "commercial contact mode does not become selected", failures);
-    assert(contact.budgetVisible === true, "commercial contact mode does not expose regional scope", failures);
+    assert(
+      contact.projectPressed === "true",
+      "commercial contact mode does not become selected",
+      failures,
+    );
+    assert(
+      contact.budgetVisible === true,
+      "commercial contact mode does not expose regional scope",
+      failures,
+    );
     await pageHealth("contact flow");
 
     await navigate("/books/no-claim-without-evidence");
     text = await visibleText();
-    assert(text.includes("Choose ebook pricing region"), "book page lacks a regional price control", failures);
-    assert(text.includes("Open the reading sample"), "book page lacks a clear sample path", failures);
-    assert(!text.includes("₹799 in India · $14.99 elsewhere"), "book page combines both regional prices", failures);
+    assert(
+      text.includes("Choose ebook pricing region"),
+      "book page lacks a regional price control",
+      failures,
+    );
+    assert(
+      text.includes("Open the reading sample"),
+      "book page lacks a clear sample path",
+      failures,
+    );
+    assert(
+      !text.includes("₹799 in India · $14.99 elsewhere"),
+      "book page combines both regional prices",
+      failures,
+    );
     await pageHealth("book sales page");
 
     await navigate("/books/no-claim-without-evidence/sample");
@@ -351,9 +410,21 @@ async function main() {
     ]) {
       assert(sample.text.includes(required), `reading sample is missing: ${required}`, failures);
     }
-    assert(sample.sections >= 5, `reading sample exposes only ${sample.sections} substantive section(s)`, failures);
-    assert(sample.buyHref.startsWith("https://checkout.dodopayments.com/"), "reading sample does not lead directly to secure checkout", failures);
-    assert(!sample.text.includes("See the full book page"), "reading sample retains circular navigation copy", failures);
+    assert(
+      sample.sections >= 5,
+      `reading sample exposes only ${sample.sections} substantive section(s)`,
+      failures,
+    );
+    assert(
+      sample.buyHref.startsWith("https://checkout.dodopayments.com/"),
+      "reading sample does not lead directly to secure checkout",
+      failures,
+    );
+    assert(
+      !sample.text.includes("See the full book page"),
+      "reading sample retains circular navigation copy",
+      failures,
+    );
     await pageHealth("reading sample");
     await screenshot("04-reading-sample");
 
@@ -362,7 +433,11 @@ async function main() {
       menu: Array.from(document.querySelectorAll('button')).find((button) => (button.textContent || '').includes('Open main menu'))?.getAttribute('aria-expanded'),
       width: document.documentElement.scrollWidth - innerWidth,
     })`);
-    assert(mobile.menu === "false", "mobile navigation trigger is missing or incorrectly initialized", failures);
+    assert(
+      mobile.menu === "false",
+      "mobile navigation trigger is missing or incorrectly initialized",
+      failures,
+    );
     const openedMenu = await evaluate(`(() => {
       const trigger = Array.from(document.querySelectorAll('button')).find((button) => (button.textContent || '').includes('Open main menu'));
       if (!trigger) return false;
@@ -376,9 +451,17 @@ async function main() {
       bodyLocked: document.body.style.overflow === 'hidden',
       activeText: document.activeElement?.textContent || '',
     })`);
-    assert(mobileMenu.dialog, "mobile menu does not expose an accessible modal dialog", failures);
+    assert(
+      mobileMenu.dialog,
+      "mobile menu does not expose an accessible modal dialog",
+      failures,
+    );
     assert(mobileMenu.bodyLocked, "mobile menu does not lock background scrolling", failures);
-    assert(Boolean(mobileMenu.activeText.trim()), "mobile menu does not move focus into the dialog", failures);
+    assert(
+      Boolean(mobileMenu.activeText.trim()),
+      "mobile menu does not move focus into the dialog",
+      failures,
+    );
     await pageHealth("mobile homepage");
     await screenshot("05-home-mobile-menu");
 
@@ -392,10 +475,16 @@ async function main() {
 
     await navigate("/product-lab/");
     text = await visibleText();
-    assert(text.includes("Review audited case studies instead"), "product lab lacks its resilient fallback path", failures);
+    assert(
+      text.includes("Review audited case studies instead"),
+      "product lab lacks its resilient fallback path",
+      failures,
+    );
     await pageHealth("product lab");
 
-    for (const problem of [...new Set(runtimeProblems)]) failures.push(`browser runtime error: ${problem}`);
+    for (const problem of [...new Set(runtimeProblems)]) {
+      failures.push(`browser runtime error: ${problem}`);
+    }
   } finally {
     await browser.close();
     await staticExport.close();
@@ -417,7 +506,7 @@ async function main() {
   }
 
   console.log(
-    `Headless browser release verification passed: hydrated desktop and mobile pages, regional pricing, contact routing, book conversion, responsive overflow, accessibility basics, mobile navigation, product-lab fallback, and browser runtime health are intact. Screenshots: ${report.screenshots.length}.`,
+    `Headless browser release verification passed: hydrated desktop and mobile pages, narrowed operational AI positioning, regional pricing, contact routing, book conversion, responsive overflow, accessibility basics, mobile navigation, product-lab fallback, and browser runtime health are intact. Screenshots: ${report.screenshots.length}.`,
   );
 }
 
