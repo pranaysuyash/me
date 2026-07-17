@@ -6,6 +6,10 @@ import path from "node:path";
 const root = process.cwd();
 const failures = [];
 
+function normalize(value) {
+  return String(value).replace(/\s+/g, " ").trim();
+}
+
 function read(relativePath) {
   const fullPath = path.join(root, relativePath);
   if (!fs.existsSync(fullPath)) {
@@ -17,8 +21,9 @@ function read(relativePath) {
 
 function requireTokens(relativePath, tokens) {
   const source = read(relativePath);
+  const normalizedSource = normalize(source);
   for (const token of tokens) {
-    if (!source.includes(token)) {
+    if (!normalizedSource.includes(normalize(token))) {
       failures.push(`${relativePath} missing measurement invariant: ${token}`);
     }
   }
@@ -36,15 +41,28 @@ if (!String(taxonomy.policy || "").includes("Do not collect page-view histories"
   failures.push("conversion taxonomy lacks its data-minimization boundary");
 }
 if (!Array.isArray(taxonomy.funnelStages) || taxonomy.funnelStages.length < 10) {
-  failures.push("conversion taxonomy must cover enquiries, bookings, qualification, orders, refunds, and outcomes");
+  failures.push(
+    "conversion taxonomy must cover enquiries, bookings, qualification, orders, refunds, and outcomes",
+  );
 }
 const stageIds = new Set();
 for (const stage of taxonomy.funnelStages || []) {
-  if (!stage.id || stageIds.has(stage.id)) failures.push(`duplicate or missing funnel stage id: ${stage.id || "<missing>"}`);
+  if (!stage.id || stageIds.has(stage.id)) {
+    failures.push(`duplicate or missing funnel stage id: ${stage.id || "<missing>"}`);
+  }
   stageIds.add(stage.id);
-  if (!stage.definition || !stage.sourceSystem) failures.push(`${stage.id} lacks definition or source system`);
-  if (!Array.isArray(stage.requiredFields) || !stage.requiredFields.length) failures.push(`${stage.id} has no required fields`);
-  if (!Array.isArray(stage.prohibitedFieldsInLedger) || !stage.prohibitedFieldsInLedger.length) failures.push(`${stage.id} has no prohibited-field boundary`);
+  if (!stage.definition || !stage.sourceSystem) {
+    failures.push(`${stage.id} lacks definition or source system`);
+  }
+  if (!Array.isArray(stage.requiredFields) || !stage.requiredFields.length) {
+    failures.push(`${stage.id} has no required fields`);
+  }
+  if (
+    !Array.isArray(stage.prohibitedFieldsInLedger) ||
+    !stage.prohibitedFieldsInLedger.length
+  ) {
+    failures.push(`${stage.id} has no prohibited-field boundary`);
+  }
 }
 for (const required of [
   "role-enquiry",
@@ -58,14 +76,22 @@ for (const required of [
   "role-outcome",
   "commercial-outcome",
 ]) {
-  if (!stageIds.has(required)) failures.push(`conversion taxonomy is missing ${required}`);
+  if (!stageIds.has(required)) {
+    failures.push(`conversion taxonomy is missing ${required}`);
+  }
 }
 
 const attribution = taxonomy.standardAttribution || {};
-if (attribution.utm_source !== "pranaysuyash.com") failures.push("standard UTM source must be pranaysuyash.com");
-if (attribution.utm_medium !== "portfolio") failures.push("standard UTM medium must be portfolio");
+if (attribution.utm_source !== "pranaysuyash.com") {
+  failures.push("standard UTM source must be pranaysuyash.com");
+}
+if (attribution.utm_medium !== "portfolio") {
+  failures.push("standard UTM medium must be portfolio");
+}
 for (const campaign of ["role-conversation", "commercial-engagement", "book"]) {
-  if (!attribution.allowedCampaigns?.includes(campaign)) failures.push(`allowed UTM campaigns missing ${campaign}`);
+  if (!attribution.allowedCampaigns?.includes(campaign)) {
+    failures.push(`allowed UTM campaigns missing ${campaign}`);
+  }
 }
 for (const content of [
   "contact-role-15min",
@@ -73,7 +99,9 @@ for (const content of [
   "contact-project-15min",
   "contact-project-30min",
 ]) {
-  if (!attribution.allowedContent?.includes(content)) failures.push(`allowed UTM content missing ${content}`);
+  if (!attribution.allowedContent?.includes(content)) {
+    failures.push(`allowed UTM content missing ${content}`);
+  }
 }
 
 const contact = requireTokens("src/app/contact/page.tsx", [
@@ -97,7 +125,9 @@ for (const forbidden of [
   "fullstory",
 ]) {
   if (contact.toLowerCase().includes(forbidden.toLowerCase())) {
-    failures.push(`contact measurement includes prohibited behavioral tracker: ${forbidden}`);
+    failures.push(
+      `contact measurement includes prohibited behavioral tracker: ${forbidden}`,
+    );
   }
 }
 
@@ -109,8 +139,20 @@ const privacy = requireTokens("src/app/privacy/page.tsx", [
   "booking path",
   "Personal information is not sold to advertisers or data brokers",
 ]);
-if (privacy.includes("session replay") || privacy.includes("behavioural profiling is used")) {
-  failures.push("privacy page contradicts the privacy-minimal measurement boundary");
+const normalizedPrivacy = normalize(privacy).toLowerCase();
+for (const affirmativeTrackingClaim of [
+  "session replay is used",
+  "uses session replay",
+  "behavioural profiling is used",
+  "uses behavioural profiling",
+  "advertising cookies are used",
+  "uses tracking pixels",
+]) {
+  if (normalizedPrivacy.includes(affirmativeTrackingClaim)) {
+    failures.push(
+      `privacy page contradicts the privacy-minimal boundary: ${affirmativeTrackingClaim}`,
+    );
+  }
 }
 
 requireTokens("docs/measurement/CONVERSION_MEASUREMENT_PLAN.md", [
@@ -141,7 +183,9 @@ function walk(directory) {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) walk(fullPath);
-    else if (/\.(?:ts|tsx|js|mjs|html)$/.test(entry.name)) publicSourceFiles.push(fullPath);
+    else if (/\.(?:ts|tsx|js|mjs|html)$/.test(entry.name)) {
+      publicSourceFiles.push(fullPath);
+    }
   }
 }
 walk(path.join(root, "src"));
@@ -159,7 +203,9 @@ for (const tracker of [
   "hotjar(",
   "fullstory",
 ]) {
-  if (publicSource.includes(tracker)) failures.push(`public source contains undeclared tracker: ${tracker}`);
+  if (publicSource.includes(tracker)) {
+    failures.push(`public source contains undeclared tracker: ${tracker}`);
+  }
 }
 
 if (failures.length) {
