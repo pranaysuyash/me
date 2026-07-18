@@ -24,6 +24,7 @@ Last evidence review: 2026-07-16
 - Home: https://pranaysuyash.com/
 - Experience and sustained role fit: https://pranaysuyash.com/hire-me
 - Selected work: https://pranaysuyash.com/work
+- Working systems lab: https://pranaysuyash.com/systems
 - Professional proof ledger: https://pranaysuyash.com/proof
 - About, working style, and public evidence: https://pranaysuyash.com/about
 - Bounded commercial engagements: https://pranaysuyash.com/work-with-me
@@ -71,4 +72,5 @@ Last evidence review: 2026-07-16
 - Direct product screenshots and recordings require local files, revision binding, redaction review, and explicit approval.
 - Source, tests, runbooks, architecture records, and independent public records are linked where available.
 - Testimonials, customer identities, logos, adoption metrics, and certification claims are omitted without exact-wording permission and evidence registration.
-- The interactive systems lab is illustrative progressive enhancement; standard HTML case studies are the source of truth.
+- The working systems lab executes narrow browser-contained mechanisms using synthetic/default inputs and local browser APIs; it is not presented as the complete flagship products.
+- The Three.js spatial explainer remains illustrative progressive enhancement, and standard HTML case studies remain the source of truth for product maturity and shipped capability.
