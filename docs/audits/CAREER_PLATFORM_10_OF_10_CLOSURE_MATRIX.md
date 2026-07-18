@@ -4,185 +4,172 @@
 
 This is the canonical answer to “what is still left?” for `pranaysuyash.com`.
 
-A 10/10 claim requires more than good copy or a green build. It requires a coherent professional identity, clear audience paths, direct evidence, usable conversion flows, production integrity, external consistency, and real transaction proof.
-
-Ratings below distinguish repository-controlled quality from evidence that must be obtained through deployment, third parties, customers, employers, or real users.
+A 10/10 claim requires more than good copy, working browser interactions, or a green build. It requires the correct evidence tier for each claim: repository source, executable mechanism, real flagship product, external corroboration, production transaction, and observed visitor or commercial outcome.
 
 ## Scoring rule
 
-- **10.0** means the dimension is materially complete, current, and directly verified at the appropriate evidence tier.
-- **9.x** means strong and shareable, with a bounded remaining gap.
-- **8.x** means credible but missing an important proof or experience layer.
+- **10.0** means materially complete, current, and directly verified at the appropriate evidence tier.
+- **9.x** means strong and shareable with one bounded remaining gap.
+- **8.x** means credible but missing an important proof or production layer.
 - **Below 8** means the gap can materially weaken trust or conversion.
-- A high source score cannot compensate for a stale public deployment or broken conversion path.
+- A browser-contained mechanism can prove technical judgment and interaction quality. It cannot substitute for the full flagship product, a customer result, or a production transaction.
+- A high source score cannot compensate for a stale public deployment.
+
+## Current evidence tiers
+
+| Tier | Current state | Claim boundary |
+| --- | --- | --- |
+| Source and release evidence | Strong, exact-commit and automated | Proves code, copy, contracts, build outputs, static budgets, and browser-tested behavior for the verified export. |
+| Working mechanism evidence | Four real browser-contained mechanisms | Proves bounded deterministic extraction, local Canvas processing, pixel inspection, and geometric visibility. Does not prove the complete flagship applications. |
+| Audited flagship evidence | Revision-pinned source, tests, decisions, constraints, and workflow maps | Proves architecture and implementation boundaries. Real product screenshots and recordings remain incomplete. |
+| External professional/customer evidence | Limited | No quote, identity, logo, or outcome is published without permission and registration. |
+| Production transaction evidence | Incomplete for the newest release | FormBold, Cal.com, Dodo, custom-domain delivery, refunds, and support require real production tests. |
+| Outcome evidence | Not yet mature | Qualified enquiries, hiring progress, sales, book orders, comprehension, and reasons for loss require observed data over time. |
 
 ## A. Identity and professional mental model
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Ten-second identity clarity | 9.6 | One identity: product leader and hands-on systems builder. | Confirm the same identity on the live domain, LinkedIn, GitHub profile, resume, social previews, and search results. |
-| Sense of the person | 9.0 | Curiosity, directness, cross-layer work, uncertainty honesty, and end-to-end ownership are explicit. | Add an authentic portrait or working-context photograph and one or two permissioned observations from people who have worked closely with Pranay. |
-| Career narrative | 9.5 | Wipro → EY → MedPiper → independent systems reads as accumulated capability. | Add permissioned external corroboration for at least two career chapters. |
-| Working-style clarity | 9.5 | Real artefacts early, cross-layer decisions, direct uncertainty, complete delivery. | Validate through attributable colleague, customer, or manager evidence rather than self-description alone. |
-| Current-role transparency | 9.5 | MedPiper role, transition timing, capacity, conflicts, and confidentiality are not hidden. | Keep current employment and availability synchronised across all public profiles and production pages. |
-| Personal versus PSRS boundary | 9.6 | Personal site is identity and proof; PSRS is a separate contracting vehicle where applicable. | Verify final contract, invoice, privacy, support, and merchant language against actual commercial operations. |
+| Ten-second identity clarity | 9.6 | One primary identity and one concrete promise: product leader and hands-on systems builder for document-heavy, exception-heavy operational AI systems. | Confirm the same understanding with target recruiters, founders, and operators on the deployed site. |
+| Sense of the person | 9.0 | Curiosity, directness, uncertainty discipline, cross-layer work, and end-to-end ownership are explicit. | Add an authentic portrait or working-context photograph and permissioned observations from people who have worked closely with Pranay. |
+| Career narrative | 9.5 | Wipro → EY → MedPiper → independent systems reads as accumulated capability. | Add permissioned corroboration for at least two career chapters. |
+| Working-style clarity | 9.6 | Real artefacts early, evidence before claims, product and implementation kept connected. | Validate the same traits through attributable colleague/customer evidence. |
+| Current-role transparency | 9.5 | MedPiper role, selective availability, conflicts, confidentiality, and contracting boundary are visible. | Keep all external profiles and real availability synchronized. |
 
-## B. Hire versus commercial engagement
+## B. Hiring versus commercial engagement
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Work-mode distinction | 9.8 | Hire for sustained internal ownership; engage commercially for a bounded outcome. | Validate with recruiter and founder comprehension tests on the deployed site. |
-| Hiring path | 9.5 | Experience page defines ongoing mandate, role fit, outcomes, and role-specific contact. | Obtain real hiring-manager feedback and confirm resume/ATS parsing. |
-| Commercial path | 9.4 | Services page defines bounded scope, end condition, current-capacity limits, and PSRS boundary. | Add one external paid-engagement case with scope, timeline, outcome, and permissioned quote. |
-| Generic navigation neutrality | 9.6 | Generic CTA asks visitors to choose how to work together rather than defaulting to consulting. | Observe route choice and conversion data on production. |
-| Contact self-routing | 9.7 | Visitors visibly select internal role or commercial engagement; form fields and submission metadata adapt. | Verify both submissions reach the correct inbox and retain mode/source fields. |
-| Misrouted visitor recovery | 9.6 | Experience and Services explicitly point to each other when the need belongs in the other model. | Usability test direct, homepage, About, Work, and search-entry journeys. |
+| Work-mode distinction | 9.8 | Hiring means sustained ownership; commercial work means a bounded outcome. | Confirm through ten-second comprehension tests. |
+| Hiring path | 9.7 | Experience page, global CTA, resume, proof and Contact route are hiring-specific. | Obtain hiring-manager feedback and test representative ATS parsing. |
+| Commercial path | 9.5 | Document workflows lead; scope, timeline, pricing and end condition are explicit. | Add one named paid engagement with permissioned scope, outcome, and quote. |
+| Contact self-routing | 9.8 source/browser | Query routing, mode switching, hidden source/mode values, regional scope and fallback form are exercised in Chrome. | Verify real inbox receipt, spam handling, and operating response. |
+| Misrouted visitor recovery | 9.7 | Hiring and commercial pages point visitors to the alternate model when appropriate. | Test direct, search, social, homepage, About, Work and Systems entry journeys with real users. |
 
 ## C. Positioning and copy quality
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Homepage positioning | 9.4 | Clear workflow/system thesis and two audience paths. | Render and test the new identity on production; refine from visitor comprehension, not internal preference. |
-| About copy | 9.3 | Explains career, temperament, principles, and work modes. | Add authentic visual and external voice to reduce self-authored density. |
-| Hiring copy | 9.5 | Standard role language with specific operating value. | Validate with actual target-role recruiters and hiring managers. |
-| Commercial copy | 9.4 | Buyer-oriented, bounded, priced, and honest about fit. | Validate with qualified founders/operators and one real sales cycle. |
-| Voice distinctiveness | 9.0 | Direct, evidence-led, technically literate, and commercially aware. | Reduce repeated workflow/evidence phrasing where direct examples can carry the meaning. |
-| Claim discipline | 9.8 | Maturity, diagrams, screenshots, inference, certification, and production states are separated. | Maintain the 90-day review gate and add direct evidence without inflating claims. |
+| Homepage positioning | 9.5 | Primary promise, professional context, proof strip, work, and two audience paths are coherent. | Validate comprehension and qualified response rather than refining from internal preference. |
+| About copy | 9.3 | Career, temperament, principles and work modes are clear. | Add authentic visual and external voice to reduce self-authored density. |
+| Hiring copy | 9.6 | Uses recognizable role language with specific operating value. | Validate with actual target-role recruiters and hiring managers. |
+| Commercial copy | 9.5 | Buyer-oriented, bounded, priced and honest about fit. | Validate through qualified conversations and one completed external sales cycle. |
+| Claim discipline | 9.9 | Production, prototype, active build, workflow map, working mechanism, screenshot, model claim, certification and external evidence are distinct. | Preserve these boundaries as direct evidence is added. |
 
 ## D. Evidence and trust
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Professional outcome proof | 9.0 | Sanitized MedPiper case, measurable turnaround, ARR context, ownership boundaries. | Add permissioned external corroboration or attributable public evidence for outcomes. |
-| Project maturity honesty | 9.8 | Commercial, working build, active platform, and prototype states are explicit. | Keep every status tied to reviewed revisions and dated releases. |
-| Source and test evidence | 9.6 | Sixteen pinned implementation records across source, tests, runbooks, and architecture. | Add runtime output, release artifacts, and benchmark/evaluation evidence where relevant. |
-| Direct product-use evidence | 6.8 | Workflow maps are honest and useful. | Add current screenshots or recordings for SignKit, MetaExtract, EchoPanel, and SentinelTwin, tied to reviewed source revisions. |
-| Third-party professional proof | 4.5 | No invented testimonials. | Add permissioned recommendations from a co-founder/CEO, engineering or operations stakeholder, EY colleague/client, and external customer where possible. |
-| Customer proof | 5.5 | SignKit is described as a paid product with early validation. | Add permissioned customer profile, purchased problem, usage context, outcome, and quote or repeat-purchase evidence. |
-| Proof freshness | 9.7 | Product evidence has a 90-day review maximum. | Automate reminders and keep external/profile claims reviewed on material change. |
+| Professional outcome proof | 9.0 | Sanitized MedPiper case, turnaround outcome, ARR context and ownership boundary are visible. | Add permissioned external corroboration. |
+| Project maturity honesty | 9.8 | Commercial, working build, active platform and prototype states remain revision-pinned. | Keep every material status reviewed within policy. |
+| Source and test evidence | 9.8 | Pinned implementation records, tests, runbooks, architecture, release artifacts and browser reports exist. | Add relevant runtime, benchmark and evaluation outputs from the actual products. |
+| Working mechanism credibility | 9.7 | `/systems` executes editable evidence extraction, local signature cleanup, real pixel/edge inspection, and deterministic spatial visibility with synthetic defaults and explicit boundaries. | Verify the deployed mechanism surface across real browsers/devices and measure whether it improves understanding or qualified conversations. |
+| Direct flagship product-use evidence | 6.8 | Workflow maps remain honest; a machine-enforced capture and approval plan exists. | Capture current screenshots and recordings for SignKit, MetaExtract, EchoPanel and SentinelTwin from their reviewed revisions. |
+| Third-party professional proof | 4.5 | No invented testimonials or logos. Permission and exact-wording gates exist. | Obtain approved co-founder/leader, engineering/operations, EY and customer evidence where possible. |
+| Customer proof | 5.5 | SignKit is described as a paid product with bounded early validation. | Add permissioned customer profile, purchased problem, usage context, outcome and quote or repeat-purchase evidence. |
+| Proof freshness | 9.7 | Audited product evidence has a 90-day maximum review window. | Keep external profiles, prices, policies and customer evidence on explicit ownership/cadence. |
 
 ## E. Conversion and commercial operation
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Service hierarchy | 9.3 | Document workflows lead; internal, local-first, and spatial capabilities are subordinated. | Validate which offer produces qualified conversations and narrow further if evidence supports it. |
-| Regional pricing | 9.2 | Separate India and global price books with explicit manual control. | Verify Cloudflare country detection, stored choice, contact consistency, taxes, and real quote acceptance. |
-| Contact form UX | 9.4 source | Mode-aware form, validation, direct channels, scheduler options, privacy note. | Verify success, failure, no-JavaScript fallback, inbox receipt, spam handling, and mobile behavior on production. |
-| Scheduling | 8.5 | Two explicit Cal.com routes. | Complete real bookings on mobile and desktop and verify timezone, confirmation, cancellation, and rescheduling. |
-| Book checkout | 8.0 source | Book page, pricing logic, policies, and Dodo boundary exist. | Complete real India/global purchase, invoice, tax, PDF/EPUB entitlement, delivery, refund, and support tests. |
-| Lead qualification | 9.0 | Workflow, failure, outcome, timing, and scope prompts improve initial context. | Review ten real enquiries for signal quality and adjust fields based on evidence. |
-| Conversion measurement | 5.0 | CTA contexts and source parameters exist, but no verified analytics loop exists. | Add privacy-respecting measurement for audience path, CTA, form start, submission, scheduler, and checkout, with a documented data-retention boundary. |
+| Service hierarchy | 9.4 | Document workflows lead; internal, local-first and spatial work demonstrate range without equal priority. | Narrow further only if qualified-conversation evidence supports it. |
+| Regional pricing | 9.7 source/browser | India/global selection, persistence and shared Book/Services state are exercised in Chrome. | Verify Cloudflare country detection, tax, quoting and buyer acceptance in production. |
+| Contact form UX | 9.7 source/browser | Role/project modes, contextual fields, source metadata, fallback, loading/error copy and privacy boundary exist. | Complete real role and commercial submissions and verify inbox metadata. |
+| Scheduling | 9.2 source/browser | Two durations and role/commercial Cal.com UTM attribution are verified in rendered links. | Complete booking, timezone, confirmation, cancellation and rescheduling transactions. |
+| Book checkout | 9.0 source/browser | One regional price at a time, substantive sample, direct secure checkout, delivery/refund/support copy and Dodo boundary are verified in Chrome. | Complete India/global purchase, tax, invoice, entitlement, delivery, support and refund tests. |
+| Lead qualification | 9.1 | Forms ask for workflow, failure, outcome, timing and scope. | Review at least ten real enquiries and revise from lead quality. |
+| Measurement architecture | 8.6 | Source/mode, Cal.com attribution, private aggregate funnel taxonomy and no-behavioral-tracking boundary are defined. | Populate the weekly ledger from real provider records and, if needed, implement protected Dodo Checkout Session metadata. |
+| Conversion learning | 5.0 | No honest performance conclusion exists yet. | Observe qualified enquiries, bookings, role progression, sales, orders, refunds and reasons for loss over a useful window. |
 
 ## F. Product and visual experience
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Visual hierarchy | 9.2 | Strong editorial hierarchy, restrained palette, readable evidence structures. | Validate production rendering across browsers and remove remaining repetitive section patterns. |
-| Personal visual identity | 6.5 | Consistent monogram and professional design. | Add an authentic portrait/working image and a more ownable visual motif derived from evidence traces or operating systems. |
-| Product visual credibility | 7.2 | Typed diagrams are clearly labelled. | Replace diagram-only dominance with direct app captures and annotated artifacts. |
-| Mobile responsiveness | 8.8 | No observed horizontal overflow; layouts remain readable. | Add section indexes, shorten navigation effort, and test touch/focus behavior on the deployed site. |
-| Long-page navigation | 7.8 | Content is coherent but lengthy. | Add accessible in-page section indexes to Home/Work/Experience/Services/Proof/Book where useful and repeat contextual actions. |
-| Interaction quality | 8.8 source | Mobile focus trap, route-aware controls, regional switch, system-lab fallback. | Browser-test keyboard, touch, reduced motion, theme, pricing persistence, contact mode, and product lab on production. |
-| Visual distinctiveness | 8.9 | Content thesis is distinctive; visual category is less unique. | Use authentic imagery, product evidence, and an evidence-trace motif instead of more generic decorative polish. |
+| Visual hierarchy | 9.3 | Strong editorial hierarchy, clear maturity labels, restrained palette and evidence structures. | Validate production rendering across browsers and remove repetition only where observed users struggle. |
+| Personal visual identity | 6.5 | Consistent monogram and professional system. | Add authentic portrait/working imagery and a more ownable personal motif. |
+| Working mechanism experience | 9.7 source/Chrome | Four mechanisms are accessible tabs, synthetic-by-default, locally executed, responsive and browser-tested. | Verify touch, keyboard, screen-reader and performance behavior on real devices. |
+| Flagship visual credibility | 7.2 | Workflow diagrams are typed and correctly labelled. | Add real current app captures, annotated outputs and short recordings. |
+| Mobile responsiveness | 9.6 source/Chrome | Homepage, menus, pricing, Contact, sample and Systems Lab pass mobile containment and interaction checks. | Verify real iOS Safari and Android Chrome, larger text and assistive technologies. |
+| Long-page navigation | 9.6 | Accessible section indexes cover the long professional, proof, book, sample and Systems pages. | Validate real navigation effort and anchor behavior across browsers. |
+| Interaction quality | 9.8 source/Chrome | Theme persistence, pricing persistence, Contact routing, Cal attribution, Escape/focus restoration, loaded visuals, working mechanisms and WebGL fallback are release-gated. | Complete real cross-browser/device and assistive-technology testing. |
+| Visual distinctiveness | 9.1 | Evidence traces, working mechanisms and explicit system boundaries strengthen the authored character. | Add authentic product and personal imagery rather than generic decorative polish. |
 
-## G. Accessibility, performance, and resilience
-
-| Dimension | Current | What is now true | Requirement for 10 |
-| --- | ---: | --- | --- |
-| Accessibility engineering | 9.3 | Landmarks, skip link, focus handling, contrast checks, reduced motion, alt text, print, fallbacks. | Conduct keyboard, screen-reader, zoom, high-contrast, and mobile assistive-technology testing against production. |
-| Performance budgets | 9.1 | Static budgets and first-load JS checks are release gates. | Measure Core Web Vitals on the deployed domain and optimise from field data. |
-| Systems-lab isolation | 9.4 | Three.js is same-origin and progressive; standard case studies remain source of truth. | Verify WebGL failure, touch/scroll behavior, memory use, and loading on lower-end devices. |
-| Error and fallback design | 9.2 | Contact errors, lab fallback, static routes, and branded 404 are present. | Test third-party outages, blocked scripts, network timeouts, and form failure recovery in production. |
-| Browser coverage | 7.5 | Static export visually reviewed at desktop/mobile. | Verify latest Chrome, Safari, Firefox, iOS Safari, and Android Chrome at minimum. |
-
-## H. Search, machine readers, and external identity
+## G. Accessibility, performance and resilience
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| SEO and canonical metadata | 9.6 | Page titles, descriptions, canonicals, sitemap, robots, JSON-LD, previews. | Verify indexed production output, search snippets, redirects, and social-card rendering after deployment. |
-| Machine-readable professional identity | 9.8 | JSON Resume, `llms.txt`, proof ledger, build identity, and work-mode definitions align. | Confirm external consumers fetch the deployed current files and validate schema/parse behavior. |
-| Resume and ATS compatibility | 9.5 | Version-controlled PDF, printable HTML, and JSON Resume share sustained-role positioning. | Test with representative ATS parsers and recruiter review. |
-| LinkedIn consistency | 6.5 unverified | Site has canonical identity. | Update and inspect headline, About, Experience, Featured, Services, and availability against the same identity. |
-| GitHub profile consistency | 7.5 unverified | Repositories provide evidence. | Align profile README, pinned repositories, descriptions, and links with the selected work hierarchy. |
-| Social-profile consistency | 6.5 unverified | Site links exist. | Align X/bio/profile images and remove stale positioning where it affects credibility. |
-| International clarity | 9.0 | Bengaluru, remote/distributed, India/global pricing, and role language are explicit. | Validate timezone, contracting, invoicing, availability, and regional expectations with real global conversations. |
+| Accessibility engineering | 9.6 | Landmarks, skip link, labels, focus trap/restoration, keyboard alternatives, contrast checks, reduced motion, print and fallbacks are implemented. | Conduct VoiceOver, NVDA/TalkBack, zoom, high-contrast and real mobile testing. |
+| Performance budgets | 9.6 | Route HTML, homepage JS, Systems JS, core export and same-origin Three.js have separate release budgets; the Three.js explainer loads lazily below the working mechanisms. | Capture production Core Web Vitals and lower-end-device evidence. |
+| Systems isolation | 9.8 | Working mechanisms use no model/network dependency; local uploads remain in the tab; Three.js is same-origin and separately bounded; audited cases remain source of truth. | Verify network behavior and memory/use on deployed real devices. |
+| Error and fallback design | 9.5 | Contact errors, no-JS paths, invalid file handling, extraction empty state, WebGL fallback, static routes and branded 404 exist. | Test real third-party outages, timeouts, blocked scripts and recovery. |
+| Automated browser coverage | 9.9 | Baseline, deep conversion/preference and capability suites pass in foreground headless Chrome with retained reports/screenshots. | Keep the exact latest `main` status green. |
+| Cross-browser coverage | 7.5 | Chrome is automated; manual matrix is defined. | Verify current Safari, Firefox, Edge, iOS Safari and Android Chrome. |
 
-## I. Privacy, legal, security, and commercial trust
-
-| Dimension | Current | What is now true | Requirement for 10 |
-| --- | ---: | --- | --- |
-| Privacy transparency | 9.4 | No hidden analytics claim; local preferences and third parties are documented. | Update policy before adding measurement and verify actual network behavior on production. |
-| Legal and merchant roles | 9.3 | Dodo Merchant of Record and PSRS project-contracting roles are separated. | Verify final policies against actual checkout, invoice, support, refund, and contracting behavior. |
-| Security headers and static hardening | 9.1 | `_headers`, static release, no public admin, same-origin lab. | Verify headers on the live domain and run an external security/header scan. |
-| Sensitive-information handling | 9.3 | Contact warns against sensitive data; no cloud upload is implied for local-first products. | Verify form processor retention, access, deletion, and incident handling. |
-| Conflict and confidentiality clarity | 9.2 | Current commitments and commercial constraints are disclosed. | Define an internal conflict-screening and NDA process before accepting work. |
-
-## J. Release, deployment, and operations
+## H. Search, machine readers and external identity
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Canonical source validation | 9.9 | Lint, TypeScript, copy/positioning, evidence, accessibility, publication, budgets, and lab checks are composed. | Keep the latest main run green and prevent contract drift. |
-| Build identity | 9.8 | Every export contains commit and release identity. | Confirm the public domain exposes the intended current commit. |
-| Deployment integrity | 4.5 | Independent monitor correctly reports stale custom domain. | Deploy/promote current main on the correct Cloudflare project and obtain green `live-deployment`. |
-| Retained diagnostics | 9.8 | Source and live logs/artifacts are retained with durable statuses. | Add alert ownership and escalation for failed live deployments. |
-| Rollback readiness | 9.2 | Cloudflare promotion/rollback path is documented. | Perform one controlled rollback/re-promotion exercise or document production evidence. |
-| Content operations | 9.5 | Audits, evidence freshness, generated artifacts, and release contracts are version-controlled. | Define owner/cadence for profile changes, product evidence, pricing, policies, and external profiles. |
+| SEO and canonical metadata | 9.6 | Titles, descriptions, canonicals, sitemap, robots, JSON-LD and previews are generated. | Verify production indexing, snippets, redirects and social unfurls. |
+| Machine-readable identity | 9.8 | JSON Resume, `llms.txt`, sitemap, proof ledger, build identity and evidence-tier boundaries align. | Confirm external consumers fetch and parse the deployed latest files. |
+| Resume and ATS compatibility | 9.5 | PDF, printable HTML and JSON Resume share the sustained-role positioning; static document links avoid RSC prefetch. | Test representative ATS parsers and recruiter review. |
+| LinkedIn consistency | 6.5 unverified | Exact alignment copy exists. | Update and inspect headline, About, Experience, Featured, Services and availability. |
+| GitHub profile consistency | 7.5 unverified | Repositories provide evidence and the site hierarchy is defined. | Align profile README, pinned repositories, descriptions and links. |
+| Social-profile consistency | 6.5 unverified | Canonical copy and links exist. | Align X and other relevant public profiles and inspect previews. |
+
+## I. Privacy, legal, security and commercial trust
+
+| Dimension | Current | What is now true | Requirement for 10 |
+| --- | ---: | --- | --- |
+| Privacy transparency | 9.6 | No behavioral analytics claim; local preferences, local mechanism uploads, Cal attribution and third parties are documented/bounded. | Verify deployed network behavior and provider retention/deletion practices. |
+| Legal and merchant roles | 9.3 | Dodo Merchant of Record and PSRS project-contracting roles are separated. | Verify actual checkout, invoice, support, refund and contracting behavior. |
+| Security headers and static hardening | 9.2 source | `_headers`, static release, no public admin, same-origin runtime and no mechanism network dependency are enforced. | Verify headers and exposed files on the live domain and run an external scan. |
+| Sensitive-information handling | 9.5 source | Contact warns against sensitive data; mechanism defaults are synthetic; local file inputs remain browser-side. | Verify FormBold retention/access/deletion and incident operating practice. |
+| Conflict and confidentiality | 9.2 | Current commitments and confidentiality constraints are disclosed. | Define and use a real conflict-screening/NDA process. |
+
+## J. Release, deployment and operations
+
+| Dimension | Current | What is now true | Requirement for 10 |
+| --- | ---: | --- | --- |
+| Canonical source validation | 9.9 | Lock reproduction, lint, TypeScript, positioning, evidence, privacy, dependency, capability, publication, build, static budgets and lab syntax are composed. | Keep the exact latest head green after this matrix update. |
+| Hydrated release verification | 9.9 | HTTP plus three Chrome layers verify identity, conversion, preferences, accessibility basics, working mechanisms and fallback behavior. | Keep the exact latest head green and retain artifacts. |
+| Build identity | 9.8 | Every export contains commit/release identity. | Confirm the public domain exposes the intended current commit. |
+| Deployment integrity | 4.5 | Clean-main guard exists; the public domain remains stale until the newest green SHA is deployed. | Deploy the exact green `main`, verify build identity and make `live-deployment` green. |
+| Retained diagnostics | 9.8 | Logs, export and browser screenshots/reports are retained. | Define alert ownership/escalation for live drift. |
+| Rollback readiness | 9.2 | Cloudflare rollback/promotion path is documented. | Perform and record one controlled rollback/re-promotion. |
+| Content operations | 9.6 | Evidence freshness, pricing, publication, mechanisms, policies and release contracts are version-controlled. | Assign real owner/cadence for external profiles, evidence capture, customer permission and production checks. |
 
 ## K. Measurement and learning
 
 | Dimension | Current | What is now true | Requirement for 10 |
 | --- | ---: | --- | --- |
-| Visitor comprehension evidence | 4.0 | Internal audits exist. | Test the ten-second identity and work-mode distinction with target recruiters, founders, and operators. |
-| Conversion analytics | 5.0 | Route sources and CTA contexts exist. | Implement privacy-respecting event collection and review real funnel data. |
-| Content experiment discipline | 5.5 | Copy is contract-tested, not outcome-tested. | Define hypotheses, success metrics, guardrails, and review windows for major positioning changes. |
-| Lead-quality feedback loop | 4.5 | Form captures useful context. | Classify enquiries by audience, fit, source, outcome, and reasons for loss; use it to refine offers. |
-| Hiring-market feedback loop | 4.5 | Target roles are explicit. | Track recruiter responses, role types, stage progression, objections, and compensation/location constraints. |
-
-## Material areas covered
-
-This matrix covers the material surfaces for a personal career and commercial platform:
-
-1. identity and personal working style;
-2. career narrative and current role;
-3. hiring positioning and role fit;
-4. bounded commercial positioning and pricing;
-5. navigation and contact self-routing;
-6. copy quality and claim boundaries;
-7. professional, project, customer, and third-party evidence;
-8. visual design, product captures, personal imagery, and distinctiveness;
-9. mobile, accessibility, interaction, browser coverage, and performance;
-10. SEO, social metadata, machine readers, resume, ATS, and external profiles;
-11. contact, scheduling, checkout, delivery, refunds, and support;
-12. privacy, legal, merchant, conflict, security, and sensitive-data boundaries;
-13. release engineering, build identity, deployment drift, diagnostics, and rollback;
-14. analytics, comprehension testing, funnel learning, lead quality, and hiring-market feedback.
-
-No finite audit can guarantee that no edge case exists. This matrix is comprehensive for the material ways the site can succeed or fail as a career, proof, commercial, and digital-product platform.
+| Visitor comprehension evidence | 4.0 | A scored protocol exists; internal audits are not user evidence. | Test target recruiters, founders, technical leaders and operators. |
+| Mechanism usefulness | 5.0 unobserved | The working mechanisms are functional and discoverable from the site. | Measure whether visitors understand the larger work, open case studies, or start qualified conversations. |
+| Content experiment discipline | 6.5 | Claims/copy are contract-tested and a measurement boundary exists. | Define hypotheses, success metrics, guardrails and review windows for major changes. |
+| Lead-quality feedback loop | 4.5 | Forms capture useful context; taxonomy exists. | Classify real enquiries by audience, fit, source, outcome and reason for loss. |
+| Hiring-market feedback loop | 4.5 | Target roles are explicit. | Track recruiter response, role type, stages, objections and location/compensation constraints. |
 
 ## Critical path to 10
 
-The highest-leverage sequence is:
-
-1. deploy current `main` and make `live-deployment` green;
-2. add direct SignKit product-use evidence, then the other three audited products;
-3. verify role and commercial Contact submissions, Cal.com, and Dodo transactions;
-4. add accessible section navigation to the longest pages;
-5. acquire permissioned third-party and customer evidence;
-6. add an authentic portrait or working-context photograph;
-7. align LinkedIn, GitHub profile, X, resume, and live social/search previews;
-8. add privacy-respecting conversion measurement and target-user comprehension tests;
-9. run production browser/accessibility/security/performance checks;
-10. reassess ratings from external evidence rather than internal review.
+1. Deploy the newest exact green `main` and make `live-deployment` green.
+2. Run real Role and Commercial FormBold submissions, Cal.com bookings and India/global Dodo purchase/refund/delivery tests.
+3. Capture revision-bound real product screenshots and recordings for SignKit, MetaExtract, EchoPanel and SentinelTwin.
+4. Obtain permissioned external stakeholder and customer evidence, including one named paid case where possible.
+5. Add an authentic portrait or working-context photograph.
+6. Complete Safari, Firefox, Edge, iOS, Android, keyboard, screen-reader, zoom, high-contrast, performance and security-header checks.
+7. Align LinkedIn, GitHub profile, X, live social previews and search snippets.
+8. Run ten-second comprehension testing and maintain the private weekly outcome ledger.
+9. Reassess from production and external evidence rather than internal review.
 
 ## Honest current conclusion
 
-The source platform can approach 9.5+ through disciplined implementation. It cannot honestly become 10/10 from repository work alone.
+Repository-controlled quality now includes a credible executable proof layer in addition to audited source and workflow maps. This closes the earlier gap where visitors could only read about system behavior.
 
-The remaining delta is dominated by evidence and operations:
+It does **not** close the remaining real-world gap. An honest 10/10 still requires:
 
-- the public deployment must actually match the source;
-- real products must be shown in use;
-- real people must corroborate the working claims;
-- real forms, schedules, purchases, and deliveries must complete;
-- real visitors must understand the identity and choose the correct path;
-- real production measurements must confirm performance, accessibility, and conversion.
+- the public deployment to match the source;
+- the actual flagship products to be shown in current use;
+- real people to corroborate work and outcomes;
+- real forms, schedules, purchases, delivery, support and refunds to complete;
+- real browsers and assistive technologies to pass;
+- real visitors and buyers to understand, trust and act.
