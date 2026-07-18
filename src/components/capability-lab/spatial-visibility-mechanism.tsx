@@ -198,7 +198,7 @@ export function SpatialVisibilityMechanism() {
           {[{ point: entrance, blocked: entranceBlocked }, { point: counter, blocked: counterBlocked }].map(
             ({ point, blocked }, index) => (
               <line
-                key={`${point.x}-${point.y}`}
+                key={`${index}-${point.x}-${point.y}`}
                 x1={camera.x}
                 y1={camera.y}
                 x2={point.x}
