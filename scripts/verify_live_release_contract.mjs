@@ -39,9 +39,20 @@ requireTokens("scripts/verify_live_deployment.mjs", [
   "/build-info.json",
   "career-platform-v2",
   "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
+  'path: "/systems"',
+  "Small enough to inspect. Real enough to operate.",
+  "img-src 'self' data: blob:",
+  "browser-local upload CSP",
   "/books/no-claim-without-evidence/sample",
   "90-day maximum review window",
   "Live deployment verification failed",
+]);
+
+requireTokens("public/_headers", [
+  "Content-Security-Policy:",
+  "img-src 'self' data: blob:",
+  "connect-src 'self' https://formbold.com",
+  "frame-src 'self'",
 ]);
 
 requireTokens("scripts/verify_deploy_source.mjs", [
@@ -112,5 +123,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: narrowed route signatures, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: narrowed route signatures, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
