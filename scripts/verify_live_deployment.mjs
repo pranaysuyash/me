@@ -47,6 +47,10 @@ const routeChecks = [
     token: "Four products, each labelled by what actually exists today.",
   },
   {
+    path: "/systems",
+    token: "Small enough to inspect. Real enough to operate.",
+  },
+  {
     path: "/hire-me",
     token:
       "Product leader and hands-on builder for AI, workflow, and internal systems.",
@@ -147,6 +151,25 @@ async function verifyDeployment() {
     );
   }
 
+  try {
+    const { response, url } = await fetchWithTimeout("/systems");
+    const csp = response.headers.get("content-security-policy") || "";
+    if (!csp.includes("img-src 'self' data: blob:")) {
+      failures.push(
+        `${url} CSP does not permit browser-local image blobs for the working mechanisms`,
+      );
+    }
+    if (/https?:\/\/(?!pranaysuyash\.com)/i.test(csp.match(/img-src[^;]*/i)?.[0] || "")) {
+      failures.push(`${url} CSP permits an unexpected remote image host`);
+    }
+  } catch (error) {
+    failures.push(
+      `systems CSP check failed: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
+
   for (const check of routeChecks) {
     try {
       const { body, url } = await fetchWithTimeout(check.path);
@@ -172,7 +195,7 @@ for (let attempt = 1; attempt <= Math.max(attempts, 1); attempt += 1) {
   try {
     await verifyDeployment();
     console.log(
-      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}.`,
+      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including the working systems route and browser-local upload CSP.`,
     );
     process.exit(0);
   } catch (error) {
