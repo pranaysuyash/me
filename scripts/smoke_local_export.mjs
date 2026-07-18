@@ -43,6 +43,16 @@ const checks = [
     tokens: ["Proof ledger sections", "Evidence freshness is a release condition"],
   },
   {
+    route: "/systems",
+    tokens: [
+      "Working systems lab",
+      "Systems lab sections",
+      "Small enough to inspect. Real enough to operate.",
+      "Runs in this browser",
+      "Inspect simplified product loops, then verify the real case study.",
+    ],
+  },
+  {
     route: "/books/no-claim-without-evidence",
     tokens: [
       "Book sections",
@@ -124,7 +134,7 @@ async function main() {
   }
 
   console.log(
-    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, proof, product lab, and build identity are reachable from the static export.`,
+    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, working systems, proof, product lab, and build identity are reachable from the static export.`,
   );
 }
 
