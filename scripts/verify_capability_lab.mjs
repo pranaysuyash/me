@@ -112,7 +112,10 @@ requireTokens("scripts/browser_capability_lab_test.mjs", [
 
 requireTokens("package.json", [
   '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs"',
-  "node scripts/verify_capability_lab.mjs",
+  '"postportfolio:validate": "node scripts/verify_external_evidence.mjs && node scripts/verify_conversion_measurement.mjs && node scripts/verify_dependency_surface.mjs"',
+]);
+requireTokens("scripts/verify_dependency_surface.mjs", [
+  'import "./verify_capability_lab.mjs"',
 ]);
 
 const componentSources = [
