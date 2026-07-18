@@ -14,6 +14,7 @@ const routeFiles = {
   documentWorkflows: "document-workflows.html",
   proof: "proof.html",
   accessibility: "accessibility.html",
+  systems: "systems.html",
   book: "books/no-claim-without-evidence.html",
 };
 
@@ -25,6 +26,7 @@ const htmlBudgets = {
   documentWorkflows: 90_000,
   proof: 108_000,
   accessibility: 75_000,
+  systems: 145_000,
   book: 110_000,
 };
 
@@ -47,24 +49,40 @@ for (const [name, relative] of Object.entries(routeFiles)) {
   }
 }
 
-const home = read(routeFiles.home);
-const scripts = [...home.matchAll(/<script[^>]+src="([^"]+\.js)"/g)].map((match) => match[1]);
-const uniqueScripts = [...new Set(scripts)];
-let firstLoadJs = 0;
-for (const source of uniqueScripts) {
-  if (/^https?:\/\//.test(source)) {
-    failures.push(`homepage contains external runtime script: ${source}`);
-    continue;
+function referencedJavaScript(content, routeName) {
+  const scripts = [...content.matchAll(/<script[^>]+src="([^"]+\.js)"/g)].map(
+    (match) => match[1],
+  );
+  const uniqueScripts = [...new Set(scripts)];
+  let bytes = 0;
+  for (const source of uniqueScripts) {
+    if (/^https?:\/\//.test(source)) {
+      failures.push(`${routeName} contains external runtime script: ${source}`);
+      continue;
+    }
+    const file = path.join(out, source.replace(/^\//, ""));
+    if (!fs.existsSync(file)) {
+      failures.push(`${routeName} script is missing from export: ${source}`);
+      continue;
+    }
+    bytes += fs.statSync(file).size;
   }
-  const file = path.join(out, source.replace(/^\//, ""));
-  if (!fs.existsSync(file)) {
-    failures.push(`homepage script is missing from export: ${source}`);
-    continue;
-  }
-  firstLoadJs += fs.statSync(file).size;
+  return bytes;
 }
+
+const home = read(routeFiles.home);
+const firstLoadJs = referencedJavaScript(home, "homepage");
 if (firstLoadJs > 900_000) {
   failures.push(`homepage referenced JavaScript exceeds 900 KB: ${firstLoadJs} bytes`);
+}
+
+const systems = read(routeFiles.systems);
+const systemsJs = referencedJavaScript(systems, "systems route");
+if (systemsJs > 1_150_000) {
+  failures.push(`systems route referenced JavaScript exceeds 1.15 MB: ${systemsJs} bytes`);
+}
+if (systems.includes('loading="eager"') && systems.includes('src="/product-lab/"')) {
+  failures.push("systems route eagerly loads the separate Three.js product lab");
 }
 
 if (home.includes("/books/no-claim-without-evidence/cover.png")) {
@@ -146,14 +164,14 @@ const walkSize = (directory) => {
 walkSize(out);
 const coreExportBytes = sizes.total - sizes.vendor;
 
-if (coreExportBytes > 6_300_000) {
-  failures.push(`core static site exceeds 6.3 MB budget: ${coreExportBytes} bytes`);
+if (coreExportBytes > 6_500_000) {
+  failures.push(`core static site exceeds 6.5 MB budget: ${coreExportBytes} bytes`);
 }
 if (sizes.vendor > 2_200_000) {
   failures.push(`self-hosted Three.js runtime exceeds 2.2 MB budget: ${sizes.vendor} bytes`);
 }
-if (sizes.total > 8_500_000) {
-  failures.push(`combined static export exceeds 8.5 MB budget: ${sizes.total} bytes`);
+if (sizes.total > 8_700_000) {
+  failures.push(`combined static export exceeds 8.7 MB budget: ${sizes.total} bytes`);
 }
 
 if (failures.length) {
@@ -162,5 +180,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes, referenced JS ${firstLoadJs} bytes, web cover ${fs.statSync(webCover).size} bytes, Open Graph image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes with ${firstLoadJs} referenced JS, systems ${fs.statSync(path.join(out, routeFiles.systems)).size} bytes with ${systemsJs} referenced JS, web cover ${fs.statSync(webCover).size} bytes, Open Graph image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
 );
