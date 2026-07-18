@@ -7,6 +7,35 @@ function wait(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
+async function waitForProcessExit(processHandle, timeout = 1_500) {
+  if (processHandle.exitCode !== null) return true;
+  let timer;
+  const exited = await Promise.race([
+    new Promise((resolve) => {
+      processHandle.once("exit", () => resolve(true));
+    }),
+    new Promise((resolve) => {
+      timer = setTimeout(() => resolve(false), timeout);
+    }),
+  ]);
+  if (timer) clearTimeout(timer);
+  return exited;
+}
+
+async function removeDirectoryWithRetry(directory) {
+  let lastError;
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    try {
+      fs.rmSync(directory, { recursive: true, force: true });
+      return;
+    } catch (error) {
+      lastError = error;
+      await wait(100 * (attempt + 1));
+    }
+  }
+  throw lastError;
+}
+
 export function findChromeExecutable() {
   if (process.env.BROWSER_EXECUTABLE_PATH) return process.env.BROWSER_EXECUTABLE_PATH;
 
@@ -110,7 +139,8 @@ export async function launchChromeCdp(executablePath = findChromeExecutable()) {
     websocketUrl = await waitForDebugger(port, processHandle, () => stderr);
   } catch (error) {
     processHandle.kill("SIGKILL");
-    fs.rmSync(userDataDir, { recursive: true, force: true });
+    await waitForProcessExit(processHandle, 1_000);
+    await removeDirectoryWithRetry(userDataDir);
     throw error;
   }
 
@@ -186,11 +216,20 @@ export async function launchChromeCdp(executablePath = findChromeExecutable()) {
     try {
       await send("Browser.close");
     } catch {
-      processHandle.kill("SIGKILL");
+      if (processHandle.exitCode === null) processHandle.kill("SIGTERM");
     }
+
     socket.close();
-    if (processHandle.exitCode === null) processHandle.kill("SIGTERM");
-    fs.rmSync(userDataDir, { recursive: true, force: true });
+    let exited = await waitForProcessExit(processHandle, 1_500);
+    if (!exited && processHandle.exitCode === null) {
+      processHandle.kill("SIGTERM");
+      exited = await waitForProcessExit(processHandle, 1_000);
+    }
+    if (!exited && processHandle.exitCode === null) {
+      processHandle.kill("SIGKILL");
+      await waitForProcessExit(processHandle, 1_000);
+    }
+    await removeDirectoryWithRetry(userDataDir);
   }
 
   return {
