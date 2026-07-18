@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import { builtinModules } from "node:module";
 import path from "node:path";
+import "./verify_capability_lab.mjs";
 
 const root = process.cwd();
 const failures = [];
