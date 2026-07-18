@@ -120,11 +120,20 @@ async function main() {
     assert(initial.fieldCount >= 6, `default extraction found only ${initial.fieldCount} fields`, failures);
     assert(initial.overflow <= 1, `desktop systems page overflows by ${initial.overflow}px`, failures);
 
+    const editedInvoice = [
+      "Lab Services",
+      "Invoice No: LAB-9001",
+      "Invoice Date: 19/07/2026",
+      "Bill To: Browser Test Co",
+      "GSTIN: 29ABCDE1234F1Z5",
+      "Tax: INR 188.50",
+      "Total: INR 1,234.50",
+    ].join("\n");
     const changedSource = await evaluate(`(() => {
       const textarea = document.querySelector('#capability-document-source');
       if (!(textarea instanceof HTMLTextAreaElement)) return false;
       const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-      setter?.call(textarea, 'Lab Services\nInvoice No: LAB-9001\nInvoice Date: 19/07/2026\nBill To: Browser Test Co\nGSTIN: 29ABCDE1234F1Z5\nTax: INR 188.50\nTotal: INR 1,234.50');
+      setter?.call(textarea, ${JSON.stringify(editedInvoice)});
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
       const run = Array.from(document.querySelectorAll('button'))
         .find((button) => (button.textContent || '').includes('Run extraction'));
