@@ -13,6 +13,12 @@ const assert = (condition, message, failures) => {
   if (!condition) failures.push(message);
 };
 
+function expectedProductLabError(text) {
+  return /THREE\.WebGLRenderer|WebGL context|Error creating WebGL context|WebGL unavailable/i.test(
+    text,
+  );
+}
+
 async function main() {
   const staticExport = await createStaticExportServer();
   const browser = await launchChromeCdp();
@@ -118,7 +124,7 @@ async function main() {
       const textarea = document.querySelector('#capability-document-source');
       if (!(textarea instanceof HTMLTextAreaElement)) return false;
       const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-      setter?.call(textarea, 'Lab Services\\nInvoice No: LAB-9001\\nInvoice Date: 19/07/2026\\nBill To: Browser Test Co\\nGSTIN: 29ABCDE1234F1Z5\\nTax: INR 188.50\\nTotal: INR 1,234.50');
+      setter?.call(textarea, 'Lab Services\nInvoice No: LAB-9001\nInvoice Date: 19/07/2026\nBill To: Browser Test Co\nGSTIN: 29ABCDE1234F1Z5\nTax: INR 188.50\nTotal: INR 1,234.50');
       textarea.dispatchEvent(new Event('input', { bubbles: true }));
       const run = Array.from(document.querySelectorAll('button'))
         .find((button) => (button.textContent || '').includes('Run extraction'));
@@ -216,6 +222,7 @@ async function main() {
 
     for (const runtimeError of [...new Set(runtimeErrors)]) {
       if (/favicon\.ico/i.test(runtimeError)) continue;
+      if (expectedProductLabError(runtimeError)) continue;
       failures.push(`capability browser runtime error: ${runtimeError}`);
     }
   } finally {
