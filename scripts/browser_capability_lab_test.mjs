@@ -125,7 +125,7 @@ async function main() {
     assert(initial.fieldCount >= 6, `default extraction found only ${initial.fieldCount} fields`, failures);
     assert(initial.overflow <= 1, `desktop systems page overflows by ${initial.overflow}px`, failures);
 
-    await navigate({ route: "/systems#capability-tab-cleanup" });
+    await navigate({ route: "/systems?entry=case#capability-tab-cleanup" });
     const deepLink = await evaluate(`({
       selectedId: document.querySelector('[role="tab"][aria-selected="true"]')?.id || '',
       panelLabel: document.querySelector('[role="tabpanel"]')?.getAttribute('aria-labelledby') || '',
