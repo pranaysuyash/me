@@ -73,7 +73,12 @@ async function main() {
       return result.result?.value;
     }
 
-    async function navigate(width = 1440, height = 1000, mobile = false) {
+    async function navigate({
+      route = "/systems",
+      width = 1440,
+      height = 1000,
+      mobile = false,
+    } = {}) {
       await browser.send(
         "Emulation.setDeviceMetricsOverride",
         { width, height, deviceScaleFactor: 1, mobile },
@@ -82,7 +87,7 @@ async function main() {
       const loaded = browser.waitForEvent("Page.loadEventFired", sessionId);
       await browser.send(
         "Page.navigate",
-        { url: `${staticExport.baseUrl}/systems` },
+        { url: `${staticExport.baseUrl}${route}` },
         sessionId,
       );
       await loaded;
@@ -120,6 +125,21 @@ async function main() {
     assert(initial.fieldCount >= 6, `default extraction found only ${initial.fieldCount} fields`, failures);
     assert(initial.overflow <= 1, `desktop systems page overflows by ${initial.overflow}px`, failures);
 
+    await navigate({ route: "/systems#capability-tab-cleanup" });
+    const deepLink = await evaluate(`({
+      selectedId: document.querySelector('[role="tab"][aria-selected="true"]')?.id || '',
+      panelLabel: document.querySelector('[role="tabpanel"]')?.getAttribute('aria-labelledby') || '',
+      foregroundPixels: Number(document.querySelector('[data-foreground-pixels]')?.getAttribute('data-foreground-pixels') || 0),
+    })`);
+    assert(
+      deepLink.selectedId === "capability-tab-cleanup" &&
+        deepLink.panelLabel === "capability-tab-cleanup" &&
+        deepLink.foregroundPixels > 1000,
+      "cleanup deep link does not activate the working image-cleanup mechanism",
+      failures,
+    );
+
+    await navigate();
     const editedInvoice = [
       "Lab Services",
       "Invoice No: LAB-9001",
@@ -219,7 +239,7 @@ async function main() {
     assert(clearCoverage === 100, `clear spatial coverage is ${clearCoverage} instead of 100`, failures);
     await screenshot("12-capability-spatial");
 
-    await navigate(390, 844, true);
+    await navigate({ width: 390, height: 844, mobile: true });
     const mobile = await evaluate(`({
       lab: Boolean(document.querySelector('[data-capability-lab]')),
       tabs: document.querySelectorAll('[role="tab"]').length,
@@ -257,7 +277,7 @@ async function main() {
   }
 
   console.log(
-    `Capability lab browser verification passed: editable evidence extraction, local Canvas cleanup, visual edge inspection, deterministic spatial visibility, desktop/mobile containment, and runtime health are intact. Screenshots: ${report.screenshots.length}.`,
+    `Capability lab browser verification passed: direct mechanism links, editable evidence extraction, local Canvas cleanup, visual edge inspection, deterministic spatial visibility, desktop/mobile containment, and runtime health are intact. Screenshots: ${report.screenshots.length}.`,
   );
 }
 
