@@ -42,6 +42,13 @@ const shell = requireTokens(
     "/work/metaextract",
     "/work/sig-ext-fastapi",
     "/work/sentineltwin",
+    "mechanismFromHash",
+    'window.addEventListener("hashchange", applyHash)',
+    "window.history.replaceState",
+    "capability-tab-",
+    "tabIndex={selected ? 0 : -1}",
+    'event.key === "ArrowRight"',
+    'event.key === "Home"',
   ],
 );
 
@@ -101,7 +108,30 @@ requireTokens("src/app/systems/page.tsx", [
   "Inspect simplified product loops, then verify the real case study.",
 ]);
 
+requireTokens("src/components/case-mechanism-ribbon.tsx", [
+  "mechanismByPath",
+  '"/work/metaextract"',
+  '"/work/sig-ext-fastapi"',
+  '"/work/sentineltwin"',
+  'href: "/systems#capability-tab-extraction"',
+  'href: "/systems#capability-tab-cleanup"',
+  'href: "/systems#capability-tab-visibility"',
+  "data-case-mechanism-ribbon",
+  "data-mechanism-context",
+  "Working mechanism · synthetic by default",
+]);
+requireTokens("src/components/layout/page-layout.tsx", [
+  'import { CaseMechanismRibbon } from "@/components/case-mechanism-ribbon"',
+  "<CaseMechanismRibbon />",
+]);
+requireTokens("src/components/regional-pricing.tsx", [
+  'href="/systems#capability-tab-extraction"',
+  "Prefer to operate something before discussing scope?",
+  "Try evidence extraction",
+]);
+
 requireTokens("scripts/browser_capability_lab_test.mjs", [
+  "cleanup deep link does not activate the working image-cleanup mechanism",
   "edited invoice number was not extracted",
   "signature cleanup produced only",
   "visual inspection edge density",
@@ -145,5 +175,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Capability lab validation passed: four browser-contained mechanisms remain functional, accessible, synthetic-by-default, network-free, claim-bounded, linked to audited systems, and exercised by the hydrated browser release gate.",
+  "Capability lab validation passed: four browser-contained mechanisms remain functional, accessible, hash-addressable, keyboard navigable, synthetic-by-default, network-free, claim-bounded, linked bidirectionally with audited cases and Services, and exercised by the hydrated browser release gate.",
 );
