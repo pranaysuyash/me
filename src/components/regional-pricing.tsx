@@ -1,6 +1,7 @@
 "use client";
 
-import { CheckCircle2, Globe2, IndianRupee } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, Globe2, IndianRupee } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePricingRegion } from "@/hooks/use-pricing-region";
 import { engagements, pricingRegions, type PricingRegion } from "@/lib/engagements";
@@ -106,6 +107,21 @@ export function RegionalPricing() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="mt-8 grid gap-4 border-y py-6 md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <p className="text-sm font-semibold">Prefer to operate something before discussing scope?</p>
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-muted-foreground">
+            Run the browser-contained evidence extraction mechanism, inspect its claim boundary, and then compare it with the larger audited MetaExtract product case.
+          </p>
+        </div>
+        <Link
+          href="/systems#capability-tab-extraction"
+          className="inline-flex items-center text-sm font-semibold text-primary"
+        >
+          Try evidence extraction <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+        </Link>
       </div>
     </div>
   );
