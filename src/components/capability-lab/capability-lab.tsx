@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowUpRight,
   FileSearch,
@@ -85,6 +85,15 @@ const mechanisms: MechanismDefinition[] = [
   },
 ];
 
+const mechanismIds = mechanisms.map((mechanism) => mechanism.id);
+
+function mechanismFromHash(hash: string): MechanismId | null {
+  const candidate = hash.replace(/^#(?:capability-tab-)?/, "");
+  return mechanismIds.includes(candidate as MechanismId)
+    ? (candidate as MechanismId)
+    : null;
+}
+
 function MechanismPanel({ id }: { id: MechanismId }) {
   if (id === "extraction") return <DocumentExtractionMechanism />;
   if (id === "cleanup") return <SignatureCleanupMechanism />;
@@ -96,6 +105,56 @@ export function CapabilityLab() {
   const [activeId, setActiveId] = useState<MechanismId>("extraction");
   const active = mechanisms.find((mechanism) => mechanism.id === activeId) ?? mechanisms[0];
   const ActiveIcon = active.icon;
+
+  useEffect(() => {
+    const applyHash = () => {
+      const requested = mechanismFromHash(window.location.hash);
+      if (requested) setActiveId(requested);
+    };
+
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
+  const selectMechanism = (nextId: MechanismId, moveFocus = false) => {
+    setActiveId(nextId);
+    const hash = `#capability-tab-${nextId}`;
+    if (window.location.hash !== hash) {
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}${hash}`,
+      );
+    }
+    if (moveFocus) {
+      window.requestAnimationFrame(() => {
+        document.getElementById(`capability-tab-${nextId}`)?.focus();
+      });
+    }
+  };
+
+  const handleTabKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentId: MechanismId,
+  ) => {
+    const currentIndex = mechanismIds.indexOf(currentId);
+    let nextIndex: number | null = null;
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (currentIndex + 1) % mechanismIds.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (currentIndex - 1 + mechanismIds.length) % mechanismIds.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = mechanismIds.length - 1;
+    }
+
+    if (nextIndex === null) return;
+    event.preventDefault();
+    selectMechanism(mechanismIds[nextIndex], true);
+  };
 
   return (
     <div
@@ -119,7 +178,9 @@ export function CapabilityLab() {
                 role="tab"
                 aria-selected={selected}
                 aria-controls={`capability-panel-${mechanism.id}`}
-                onClick={() => setActiveId(mechanism.id)}
+                tabIndex={selected ? 0 : -1}
+                onClick={() => selectMechanism(mechanism.id)}
+                onKeyDown={(event) => handleTabKeyDown(event, mechanism.id)}
                 className={`flex min-h-20 items-start gap-3 rounded-xl border px-3 py-3 text-left transition-colors md:px-4 ${
                   selected
                     ? "border-primary/40 bg-background text-foreground shadow-sm"
