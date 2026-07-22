@@ -11,6 +11,7 @@ const socialLinks = [
 
 const footerNav = [
   { name: "Work", href: "/work" },
+  { name: "Workflow library", href: "/workflows" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
   { name: "Book", href: "/books/no-claim-without-evidence" },
