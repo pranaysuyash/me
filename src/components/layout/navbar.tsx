@@ -10,6 +10,7 @@ import { noClaimEbook } from "@/lib/ebook";
 
 const navigation = [
   { name: "Work", href: "/work" },
+  { name: "Workflows", href: "/workflows" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
   { name: "Book", href: "/books/no-claim-without-evidence" },
@@ -32,6 +33,15 @@ function primaryAction(pathname: string) {
       href: "/contact?type=role&source=nav",
       context: "hiring",
       icon: BriefcaseBusiness,
+    };
+  }
+
+  if (pathname.startsWith("/workflows")) {
+    return {
+      label: "Discuss selected workflow",
+      href: "/contact?type=project&source=nav-workflows",
+      context: "services",
+      icon: Workflow,
     };
   }
 
@@ -162,13 +172,13 @@ export function Navbar() {
           </button>
         </div>
 
-        <div className="hidden items-center gap-x-3 lg:flex">
+        <div className="hidden items-center gap-x-2 lg:flex">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`relative rounded-md px-2.5 py-2 text-sm font-medium transition-colors ${
+              className={`relative rounded-md px-2 py-2 text-sm font-medium transition-colors ${
                 isActive(item.href)
                   ? "bg-primary/[0.07] font-semibold text-primary"
                   : "text-muted-foreground hover:text-foreground"
