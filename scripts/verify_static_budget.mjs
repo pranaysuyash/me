@@ -10,6 +10,7 @@ const routeFiles = {
   home: "index.html",
   experience: "hire-me.html",
   work: "work.html",
+  workflows: "workflows.html",
   services: "work-with-me.html",
   documentWorkflows: "document-workflows.html",
   proof: "proof.html",
@@ -22,6 +23,7 @@ const htmlBudgets = {
   home: 112_000,
   experience: 105_000,
   work: 105_000,
+  workflows: 150_000,
   services: 108_000,
   documentWorkflows: 90_000,
   proof: 108_000,
@@ -85,6 +87,15 @@ if (systems.includes('loading="eager"') && systems.includes('src="/product-lab/"
   failures.push("systems route eagerly loads the separate Three.js product lab");
 }
 
+const workflows = read(routeFiles.workflows);
+const workflowsJs = referencedJavaScript(workflows, "workflow library");
+if (workflowsJs > 1_050_000) {
+  failures.push(`workflow library referenced JavaScript exceeds 1.05 MB: ${workflowsJs} bytes`);
+}
+if (!workflows.includes("Starter downloads are direct and ungated")) {
+  failures.push("workflow library export is missing its direct-download trust boundary");
+}
+
 if (home.includes("/books/no-claim-without-evidence/cover.png")) {
   failures.push("homepage references the publication-only print cover");
 }
@@ -145,6 +156,19 @@ for (const required of ["resume.json", "llms.txt", "pranay-suyash-resume.pdf", "
   }
 }
 
+for (const starter of [
+  "workflows/document-extraction-starter.md",
+  "workflows/signature-document-starter.md",
+  "workflows/visual-inspection-starter.md",
+  "workflows/spatial-coverage-starter.md",
+  "workflows/meeting-capture-starter.md",
+]) {
+  const file = path.join(out, starter);
+  if (!fs.existsSync(file) || fs.statSync(file).size < 1_800) {
+    failures.push(`workflow starter missing or too small: ${starter}`);
+  }
+}
+
 const sizes = { total: 0, vendor: 0 };
 const vendorRoot = path.resolve(out, "vendor/three");
 const walkSize = (directory) => {
@@ -164,14 +188,14 @@ const walkSize = (directory) => {
 walkSize(out);
 const coreExportBytes = sizes.total - sizes.vendor;
 
-if (coreExportBytes > 6_500_000) {
-  failures.push(`core static site exceeds 6.5 MB budget: ${coreExportBytes} bytes`);
+if (coreExportBytes > 6_700_000) {
+  failures.push(`core static site exceeds 6.7 MB budget: ${coreExportBytes} bytes`);
 }
 if (sizes.vendor > 2_200_000) {
   failures.push(`self-hosted Three.js runtime exceeds 2.2 MB budget: ${sizes.vendor} bytes`);
 }
-if (sizes.total > 8_700_000) {
-  failures.push(`combined static export exceeds 8.7 MB budget: ${sizes.total} bytes`);
+if (sizes.total > 8_900_000) {
+  failures.push(`combined static export exceeds 8.9 MB budget: ${sizes.total} bytes`);
 }
 
 if (failures.length) {
@@ -180,5 +204,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes with ${firstLoadJs} referenced JS, systems ${fs.statSync(path.join(out, routeFiles.systems)).size} bytes with ${systemsJs} referenced JS, web cover ${fs.statSync(webCover).size} bytes, Open Graph image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
+  `Static budget validation passed: homepage ${fs.statSync(path.join(out, routeFiles.home)).size} bytes with ${firstLoadJs} referenced JS, workflow library ${fs.statSync(path.join(out, routeFiles.workflows)).size} bytes with ${workflowsJs} referenced JS, systems ${fs.statSync(path.join(out, routeFiles.systems)).size} bytes with ${systemsJs} referenced JS, web cover ${fs.statSync(webCover).size} bytes, Open Graph image assets ${generatedMetadataImages.length}, core site ${coreExportBytes} bytes, self-hosted Three.js ${sizes.vendor} bytes, combined export ${sizes.total} bytes.`,
 );
