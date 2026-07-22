@@ -104,6 +104,16 @@ async function main() {
       })()`);
     }
 
+    async function reveal(selector) {
+      return evaluate(`(() => {
+        const target = document.querySelector(${JSON.stringify(selector)});
+        if (!(target instanceof HTMLElement)) return false;
+        target.scrollIntoView({ block: 'start', behavior: 'instant' });
+        window.scrollBy(0, -88);
+        return true;
+      })()`);
+    }
+
     await navigate();
     const initial = await evaluate(`({
       h1: document.querySelector('h1')?.textContent || '',
@@ -148,6 +158,12 @@ async function main() {
       "signature project path loses source attribution",
       failures,
     );
+    assert(
+      await reveal('[data-workflow-id="signature-document-handling"]'),
+      "signature recommendation cannot be revealed for retained evidence",
+      failures,
+    );
+    await wait(200);
     await screenshot("14-workflow-library-signature");
 
     assert(await pressChoice("Meetings and audio"), "meeting input choice cannot be selected", failures);
@@ -205,6 +221,12 @@ async function main() {
       `workflow library mobile page overflows by ${mobile.overflow}px`,
       failures,
     );
+    assert(
+      await reveal('[data-workflow-library]'),
+      "mobile chooser cannot be revealed for retained evidence",
+      failures,
+    );
+    await wait(200);
     await screenshot("15-workflow-library-mobile");
 
     for (const runtimeError of [...new Set(runtimeErrors)]) {
