@@ -141,7 +141,7 @@ requireTokens("scripts/browser_capability_lab_test.mjs", [
 ]);
 
 requireTokens("package.json", [
-  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs"',
+  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs"',
   '"postportfolio:validate": "node scripts/verify_external_evidence.mjs && node scripts/verify_conversion_measurement.mjs && node scripts/verify_dependency_surface.mjs"',
 ]);
 requireTokens("scripts/verify_dependency_surface.mjs", [
