@@ -36,6 +36,19 @@ requireTokens("package.json", [
   '"deploy:cloudflare": "npm run book:restore && npm run deploy:guard && npm run site:local && npm run deploy:guard && npx wrangler pages deploy out --project-name pranay --branch main"',
 ]);
 
+requireTokens(".gitignore", [
+  "public/build-info.json",
+  "public/pranay-suyash-resume.pdf",
+  "public/vendor/three/",
+  "browser-artifacts/",
+]);
+
+requireTokens("scripts/generate_build_manifest.py", [
+  'OUTPUT = ROOT / "public" / "build-info.json"',
+  '"releaseContract": "career-platform-v2"',
+  "generated public/build-info.json",
+]);
+
 requireTokens("scripts/lib/static_export_server.mjs", [
   "resolveStaticExportPath",
   "createStaticExportServer",
@@ -169,5 +182,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: self-healing publication restoration, clean pushed-main provenance, source validation, Cloudflare-trace-aware HTTP testing, hydrated desktop/mobile browser interaction and visual-loading checks, expected WebGL fallback validation, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
+  "Local release contract validation passed: self-healing publication restoration, ignored generated deployment identity, clean pushed-main provenance, source validation, Cloudflare-trace-aware HTTP testing, hydrated desktop/mobile browser interaction and visual-loading checks, expected WebGL fallback validation, retained browser evidence, automatic live-SHA resolution, main CI, diagnostics, and Cloudflare commands remain aligned.",
 );
