@@ -47,6 +47,11 @@ const routeChecks = [
     token: "Four products, each labelled by what actually exists today.",
   },
   {
+    path: "/workflows",
+    token:
+      "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+  },
+  {
     path: "/systems",
     token: "Small enough to inspect. Real enough to operate.",
   },
@@ -76,6 +81,14 @@ const routeChecks = [
     path: "/books/no-claim-without-evidence/sample",
     token: "Your eval should become a release gate",
   },
+];
+
+const workflowStarters = [
+  "/workflows/document-extraction-starter.md",
+  "/workflows/signature-document-starter.md",
+  "/workflows/visual-inspection-starter.md",
+  "/workflows/spatial-coverage-starter.md",
+  "/workflows/meeting-capture-starter.md",
 ];
 
 const sleep = (milliseconds) =>
@@ -185,6 +198,21 @@ async function verifyDeployment() {
     }
   }
 
+  for (const starter of workflowStarters) {
+    try {
+      const { body, url } = await fetchWithTimeout(starter, "text/markdown,text/plain");
+      if (body.length < 1800 || !body.includes("Acceptance")) {
+        failures.push(`${url} is not a substantial workflow starter`);
+      }
+    } catch (error) {
+      failures.push(
+        `${starter} check failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+  }
+
   if (failures.length) {
     throw new Error(failures.join("\n"));
   }
@@ -195,7 +223,7 @@ for (let attempt = 1; attempt <= Math.max(attempts, 1); attempt += 1) {
   try {
     await verifyDeployment();
     console.log(
-      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including the working systems route and browser-local upload CSP.`,
+      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including the workflow library, five direct starter downloads, working systems route, and browser-local upload CSP.`,
     );
     process.exit(0);
   } catch (error) {
