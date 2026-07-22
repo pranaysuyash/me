@@ -224,6 +224,9 @@ export default function Home() {
             <Link href="/systems" className="inline-flex items-center text-sm font-semibold text-primary">
               Open the systems lab <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
+            <Link href="/workflows" className="inline-flex items-center text-sm font-semibold text-primary">
+              Choose a workflow <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
