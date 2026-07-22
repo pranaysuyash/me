@@ -24,6 +24,10 @@ Last evidence review: 2026-07-16
 - Home: https://pranaysuyash.com/
 - Experience and sustained role fit: https://pranaysuyash.com/hire-me
 - Selected work: https://pranaysuyash.com/work
+- Interactive workflow library: https://pranaysuyash.com/workflows
+  - Choose by source material, operating priority, and next step.
+  - Paths: direct starter download, working mechanism where available, audited case, custom project, or consultation.
+  - Starter downloads are direct and do not require an email address.
 - Working systems lab: https://pranaysuyash.com/systems
 - Professional proof ledger: https://pranaysuyash.com/proof
 - About, working style, and public evidence: https://pranaysuyash.com/about
@@ -31,6 +35,16 @@ Last evidence review: 2026-07-16
 - Document workflow offer: https://pranaysuyash.com/document-workflows
 - Contact and explicit work-mode selector: https://pranaysuyash.com/contact
 - Accessibility statement: https://pranaysuyash.com/accessibility
+
+## Workflow starter downloads
+
+- Evidence-linked document extraction: https://pranaysuyash.com/workflows/document-extraction-starter.md
+- Local signature and document handling: https://pranaysuyash.com/workflows/signature-document-starter.md
+- Visual evidence inspection: https://pranaysuyash.com/workflows/visual-inspection-starter.md
+- Spatial visibility and coverage review: https://pranaysuyash.com/workflows/spatial-coverage-starter.md
+- Meeting capture and searchable retrieval: https://pranaysuyash.com/workflows/meeting-capture-starter.md
+
+These are practical scoping and quality artifacts, not production implementations, legal advice, security certification, or substitutes for the audited products.
 
 ## Professional case study
 
@@ -72,5 +86,6 @@ Last evidence review: 2026-07-16
 - Direct product screenshots and recordings require local files, revision binding, redaction review, and explicit approval.
 - Source, tests, runbooks, architecture records, and independent public records are linked where available.
 - Testimonials, customer identities, logos, adoption metrics, and certification claims are omitted without exact-wording permission and evidence registration.
+- The workflow library recommends deterministic next paths in-browser and exposes direct starter files; it does not collect behavioral history or send choices to a model.
 - The working systems lab executes narrow browser-contained mechanisms using synthetic/default inputs and local browser APIs; it is not presented as the complete flagship products.
 - The Three.js spatial explainer remains illustrative progressive enhancement, and standard HTML case studies remain the source of truth for product maturity and shipped capability.
