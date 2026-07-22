@@ -39,6 +39,11 @@ requireTokens("scripts/verify_live_deployment.mjs", [
   "/build-info.json",
   "career-platform-v2",
   "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
+  'path: "/workflows"',
+  "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+  "/workflows/document-extraction-starter.md",
+  "/workflows/meeting-capture-starter.md",
+  "five direct starter downloads",
   'path: "/systems"',
   "Small enough to inspect. Real enough to operate.",
   "img-src 'self' data: blob:",
@@ -123,5 +128,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: narrowed route signatures, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: narrowed route signatures, interactive workflow catalogue and direct starters, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
