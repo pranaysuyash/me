@@ -13,6 +13,10 @@ node_modules/
 out/
 build/
 
+# Generated deployment identity. Source is scripts/generate_build_manifest.py;
+# npm run build writes this into the static export through public/.
+public/build-info.json
+
 # Generated resume PDF. Source is public/pranay_resume.html and
 # scripts/generate_resume_pdf.py; npm run build regenerates the PDF.
 public/pranay-suyash-resume.pdf
