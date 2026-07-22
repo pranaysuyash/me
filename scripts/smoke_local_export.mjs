@@ -27,6 +27,17 @@ const checks = [
     ],
   },
   {
+    route: "/workflows",
+    tokens: [
+      "Interactive workflow library",
+      "Workflow library sections",
+      "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+      "Starter downloads are direct and ungated",
+      "Evidence-linked document extraction",
+      "Meeting capture and searchable retrieval",
+    ],
+  },
+  {
     route: "/contact?type=role&source=local-smoke",
     tokens: [
       "Role or commercial engagement?",
@@ -109,6 +120,20 @@ async function main() {
       failures.push("book or sample export retains circular sample navigation copy");
     }
 
+    for (const starter of [
+      "/workflows/document-extraction-starter.md",
+      "/workflows/signature-document-starter.md",
+      "/workflows/visual-inspection-starter.md",
+      "/workflows/spatial-coverage-starter.md",
+      "/workflows/meeting-capture-starter.md",
+    ]) {
+      const response = await fetch(`${staticExport.baseUrl}${starter}`);
+      const body = await response.text();
+      if (!response.ok || body.length < 1800) {
+        failures.push(`${starter} is not a substantial direct download`);
+      }
+    }
+
     const buildResponse = await fetch(`${staticExport.baseUrl}/build-info.json`);
     if (!buildResponse.ok) {
       failures.push(`/build-info.json returned ${buildResponse.status}`);
@@ -134,7 +159,7 @@ async function main() {
   }
 
   console.log(
-    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, working systems, proof, product lab, and build identity are reachable from the static export.`,
+    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, workflow catalogue and starter downloads, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, working systems, proof, product lab, and build identity are reachable from the static export.`,
   );
 }
 
