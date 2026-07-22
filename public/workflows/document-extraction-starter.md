@@ -80,7 +80,7 @@ A reviewer should be able to see:
 - accept, correct, reject, or defer actions
 - previous decisions and timestamps
 
-## 7. Quality and acceptance gate
+## 7. Quality and Acceptance Gate
 
 Define thresholds by failure cost rather than one average score.
 
