@@ -145,9 +145,7 @@ The workflow library is linked from:
 
 ## Verification result
 
-Canonical release `3f2b7710f718e1028ef2f2cc254835cb75736b2c` passed source, lint, TypeScript, publication protection, build, static budgets, HTTP smoke, baseline/deep browser tests, capability-lab tests, and workflow-library browser tests.
-
-A later homepage-discovery link was added in `f5c31bfc7a17a1e98785b85f9fe30677b18997fe` and must pass the same canonical gate before deployment.
+Canonical release `fd075936b14414e8e69089203689cb1042220ae5` passed source, lint, TypeScript, publication protection, build, static budgets, HTTP smoke, baseline/deep browser tests, capability-lab tests, workflow-library browser tests, homepage workflow discovery, and durable documentation checks.
 
 Evidence tier:
 
