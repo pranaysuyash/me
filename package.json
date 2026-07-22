@@ -15,7 +15,7 @@
     "presite:verify": "node scripts/verify_live_release_contract.mjs",
     "site:smoke": "node scripts/smoke_local_export.mjs",
     "site:browser": "node scripts/browser_release_test.mjs",
-    "postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs",
+    "postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs",
     "site:local": "npm run site:verify && npm run site:smoke && npm run site:browser",
     "site:serve": "node scripts/serve_static_export.mjs",
     "positioning:validate": "node scripts/verify_positioning_contract.mjs",
