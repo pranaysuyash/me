@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import "./verify_workflow_library.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -160,6 +161,7 @@ requireTokens("src/app/books/no-claim-without-evidence/sample/page.tsx", [
 
 requireTokens("src/components/layout/navbar.tsx", [
   'name: "Work"',
+  'name: "Workflows"',
   'name: "Experience"',
   'name: "Services"',
   'name: "Book"',
@@ -242,6 +244,7 @@ requireTokens("scripts/verify_dependency_surface.mjs", [
 requireTokens("package.json", [
   '"postportfolio:validate": "node scripts/verify_external_evidence.mjs && node scripts/verify_conversion_measurement.mjs && node scripts/verify_dependency_surface.mjs"',
   '"site:browser": "node scripts/browser_release_test.mjs"',
+  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs"',
   '"site:local": "npm run site:verify && npm run site:smoke && npm run site:browser"',
   '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
 ]);
@@ -286,5 +289,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: a concrete operational-AI identity, four canonical revision-pinned flagships, shared case rendering, route-aware conversion, privacy-minimal measurement, a pruned dependency surface, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
+  "Portfolio source validation passed: a concrete operational-AI identity, an interactive workflow library, four canonical revision-pinned flagships, shared case rendering, route-aware conversion, privacy-minimal measurement, a pruned dependency surface, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
 );
