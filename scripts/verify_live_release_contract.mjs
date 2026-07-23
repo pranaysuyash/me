@@ -78,13 +78,43 @@ requireTokens("scripts/verify_deploy_source.mjs", [
   "Generated build identity can truthfully name this SHA",
 ]);
 
+requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
+  "Cloudflare production deploy",
+  "workflow_run:",
+  'workflows: ["Site build"]',
+  "github.event.workflow_run.conclusion == 'success'",
+  "github.event.workflow_run.head_branch == 'main'",
+  "github.event.workflow_run.repository.full_name == github.repository",
+  "actions/download-artifact@v4",
+  "verified-static-site-${{ github.event.workflow_run.head_sha }}",
+  "out/build-info.json",
+  'manifest.releaseContract !== "career-platform-v2"',
+  "CLOUDFLARE_API_TOKEN",
+  "CLOUDFLARE_ACCOUNT_ID",
+  "cloudflare/wrangler-action@v3",
+  "pages deploy out",
+  "--project-name=pranay",
+  "--branch=main",
+  "--commit-hash=${{ github.event.workflow_run.head_sha }}",
+  "node scripts/verify_live_deployment.mjs 2>&1 | tee live-verify.log",
+  'context "cloudflare-deployment"',
+  'context "live-deployment"',
+  "deployment-metadata.json",
+  "cloudflare-deployment-${{ github.event.workflow_run.head_sha }}",
+  "Fail when deployment or production verification failed",
+]);
+forbidTokens(".github/workflows/cloudflare-production-deploy.yml", [
+  "pull_request:",
+  "push:",
+  "npm run build",
+  "npm run site:verify",
+]);
+
 requireTokens(".github/workflows/live-deployment-audit.yml", [
   "workflow_dispatch:",
   "schedule:",
-  "workflow_run:",
-  'workflows: ["Site build"]',
-  "Check out deployment target",
-  "github.event.workflow_run.head_sha",
+  "Check out current main",
+  "ref: main",
   "node scripts/verify_live_deployment.mjs 2>&1 | tee live-verify.log",
   "Upload live verification log",
   "live-verify-log-${{ steps.target.outputs.sha }}",
@@ -94,6 +124,7 @@ requireTokens(".github/workflows/live-deployment-audit.yml", [
 forbidTokens(".github/workflows/live-deployment-audit.yml", [
   "pull_request:",
   "push:",
+  "workflow_run:",
 ]);
 
 requireTokens("docs/audits/PORTFOLIO_AUDIT_2026-07-16.md", [
@@ -106,10 +137,14 @@ requireTokens("docs/audits/PORTFOLIO_AUDIT_2026-07-16.md", [
 
 requireTokens("DEPLOYMENT_GUIDE.md", [
   "Canonical validation command",
+  "Verified artifact deployment",
   "Live deployment audit",
   "/build-info.json",
   "canonical-site-verify",
+  "cloudflare-deployment",
   "live-deployment",
+  "CLOUDFLARE_API_TOKEN",
+  "CLOUDFLARE_ACCOUNT_ID",
   "Cloudflare Pages project",
   "`pranay`",
 ]);
@@ -138,5 +173,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: narrowed route signatures, five explicit workflow acquisition paths and direct starters, one-region ebook pricing, direct sample checkout, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: narrowed route signatures, workflow acquisition paths, one-region ebook pricing, direct sample checkout, working systems deployment, browser-local upload CSP, clean pushed-source provenance, exact verified-artifact Cloudflare handoff, deployment identity, post-deploy verification, scheduled drift audit, retained diagnostics, durable statuses, public build identity, and the current audit record are structurally bound to main.",
 );
