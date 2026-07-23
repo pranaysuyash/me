@@ -67,7 +67,7 @@ async function main() {
       return result.result?.value;
     }
 
-    async function navigate(width = 1440, height = 1000, mobile = false) {
+    async function navigate(width = 1440, height = 1000, mobile = false, search = "") {
       await browser.send(
         "Emulation.setDeviceMetricsOverride",
         { width, height, deviceScaleFactor: 1, mobile },
@@ -76,7 +76,7 @@ async function main() {
       const loaded = browser.waitForEvent("Page.loadEventFired", sessionId);
       await browser.send(
         "Page.navigate",
-        { url: `${staticExport.baseUrl}/workflows` },
+        { url: `${staticExport.baseUrl}/workflows${search}` },
         sessionId,
       );
       await loaded;
@@ -118,6 +118,8 @@ async function main() {
     const initial = await evaluate(`({
       h1: document.querySelector('h1')?.textContent || '',
       library: Boolean(document.querySelector('[data-workflow-library]')),
+      input: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-input') || '',
+      priority: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-priority') || '',
       path: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-path') || '',
       cards: document.querySelectorAll('[data-workflow-id]').length,
       first: document.querySelector('[data-workflow-id]')?.getAttribute('data-workflow-id') || '',
@@ -129,7 +131,11 @@ async function main() {
       "workflow library exposes no interactive chooser",
       failures,
     );
-    assert(initial.path === "download", `default workflow path is ${initial.path}`, failures);
+    assert(
+      initial.input === "any" && initial.priority === "any" && initial.path === "download",
+      `default workflow selection is ${initial.input}/${initial.priority}/${initial.path}`,
+      failures,
+    );
     assert(initial.cards === 5, `workflow library exposes ${initial.cards} cards instead of five`, failures);
     assert(
       initial.first === "document-extraction-review",
@@ -145,6 +151,9 @@ async function main() {
     let state = await evaluate(`({
       cards: document.querySelectorAll('[data-workflow-id]').length,
       first: document.querySelector('[data-workflow-id]')?.getAttribute('data-workflow-id') || '',
+      input: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-input') || '',
+      priority: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-priority') || '',
+      locationSearch: location.search,
       projectHref: document.querySelector('[data-workflow-id="signature-document-handling"] a[href*="workflow-library-signature-project"]')?.getAttribute('href') || '',
     })`);
     assert(state.cards === 2, `image workflow selection returns ${state.cards} cards instead of two`, failures);
@@ -154,8 +163,22 @@ async function main() {
       failures,
     );
     assert(
-      state.projectHref.includes("workflow-library-signature-project"),
-      "signature project path loses source attribution",
+      state.input === "images" && state.priority === "privacy",
+      `workflow selection attributes are ${state.input}/${state.priority}`,
+      failures,
+    );
+    assert(
+      state.locationSearch.includes("input=images") && state.locationSearch.includes("priority=privacy"),
+      `workflow selection is not preserved in the URL: ${state.locationSearch}`,
+      failures,
+    );
+    assert(
+      state.projectHref.includes("workflow-library-signature-project") &&
+        state.projectHref.includes("workflow-signature-document-handling") &&
+        state.projectHref.includes("input-images") &&
+        state.projectHref.includes("priority-privacy") &&
+        state.projectHref.includes("path-project"),
+      `signature project path loses selected workflow context: ${state.projectHref}`,
       failures,
     );
     assert(
@@ -179,6 +202,7 @@ async function main() {
       failures,
     );
 
+    assert(await pressChoice("Any priority"), "priority cannot be reset for meeting starter", failures);
     assert(await pressChoice("Download a starter"), "starter path cannot be restored", failures);
     await wait(250);
     state = await evaluate(`({
@@ -206,6 +230,38 @@ async function main() {
     assert(
       starterResponse.ok && starterText.includes("Meeting capture and searchable retrieval"),
       "starter download is not directly retrievable",
+      failures,
+    );
+
+    await navigate(
+      1440,
+      1000,
+      false,
+      "?input=spatial&priority=simulation&path=live",
+    );
+    state = await evaluate(`({
+      input: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-input') || '',
+      priority: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-priority') || '',
+      path: document.querySelector('[data-workflow-library]')?.getAttribute('data-selected-path') || '',
+      cards: document.querySelectorAll('[data-workflow-id]').length,
+      first: document.querySelector('[data-workflow-id]')?.getAttribute('data-workflow-id') || '',
+      locationSearch: location.search,
+    })`);
+    assert(
+      state.input === "spatial" && state.priority === "simulation" && state.path === "live",
+      `deep-linked workflow selection hydrates as ${state.input}/${state.priority}/${state.path}`,
+      failures,
+    );
+    assert(
+      state.cards === 1 && state.first === "spatial-coverage-review",
+      "deep-linked spatial simulation does not restore the exact recommendation",
+      failures,
+    );
+    assert(
+      state.locationSearch.includes("input=spatial") &&
+        state.locationSearch.includes("priority=simulation") &&
+        state.locationSearch.includes("path=live"),
+      `deep-linked workflow URL is not retained: ${state.locationSearch}`,
       failures,
     );
 
@@ -256,7 +312,7 @@ async function main() {
   }
 
   console.log(
-    `Workflow library browser verification passed: five workflows, recommendation changes, honest live-mechanism availability, direct starter delivery, project-source attribution, navigation, and desktop/mobile containment are intact. Screenshots: ${report.screenshots.length}.`,
+    `Workflow library browser verification passed: five workflows, exact priority filtering, URL-backed recommendations, selected-context project attribution, honest live-mechanism availability, direct starter delivery, navigation, and desktop/mobile containment are intact. Screenshots: ${report.screenshots.length}.`,
   );
 }
 
