@@ -11,6 +11,7 @@ const socialLinks = [
 
 const footerNav = [
   { name: "Work", href: "/work" },
+  { name: "Products", href: "/products" },
   { name: "Workflow library", href: "/workflows" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
@@ -77,7 +78,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()} Pranay Suyash · Bengaluru, India
             </p>
             <p className="mt-2 max-w-3xl text-xs leading-5 text-muted-foreground">
-              Dodo is Merchant of Record for ebooks. Custom engagements may contract through PSRS Technologies Private Limited.
+              Gumroad fulfils SignKit. Dodo is Merchant of Record for ebooks. Custom engagements may contract through PSRS Technologies Private Limited.
             </p>
           </div>
 
