@@ -34,6 +34,28 @@ function forbidTokens(relativePath, tokens) {
   }
 }
 
+function parseJson(relativePath) {
+  const source = read(relativePath);
+  if (!source) return {};
+  try {
+    return JSON.parse(source);
+  } catch (error) {
+    failures.push(
+      `${relativePath} is not valid JSON: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    return {};
+  }
+}
+
+const toolchain = parseJson("toolchain.json");
+for (const key of ["node", "npm", "wrangler"]) {
+  if (typeof toolchain[key] !== "string" || !/^\d+\.\d+\.\d+$/.test(toolchain[key])) {
+    failures.push(`toolchain.json ${key} must be an exact semantic version`);
+  }
+}
+
 const allowedActionRepositories = new Set([
   "actions/checkout",
   "actions/download-artifact",
@@ -71,12 +93,7 @@ for (const fileName of fs.readdirSync(workflowDirectory).filter((name) => /\.ya?
   });
 }
 
-requireTokens("toolchain.json", [
-  '"node": "22.16.0"',
-  '"npm": "10.9.2"',
-  '"wrangler": "4.113.0"',
-]);
-requireTokens(".nvmrc", ["22.16.0"]);
+requireTokens(".nvmrc", [toolchain.node]);
 requireTokens("scripts/lib/toolchain.mjs", [
   "runPinnedNpm",
   "runPinnedWrangler",
@@ -86,6 +103,7 @@ requireTokens("scripts/lib/toolchain.mjs", [
 requireTokens("scripts/verify_toolchain.mjs", [
   "Node ${actualNode} is active",
   "Pinned npm resolved",
+  "any compatible Node version manager or installer",
   "Toolchain validation passed",
 ]);
 requireTokens("scripts/verify_lockfile.mjs", [
@@ -153,14 +171,14 @@ requireTokens("scripts/verify_deploy_source.mjs", [
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
-  'PINNED_NPM_VERSION: "10.9.2"',
-  'node-version: "22.16.0"',
+  `PINNED_NPM_VERSION: "${toolchain.npm}"`,
+  `node-version: "${toolchain.node}"`,
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm ci',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:verify',
 ]);
 requireTokens(".github/workflows/site-diagnostics.yml", [
-  'PINNED_NPM_VERSION: "10.9.2"',
-  'node-version: "22.16.0"',
+  `PINNED_NPM_VERSION: "${toolchain.npm}"`,
+  `node-version: "${toolchain.node}"`,
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:browser',
 ]);
 
@@ -171,16 +189,16 @@ requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
   "github.event.workflow_run.conclusion == 'success'",
   "github.event.workflow_run.head_branch == 'main'",
   "github.event.workflow_run.repository.full_name == github.repository",
-  'node-version: "22.16.0"',
+  `node-version: "${toolchain.node}"`,
   "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4",
   "verified-static-site-${{ github.event.workflow_run.head_sha }}",
   "out/build-info.json",
   'manifest.releaseContract !== "career-platform-v2"',
-  'toolchain.wrangler !== "4.113.0"',
+  `toolchain.wrangler !== "${toolchain.wrangler}"`,
   "CLOUDFLARE_API_TOKEN",
   "CLOUDFLARE_ACCOUNT_ID",
   "cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3",
-  'wranglerVersion: "4.113.0"',
+  `wranglerVersion: "${toolchain.wrangler}"`,
   "pages deploy out",
   "--project-name=pranay",
   "--branch=main",
@@ -248,6 +266,15 @@ requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
   "Do not rebuild between canonical verification and automated deployment.",
 ]);
 
+requireTokens("docs/RELEASE_TOOLCHAIN.md", [
+  "Canonical configuration: `toolchain.json`",
+  `"node": "${toolchain.node}"`,
+  `"npm": "${toolchain.npm}"`,
+  `"wrangler": "${toolchain.wrangler}"`,
+  "no specific version manager is required",
+  "npm run toolchain:verify",
+]);
+
 requireTokens("docs/security/GITHUB_ACTIONS_SUPPLY_CHAIN.md", [
   "full 40-character commit SHA",
   "version comment",
@@ -269,7 +296,7 @@ requireTokens("package.json", [
   '"presite:verify": "node scripts/verify_live_release_contract.mjs"',
   '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
   '"deploy:cloudflare": "node scripts/deploy_cloudflare.mjs"',
-  '"wrangler:version": "npm exec --yes --package=wrangler@4.113.0 -- wrangler --version"',
+  `"wrangler:version": "npm exec --yes --package=wrangler@${toolchain.wrangler} -- wrangler --version"`,
 ]);
 
 if (failures.length) {
