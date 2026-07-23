@@ -144,10 +144,13 @@ requireTokens("scripts/browser_release_test.mjs", [
   'path.join(artifactsDir, "report.json")',
 ]);
 requireTokens("scripts/browser_products_test.mjs", [
-  'url: `${staticExport.baseUrl}/products`',
+  'async function navigate(pathname = "/products"',
   "products route does not expose exactly two current product cards",
   "SignKit does not expose the direct external Gumroad checkout",
   "future workflow candidates are purchasable or lack the non-sale boundary",
+  'navigate("/work/sig-ext-fastapi")',
+  "SignKit audited case does not expose its canonical product ribbon",
+  "product purchase ribbon leaks onto a non-product case",
   "mobile products route overflows",
   'path.join(artifactsDir, "products-report.json")',
 ]);
@@ -225,5 +228,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Local release contract validation passed: the exact Node/npm/Wrangler toolchain, pinned lock reproduction, self-healing publication restoration, clean pushed-main provenance, product and workflow HTTP/browser verification, ignored generated deployment identity, retained evidence, automatic Cloudflare upload and live-SHA verification, main CI, and diagnostics remain aligned.",
+  "Local release contract validation passed: the exact Node/npm/Wrangler toolchain, pinned lock reproduction, self-healing publication restoration, clean pushed-main provenance, product catalogue and direct SignKit case-purchase verification, workflow HTTP/browser coverage, ignored generated deployment identity, retained evidence, automatic Cloudflare upload and live-SHA verification, main CI, and diagnostics remain aligned.",
 );
