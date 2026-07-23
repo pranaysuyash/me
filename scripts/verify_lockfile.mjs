@@ -9,6 +9,11 @@ import { runPinnedNpm, toolchain } from "./lib/toolchain.mjs";
 const root = process.cwd();
 const manifestPath = path.join(root, "package.json");
 const lockPath = path.join(root, "package-lock.json");
+const diagnosticPath = path.join(
+  root,
+  "tmp",
+  `package-lock.npm-${toolchain.npm}.generated.json`,
+);
 
 if (!fs.existsSync(manifestPath) || !fs.existsSync(lockPath)) {
   console.error("Lockfile verification requires package.json and package-lock.json.");
@@ -61,14 +66,18 @@ try {
     { cwd: temporaryRoot },
   );
 
-  const reproduced = JSON.parse(
-    fs.readFileSync(path.join(temporaryRoot, "package-lock.json"), "utf8"),
+  const reproducedText = fs.readFileSync(
+    path.join(temporaryRoot, "package-lock.json"),
+    "utf8",
   );
+  const reproduced = JSON.parse(reproducedText);
   try {
     assert.deepStrictEqual(reproduced, lock);
   } catch {
+    fs.mkdirSync(path.dirname(diagnosticPath), { recursive: true });
+    fs.writeFileSync(diagnosticPath, reproducedText);
     console.error(
-      `package-lock.json is stale under canonical npm ${toolchain.npm}. Regenerate it only with the pinned toolchain and commit the reviewed result.`,
+      `package-lock.json is stale under canonical npm ${toolchain.npm}. The exact isolated reproduction was written to ${path.relative(root, diagnosticPath)} for review.`,
     );
     process.exitCode = 1;
   }
@@ -78,6 +87,7 @@ try {
 
 if (process.exitCode) process.exit(process.exitCode);
 
+fs.rmSync(diagnosticPath, { force: true });
 console.log(
   `Lockfile validation passed: npm ${toolchain.npm} reproduced the v${lock.lockfileVersion} dependency graph in an isolated directory and the root manifest contains ${Object.keys(manifest.dependencies || {}).length} runtime plus ${Object.keys(manifest.devDependencies || {}).length} development dependencies.`,
 );
