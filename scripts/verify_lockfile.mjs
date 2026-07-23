@@ -11,7 +11,7 @@ const manifestPath = path.join(root, "package.json");
 const lockPath = path.join(root, "package-lock.json");
 const diagnosticPath = path.join(
   root,
-  "tmp",
+  "browser-artifacts",
   `package-lock.npm-${toolchain.npm}.generated.json`,
 );
 
