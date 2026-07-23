@@ -53,6 +53,8 @@ const explorer = requireTokens(
   "src/components/workflow-library/workflow-library-explorer.tsx",
   [
     "data-workflow-library",
+    "data-selected-input",
+    "data-selected-priority",
     "data-selected-path",
     "What enters the workflow?",
     "What matters most?",
@@ -60,7 +62,11 @@ const explorer = requireTokens(
     "Why it matched",
     "Claim boundary.",
     "Starter downloads are direct and ungated. No email address is required.",
-    "The library does not fabricate a live surface where one does not exist.",
+    "The URL preserves this selection for sharing or return visits.",
+    "The library does not fabricate a match or live surface where one does not exist.",
+    "withSelectionContext(",
+    "window.history.replaceState",
+    '.filter((workflow) => priority === "any" || workflow.priorities.includes(priority))',
     "Scope this workflow",
     "Book a workflow consultation",
   ],
@@ -135,7 +141,10 @@ requireTokens("scripts/browser_workflow_library_test.mjs", [
   "workflow library exposes",
   "document extraction is not the default best match",
   "signature workflow is not recommended",
+  "workflow selection is not preserved in the URL",
+  "signature project path loses selected workflow context",
   "meeting workflow incorrectly exposes a live mechanism",
+  "deep-linked spatial simulation does not restore the exact recommendation",
   "starter download is not directly retrievable",
   "workflow library mobile page overflows",
   'path.join(artifactsDir, "workflow-library-report.json")',
@@ -147,5 +156,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Workflow library validation passed: five canonical workflow families, five explicit acquisition explanations, direct ungated starter artifacts, honest live/case/project/consultation paths, source boundaries, navigation, discovery metadata, and browser verification remain intact.",
+  "Workflow library validation passed: five canonical workflow families, exact source/priority/path filtering, shareable URL-backed recommendations, selected-context enquiry attribution, five explicit acquisition explanations, direct ungated starter artifacts, honest live/case/project/consultation paths, source boundaries, navigation, discovery metadata, and browser verification remain intact.",
 );
