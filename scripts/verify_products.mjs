@@ -51,8 +51,8 @@ const catalogue = requireTokens("src/lib/products.ts", [
   '"sig-ext-fastapi": signKitProduct',
 ]);
 
-if ((catalogue.match(/availability: "Available now"/g) || []).length !== 2) {
-  failures.push("the public product catalogue must expose exactly two currently purchasable products");
+if ((catalogue.match(/\n  availability: "Available now",/g) || []).length !== 2) {
+  failures.push("the public product catalogue must expose exactly two currently purchasable product records");
 }
 forbidTokens("src/lib/products.ts", [
   "Coming soon",
