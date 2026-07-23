@@ -1,0 +1,235 @@
+name: Cloudflare production deploy
+
+on:
+  workflow_run:
+    workflows: ["Site build"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  deployments: write
+  statuses: write
+
+concurrency:
+  group: cloudflare-production-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out verified source commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download exact verified static export
+        id: artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: verified-static-site-${{ github.event.workflow_run.head_sha }}
+          path: out
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Verify artifact identity before deployment
+        id: identity
+        if: steps.artifact.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+
+          const expected = process.env.EXPECTED_SHA;
+          const manifestPath = "out/build-info.json";
+          if (!fs.existsSync(manifestPath)) {
+            throw new Error(`Verified export is missing ${manifestPath}`);
+          }
+
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+          if (manifest.commit !== expected) {
+            throw new Error(
+              `Verified artifact commit ${manifest.commit || "<missing>"} does not equal ${expected}`,
+            );
+          }
+          if (manifest.releaseContract !== "career-platform-v2") {
+            throw new Error(
+              `Unexpected release contract ${manifest.releaseContract || "<missing>"}`,
+            );
+          }
+          console.log(`Verified static artifact identity: ${manifest.commit}`);
+          NODE
+
+      - name: Verify Cloudflare deployment credentials
+        id: credentials
+        if: steps.identity.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Missing repository secret: CLOUDFLARE_API_TOKEN" >&2
+            exit 1
+          fi
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Missing repository secret: CLOUDFLARE_ACCOUNT_ID" >&2
+            exit 1
+          fi
+
+      - name: Deploy verified artifact to Cloudflare Pages
+        id: deploy
+        if: steps.credentials.outcome == 'success'
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: >-
+            pages deploy out
+            --project-name=pranay
+            --branch=main
+            --commit-hash=${{ github.event.workflow_run.head_sha }}
+            --commit-message="Verified portfolio release ${{ github.event.workflow_run.head_sha }}"
+
+      - name: Verify custom domain serves deployed commit
+        id: live
+        if: steps.deploy.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha }}
+          LIVE_SITE_URL: https://pranaysuyash.com
+          LIVE_VERIFY_ATTEMPTS: "5"
+          LIVE_VERIFY_DELAY_MS: "15000"
+        run: |
+          set -o pipefail
+          node scripts/verify_live_deployment.mjs 2>&1 | tee live-verify.log
+
+      - name: Record deployment evidence
+        if: always()
+        shell: bash
+        env:
+          TARGET_SHA: ${{ github.event.workflow_run.head_sha }}
+          SOURCE_RUN_ID: ${{ github.event.workflow_run.id }}
+          ARTIFACT_OUTCOME: ${{ steps.artifact.outcome }}
+          IDENTITY_OUTCOME: ${{ steps.identity.outcome }}
+          CREDENTIALS_OUTCOME: ${{ steps.credentials.outcome }}
+          DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
+          LIVE_OUTCOME: ${{ steps.live.outcome }}
+        run: |
+          jq -n \
+            --arg target_sha "$TARGET_SHA" \
+            --arg source_run_id "$SOURCE_RUN_ID" \
+            --arg project "pranay" \
+            --arg custom_domain "https://pranaysuyash.com" \
+            --arg artifact_outcome "$ARTIFACT_OUTCOME" \
+            --arg identity_outcome "$IDENTITY_OUTCOME" \
+            --arg credentials_outcome "$CREDENTIALS_OUTCOME" \
+            --arg deploy_outcome "$DEPLOY_OUTCOME" \
+            --arg live_outcome "$LIVE_OUTCOME" \
+            '{
+              target_sha: $target_sha,
+              source_site_build_run_id: $source_run_id,
+              cloudflare_pages_project: $project,
+              custom_domain: $custom_domain,
+              artifact_outcome: $artifact_outcome,
+              identity_outcome: $identity_outcome,
+              credentials_outcome: $credentials_outcome,
+              deploy_outcome: $deploy_outcome,
+              live_outcome: $live_outcome
+            }' > deployment-metadata.json
+
+      - name: Publish deployment and live statuses
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_SHA: ${{ github.event.workflow_run.head_sha }}
+          ARTIFACT_OUTCOME: ${{ steps.artifact.outcome }}
+          IDENTITY_OUTCOME: ${{ steps.identity.outcome }}
+          CREDENTIALS_OUTCOME: ${{ steps.credentials.outcome }}
+          DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
+          LIVE_OUTCOME: ${{ steps.live.outcome }}
+        run: |
+          if [ "$ARTIFACT_OUTCOME" = "success" ] && \
+             [ "$IDENTITY_OUTCOME" = "success" ] && \
+             [ "$CREDENTIALS_OUTCOME" = "success" ] && \
+             [ "$DEPLOY_OUTCOME" = "success" ]; then
+            DEPLOY_STATE="success"
+            DEPLOY_DESCRIPTION="Verified static artifact deployed to Cloudflare Pages"
+          else
+            DEPLOY_STATE="failure"
+            DEPLOY_DESCRIPTION="Verified artifact was not deployed to Cloudflare Pages"
+          fi
+
+          if [ "$LIVE_OUTCOME" = "success" ]; then
+            LIVE_STATE="success"
+            LIVE_DESCRIPTION="Custom domain serves the deployed release commit"
+          else
+            LIVE_STATE="failure"
+            LIVE_DESCRIPTION="Custom domain does not serve the deployed release commit"
+          fi
+
+          jq -n \
+            --arg state "$DEPLOY_STATE" \
+            --arg context "cloudflare-deployment" \
+            --arg description "$DEPLOY_DESCRIPTION" \
+            --arg target_url "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{state:$state,context:$context,description:$description,target_url:$target_url}' \
+            > cloudflare-status.json
+
+          jq -n \
+            --arg state "$LIVE_STATE" \
+            --arg context "live-deployment" \
+            --arg description "$LIVE_DESCRIPTION" \
+            --arg target_url "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{state:$state,context:$context,description:$description,target_url:$target_url}' \
+            > live-status.json
+
+          for status_file in cloudflare-status.json live-status.json; do
+            curl --fail-with-body --silent --show-error \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${{ github.repository }}/statuses/$TARGET_SHA" \
+              --data-binary @"$status_file"
+          done
+
+      - name: Upload deployment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-deployment-${{ github.event.workflow_run.head_sha }}
+          path: |
+            deployment-metadata.json
+            live-verify.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Fail when deployment or production verification failed
+        if: >-
+          steps.artifact.outcome != 'success' ||
+          steps.identity.outcome != 'success' ||
+          steps.credentials.outcome != 'success' ||
+          steps.deploy.outcome != 'success' ||
+          steps.live.outcome != 'success'
+        run: exit 1
