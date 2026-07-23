@@ -66,3 +66,6 @@ next-env.d.ts
 # Testing and generated release evidence
 coverage/
 browser-artifacts/
+
+# Generated agent-start compatibility mirror
+docs/context/agent-start/
