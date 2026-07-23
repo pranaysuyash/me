@@ -32,7 +32,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 22
+          node-version: "22.16.0"
 
       - name: Download exact verified static export
         id: artifact
@@ -44,7 +44,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
-      - name: Verify artifact identity before deployment
+      - name: Verify artifact and toolchain identity before deployment
         id: identity
         if: steps.artifact.outcome == 'success'
         continue-on-error: true
@@ -62,6 +62,7 @@ jobs:
           }
 
           const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+          const toolchain = JSON.parse(fs.readFileSync("toolchain.json", "utf8"));
           if (manifest.commit !== expected) {
             throw new Error(
               `Verified artifact commit ${manifest.commit || "<missing>"} does not equal ${expected}`,
@@ -72,7 +73,19 @@ jobs:
               `Unexpected release contract ${manifest.releaseContract || "<missing>"}`,
             );
           }
-          console.log(`Verified static artifact identity: ${manifest.commit}`);
+          if (process.versions.node !== toolchain.node) {
+            throw new Error(
+              `Deployment Node ${process.versions.node} does not equal canonical ${toolchain.node}`,
+            );
+          }
+          if (toolchain.wrangler !== "4.113.0") {
+            throw new Error(
+              `toolchain.json Wrangler ${toolchain.wrangler} does not equal workflow pin 4.113.0`,
+            );
+          }
+          console.log(
+            `Verified static artifact identity: ${manifest.commit}; Node ${toolchain.node}; Wrangler ${toolchain.wrangler}`,
+          );
           NODE
 
       - name: Verify Cloudflare deployment credentials
@@ -102,6 +115,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          wranglerVersion: "4.113.0"
           command: >-
             pages deploy out
             --project-name=pranay
@@ -139,6 +153,7 @@ jobs:
             --arg target_sha "$TARGET_SHA" \
             --arg source_run_id "$SOURCE_RUN_ID" \
             --arg project "pranay" \
+            --arg wrangler_version "4.113.0" \
             --arg custom_domain "https://pranaysuyash.com" \
             --arg artifact_outcome "$ARTIFACT_OUTCOME" \
             --arg identity_outcome "$IDENTITY_OUTCOME" \
@@ -149,6 +164,7 @@ jobs:
               target_sha: $target_sha,
               source_site_build_run_id: $source_run_id,
               cloudflare_pages_project: $project,
+              wrangler_version: $wrangler_version,
               custom_domain: $custom_domain,
               artifact_outcome: $artifact_outcome,
               identity_outcome: $identity_outcome,
@@ -162,6 +178,7 @@ jobs:
             echo
             echo "- Target SHA: \`$TARGET_SHA\`"
             echo "- Source Site build run: \`$SOURCE_RUN_ID\`"
+            echo "- Wrangler: \`4.113.0\`"
             echo "- Artifact download: \`$ARTIFACT_OUTCOME\`"
             echo "- Artifact identity: \`$IDENTITY_OUTCOME\`"
             echo "- Credential gate: \`$CREDENTIALS_OUTCOME\`"
@@ -190,7 +207,7 @@ jobs:
             DEPLOY_DESCRIPTION="Verified static artifact unavailable"
           elif [ "$IDENTITY_OUTCOME" != "success" ]; then
             DEPLOY_STATE="failure"
-            DEPLOY_DESCRIPTION="Verified artifact identity mismatch"
+            DEPLOY_DESCRIPTION="Verified artifact or toolchain identity mismatch"
           elif [ "$CREDENTIALS_OUTCOME" != "success" ]; then
             DEPLOY_STATE="failure"
             DEPLOY_DESCRIPTION="Cloudflare deployment secrets are missing or empty"
@@ -247,6 +264,7 @@ jobs:
           path: |
             deployment-metadata.json
             live-verify.log
+            toolchain.json
           if-no-files-found: warn
           retention-days: 14
 
