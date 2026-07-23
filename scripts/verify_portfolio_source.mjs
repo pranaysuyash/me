@@ -247,7 +247,7 @@ requireTokens("scripts/verify_dependency_surface.mjs", [
 requireTokens("package.json", [
   '"postportfolio:validate": "node scripts/verify_external_evidence.mjs && node scripts/verify_conversion_measurement.mjs && node scripts/verify_dependency_surface.mjs"',
   '"site:browser": "node scripts/browser_release_test.mjs"',
-  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs"',
+  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs && node scripts/browser_products_test.mjs"',
   '"site:local": "npm run site:verify && npm run site:smoke && npm run site:browser"',
   '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
 ]);
