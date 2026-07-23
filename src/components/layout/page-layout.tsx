@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CaseMechanismRibbon } from "@/components/case-mechanism-ribbon";
+import { CaseProductRibbon } from "@/components/case-product-ribbon";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 
@@ -17,6 +18,7 @@ export function PageLayout({ children }: PageLayoutProps) {
       <Navbar />
       <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none">
         {children}
+        <CaseProductRibbon />
         <CaseMechanismRibbon />
       </main>
       <Footer />
