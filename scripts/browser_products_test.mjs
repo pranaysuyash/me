@@ -67,7 +67,7 @@ async function main() {
       return result.result?.value;
     }
 
-    async function navigate(width = 1440, height = 1000, mobile = false) {
+    async function navigate(pathname = "/products", width = 1440, height = 1000, mobile = false) {
       await browser.send(
         "Emulation.setDeviceMetricsOverride",
         { width, height, deviceScaleFactor: 1, mobile },
@@ -76,7 +76,7 @@ async function main() {
       const loaded = browser.waitForEvent("Page.loadEventFired", sessionId);
       await browser.send(
         "Page.navigate",
-        { url: `${staticExport.baseUrl}/products` },
+        { url: `${staticExport.baseUrl}${pathname}` },
         sessionId,
       );
       await loaded;
@@ -145,7 +145,7 @@ async function main() {
     assert(desktop.overflow <= 1, `desktop products route overflows by ${desktop.overflow}px`, failures);
     await screenshot("16-products-desktop");
 
-    await navigate(390, 844, true);
+    await navigate("/products", 390, 844, true);
     const mobile = await evaluate(`({
       products: [
         document.querySelector('article#signkit'),
@@ -158,6 +158,57 @@ async function main() {
     assert(mobile.signkitCheckout, "mobile products route loses the SignKit checkout", failures);
     assert(mobile.overflow <= 1, `mobile products route overflows by ${mobile.overflow}px`, failures);
     await screenshot("17-products-mobile");
+
+    await navigate("/work/sig-ext-fastapi");
+    await evaluate(`(() => {
+      const ribbon = document.querySelector('[data-case-product-ribbon]');
+      ribbon?.scrollIntoView({ block: 'center', behavior: 'instant' });
+      return Boolean(ribbon);
+    })()`);
+    await wait(250);
+    const signkitCase = await evaluate(`(() => {
+      const ribbon = document.querySelector('[data-case-product-ribbon]');
+      const checkout = ribbon?.querySelector('a[data-product-checkout="signkit"]');
+      return {
+        ribbon: Boolean(ribbon),
+        productId: ribbon?.getAttribute('data-product-id') || '',
+        price: ribbon?.textContent?.includes('$29 one time') || false,
+        checkout: checkout?.getAttribute('href') || '',
+        target: checkout?.getAttribute('target') || '',
+        boundary: ribbon?.textContent?.includes('does not verify identity') || false,
+        details: Boolean(ribbon?.querySelector('a[href="/products#signkit"]')),
+        overflow: document.documentElement.scrollWidth - innerWidth,
+      };
+    })()`);
+    assert(
+      signkitCase.ribbon && signkitCase.productId === "signkit",
+      "SignKit audited case does not expose its canonical product ribbon",
+      failures,
+    );
+    assert(signkitCase.price, "SignKit case product ribbon loses the one-time price", failures);
+    assert(
+      signkitCase.checkout === "https://pranaysuyash.gumroad.com/l/signkit-v1" &&
+        signkitCase.target === "_blank",
+      "SignKit case product ribbon does not expose the direct external checkout",
+      failures,
+    );
+    assert(
+      signkitCase.boundary && signkitCase.details,
+      "SignKit case product ribbon loses its claim boundary or product-details path",
+      failures,
+    );
+    assert(
+      signkitCase.overflow <= 1,
+      `SignKit case product ribbon overflows by ${signkitCase.overflow}px`,
+      failures,
+    );
+    await screenshot("18-signkit-product-ribbon");
+
+    await navigate("/work/metaextract");
+    const unrelatedCase = await evaluate(
+      `Boolean(document.querySelector('[data-case-product-ribbon]'))`,
+    );
+    assert(!unrelatedCase, "product purchase ribbon leaks onto a non-product case", failures);
 
     for (const runtimeError of [...new Set(runtimeErrors)]) {
       if (/favicon\.ico/i.test(runtimeError)) continue;
@@ -173,7 +224,7 @@ async function main() {
     failures: [...new Set(failures)],
     screenshots: fs
       .readdirSync(artifactsDir)
-      .filter((name) => /^(?:16|17)-.*\.png$/.test(name)),
+      .filter((name) => /^(?:16|17|18)-.*\.png$/.test(name)),
   };
   fs.writeFileSync(
     path.join(artifactsDir, "products-report.json"),
@@ -186,7 +237,7 @@ async function main() {
   }
 
   console.log(
-    `Products browser verification passed: exactly two current products, direct SignKit and ebook checkout links, primary navigation, future-product boundaries, and desktop/mobile containment are intact. Screenshots: ${report.screenshots.length}.`,
+    `Products browser verification passed: exactly two current products, direct SignKit and ebook checkout links, primary navigation, future-product boundaries, the SignKit case purchase ribbon, non-product isolation, and desktop/mobile containment are intact. Screenshots: ${report.screenshots.length}.`,
   );
 }
 
