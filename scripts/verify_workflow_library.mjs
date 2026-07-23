@@ -83,6 +83,13 @@ for (const forbidden of [
 requireTokens("src/app/workflows/page.tsx", [
   "Interactive workflow library",
   "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+  "Five ways to use the same workflow",
+  "Download a starter",
+  "Try a live mechanism",
+  "Review an audited case",
+  "Scope a custom build",
+  "Book a consultation",
+  "xl:grid-cols-5",
   "<WorkflowLibraryExplorer />",
   'id="choose"',
   'id="paths"',
@@ -140,5 +147,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Workflow library validation passed: five canonical workflow families, direct ungated starter artifacts, honest live/case/project/consultation paths, source boundaries, navigation, discovery metadata, and browser verification remain intact.",
+  "Workflow library validation passed: five canonical workflow families, five explicit acquisition explanations, direct ungated starter artifacts, honest live/case/project/consultation paths, source boundaries, navigation, discovery metadata, and browser verification remain intact.",
 );
