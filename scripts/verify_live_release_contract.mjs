@@ -34,6 +34,34 @@ function forbidTokens(relativePath, tokens) {
   }
 }
 
+const allowedActionRepositories = new Set([
+  "actions/checkout",
+  "actions/download-artifact",
+  "actions/setup-node",
+  "actions/setup-python",
+  "actions/upload-artifact",
+  "cloudflare/wrangler-action",
+]);
+const workflowDirectory = path.join(root, ".github", "workflows");
+for (const fileName of fs.readdirSync(workflowDirectory).filter((name) => /\.ya?ml$/.test(name))) {
+  const relativePath = `.github/workflows/${fileName}`;
+  const source = read(relativePath);
+  const actionPattern = /^\s*uses:\s*([^@\s]+)@([^\s#]+)(?:\s+#\s*(\S+))?\s*$/gm;
+  for (const match of source.matchAll(actionPattern)) {
+    const [, repository, reference, versionComment] = match;
+    if (repository.startsWith("./")) continue;
+    if (!allowedActionRepositories.has(repository)) {
+      failures.push(`${relativePath} uses an unreviewed external action repository: ${repository}`);
+    }
+    if (!/^[a-f0-9]{40}$/.test(reference)) {
+      failures.push(`${relativePath} must pin ${repository} to a full immutable commit SHA, found ${reference}`);
+    }
+    if (!/^v\d+(?:\.\d+){0,2}$/.test(versionComment || "")) {
+      failures.push(`${relativePath} must retain a version comment beside pinned ${repository}`);
+    }
+  }
+}
+
 requireTokens("scripts/verify_live_deployment.mjs", [
   "EXPECTED_SHA",
   "/build-info.json",
@@ -85,13 +113,13 @@ requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
   "github.event.workflow_run.conclusion == 'success'",
   "github.event.workflow_run.head_branch == 'main'",
   "github.event.workflow_run.repository.full_name == github.repository",
-  "actions/download-artifact@v4",
+  "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4",
   "verified-static-site-${{ github.event.workflow_run.head_sha }}",
   "out/build-info.json",
   'manifest.releaseContract !== "career-platform-v2"',
   "CLOUDFLARE_API_TOKEN",
   "CLOUDFLARE_ACCOUNT_ID",
-  "cloudflare/wrangler-action@v3",
+  "cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3",
   "pages deploy out",
   "--project-name=pranay",
   "--branch=main",
@@ -99,6 +127,7 @@ requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
   "node scripts/verify_live_deployment.mjs 2>&1 | tee live-verify.log",
   'context "cloudflare-deployment"',
   'context "live-deployment"',
+  "Cloudflare deployment secrets are missing or empty",
   "deployment-metadata.json",
   "cloudflare-deployment-${{ github.event.workflow_run.head_sha }}",
   "Fail when deployment or production verification failed",
@@ -154,6 +183,16 @@ requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
   "npm run deploy:guard",
   "Do not bypass this check with Wrangler's `--commit-dirty=true`.",
   "local `HEAD` exactly equals `origin/main`",
+  "Automated production deployment",
+  "Do not rebuild between canonical verification and automated deployment.",
+]);
+
+requireTokens("docs/security/GITHUB_ACTIONS_SUPPLY_CHAIN.md", [
+  "full 40-character commit SHA",
+  "version comment",
+  "main-only",
+  "manual review cadence",
+  "cloudflare/wrangler-action",
 ]);
 
 requireTokens("src/components/layout/footer.tsx", [
@@ -173,5 +212,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: narrowed route signatures, workflow acquisition paths, one-region ebook pricing, direct sample checkout, working systems deployment, browser-local upload CSP, clean pushed-source provenance, exact verified-artifact Cloudflare handoff, deployment identity, post-deploy verification, scheduled drift audit, retained diagnostics, durable statuses, public build identity, and the current audit record are structurally bound to main.",
+  "Live release contract validation passed: workflow actions are allowlisted and pinned to immutable SHAs, route signatures and acquisition paths are current, source provenance is clean, the exact verified artifact is handed to Cloudflare, deployment and custom-domain outcomes remain separate, scheduled drift evidence is retained, and public build identity is structurally bound to main.",
 );
