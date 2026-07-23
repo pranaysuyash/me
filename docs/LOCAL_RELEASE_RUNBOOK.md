@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is the canonical local command sequence for `pranaysuyash/me`.
+This is the canonical local and production release sequence for `pranaysuyash/me`.
 
 The repository is main-only. Do not create a branch or pull request for verification. Local validation must reproduce the same release contract used by GitHub Actions, exercise the generated static export over HTTP and in a real browser, and prove that the deployed SHA identifies the exact source being published.
 
@@ -14,7 +14,7 @@ The repository is main-only. Do not create a branch or pull request for verifica
 - Python 3.12
 - `uv` for the local Python environment
 - Google Chrome, Chromium, or Microsoft Edge for hydrated browser verification
-- Cloudflare Wrangler only when deploying
+- Cloudflare Wrangler only for manual deployment recovery
 
 When the browser is installed outside its normal system location, set `BROWSER_EXECUTABLE_PATH` to the executable.
 
@@ -86,15 +86,16 @@ This runs:
 2. strict TypeScript;
 3. positioning and PR-recovery contracts;
 4. audited portfolio, freshness, experience, pricing, accessibility, and contrast checks;
-5. restoration and validation of protected publication files;
-6. generated resume, build identity, and same-origin Three.js vendoring;
-7. the production Next.js static export;
-8. visual-evidence, page-budget, route, policy, checkout-copy, redirect, sitemap, and internal-link checks;
-9. product-lab module syntax validation;
-10. an HTTP smoke test across the professional, commercial, proof, book, sample, and product-lab routes;
-11. dependency-free headless Chrome verification of hydrated desktop and mobile pages, regional pricing interaction, contact-mode switching, mobile navigation, responsive overflow, accessibility basics, runtime errors, and direct book conversion.
+5. workflow-library source, deep-link, acquisition-path, and starter contracts;
+6. restoration and validation of protected publication files;
+7. generated resume, build identity, and same-origin Three.js vendoring;
+8. the production Next.js static export;
+9. visual-evidence, page-budget, route, policy, checkout-copy, redirect, sitemap, and internal-link checks;
+10. product-lab module syntax validation;
+11. an HTTP smoke test across the professional, commercial, workflow, proof, book, sample, and product-lab routes;
+12. dependency-free headless Chrome verification of hydrated desktop and mobile pages, regional pricing interaction, workflow recommendations, contact-mode switching, mobile navigation, responsive overflow, accessibility basics, runtime errors, and direct book conversion.
 
-Browser screenshots and a machine-readable report are written to the ignored local directory:
+Browser screenshots and machine-readable reports are written to the ignored local directory:
 
 ```text
 browser-artifacts/
@@ -120,9 +121,12 @@ Then open:
 open http://127.0.0.1:4173
 open http://127.0.0.1:4173/hire-me
 open http://127.0.0.1:4173/work-with-me
+open http://127.0.0.1:4173/workflows
+open 'http://127.0.0.1:4173/workflows?input=spatial&priority=simulation&path=live'
 open 'http://127.0.0.1:4173/contact?type=role&source=local-review'
 open 'http://127.0.0.1:4173/contact?type=project&source=local-review'
 open http://127.0.0.1:4173/work
+open http://127.0.0.1:4173/systems
 open http://127.0.0.1:4173/proof
 open http://127.0.0.1:4173/books/no-claim-without-evidence
 open http://127.0.0.1:4173/books/no-claim-without-evidence/sample
@@ -134,7 +138,7 @@ Stop the server with `Ctrl+C`.
 
 ## Deployment provenance guard
 
-A release must come from clean, pushed `main`. Before deployment, the guard checks:
+A manual release must come from clean, pushed `main`. Before deployment, the guard checks:
 
 - the current branch is `main`;
 - the working tree has no tracked or untracked changes;
@@ -149,7 +153,31 @@ npm run deploy:guard
 
 Do not bypass this check with Wrangler's `--commit-dirty=true`. A dirty export could contain bytes that are not represented by `build-info.json`, which would invalidate the site's evidence and provenance claims.
 
-## Cloudflare authentication check
+## Automated production deployment
+
+The normal production path is repository-driven:
+
+1. push the intended release to `main`;
+2. **Site build** validates the exact commit and uploads `verified-static-site-<sha>`;
+3. **Cloudflare production deploy** downloads that exact artifact rather than rebuilding;
+4. the workflow verifies `out/build-info.json` against the source SHA;
+5. the artifact is deployed to the Cloudflare Pages project `pranay`;
+6. the custom domain is checked against the exact SHA;
+7. deployment metadata and the live-verification log are retained;
+8. `canonical-site-verify`, `cloudflare-deployment`, and `live-deployment` are published on the source commit.
+
+Configure these GitHub Actions repository secrets:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+Use a Cloudflare API token scoped to the intended account and the Pages deployment access required by `pranay`. Never commit either value.
+
+A missing or invalid secret is an explicit deployment failure. It must not silently fall back to assuming Cloudflare Git integration deployed the site.
+
+## Manual Cloudflare authentication check
+
+Manual recovery uses the locally authenticated Wrangler account:
 
 ```bash
 npx wrangler whoami
@@ -164,7 +192,9 @@ npx wrangler whoami
 
 Confirm that the authenticated account owns the intended Pages project named `pranay` before deploying.
 
-## Production deployment
+## Manual production fallback
+
+Use manual deployment only when the automated path cannot be repaired immediately.
 
 Pull and confirm the pushed main commit:
 
@@ -185,10 +215,12 @@ The command restores missing protected publication files, proves the source tree
 wrangler pages deploy out --project-name pranay --branch main
 ```
 
+After a manual fallback, run the live audit and confirm the custom domain. Do not leave the automated deployment path broken merely because one manual upload succeeded.
+
 ## Post-deployment verification
 
 ```bash
-npm run live:verify
+EXPECTED_SHA="$(git rev-parse HEAD)" npm run live:verify
 ```
 
 Also inspect the deployed build identity:
@@ -197,7 +229,7 @@ Also inspect the deployed build identity:
 curl --fail --silent --show-error https://pranaysuyash.com/build-info.json | python3 -m json.tool
 ```
 
-The deployed `commit` must equal the clean pushed commit that was just verified and deployed.
+The deployed `commit` must equal the clean pushed commit that was verified and deployed.
 
 Check the important routes:
 
@@ -206,8 +238,10 @@ for route in \
   / \
   /hire-me \
   /work-with-me \
+  /workflows \
   /contact \
   /work \
+  /systems \
   /proof \
   /books/no-claim-without-evidence \
   /books/no-claim-without-evidence/sample \
@@ -220,20 +254,23 @@ do
 done
 ```
 
+The scheduled **Live deployment audit** is a drift detector. It checks current `main` once per day and does not replace post-deployment verification.
+
 ## Manual production transactions
 
 Commands and synthetic browser checks cannot prove third-party transactions. After deployment, complete these manually with real destinations and reversible test data:
 
 1. Submit the Role form and confirm inbox delivery with `mode=role` and the correct `source`.
-2. Submit the Commercial form and confirm inbox delivery with `mode=project`, timeline, and engagement ID.
+2. Submit the Commercial form and confirm inbox delivery with `mode=project`, timeline, engagement scope, and any selected workflow context.
 3. Complete a 15-minute and a 30-minute Cal.com booking; verify timezone, confirmation, cancellation, and rescheduling.
 4. Complete India and global Dodo checkout paths; verify price, tax, invoice/receipt, PDF and EPUB entitlement, delivery, support, and refund behavior.
-5. Verify the custom domain, apex/`www` mapping, social previews, and the `live-deployment` GitHub status.
+5. Verify the custom domain, apex/`www` mapping, social previews, and all three GitHub commit statuses.
 
 ## Main-only operating rule
 
 - Work directly on `main`.
 - Do not create verification branches or pull requests.
-- Do not deploy an export that did not pass `npm run site:local`.
+- Do not deploy an export that did not pass `npm run site:local` or the canonical **Site build**.
 - Do not deploy from dirty or unpushed source.
+- Do not rebuild between canonical verification and automated deployment.
 - Do not claim a live transaction or external integration works until the real production path has completed.
