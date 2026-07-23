@@ -3,9 +3,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
+  CalendarDays,
   Download,
   FileSearch,
-  Handshake,
+  Hammer,
   PlayCircle,
   ShieldCheck,
 } from "lucide-react";
@@ -63,9 +64,14 @@ const paths = [
     body: "Inspect current maturity, source revision, product decisions, constraints, and implementation evidence before accepting the broader claim.",
   },
   {
-    icon: Handshake,
-    title: "Choose project or consultation",
-    body: "A consultation clarifies the workflow and next decision. A custom project is a separately scoped build with acceptance evidence and an end condition.",
+    icon: Hammer,
+    title: "Scope a custom build",
+    body: "Turn the selected workflow into a bounded implementation with source material, exclusions, acceptance evidence, delivery terms, and an explicit end condition.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Book a consultation",
+    body: "Use a focused conversation to clarify the workflow, identify the next decision, and determine whether a starter, existing product, or custom build is the right path.",
   },
 ] as const;
 
@@ -155,7 +161,7 @@ export default function WorkflowsPage() {
               The visitor chooses the depth of commitment instead of being forced into one funnel.
             </h2>
           </div>
-          <div className="grid gap-px overflow-hidden rounded-2xl border bg-border md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-px overflow-hidden rounded-2xl border bg-border md:grid-cols-2 xl:grid-cols-5">
             {paths.map((path) => (
               <article key={path.title} className="bg-background p-6">
                 <path.icon className="h-5 w-5 text-primary" aria-hidden="true" />
