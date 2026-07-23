@@ -27,6 +27,17 @@ const checks = [
     ],
   },
   {
+    route: "/products",
+    tokens: [
+      "Buy a finished product. Use the workflow proof free. Commission only what needs adapting.",
+      "Two products with direct purchase and delivery.",
+      "Buy SignKit for $29",
+      "https://pranaysuyash.gumroad.com/l/signkit-v1",
+      "Gumroad fulfils SignKit. Dodo Payments is Merchant of Record for the ebook.",
+      "No fake catalogue volume",
+    ],
+  },
+  {
     route: "/workflows",
     tokens: [
       "Interactive workflow library",
@@ -109,6 +120,12 @@ async function main() {
       }
     }
 
+    const productsResponse = await fetch(`${staticExport.baseUrl}/products`);
+    const productsBody = await productsResponse.text();
+    if (productsBody.includes("Join the waitlist") || productsBody.includes("Unlock SignKit")) {
+      failures.push("products export contains a fake or gated product path");
+    }
+
     const bookResponse = await fetch(
       `${staticExport.baseUrl}/books/no-claim-without-evidence`,
     );
@@ -159,7 +176,7 @@ async function main() {
   }
 
   console.log(
-    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, workflow catalogue and starter downloads, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, working systems, proof, product lab, and build identity are reachable from the static export.`,
+    `Local HTTP smoke test passed at ${staticExport.baseUrl}: identity, role and commercial routes, direct products and checkout boundaries, workflow catalogue and starter downloads, canonical prices, one-region ebook pricing, substantive reading excerpts, resilient contact fallback, selected work, working systems, proof, product lab, and build identity are reachable from the static export.`,
   );
 }
 
