@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { runPinnedNpm, toolchain } from "./lib/toolchain.mjs";
 
 const root = process.cwd();
 const manifestPath = path.join(root, "package.json");
 const lockPath = path.join(root, "package-lock.json");
-const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
 if (!fs.existsSync(manifestPath) || !fs.existsSync(lockPath)) {
   console.error("Lockfile verification requires package.json and package-lock.json.");
@@ -51,8 +50,7 @@ try {
   fs.copyFileSync(manifestPath, path.join(temporaryRoot, "package.json"));
   fs.copyFileSync(lockPath, path.join(temporaryRoot, "package-lock.json"));
 
-  execFileSync(
-    npmCommand,
+  runPinnedNpm(
     [
       "install",
       "--package-lock-only",
@@ -60,7 +58,7 @@ try {
       "--no-audit",
       "--no-fund",
     ],
-    { cwd: temporaryRoot, stdio: "inherit" },
+    { cwd: temporaryRoot },
   );
 
   const reproduced = JSON.parse(
@@ -70,7 +68,7 @@ try {
     assert.deepStrictEqual(reproduced, lock);
   } catch {
     console.error(
-      "package-lock.json is stale: npm reproduced a different dependency graph. Run npm install --package-lock-only and commit the result.",
+      `package-lock.json is stale under canonical npm ${toolchain.npm}. Regenerate it only with the pinned toolchain and commit the reviewed result.`,
     );
     process.exitCode = 1;
   }
@@ -81,5 +79,5 @@ try {
 if (process.exitCode) process.exit(process.exitCode);
 
 console.log(
-  `Lockfile validation passed: npm reproduced the v${lock.lockfileVersion} dependency graph in an isolated directory and the root manifest contains ${Object.keys(manifest.dependencies || {}).length} runtime plus ${Object.keys(manifest.devDependencies || {}).length} development dependencies.`,
+  `Lockfile validation passed: npm ${toolchain.npm} reproduced the v${lock.lockfileVersion} dependency graph in an isolated directory and the root manifest contains ${Object.keys(manifest.dependencies || {}).length} runtime plus ${Object.keys(manifest.devDependencies || {}).length} development dependencies.`,
 );
