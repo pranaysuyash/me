@@ -10,7 +10,7 @@ const actualNode = process.versions.node;
 
 if (actualNode !== toolchain.node) {
   failures.push(
-    `Node ${actualNode} is active; this repository requires ${toolchain.node}. Run nvm use or install the version from .nvmrc.`,
+    `Node ${actualNode} is active; this repository requires ${toolchain.node}. Activate or install the exact version declared in toolchain.json and .nvmrc with any compatible Node version manager or installer.`,
   );
 }
 
