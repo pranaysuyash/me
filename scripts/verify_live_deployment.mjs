@@ -50,6 +50,13 @@ const routeChecks = [
     path: "/workflows",
     token:
       "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+    requiredTokens: [
+      "Download a starter",
+      "Try a live mechanism",
+      "Review an audited case",
+      "Scope a custom build",
+      "Book a consultation",
+    ],
   },
   {
     path: "/systems",
@@ -76,10 +83,20 @@ const routeChecks = [
   {
     path: "/books/no-claim-without-evidence",
     token: "Clean AI output is not the same thing as a trustworthy system.",
+    requiredTokens: ["Choose ebook pricing region", "Read a real excerpt"],
+    forbiddenTokens: [
+      "₹799 in India · $14.99 elsewhere",
+      "See the full book page",
+    ],
   },
   {
     path: "/books/no-claim-without-evidence/sample",
     token: "Your eval should become a release gate",
+    requiredTokens: [
+      "Buy the full book",
+      "https://checkout.dodopayments.com/buy/",
+    ],
+    forbiddenTokens: ["See the full book page"],
   },
 ];
 
@@ -186,8 +203,19 @@ async function verifyDeployment() {
   for (const check of routeChecks) {
     try {
       const { body, url } = await fetchWithTimeout(check.path);
-      if (!normalize(body).includes(normalize(check.token))) {
-        failures.push(`${url} is missing release token: ${check.token}`);
+      const normalizedBody = normalize(body);
+      const requiredTokens = [check.token, ...(check.requiredTokens || [])];
+
+      for (const token of requiredTokens) {
+        if (!normalizedBody.includes(normalize(token))) {
+          failures.push(`${url} is missing release token: ${token}`);
+        }
+      }
+
+      for (const token of check.forbiddenTokens || []) {
+        if (normalizedBody.includes(normalize(token))) {
+          failures.push(`${url} still contains obsolete production copy: ${token}`);
+        }
       }
     } catch (error) {
       failures.push(
@@ -223,7 +251,7 @@ for (let attempt = 1; attempt <= Math.max(attempts, 1); attempt += 1) {
   try {
     await verifyDeployment();
     console.log(
-      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including the workflow library, five direct starter downloads, working systems route, and browser-local upload CSP.`,
+      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including five explicit workflow paths, five direct starter downloads, one-region ebook pricing, direct sample checkout, the working systems route, and browser-local upload CSP.`,
     );
     process.exit(0);
   } catch (error) {
