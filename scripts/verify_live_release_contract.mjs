@@ -71,11 +71,48 @@ for (const fileName of fs.readdirSync(workflowDirectory).filter((name) => /\.ya?
   });
 }
 
+requireTokens("toolchain.json", [
+  '"node": "22.16.0"',
+  '"npm": "10.9.2"',
+  '"wrangler": "4.113.0"',
+]);
+requireTokens(".nvmrc", ["22.16.0"]);
+requireTokens("scripts/lib/toolchain.mjs", [
+  "runPinnedNpm",
+  "runPinnedWrangler",
+  "--package=npm@",
+  "--package=wrangler@",
+]);
+requireTokens("scripts/verify_toolchain.mjs", [
+  "Node ${actualNode} is active",
+  "Pinned npm resolved",
+  "Toolchain validation passed",
+]);
+requireTokens("scripts/verify_lockfile.mjs", [
+  "runPinnedNpm",
+  "canonical npm ${toolchain.npm}",
+  "npm ${toolchain.npm} reproduced",
+]);
+requireTokens("scripts/deploy_cloudflare.mjs", [
+  "runPinnedNpm",
+  "runPinnedWrangler",
+  "--project-name=pranay",
+  "--branch=main",
+  "--commit-hash=",
+  "LIVE_VERIFY_ATTEMPTS",
+  "Cloudflare deployment complete and live verification passed",
+]);
+
 requireTokens("scripts/verify_live_deployment.mjs", [
   "EXPECTED_SHA",
   "/build-info.json",
   "career-platform-v2",
   "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
+  'path: "/products"',
+  "Buy a finished product. Use the workflow proof free. Commission only what needs adapting.",
+  "Buy SignKit for $29",
+  "https://pranaysuyash.gumroad.com/l/signkit-v1",
+  "Gumroad fulfils SignKit. Dodo Payments is Merchant of Record for the ebook.",
   'path: "/workflows"',
   "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
   "Download a starter",
@@ -115,6 +152,18 @@ requireTokens("scripts/verify_deploy_source.mjs", [
   "Generated build identity can truthfully name this SHA",
 ]);
 
+requireTokens(".github/workflows/site-build.yml", [
+  'PINNED_NPM_VERSION: "10.9.2"',
+  'node-version: "22.16.0"',
+  'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm ci',
+  'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:verify',
+]);
+requireTokens(".github/workflows/site-diagnostics.yml", [
+  'PINNED_NPM_VERSION: "10.9.2"',
+  'node-version: "22.16.0"',
+  'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:browser',
+]);
+
 requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
   "Cloudflare production deploy",
   "workflow_run:",
@@ -122,13 +171,16 @@ requireTokens(".github/workflows/cloudflare-production-deploy.yml", [
   "github.event.workflow_run.conclusion == 'success'",
   "github.event.workflow_run.head_branch == 'main'",
   "github.event.workflow_run.repository.full_name == github.repository",
+  'node-version: "22.16.0"',
   "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4",
   "verified-static-site-${{ github.event.workflow_run.head_sha }}",
   "out/build-info.json",
   'manifest.releaseContract !== "career-platform-v2"',
+  'toolchain.wrangler !== "4.113.0"',
   "CLOUDFLARE_API_TOKEN",
   "CLOUDFLARE_ACCOUNT_ID",
   "cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3",
+  'wranglerVersion: "4.113.0"',
   "pages deploy out",
   "--project-name=pranay",
   "--branch=main",
@@ -207,12 +259,17 @@ requireTokens("docs/security/GITHUB_ACTIONS_SUPPLY_CHAIN.md", [
 requireTokens("src/components/layout/footer.tsx", [
   '{ name: "Build identity", href: "/build-info.json" }',
   "Portfolio evidence reviewed 16 July 2026.",
+  "Gumroad fulfils SignKit.",
 ]);
 
 requireTokens("package.json", [
+  '"toolchain:verify": "node scripts/verify_toolchain.mjs"',
+  '"postsite:browser": "node scripts/browser_deep_release_test.mjs && node scripts/browser_capability_lab_test.mjs && node scripts/browser_workflow_library_test.mjs && node scripts/browser_products_test.mjs"',
   '"live:verify": "node scripts/verify_live_deployment.mjs"',
   '"presite:verify": "node scripts/verify_live_release_contract.mjs"',
   '"deploy:guard": "node scripts/verify_deploy_source.mjs"',
+  '"deploy:cloudflare": "node scripts/deploy_cloudflare.mjs"',
+  '"wrangler:version": "npm exec --yes --package=wrangler@4.113.0 -- wrangler --version"',
 ]);
 
 if (failures.length) {
@@ -221,5 +278,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: every external workflow action is allowlisted, parseable, version-commented, and pinned to an immutable SHA; route signatures and acquisition paths are current; source provenance is clean; the exact verified artifact is handed to Cloudflare; deployment and custom-domain outcomes remain separate; scheduled drift evidence is retained; and public build identity is structurally bound to main.",
+  "Live release contract validation passed: the product catalogue and SignKit checkout are release-gated; Node, npm, and Wrangler are exact and shared across local and CI paths; every external workflow action is immutable and allowlisted; the exact verified artifact is handed to Cloudflare; deployment and custom-domain outcomes remain separate; scheduled drift evidence is retained; and public build identity is structurally bound to main.",
 );
