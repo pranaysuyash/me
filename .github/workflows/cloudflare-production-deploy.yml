@@ -157,6 +157,22 @@ jobs:
               live_outcome: $live_outcome
             }' > deployment-metadata.json
 
+          {
+            echo "## Cloudflare production deployment"
+            echo
+            echo "- Target SHA: \`$TARGET_SHA\`"
+            echo "- Source Site build run: \`$SOURCE_RUN_ID\`"
+            echo "- Artifact download: \`$ARTIFACT_OUTCOME\`"
+            echo "- Artifact identity: \`$IDENTITY_OUTCOME\`"
+            echo "- Credential gate: \`$CREDENTIALS_OUTCOME\`"
+            echo "- Cloudflare deploy: \`$DEPLOY_OUTCOME\`"
+            echo "- Custom-domain verification: \`$LIVE_OUTCOME\`"
+            if [ "$CREDENTIALS_OUTCOME" != "success" ]; then
+              echo
+              echo "At least one required repository secret is missing or empty: \`CLOUDFLARE_API_TOKEN\` or \`CLOUDFLARE_ACCOUNT_ID\`."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Publish deployment and live statuses
         if: always()
         shell: bash
@@ -169,18 +185,27 @@ jobs:
           DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
           LIVE_OUTCOME: ${{ steps.live.outcome }}
         run: |
-          if [ "$ARTIFACT_OUTCOME" = "success" ] && \
-             [ "$IDENTITY_OUTCOME" = "success" ] && \
-             [ "$CREDENTIALS_OUTCOME" = "success" ] && \
-             [ "$DEPLOY_OUTCOME" = "success" ]; then
+          if [ "$ARTIFACT_OUTCOME" != "success" ]; then
+            DEPLOY_STATE="failure"
+            DEPLOY_DESCRIPTION="Verified static artifact unavailable"
+          elif [ "$IDENTITY_OUTCOME" != "success" ]; then
+            DEPLOY_STATE="failure"
+            DEPLOY_DESCRIPTION="Verified artifact identity mismatch"
+          elif [ "$CREDENTIALS_OUTCOME" != "success" ]; then
+            DEPLOY_STATE="failure"
+            DEPLOY_DESCRIPTION="Cloudflare deployment secrets are missing or empty"
+          elif [ "$DEPLOY_OUTCOME" != "success" ]; then
+            DEPLOY_STATE="failure"
+            DEPLOY_DESCRIPTION="Cloudflare Pages upload failed"
+          else
             DEPLOY_STATE="success"
             DEPLOY_DESCRIPTION="Verified static artifact deployed to Cloudflare Pages"
-          else
-            DEPLOY_STATE="failure"
-            DEPLOY_DESCRIPTION="Verified artifact was not deployed to Cloudflare Pages"
           fi
 
-          if [ "$LIVE_OUTCOME" = "success" ]; then
+          if [ "$DEPLOY_OUTCOME" != "success" ]; then
+            LIVE_STATE="failure"
+            LIVE_DESCRIPTION="Live verification skipped because deployment did not complete"
+          elif [ "$LIVE_OUTCOME" = "success" ]; then
             LIVE_STATE="success"
             LIVE_DESCRIPTION="Custom domain serves the deployed release commit"
           else
