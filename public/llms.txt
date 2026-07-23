@@ -15,6 +15,7 @@ Last evidence review: 2026-07-16
 
 ## Work modes
 
+- Finished product: direct purchase of software or a field guide with a real checkout, delivery path, support boundary, and current claim boundary.
 - Senior internal role: sustained ownership across product direction, platform choices, cross-functional execution, and what the organisation learns after launch.
 - Bounded commercial engagement: a defined document workflow, operational AI system, subsystem, correction, or decision with explicit scope, delivery evidence, and an end condition.
 - Commercial contracting: separate project and advisory terms may be handled through PSRS Technologies Private Limited where applicable; the personal site remains the identity and proof-of-work surface.
@@ -22,12 +23,16 @@ Last evidence review: 2026-07-16
 ## Primary professional routes
 
 - Home: https://pranaysuyash.com/
-- Experience and sustained role fit: https://pranaysuyash.com/hire-me
 - Selected work: https://pranaysuyash.com/work
+- Products: https://pranaysuyash.com/products
+  - SignKit: US$29 one-time desktop software purchase through Gumroad.
+  - No Claim Without Evidence: PDF + EPUB through Dodo Payments with separate India and global pricing.
+  - Products are distinct from free workflow starters and custom engagements.
 - Interactive workflow library: https://pranaysuyash.com/workflows
   - Choose by source material, operating priority, and next step.
   - Paths: direct starter download, working mechanism where available, audited case, custom project, or consultation.
   - Starter downloads are direct and do not require an email address.
+- Experience and sustained role fit: https://pranaysuyash.com/hire-me
 - Working systems lab: https://pranaysuyash.com/systems
 - Professional proof ledger: https://pranaysuyash.com/proof
 - About, working style, and public evidence: https://pranaysuyash.com/about
@@ -35,6 +40,26 @@ Last evidence review: 2026-07-16
 - Document workflow offer: https://pranaysuyash.com/document-workflows
 - Contact and explicit work-mode selector: https://pranaysuyash.com/contact
 - Accessibility statement: https://pranaysuyash.com/accessibility
+
+## Current paid products
+
+### SignKit
+
+- Product catalogue: https://pranaysuyash.com/products#signkit
+- Product site: https://signkit.work
+- Checkout: https://pranaysuyash.gumroad.com/l/signkit-v1
+- Price: US$29 one time; no subscription.
+- Platforms: macOS, Windows, and Linux.
+- Delivery: Gumroad account download after purchase.
+- Boundary: local signature-image extraction, cleanup, storage, and PDF placement; not identity verification, certified electronic signing, or legal assurance.
+
+### No Claim Without Evidence
+
+- Product page: https://pranaysuyash.com/books/no-claim-without-evidence
+- Curated reading sample: https://pranaysuyash.com/books/no-claim-without-evidence/sample
+- Formats: PDF + EPUB.
+- Pricing: ₹799 in India and US$14.99 elsewhere.
+- Merchant boundary: Dodo Payments is Merchant of Record for the ebook purchase and delivery flow.
 
 ## Workflow starter downloads
 
@@ -44,7 +69,7 @@ Last evidence review: 2026-07-16
 - Spatial visibility and coverage review: https://pranaysuyash.com/workflows/spatial-coverage-starter.md
 - Meeting capture and searchable retrieval: https://pranaysuyash.com/workflows/meeting-capture-starter.md
 
-These are practical scoping and quality artifacts, not production implementations, legal advice, security certification, or substitutes for the audited products.
+These are practical scoping and quality artifacts, not production implementations, paid products, legal advice, security certification, or substitutes for the audited products.
 
 ## Professional case study
 
@@ -86,6 +111,7 @@ These are practical scoping and quality artifacts, not production implementation
 - Direct product screenshots and recordings require local files, revision binding, redaction review, and explicit approval.
 - Source, tests, runbooks, architecture records, and independent public records are linked where available.
 - Testimonials, customer identities, logos, adoption metrics, and certification claims are omitted without exact-wording permission and evidence registration.
+- A product is listed for purchase only when price, checkout, delivery, merchant, support, and claim boundaries exist.
 - The workflow library recommends deterministic next paths in-browser and exposes direct starter files; it does not collect behavioral history or send choices to a model.
 - The working systems lab executes narrow browser-contained mechanisms using synthetic/default inputs and local browser APIs; it is not presented as the complete flagship products.
 - The Three.js spatial explainer remains illustrative progressive enhancement, and standard HTML case studies remain the source of truth for product maturity and shipped capability.
