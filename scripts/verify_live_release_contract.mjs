@@ -46,20 +46,29 @@ const workflowDirectory = path.join(root, ".github", "workflows");
 for (const fileName of fs.readdirSync(workflowDirectory).filter((name) => /\.ya?ml$/.test(name))) {
   const relativePath = `.github/workflows/${fileName}`;
   const source = read(relativePath);
-  const actionPattern = /^\s*uses:\s*([^@\s]+)@([^\s#]+)(?:\s+#\s*(\S+))?\s*$/gm;
-  for (const match of source.matchAll(actionPattern)) {
-    const [, repository, reference, versionComment] = match;
-    if (repository.startsWith("./")) continue;
+  const lines = source.split(/\r?\n/);
+  lines.forEach((line, index) => {
+    const usesMatch = line.match(/^\s*uses:\s*(.+?)\s*$/);
+    if (!usesMatch) return;
+
+    const referenceText = usesMatch[1];
+    if (referenceText.startsWith("./")) return;
+
+    const externalMatch = referenceText.match(
+      /^([^@\s]+)@([a-f0-9]{40})\s+#\s+(v\d+(?:\.\d+){0,2})$/,
+    );
+    if (!externalMatch) {
+      failures.push(
+        `${relativePath}:${index + 1} must use owner/repository@<full-sha> # <version> for every external action`,
+      );
+      return;
+    }
+
+    const [, repository] = externalMatch;
     if (!allowedActionRepositories.has(repository)) {
-      failures.push(`${relativePath} uses an unreviewed external action repository: ${repository}`);
+      failures.push(`${relativePath}:${index + 1} uses an unreviewed external action repository: ${repository}`);
     }
-    if (!/^[a-f0-9]{40}$/.test(reference)) {
-      failures.push(`${relativePath} must pin ${repository} to a full immutable commit SHA, found ${reference}`);
-    }
-    if (!/^v\d+(?:\.\d+){0,2}$/.test(versionComment || "")) {
-      failures.push(`${relativePath} must retain a version comment beside pinned ${repository}`);
-    }
-  }
+  });
 }
 
 requireTokens("scripts/verify_live_deployment.mjs", [
@@ -212,5 +221,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: workflow actions are allowlisted and pinned to immutable SHAs, route signatures and acquisition paths are current, source provenance is clean, the exact verified artifact is handed to Cloudflare, deployment and custom-domain outcomes remain separate, scheduled drift evidence is retained, and public build identity is structurally bound to main.",
+  "Live release contract validation passed: every external workflow action is allowlisted, parseable, version-commented, and pinned to an immutable SHA; route signatures and acquisition paths are current; source provenance is clean; the exact verified artifact is handed to Cloudflare; deployment and custom-domain outcomes remain separate; scheduled drift evidence is retained; and public build identity is structurally bound to main.",
 );
