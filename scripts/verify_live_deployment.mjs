@@ -47,6 +47,19 @@ const routeChecks = [
     token: "Four products, each labelled by what actually exists today.",
   },
   {
+    path: "/products",
+    token:
+      "Buy a finished product. Use the workflow proof free. Commission only what needs adapting.",
+    requiredTokens: [
+      "Two products with direct purchase and delivery.",
+      "Buy SignKit for $29",
+      "https://pranaysuyash.gumroad.com/l/signkit-v1",
+      "Gumroad fulfils SignKit. Dodo Payments is Merchant of Record for the ebook.",
+      "No fake catalogue volume",
+    ],
+    forbiddenTokens: ["Join the waitlist", "Unlock SignKit", "Certified e-signature"],
+  },
+  {
     path: "/workflows",
     token:
       "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
@@ -251,7 +264,7 @@ for (let attempt = 1; attempt <= Math.max(attempts, 1); attempt += 1) {
   try {
     await verifyDeployment();
     console.log(
-      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including five explicit workflow paths, five direct starter downloads, one-region ebook pricing, direct sample checkout, the working systems route, and browser-local upload CSP.`,
+      `Live deployment verified: ${baseUrl.origin} serves main commit ${expectedSha}, including the direct product catalogue, SignKit checkout, five explicit workflow paths, five direct starter downloads, one-region ebook pricing, direct sample checkout, the working systems route, and browser-local upload CSP.`,
     );
     process.exit(0);
   } catch (error) {
