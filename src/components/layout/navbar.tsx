@@ -3,17 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, BookOpen, BriefcaseBusiness, Github, Menu, Workflow, X } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  BriefcaseBusiness,
+  Github,
+  Menu,
+  ShoppingBag,
+  Workflow,
+  X,
+} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { brandTagline } from "@/lib/brand";
 import { noClaimEbook } from "@/lib/ebook";
+import { signKitProduct } from "@/lib/products";
 
 const navigation = [
   { name: "Work", href: "/work" },
+  { name: "Products", href: "/products" },
   { name: "Workflows", href: "/workflows" },
   { name: "Experience", href: "/hire-me" },
   { name: "Services", href: "/work-with-me" },
-  { name: "Book", href: "/books/no-claim-without-evidence" },
   { name: "About", href: "/about" },
 ];
 
@@ -33,6 +43,15 @@ function primaryAction(pathname: string) {
       href: "/contact?type=role&source=nav",
       context: "hiring",
       icon: BriefcaseBusiness,
+    };
+  }
+
+  if (pathname.startsWith("/products")) {
+    return {
+      label: "Buy SignKit",
+      href: signKitProduct.checkoutUrl,
+      context: "product",
+      icon: ShoppingBag,
     };
   }
 
