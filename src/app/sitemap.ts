@@ -10,6 +10,7 @@ const auditedSlugs = new Set(auditedProjects.map((project) => project.slug));
 const coreRoutes: MetadataRoute.Sitemap = [
   { url: `${baseUrl}/`, changeFrequency: "weekly", priority: 1 },
   { url: `${baseUrl}/work`, changeFrequency: "weekly", priority: 0.95 },
+  { url: `${baseUrl}/products`, changeFrequency: "weekly", priority: 0.95 },
   { url: `${baseUrl}/workflows`, changeFrequency: "weekly", priority: 0.94 },
   { url: `${baseUrl}/hire-me`, changeFrequency: "monthly", priority: 0.92 },
   { url: `${baseUrl}/proof`, changeFrequency: "monthly", priority: 0.9 },
