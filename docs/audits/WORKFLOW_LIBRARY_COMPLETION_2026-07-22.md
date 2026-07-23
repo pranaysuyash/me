@@ -105,6 +105,7 @@ The workflow library is linked from:
 
 - `scripts/verify_workflow_library.mjs`
   - requires exactly five canonical workflow families;
+  - requires all five acquisition paths to be explained separately;
   - validates all acquisition paths and audited/live links;
   - rejects undeclared network, model, or email-gate behaviour;
   - requires substantial starter artefacts with failure, acceptance, and scoping sections;
@@ -138,10 +139,12 @@ The workflow library is linked from:
 `scripts/verify_live_deployment.mjs` requires:
 
 - the exact deployed commit SHA;
-- the workflow-library route signature;
+- the workflow-library route signature and all five acquisition labels;
 - all five substantial starter downloads;
 - the existing working-systems CSP and route checks;
-- current book and reading-sample route signatures.
+- one-region ebook pricing rather than the obsolete combined price line;
+- a direct Dodo checkout URL on the reading sample;
+- rejection of the old circular sample-navigation copy.
 
 ## Verification result
 
@@ -164,6 +167,14 @@ Do not claim production parity until:
 3. `/build-info.json` reports the same SHA;
 4. `npm run live:verify` passes;
 5. the custom domain is manually checked for regional book price, direct sample checkout, workflow recommendation, starter downloads, and mobile behaviour.
+
+## Update — 23 July 2026
+
+- Project and Consultation are now presented as separate acquisition paths rather than one combined explainer card.
+- The workflow source contract requires all five labels and the five-column wide-screen structure.
+- Live verification now fails on the exact obsolete string `₹799 in India · $14.99 elsewhere`.
+- Live verification requires `Choose ebook pricing region` on the book page and the Dodo checkout URL on the reading sample.
+- Canonical release `6932ccc399075a6bc7a520259b3a5ead23605af8` passed the complete source, build, HTTP, baseline/deep browser, capability-lab, and workflow-library release chain.
 
 ## Anything else?
 
