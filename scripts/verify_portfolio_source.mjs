@@ -2,6 +2,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import "./verify_products.mjs";
 import "./verify_workflow_library.mjs";
 
 const root = process.cwd();
@@ -161,10 +162,10 @@ requireTokens("src/app/books/no-claim-without-evidence/sample/page.tsx", [
 
 requireTokens("src/components/layout/navbar.tsx", [
   'name: "Work"',
+  'name: "Products"',
   'name: "Workflows"',
   'name: "Experience"',
   'name: "Services"',
-  'name: "Book"',
   'role="dialog"',
   'aria-modal="true"',
   "focusableSelector",
@@ -173,6 +174,7 @@ requireTokens("src/components/layout/navbar.tsx", [
 forbidTokens("src/components/layout/navbar.tsx", [
   '{ name: "Systems", href: "/systems" }',
   '{ name: "Writing"',
+  '{ name: "Book", href:',
 ]);
 
 requireTokens("src/app/layout.tsx", [
@@ -191,6 +193,7 @@ requireTokens("public/llms.txt", [
   "Primary promise: turns document-heavy, exception-heavy workflows",
   "Direct product screenshots and recordings require",
   "exact-wording permission",
+  "Current paid products",
 ]);
 requireTokens("public/resume.json", [
   '"lastReviewed": "2026-07-16"',
@@ -289,5 +292,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Portfolio source validation passed: a concrete operational-AI identity, an interactive workflow library, four canonical revision-pinned flagships, shared case rendering, route-aware conversion, privacy-minimal measurement, a pruned dependency surface, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
+  "Portfolio source validation passed: a concrete operational-AI identity, a direct product catalogue, an interactive workflow library, four canonical revision-pinned flagships, shared case rendering, route-aware conversion, privacy-minimal measurement, a pruned dependency surface, machine-readable discovery, permission-gated proof, localhost-polled browser verification, clean deployment provenance, main-only workflows, and same-origin product-lab fallback remain intact.",
 );
