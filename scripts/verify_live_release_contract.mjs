@@ -41,14 +41,24 @@ requireTokens("scripts/verify_live_deployment.mjs", [
   "I turn document-heavy, exception-heavy workflows into AI systems people can review and run.",
   'path: "/workflows"',
   "Choose the workflow first. Then decide whether to download, try, verify, or build it.",
+  "Download a starter",
+  "Try a live mechanism",
+  "Review an audited case",
+  "Scope a custom build",
+  "Book a consultation",
   "/workflows/document-extraction-starter.md",
   "/workflows/meeting-capture-starter.md",
-  "five direct starter downloads",
+  "five explicit workflow paths",
   'path: "/systems"',
   "Small enough to inspect. Real enough to operate.",
   "img-src 'self' data: blob:",
   "browser-local upload CSP",
   "/books/no-claim-without-evidence/sample",
+  "₹799 in India · $14.99 elsewhere",
+  "https://checkout.dodopayments.com/buy/",
+  "still contains obsolete production copy",
+  "one-region ebook pricing",
+  "direct sample checkout",
   "90-day maximum review window",
   "Live deployment verification failed",
 ]);
@@ -128,5 +138,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Live release contract validation passed: narrowed route signatures, interactive workflow catalogue and direct starters, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
+  "Live release contract validation passed: narrowed route signatures, five explicit workflow acquisition paths and direct starters, one-region ebook pricing, direct sample checkout, working systems deployment, browser-local upload CSP, clean pushed-source provenance, deployment identity, exact post-build and daily drift audit, retained diagnostics, durable status, public build identity, current audit record, and Cloudflare handoff are structurally bound to main.",
 );
