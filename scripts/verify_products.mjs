@@ -75,6 +75,21 @@ requireTokens("src/app/products/page.tsx", [
   "products-bottom",
 ]);
 
+requireTokens("src/components/case-product-ribbon.tsx", [
+  '"/work/sig-ext-fastapi": signKitProduct',
+  "data-case-product-ribbon",
+  "data-product-id={product.id}",
+  "Available product · {product.price} one time",
+  "The audited case is also a product you can buy and use now.",
+  "data-product-checkout={product.id}",
+  'href="/products#signkit"',
+]);
+requireTokens("src/components/layout/page-layout.tsx", [
+  'import { CaseProductRibbon } from "@/components/case-product-ribbon"',
+  "<CaseProductRibbon />",
+  "<CaseMechanismRibbon />",
+]);
+
 requireTokens("src/components/layout/navbar.tsx", [
   '{ name: "Products", href: "/products" }',
   'pathname.startsWith("/products")',
@@ -111,5 +126,5 @@ if (failures.length) {
 }
 
 console.log(
-  "Product catalogue validation passed: SignKit and the ebook have canonical prices, checkout and merchant boundaries; Products is discoverable; free workflows remain distinct; and unfinished workflow products are not represented as purchasable.",
+  "Product catalogue validation passed: SignKit and the ebook have canonical prices, checkout and merchant boundaries; Products is discoverable; the SignKit case exposes the same canonical checkout; free workflows remain distinct; and unfinished workflow products are not represented as purchasable.",
 );
