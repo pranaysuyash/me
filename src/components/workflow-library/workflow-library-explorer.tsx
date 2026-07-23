@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -34,6 +34,10 @@ import {
 type InputChoice = WorkflowInput | "any";
 type PriorityChoice = WorkflowPriority | "any";
 
+const defaultInput: InputChoice = "any";
+const defaultPriority: PriorityChoice = "any";
+const defaultPath: WorkflowPath = "download";
+
 const workflowIcons: Record<string, LucideIcon> = {
   "document-extraction-review": FileSearch,
   "signature-document-handling": ImageDown,
@@ -49,6 +53,10 @@ const pathIcons: Record<WorkflowPath, LucideIcon> = {
   project: Hammer,
   consultation: CalendarDays,
 };
+
+const inputIds = new Set<InputChoice>(workflowInputOptions.map((option) => option.id));
+const priorityIds = new Set<PriorityChoice>(workflowPriorityOptions.map((option) => option.id));
+const pathIds = new Set<WorkflowPath>(workflowPathOptions.map((option) => option.id));
 
 function supportsPath(workflow: WorkflowDefinition, path: WorkflowPath) {
   if (path === "live") return Boolean(workflow.liveHref);
@@ -77,6 +85,24 @@ function selectedAction(workflow: WorkflowDefinition, path: WorkflowPath) {
     label: "Book a workflow consultation",
     download: false,
   };
+}
+
+function withSelectionContext(
+  href: string,
+  workflowId: string,
+  input: InputChoice,
+  priority: PriorityChoice,
+  path: WorkflowPath,
+) {
+  if (!href.startsWith("/contact")) return href;
+
+  const url = new URL(href, "https://pranaysuyash.com");
+  const source = url.searchParams.get("source") || "workflow-library";
+  url.searchParams.set(
+    "source",
+    `${source}--workflow-${workflowId}--input-${input}--priority-${priority}--path-${path}`,
+  );
+  return `${url.pathname}?${url.searchParams.toString()}${url.hash}`;
 }
 
 function matchReasons(
@@ -190,14 +216,44 @@ function WorkflowAction({
 }
 
 export function WorkflowLibraryExplorer() {
-  const [input, setInput] = useState<InputChoice>("any");
-  const [priority, setPriority] = useState<PriorityChoice>("any");
-  const [path, setPath] = useState<WorkflowPath>("download");
+  const [input, setInput] = useState<InputChoice>(defaultInput);
+  const [priority, setPriority] = useState<PriorityChoice>(defaultPriority);
+  const [path, setPath] = useState<WorkflowPath>(defaultPath);
+  const [urlStateReady, setUrlStateReady] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedInput = params.get("input") as InputChoice | null;
+    const requestedPriority = params.get("priority") as PriorityChoice | null;
+    const requestedPath = params.get("path") as WorkflowPath | null;
+
+    if (requestedInput && inputIds.has(requestedInput)) setInput(requestedInput);
+    if (requestedPriority && priorityIds.has(requestedPriority)) setPriority(requestedPriority);
+    if (requestedPath && pathIds.has(requestedPath)) setPath(requestedPath);
+    setUrlStateReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!urlStateReady) return;
+
+    const params = new URLSearchParams(window.location.search);
+    if (input === defaultInput) params.delete("input");
+    else params.set("input", input);
+    if (priority === defaultPriority) params.delete("priority");
+    else params.set("priority", priority);
+    if (path === defaultPath) params.delete("path");
+    else params.set("path", path);
+
+    const query = params.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+    window.history.replaceState(null, "", nextUrl);
+  }, [input, path, priority, urlStateReady]);
 
   const ranked = useMemo(
     () =>
       workflowDefinitions
         .filter((workflow) => input === "any" || workflow.input === input)
+        .filter((workflow) => priority === "any" || workflow.priorities.includes(priority))
         .filter((workflow) => supportsPath(workflow, path))
         .map((workflow) => ({
           workflow,
@@ -209,9 +265,22 @@ export function WorkflowLibraryExplorer() {
   );
 
   const SelectedPathIcon = pathIcons[path];
+  const bestMatchId = ranked[0]?.workflow.id || "none";
+  const generalContactHref = withSelectionContext(
+    "/contact?type=project&source=workflow-library-general",
+    bestMatchId,
+    input,
+    priority,
+    path,
+  );
 
   return (
-    <div data-workflow-library data-selected-path={path}>
+    <div
+      data-workflow-library
+      data-selected-input={input}
+      data-selected-priority={priority}
+      data-selected-path={path}
+    >
       <div className="rounded-2xl border bg-muted/25 p-5 shadow-sm md:p-7">
         <div className="grid gap-7 xl:grid-cols-[1fr_1fr_1.05fr_auto] xl:items-end">
           <FilterGroup
@@ -237,9 +306,9 @@ export function WorkflowLibraryExplorer() {
             variant="ghost"
             size="sm"
             onClick={() => {
-              setInput("any");
-              setPriority("any");
-              setPath("download");
+              setInput(defaultInput);
+              setPriority(defaultPriority);
+              setPath(defaultPath);
             }}
           >
             Reset <RotateCcw className="ml-2 h-3.5 w-3.5" aria-hidden="true" />
@@ -249,7 +318,7 @@ export function WorkflowLibraryExplorer() {
 
       <div className="mt-6 flex flex-col gap-3 border-y py-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
-          Showing <span className="font-semibold text-foreground">{ranked.length}</span> matching workflow{ranked.length === 1 ? "" : "s"}.
+          Showing <span className="font-semibold text-foreground">{ranked.length}</span> matching workflow{ranked.length === 1 ? "" : "s"}. The URL preserves this selection for sharing or return visits.
         </p>
         <p className="inline-flex items-center gap-2 text-xs leading-6 text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -259,9 +328,13 @@ export function WorkflowLibraryExplorer() {
 
       {ranked.length === 0 ? (
         <div className="mt-6 rounded-2xl border border-dashed p-8 text-center">
-          <h3 className="text-xl font-semibold">No live mechanism matches that exact combination.</h3>
+          <h3 className="text-xl font-semibold">
+            {path === "live"
+              ? "No live mechanism matches that exact combination."
+              : "No workflow matches that exact combination."}
+          </h3>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground">
-            Change the next-step choice to a starter, case, project, or consultation. The library does not fabricate a live surface where one does not exist.
+            Change the source material, priority, or next-step choice. The library does not fabricate a match or live surface where one does not exist.
           </p>
         </div>
       ) : (
@@ -269,6 +342,28 @@ export function WorkflowLibraryExplorer() {
           {ranked.map(({ workflow, reasons }, index) => {
             const Icon = workflowIcons[workflow.id] || FileSearch;
             const action = selectedAction(workflow, path);
+            const actionHref = withSelectionContext(
+              action.href,
+              workflow.id,
+              input,
+              priority,
+              path,
+            );
+            const projectHref = withSelectionContext(
+              workflow.projectHref,
+              workflow.id,
+              input,
+              priority,
+              "project",
+            );
+            const consultationHref = withSelectionContext(
+              workflow.consultationHref,
+              workflow.id,
+              input,
+              priority,
+              "consultation",
+            );
+
             return (
               <article
                 key={workflow.id}
@@ -340,7 +435,7 @@ export function WorkflowLibraryExplorer() {
 
                   <div className="mt-auto pt-6">
                     <WorkflowAction
-                      href={action.href}
+                      href={actionHref}
                       label={action.label}
                       icon={SelectedPathIcon}
                       download={action.download}
@@ -357,9 +452,9 @@ export function WorkflowLibraryExplorer() {
                         <WorkflowAction href={workflow.liveHref} label="Try live" icon={PlayCircle} />
                       )}
                       <WorkflowAction href={workflow.caseHref} label="Case" icon={BookOpen} />
-                      <WorkflowAction href={workflow.projectHref} label="Project" icon={Hammer} />
+                      <WorkflowAction href={projectHref} label="Project" icon={Hammer} />
                       <WorkflowAction
-                        href={workflow.consultationHref}
+                        href={consultationHref}
                         label="Consultation"
                         icon={CalendarDays}
                       />
@@ -385,7 +480,7 @@ export function WorkflowLibraryExplorer() {
           </p>
         </div>
         <Link
-          href="/contact?type=project&source=workflow-library-general"
+          href={generalContactHref}
           className="inline-flex shrink-0 items-center text-sm font-semibold text-teal-100"
         >
           Discuss the workflow <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
