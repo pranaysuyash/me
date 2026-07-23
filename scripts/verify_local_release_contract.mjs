@@ -41,11 +41,11 @@ requireTokens("package.json", [
 ]);
 
 requireTokens("toolchain.json", [
-  '"node": "22.16.0"',
-  '"npm": "10.9.2"',
+  '"node": "24.13.0"',
+  '"npm": "11.6.2"',
   '"wrangler": "4.113.0"',
 ]);
-requireTokens(".nvmrc", ["22.16.0"]);
+requireTokens(".nvmrc", ["24.13.0"]);
 requireTokens("scripts/deploy_cloudflare.mjs", [
   "runPinnedNpm",
   "runPinnedWrangler",
@@ -156,8 +156,8 @@ requireTokens("scripts/browser_products_test.mjs", [
 ]);
 
 requireTokens(".github/workflows/site-build.yml", [
-  'PINNED_NPM_VERSION: "10.9.2"',
-  'node-version: "22.16.0"',
+  'PINNED_NPM_VERSION: "11.6.2"',
+  'node-version: "24.13.0"',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:verify 2>&1 | tee site-verify.log',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:smoke 2>&1 | tee site-smoke.log',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:browser 2>&1 | tee site-browser.log',
@@ -169,8 +169,8 @@ requireTokens(".github/workflows/site-build.yml", [
 
 requireTokens(".github/workflows/site-diagnostics.yml", [
   "ref: main",
-  'PINNED_NPM_VERSION: "10.9.2"',
-  'node-version: "22.16.0"',
+  'PINNED_NPM_VERSION: "11.6.2"',
+  'node-version: "24.13.0"',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:verify 2>&1 | tee site-verify.log',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:smoke 2>&1 | tee site-smoke.log',
   'npm exec --yes --package="npm@$PINNED_NPM_VERSION" -- npm run site:browser 2>&1 | tee site-browser.log',
@@ -191,9 +191,10 @@ requireTokens("docs/LOCAL_RELEASE_RUNBOOK.md", [
 ]);
 requireTokens("docs/RELEASE_TOOLCHAIN.md", [
   "Canonical configuration: `toolchain.json`",
-  '"node": "22.16.0"',
-  '"npm": "10.9.2"',
+  '"node": "24.13.0"',
+  '"npm": "11.6.2"',
   '"wrangler": "4.113.0"',
+  "no specific version manager is required",
   "npm run toolchain:verify",
   "npm run deploy:cloudflare",
   "## Anything else?",
