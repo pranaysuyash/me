@@ -1,0 +1,26 @@
+rank,name,role,decision,capital_score,cash_score,equity_score,career_score,creative_score,confidence,repos
+1,DocumentOps Studio,Primary cash engine,FOCUS NOW,80.7,89.0,81.8,84.0,58,Medium-high,"signkit, metaextract, sig-ext, document_summarizer, mer_extract, django-image-analyzer"
+2,Policy Change Intelligence,Best new wedge inside the insurance/document thesis,BUILD ONLY AS PAID PILOT,79.9,81.0,85.8,94.0,62,Medium,"insurance_q, kenya-shif, health-rule-engine, rag_insurance, claims_dashboard_streamlit"
+3,SignKit standalone,Sellable product and lead product for DocumentOps,"LAUNCH, REPRICE, VERTICALIZE",71.3,78.0,70.7,82.0,50,"High on product, medium on demand","signkit, sig-ext"
+4,Waypoint inquiry-to-trip packet,Secondary paid-validation bet,"SELL THE WEDGE, NOT THE OS",71.2,76.0,72.7,78.0,48,Medium,waypoint-os
+5,insurance_q / Policy Intelligence,Primary compounding software bet,"FOCUS, NARROW, RENAME",70.3,70.0,81.3,94.0,55,Medium-high,insurance_q
+6,OrbitCover D2C,"Company/partner strategic IP, not personal side-project allocation",SEPARATE GOVERNANCE,67.9,67.0,84.5,98.0,50,High,oc-d2c
+7,Kenya SHIF / benefit-package analyzer,Career asset and source for Policy Change Intelligence,MAINTAIN AS CASE STUDY,66.0,67.0,74.2,94.0,44,Medium-high,kenya-shif
+8,Portfolio / me,Distribution and proof infrastructure,MAINTAIN AS SALES ASSET,63.5,66.0,60.7,90.0,55,High,"me, pranaysuyash, pranaysuyash.github.io, design-review"
+9,AdShot Marketplace Launch Operator,Customer-gated commercial option,PILOT AS SERVICE OR PAUSE,62.5,68.0,69.3,78.0,82,Medium-low,"adshot, caption-art, interior-photo, e-com-template"
+10,SentinelTwin + FieldCanvas,Customer-gated enterprise option and portfolio flagship,SELL REMOTE AUDIT BEFORE PLATFORM,61.0,60.0,73.3,90.0,88,Medium-low,"SentinelTwin, fieldcanvas"
+11,RadBridge,Highest-value career/enterprise credibility asset,PORTFOLIO + PARTNER-GATED,59.7,51.0,82.5,92.0,68,High,radbridge
+12,MetaExtract,Shared document/media evidence subsystem,MERGE INTO VERTICAL WORKFLOWS,53.7,56.0,63.3,78.0,54,High,metaextract
+13,EchoPanel + audio intelligence family,Merge and retain as reusable local-audio capability,NO INDEPENDENT GTM,51.1,50.0,63.3,74.0,56,High,"EchoPanel, stt, stt_main, speech-experiments, avia_new, llm-transcript-translate, echoai-mlx, echo-ctrl"
+14,ShowMeTime + child learning,Maintain live asset; personal/family product lab,"MAINTAIN, DO NOT EXPAND",50.7,54.0,55.0,66.0,70,High,"showmetime, advay-learning, digit-dive-game"
+15,AI Glossary family,Audience/content asset and portfolio,CONSOLIDATE; NO PRIMARY BUILD,48.6,52.0,53.0,62.0,47,High,"aiglossarypro, aiglossarypro_v2, aiglossary_v2"
+16,Developer tools family,Utilities and open-source/portfolio,"SELECT ONE, ARCHIVE THE REST",48.4,48.0,53.0,72.0,52,High,"tabpilot, codecollector, claude-chat-exporter, display_json_sch, file-info-explorer-vscode, text-beautify, url_shortener_qcklin, gpt-babel, n8n_pranay, devika, Trilium"
+17,PhotoSearch family,Portfolio and reusable local media-search capability,"MERGE, PACKAGE, DO NOT SCALE GTM",47.1,48.0,55.3,78.0,64,High,"photo-search, photosearch-experiment"
+18,VerseSignal,Knowledge-graph portfolio flagship,PORTFOLIO; SEEK INSTITUTIONAL USE,45.7,40.0,57.3,90.0,90,High,musicathon26
+19,ReLoop waste segregation,Maintenance-only portfolio app,PAUSE COMMERCIAL WORK,44.4,43.0,54.2,74.0,60,High,Waste-Segregation-App
+20,SceneGuide + frame/media intelligence,Accessibility/vision portfolio and reusable CV components,MERGE; SAFETY-GATE,42.7,39.0,58.8,84.0,72,High,"SceneGuide, scene-guide-v3, frame_analyser, segmentation_samvitv1, card-scan"
+21,Drape,Paused consumer exploration,PAUSE UNTIL DISTRIBUTION PARTNER,40.9,41.0,54.8,70.0,80,High,drape
+22,Rigs Unbound,Protected creative and game-engine learning allocation,"TIME-CAP, BUILD IN PUBLIC",40.6,30.0,57.3,86.0,98,High,rigs-unbound
+23,ICML reproduction research,Research/career signal,"COMPLETE AND PACKAGE, THEN STOP",38.9,28.0,48.7,92.0,64,High,"icml-2026-agent-repro, icml-2026-agent-repro-fast-track, icml-2026-agent-repro-claim-closure"
+24,ShopStack,Paused architecture exploration,PAUSE,38.4,34.0,53.3,74.0,66,High,shopstack
+25,Personal/reflection products,Personal utility and design experiments,PAUSE AS BUSINESSES,33.7,37.0,40.2,46.0,75,High,"gratitude-journal, flow-notes, noema, vespr-voice-reflection-app, bas5minute"
